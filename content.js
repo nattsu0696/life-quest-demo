@@ -51,6 +51,7 @@
     };
   }
 
+  // 大きなイベントは少なめ。間に「日常」を挟んでテンポを落とす
   function homeMadeEventQuest() {
     return {
       start: {
@@ -58,8 +59,18 @@
         title: "入社一年目。売場には、まだ知らない仕事がたくさんある。",
         body: "商品を並べる人、仕入れる人、届ける人。\n一つのお店の中で、いくつもの人生が動いている。",
         choices: [
-          { label: "新しい売場づくりに手を挙げる", next: "project-invite" },
-          { label: "少し休憩して、周りの人と話す", next: "rest-room" }
+          { label: "まずは売場の仕事を覚える", next: "ordinary-days" },
+          { label: "休憩時間に、他部署の人と話す", next: "ordinary-days" }
+        ]
+      },
+      "ordinary-days": {
+        speaker: "先輩・桐谷",
+        img: "assets/char-office.jpg",
+        kicker: "いつもの一日",
+        title: "特別なことは起きない。でも、毎日が少しずつ上手くなる。",
+        body: "朝の陳列、お客様対応、夕方の棚直し。\n慣れてきた頃、店長が声をかけてきた。",
+        choices: [
+          { label: "話を聞く", next: "project-invite" }
         ]
       },
       "project-invite": {
@@ -73,44 +84,48 @@
         img: "assets/char-office.jpg",
         kicker: "仕事イベント",
         title: "「君も、この企画に入ってみない？」",
-        body: "経験は足りない。でも、お客様に近い視点を期待されている。\n美原商店から来る担当者と、三か月で売場をつくる。",
+        body: "経験は足りない。でも、お客様に近い視点を期待されている。\n美原商店から来る担当者と、三か月かけて売場をつくる。",
         choices: [
-          { label: "やってみます、と答える", next: "collaboration" },
-          { label: "まず担当者の話を聞いてから決める", next: "rest-room" }
+          { label: "やってみます、と答える", next: "meet-hinata" },
+          { label: "少し考えてから返事する", next: "meet-hinata" }
         ]
       },
-      "rest-room": {
-        event: {
-          label: "ENCOUNTER",
-          icon: "☕",
-          title: "休憩室で、新しい出会い",
-          text: "美原商店から来た企画担当・陽菜が話しかけてきた。"
-        },
+      "meet-hinata": {
         speaker: "美原商店・陽菜",
         img: "assets/char-campus.jpg",
-        kicker: "出会いイベント",
-        title: "「このお店で、どんなお茶なら手に取ってもらえると思う？」",
-        body: "仕事の相談のはずなのに、好きな食べ物や休日の話まで広がっていく。\n気づけば、休憩時間は終わりかけていた。",
+        kicker: "数日後",
+        title: "休憩室で、美原商店の担当・陽菜と顔を合わせる。",
+        body: "「このお店で、どんなお茶なら手に取ってもらえると思う？」\n仕事の相談から始まって、好きな食べ物の話まで広がった。",
         choices: [
-          { label: "企画のことを、もっと一緒に考える", next: "collaboration" },
-          { label: "今度、仕事の外でも話そうと誘う", next: "day-off" }
+          { label: "企画の話を続ける", next: "planning-weeks" },
+          { label: "また今度、ゆっくり話そうと伝える", next: "planning-weeks" }
+        ]
+      },
+      "planning-weeks": {
+        kicker: "それから数週間",
+        title: "打ち合わせ、試作、売場の図面。特別な日より、積み重ねの日々。",
+        body: "うまくいく日もあれば、提案が通らない日もある。\nそれでも、陽菜と話す時間は少しずつ増えていった。",
+        choices: [
+          { label: "最初の提案会を迎える", next: "collaboration" }
         ]
       },
       collaboration: {
-        event: {
-          label: "GROUP QUEST",
-          icon: "🤝",
-          title: "グループ会社との共同QUEST",
-          text: "ホームメイド × 美原商店。会社をまたぐチームが結成された。"
-        },
         speaker: "美原商店・陽菜",
         img: "assets/char-campus.jpg",
-        kicker: "共同企画イベント",
+        kicker: "提案のあと",
         title: "最初の提案は通らなかった。でも、陽菜は笑っている。",
         body: "「失敗したから、次はもっと面白くできるね」\nその言葉で、もう一度やってみようと思えた。",
         choices: [
-          { label: "二人で企画を練り直す", next: "day-off" },
-          { label: "会社全体を巻き込む案を出す", next: "promotion" }
+          { label: "二人で企画を練り直す", next: "quiet-months" },
+          { label: "店全体を巻き込む案も考えてみる", next: "quiet-months" }
+        ]
+      },
+      "quiet-months": {
+        kicker: "季節がひとつ進む",
+        title: "企画は軌道に乗り始めた。日常が、少しだけ華やいで見える。",
+        body: "売場には新しいお茶が並び、お客様の反応も見えてきた。\nある休日の朝、陽菜から短いメッセージが届く。",
+        choices: [
+          { label: "メッセージを開く", next: "day-off" }
         ]
       },
       "day-off": {
@@ -124,27 +139,20 @@
         img: "assets/char-campus.jpg",
         kicker: "関係イベント",
         title: "これは仕事の続き？ それとも、少し違う時間？",
-        body: "一緒にいると、仕事の相談より未来の話が増えていく。\n選ぶ言葉で、二人の関係が変わりそうだ。",
+        body: "一緒にいると、仕事の相談より未来の話が増えていく。\n急がなくていい。でも、答えを出す日は近づいている。",
         choices: [
-          { label: "楽しみにしてる、と返す", next: "two-years-later" },
-          { label: "企画が終わってからにしよう、と返す", next: "promotion" }
+          { label: "楽しみにしてる、と返す", next: "one-year-later" },
+          { label: "企画が一段落してからにしよう、と返す", next: "one-year-later" }
         ]
       },
-      promotion: {
-        event: {
-          label: "CAREER EVENT",
-          icon: "↑",
-          title: "リーダーへの打診",
-          text: "共同企画が評価され、次の売場改革を任せたいと言われた。"
-        },
+      "one-year-later": {
         speaker: "店長・桐谷",
         img: "assets/char-office.jpg",
-        kicker: "キャリアイベント",
-        title: "仕事は面白くなってきた。そのぶん、使える時間は減っていく。",
-        body: "挑戦したい気持ちと、仕事だけで人生を決めたくない気持ち。\nどちらも本音だった。",
+        kicker: "約一年後",
+        title: "仕事も、人間関係も、以前より少し大人になっている。",
+        body: "共同企画は形になり、店長からは次の役割の話も出た。\n陽菜とは、まだ同じ場所で働きながら、未来の話を続けている。",
         choices: [
-          { label: "リーダーを引き受ける", next: "end-career" },
-          { label: "陽菜にも相談してから決める", next: "two-years-later" }
+          { label: "さらに時が進む", next: "two-years-later" }
         ]
       },
       "two-years-later": {

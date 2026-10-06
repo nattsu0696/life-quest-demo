@@ -1,4 +1,51 @@
 (() => {
+  const GATE_KEY = "life-quest-gate";
+  const GATE_PASS = "合才";
+  const gateEl = document.getElementById("gate");
+  const appEl = document.getElementById("app");
+  const gateForm = document.getElementById("gate-form");
+  const gateInput = document.getElementById("gate-input");
+  const gateError = document.getElementById("gate-error");
+
+  function unlockApp() {
+    if (gateEl) gateEl.hidden = true;
+    if (appEl) appEl.hidden = false;
+  }
+
+  function showGate() {
+    if (gateEl) gateEl.hidden = false;
+    if (appEl) appEl.hidden = true;
+    if (gateInput) {
+      gateInput.value = "";
+      setTimeout(() => gateInput.focus(), 50);
+    }
+  }
+
+  try {
+    if (sessionStorage.getItem(GATE_KEY) === "ok") unlockApp();
+    else showGate();
+  } catch (_) {
+    showGate();
+  }
+
+  if (gateForm) {
+    gateForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const value = (gateInput?.value || "").trim();
+      if (value === GATE_PASS) {
+        try { sessionStorage.setItem(GATE_KEY, "ok"); } catch (_) {}
+        if (gateError) gateError.hidden = true;
+        unlockApp();
+        return;
+      }
+      if (gateError) gateError.hidden = false;
+      if (gateInput) {
+        gateInput.select();
+        gateInput.focus();
+      }
+    });
+  }
+
   const data = window.LIFE_QUEST;
   if (!data || !data.categories) return;
 

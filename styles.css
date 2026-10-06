@@ -42,6 +42,92 @@ button {
   overflow: hidden;
 }
 
+/* ========== GATE (合言葉) ========== */
+.gate {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  padding: var(--safe-top) 24px var(--safe-bottom);
+  background:
+    radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.35), transparent 55%),
+    radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.3), transparent 50%),
+    linear-gradient(180deg, #0a161c 0%, #12262e 50%, #1a2e28 100%);
+}
+
+.gate-card {
+  width: min(100%, 360px);
+  padding: 28px 24px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(232, 244, 242, 0.16);
+  background: rgba(7, 21, 28, 0.72);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.gate-chip {
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.gate-title {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.gate-note {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.gate-form {
+  display: grid;
+  gap: 10px;
+}
+
+.gate-label {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.gate-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(232, 244, 242, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  outline: none;
+}
+
+.gate-input:focus {
+  border-color: rgba(47, 210, 183, 0.65);
+  box-shadow: 0 0 0 3px rgba(47, 210, 183, 0.18);
+}
+
+.gate-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.88rem;
+}
+
+.gate-btn {
+  margin-top: 6px;
+  width: 100%;
+}
+
 .screen {
   display: none;
   min-height: 100dvh;
