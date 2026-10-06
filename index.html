@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=11" />
+  <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body>
   <main id="app" class="app">
@@ -71,7 +71,7 @@
               <p id="enter-title" class="enter-title"></p>
               <p id="enter-hint" class="enter-hint"></p>
               <button type="button" id="enter-btn" class="btn-start enter-btn">
-                <span class="btn-start-label">QUEST に入る</span>
+                <span class="btn-start-label">進路を選ぶ</span>
               </button>
             </div>
           </div>
@@ -85,6 +85,31 @@
           </div>
           <p class="joystick-caption">ぷにコン</p>
         </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY BRANCH (会社 / 県など) -->
+    <section id="screen-branch" class="screen" data-screen="branch" hidden>
+      <div class="branch-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-map">◀ MAP</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">BRANCH</p>
+          </div>
+          <span class="hud-chip" id="branch-chip">SELECT</span>
+        </header>
+
+        <div class="branch-hero">
+          <img id="branch-portrait" class="branch-portrait" src="assets/char-guide.jpg" alt="" />
+          <div>
+            <p class="branch-kicker" id="branch-kicker">次の分岐</p>
+            <h2 class="branch-title" id="branch-title">どれを試す？</h2>
+            <p class="branch-note" id="branch-note"></p>
+          </div>
+        </div>
+
+        <div id="branch-list" class="branch-list"></div>
       </div>
     </section>
 
@@ -165,7 +190,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=11"></script>
-  <script src="app.js?v=11"></script>
+  <script src="content.js?v=12"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>

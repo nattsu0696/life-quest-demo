@@ -1270,6 +1270,135 @@ button {
   50% { transform: translateY(-3px); }
 }
 
+/* ========== BRANCH SELECT ========== */
+.branch-stage {
+  min-height: 100dvh;
+  padding: var(--safe-top) 16px max(20px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.4), transparent 55%),
+    radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.3), transparent 50%),
+    linear-gradient(180deg, #f7fcff 0%, #e7f6f4 45%, #fff1dc 100%);
+  color: #16303a;
+}
+
+.branch-stage .map-hud {
+  margin-bottom: 14px;
+}
+
+.branch-stage .hud-center {
+  text-align: center;
+}
+
+.branch-hero {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(255, 252, 246, 0.88);
+  border: 1px solid rgba(20, 60, 70, 0.1);
+  box-shadow: 0 12px 28px rgba(40, 70, 80, 0.1);
+}
+
+.branch-portrait {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  object-position: center 16%;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 16px rgba(40, 70, 80, 0.14);
+}
+
+.branch-kicker {
+  margin: 0 0 2px;
+  color: #0f7a6e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.branch-title {
+  margin: 0 0 4px;
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+
+.branch-note {
+  margin: 0;
+  color: #4a6a72;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.branch-list {
+  display: grid;
+  gap: 10px;
+}
+
+.branch-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "tag go"
+    "label go"
+    "blurb go";
+  gap: 2px 12px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(20, 60, 70, 0.1);
+  background: rgba(255, 252, 246, 0.92);
+  box-shadow: 0 10px 24px rgba(40, 70, 80, 0.1);
+  color: #16303a;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.branch-card:hover,
+.branch-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(15, 138, 122, 0.4);
+  outline: none;
+}
+
+.branch-card.is-cleared {
+  background: linear-gradient(135deg, rgba(47, 210, 183, 0.12), rgba(255, 252, 246, 0.92));
+}
+
+.branch-tag {
+  grid-area: tag;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #0f7a6e;
+}
+
+.branch-label {
+  grid-area: label;
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.branch-blurb {
+  grid-area: blurb;
+  font-size: 0.82rem;
+  color: #4a6a72;
+  line-height: 1.45;
+}
+
+.branch-go {
+  grid-area: go;
+  align-self: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #149987;
+  font-size: 0.85rem;
+}
+
 /* ========== MOTION ========== */
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }

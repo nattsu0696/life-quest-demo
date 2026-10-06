@@ -1,10 +1,11 @@
 (() => {
   const data = window.LIFE_QUEST;
-  if (!data) return;
+  if (!data || !data.categories) return;
 
   const screens = {
     start: document.getElementById("screen-start"),
     map: document.getElementById("screen-map"),
+    branch: document.getElementById("screen-branch"),
     play: document.getElementById("screen-play"),
     result: document.getElementById("screen-result")
   };
@@ -41,17 +42,16 @@
   const joystick = document.getElementById("joystick");
   const knob = document.getElementById("joystick-knob");
 
-  const ROUTE_META = {
-    bigco: { code: "01", speaker: "先輩社員", img: "assets/char-office.jpg", short: "大企業", x: 22, y: 28 },
-    smallco: { code: "02", speaker: "現場の人", img: "assets/char-office.jpg", short: "小さな会社", x: 72, y: 26 },
-    startup: { code: "03", speaker: "創業者", img: "assets/char-creator.jpg", short: "起業", x: 78, y: 58 },
-    univ: { code: "04", speaker: "先輩学生", img: "assets/char-campus.jpg", short: "大学", x: 28, y: 62 },
-    skill: { code: "05", speaker: "技術者", img: "assets/char-creator.jpg", short: "専門技術", x: 52, y: 22 },
-    local: { code: "06", speaker: "地域の人", img: "assets/char-campus.jpg", short: "地方暮らし", x: 50, y: 72 }
-  };
+  const branchList = document.getElementById("branch-list");
+  const branchTitle = document.getElementById("branch-title");
+  const branchNote = document.getElementById("branch-note");
+  const branchKicker = document.getElementById("branch-kicker");
+  const branchPortrait = document.getElementById("branch-portrait");
+  const branchChip = document.getElementById("branch-chip");
 
   const state = {
-    lifeId: null,
+    categoryId: null,
+    optionId: null,
     sceneId: "start",
     depth: 0,
     phase: "title",
@@ -81,7 +81,6 @@
     places: []
   };
 
-  // 弱く倒すとゆっくり、強く倒すと歩く（極端な遅さは避ける）
   function curveStick(value) {
     const abs = Math.abs(value);
     if (abs < map.deadzone) return 0;
@@ -103,36 +102,53 @@
     return { nearest, best };
   }
 
+  function getCategory(id) {
+    return data.categories.find((c) => c.id === id);
+  }
+
+  function getOption(category, optionId) {
+    return category.options.find((o) => o.id === optionId);
+  }
+
+  function currentCategory() {
+    return getCategory(state.categoryId);
+  }
+
+  function currentOption() {
+    const cat = currentCategory();
+    if (!cat) return null;
+    return getOption(cat, state.optionId);
+  }
+
+  function currentScenes() {
+    const opt = currentOption();
+    return opt ? opt.scenes : null;
+  }
+
   function showScreen(name) {
     Object.entries(screens).forEach(([key, el]) => {
       if (!el) return;
       const active = key === name;
-      // iPhone Safari は hidden 属性と display 指定がぶつかりやすいので class だけで切替
       el.classList.toggle("is-active", active);
       if (active) el.removeAttribute("hidden");
       else el.setAttribute("hidden", "");
       el.style.display = active ? "block" : "none";
     });
 
-    if (name === "map") {
-      startMapLoop();
-    } else {
+    if (name === "map") startMapLoop();
+    else {
       stopMapLoop();
       resetJoystick();
     }
   }
 
-  function currentLife() {
-    return data.lives.find((life) => life.id === state.lifeId);
-  }
-
-  function setTheme(lifeId) {
-    stage.className = `vn-stage theme-${lifeId}`;
+  function setTheme(theme) {
+    stage.className = `vn-stage theme-${theme || "bigco"}`;
   }
 
   function updateDots() {
     dots.forEach((dot, i) => {
-      dot.classList.toggle("is-on", i <= state.depth);
+      if (dot) dot.classList.toggle("is-on", i <= state.depth);
     });
   }
 
@@ -172,37 +188,39 @@
   }
 
   /* ========== MAP ========== */
+  function categoryCleared(cat) {
+    return cat.options.some((opt) => state.cleared.has(opt.id));
+  }
+
   function buildPlaces() {
     if (!placeLayer) return;
     placeLayer.innerHTML = "";
-    map.places = data.lives.map((life) => {
-      const meta = ROUTE_META[life.id];
-      if (!meta) return null;
+    map.places = data.categories.map((cat) => {
       const el = document.createElement("button");
       el.type = "button";
-      el.className = `map-place theme-${life.id}`;
-      el.dataset.id = life.id;
-      el.style.left = `${meta.x}%`;
-      el.style.top = `${meta.y}%`;
+      el.className = `map-place theme-${cat.theme}`;
+      el.dataset.id = cat.id;
+      el.style.left = `${cat.x}%`;
+      el.style.top = `${cat.y}%`;
       el.innerHTML = `
         <span class="place-flag" aria-hidden="true">CLEAR</span>
         <span class="place-portrait-wrap">
-          <img class="place-portrait" src="${meta.img}" alt="" />
+          <img class="place-portrait" src="${cat.img}" alt="" />
         </span>
-        <span class="place-label">${meta.short}</span>
+        <span class="place-label">${cat.short}</span>
       `;
       el.addEventListener("click", () => {
-        if (state.nearbyId === life.id) startLife(life.id);
+        if (state.nearbyId === cat.id) openBranch(cat.id);
       });
       placeLayer.appendChild(el);
-      return { id: life.id, x: meta.x, y: meta.y, el, life };
-    }).filter(Boolean);
+      return { id: cat.id, x: cat.x, y: cat.y, el, cat };
+    });
     refreshClearedFlags();
   }
 
   function refreshClearedFlags() {
     map.places.forEach((place) => {
-      place.el.classList.toggle("is-cleared", state.cleared.has(place.id));
+      place.el.classList.toggle("is-cleared", categoryCleared(place.cat));
       place.el.classList.toggle("is-near", state.nearbyId === place.id);
     });
   }
@@ -245,12 +263,12 @@
       state.nearbyId = nextId;
       refreshClearedFlags();
       if (nextId) {
-        const meta = ROUTE_META[nearest.id];
-        enterTitle.textContent = nearest.life.label;
-        enterHint.textContent = nearest.life.hint;
-        if (enterPortrait && meta) enterPortrait.src = meta.img;
+        const cat = nearest.cat;
+        enterTitle.textContent = cat.label;
+        enterHint.textContent = cat.hint;
+        if (enterPortrait) enterPortrait.src = cat.img;
         enterPrompt.hidden = false;
-        mapGuide.textContent = "ここに入って、人生を試してみる？";
+        mapGuide.textContent = "次は、もう一段くわしく選ぼう";
       } else {
         enterPrompt.hidden = true;
         mapGuide.textContent = "ぷにコンで歩いて、気になる人生へ近づこう";
@@ -267,7 +285,6 @@
       if (!state.mapActive) return;
 
       const inputMag = Math.hypot(map.stickX, map.stickY);
-      // 施設の近くは少しだけゆっくり（合わせやすさ用）
       const nearSlow = state.nearbyId ? 0.75 : 1;
       const maxVel = map.maxVel * nearSlow;
 
@@ -275,7 +292,6 @@
         map.vx += map.stickX * map.accel * nearSlow;
         map.vy += map.stickY * map.accel * nearSlow;
       } else {
-        // 指を離したらすぐ止まる
         map.vx *= map.friction;
         map.vy *= map.friction;
         if (Math.hypot(map.vx, map.vy) < 0.02) {
@@ -295,7 +311,6 @@
         map.y = clamp(map.y + map.vy, 12, 86);
       }
 
-      // 近くで力を抜いているときだけ、軽く吸い付く
       const { nearest, best } = findNearestPlace();
       if (nearest && best < 14 && inputMag < 0.15) {
         map.x += (nearest.x - map.x) * 0.04;
@@ -374,37 +389,78 @@
     joystick.addEventListener("pointercancel", onUp);
   }
 
+  /* ========== BRANCH ========== */
+  function openBranch(categoryId) {
+    const cat = getCategory(categoryId);
+    if (!cat) return;
+    state.categoryId = categoryId;
+    enterPrompt.hidden = true;
+
+    if (cat.options.length === 1) {
+      startQuest(cat.options[0].id);
+      return;
+    }
+
+    branchKicker.textContent = cat.label;
+    branchTitle.textContent = cat.branchTitle;
+    branchNote.textContent = cat.branchNote;
+    branchChip.textContent = cat.short;
+    if (branchPortrait) branchPortrait.src = cat.img;
+
+    branchList.innerHTML = "";
+    cat.options.forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "branch-card";
+      if (state.cleared.has(opt.id)) btn.classList.add("is-cleared");
+      btn.innerHTML = `
+        <span class="branch-tag">${opt.tag || "OPTION"}</span>
+        <span class="branch-label">${opt.label}</span>
+        <span class="branch-blurb">${opt.blurb || ""}</span>
+        <span class="branch-go">${state.cleared.has(opt.id) ? "CLEAR" : "GO"}</span>
+      `;
+      btn.addEventListener("click", () => startQuest(opt.id));
+      branchList.appendChild(btn);
+    });
+
+    showScreen("branch");
+  }
+
   /* ========== QUEST ========== */
-  function startLife(lifeId) {
-    state.lifeId = lifeId;
+  function startQuest(optionId) {
+    const cat = currentCategory();
+    if (!cat) return;
+    const opt = getOption(cat, optionId);
+    if (!opt) return;
+
+    state.optionId = optionId;
     state.sceneId = "start";
     state.depth = 0;
-    enterPrompt.hidden = true;
-    setTheme(lifeId);
+    setTheme(cat.theme);
     renderScene();
   }
 
   function renderScene() {
-    const life = currentLife();
-    const scene = life.scenes[state.sceneId];
+    const cat = currentCategory();
+    const opt = currentOption();
+    const scenes = currentScenes();
+    if (!cat || !opt || !scenes) return;
+
+    const scene = scenes[state.sceneId];
     if (!scene) return;
 
     if (scene.ending) {
-      renderResult(life, scene);
+      renderResult(cat, opt, scene);
       return;
     }
 
-    const meta = ROUTE_META[life.id] || {
-      speaker: "案内役",
-      img: "assets/char-guide.jpg"
-    };
-    pathLabel.textContent = life.label;
+    pathLabel.textContent = opt.label;
     sceneKicker.textContent = scene.kicker.replace("QUEST / ", "Q / ");
-    nameplate.textContent = meta.speaker;
-    actorTag.textContent = meta.speaker;
-    if (actorImg && meta.img) {
-      actorImg.src = meta.img;
-      actorImg.alt = meta.speaker;
+    nameplate.textContent = cat.speaker;
+    actorTag.textContent = cat.speaker;
+    if (actorImg) {
+      actorImg.src = cat.img;
+      actorImg.alt = cat.speaker;
     }
     updateDots();
 
@@ -427,8 +483,8 @@
   }
 
   function showBody() {
-    const life = currentLife();
-    const scene = life.scenes[state.sceneId];
+    const scenes = currentScenes();
+    const scene = scenes[state.sceneId];
     state.phase = "body";
     typeText(scene.body);
   }
@@ -461,8 +517,8 @@
     if (state.phase === "body") showChoices();
   }
 
-  function renderResult(life, scene) {
-    state.cleared.add(life.id);
+  function renderResult(cat, opt, scene) {
+    state.cleared.add(opt.id);
     resultKicker.textContent = scene.kicker;
     resultTitle.textContent = scene.title;
     resultBody.textContent = scene.body;
@@ -487,6 +543,13 @@
     showScreen("result");
   }
 
+  if (dialogueBox) dialogueBox.addEventListener("click", advanceDialogue);
+  if (enterBtn) {
+    enterBtn.addEventListener("click", () => {
+      if (state.nearbyId) openBranch(state.nearbyId);
+    });
+  }
+
   function handleAction(action) {
     if (action === "to-map") openMap();
     if (action === "to-start") {
@@ -496,18 +559,21 @@
     }
   }
 
-  // iPhone は touchend の方が安定することがある
   function bindActionButton(el) {
     if (!el) return;
     let touched = false;
-    el.addEventListener("touchend", (event) => {
-      touched = true;
-      event.preventDefault();
-      handleAction(el.getAttribute("data-action"));
-      window.setTimeout(() => {
-        touched = false;
-      }, 400);
-    }, { passive: false });
+    el.addEventListener(
+      "touchend",
+      (event) => {
+        touched = true;
+        event.preventDefault();
+        handleAction(el.getAttribute("data-action"));
+        window.setTimeout(() => {
+          touched = false;
+        }, 400);
+      },
+      { passive: false }
+    );
     el.addEventListener("click", (event) => {
       if (touched) {
         event.preventDefault();
@@ -523,16 +589,6 @@
     bindActionButton(el);
   });
 
-  if (dialogueBox) {
-    dialogueBox.addEventListener("click", advanceDialogue);
-  }
-  if (enterBtn) {
-    enterBtn.addEventListener("click", () => {
-      if (state.nearbyId) startLife(state.nearbyId);
-    });
-  }
-
-  // Desktop / keyboard support
   const keys = new Set();
   window.addEventListener("keydown", (event) => {
     if (!state.mapActive) return;
@@ -543,7 +599,7 @@
     }
     if ((event.key === "Enter" || event.key === " ") && state.nearbyId) {
       event.preventDefault();
-      startLife(state.nearbyId);
+      openBranch(state.nearbyId);
     }
   });
   window.addEventListener("keyup", (event) => {
@@ -564,9 +620,8 @@
     const rawY = y / len;
     map.stickX = curveStick(rawX);
     map.stickY = curveStick(rawY);
-    if (!x && !y) {
-      resetJoystick();
-    } else if (knob && joystick) {
+    if (!x && !y) resetJoystick();
+    else if (knob && joystick) {
       knob.style.transform = `translate(calc(-50% + ${rawX * map.maxKnob}px), calc(-50% + ${rawY * map.maxKnob}px))`;
       joystick.classList.add("is-active");
     }
