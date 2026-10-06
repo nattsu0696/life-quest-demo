@@ -69,13 +69,13 @@
     y: 48,
     vx: 0,
     vy: 0,
-    accel: 0.045,
-    maxVel: 0.42,
-    friction: 0.72,
+    accel: 0.06,
+    maxVel: 0.58,
+    friction: 0.7,
     stickX: 0,
     stickY: 0,
     maxKnob: 38,
-    deadzone: 0.18,
+    deadzone: 0.16,
     pointerId: null,
     raf: 0,
     places: []
@@ -268,7 +268,7 @@
 
       const inputMag = Math.hypot(map.stickX, map.stickY);
       // 施設の近くは少しだけゆっくり（合わせやすさ用）
-      const nearSlow = state.nearbyId ? 0.65 : 1;
+      const nearSlow = state.nearbyId ? 0.75 : 1;
       const maxVel = map.maxVel * nearSlow;
 
       if (inputMag > 0.001) {
