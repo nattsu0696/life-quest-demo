@@ -69,25 +69,25 @@
     y: 48,
     vx: 0,
     vy: 0,
-    accel: 0.01,
-    maxVel: 0.11,
-    friction: 0.78,
+    accel: 0.045,
+    maxVel: 0.42,
+    friction: 0.72,
     stickX: 0,
     stickY: 0,
-    maxKnob: 40,
-    deadzone: 0.34,
+    maxKnob: 38,
+    deadzone: 0.18,
     pointerId: null,
     raf: 0,
     places: []
   };
 
-  // もっさり：かなり倒さないと歩き出さない
+  // 弱く倒すとゆっくり、強く倒すと歩く（極端な遅さは避ける）
   function curveStick(value) {
     const abs = Math.abs(value);
     if (abs < map.deadzone) return 0;
     const signed = value < 0 ? -1 : 1;
     const t = (abs - map.deadzone) / (1 - map.deadzone);
-    return signed * t * t * t;
+    return signed * t * t;
   }
 
   function findNearestPlace() {
@@ -250,7 +250,7 @@
         enterHint.textContent = nearest.life.hint;
         if (enterPortrait && meta) enterPortrait.src = meta.img;
         enterPrompt.hidden = false;
-        mapGuide.textContent = "指を離すと止まりやすいよ。QUESTに入れる？";
+        mapGuide.textContent = "ここに入って、人生を試してみる？";
       } else {
         enterPrompt.hidden = true;
         mapGuide.textContent = "ぷにコンで歩いて、気になる人生へ近づこう";
@@ -267,18 +267,18 @@
       if (!state.mapActive) return;
 
       const inputMag = Math.hypot(map.stickX, map.stickY);
-      // 施設の近くはさらにのろのろ（合わせやすくする）
-      const nearSlow = state.nearbyId ? 0.3 : 1;
+      // 施設の近くは少しだけゆっくり（合わせやすさ用）
+      const nearSlow = state.nearbyId ? 0.65 : 1;
       const maxVel = map.maxVel * nearSlow;
 
       if (inputMag > 0.001) {
         map.vx += map.stickX * map.accel * nearSlow;
         map.vy += map.stickY * map.accel * nearSlow;
       } else {
-        // 指を離したらすぐ減速して止まる
+        // 指を離したらすぐ止まる
         map.vx *= map.friction;
         map.vy *= map.friction;
-        if (Math.hypot(map.vx, map.vy) < 0.012) {
+        if (Math.hypot(map.vx, map.vy) < 0.02) {
           map.vx = 0;
           map.vy = 0;
         }
@@ -295,13 +295,11 @@
         map.y = clamp(map.y + map.vy, 12, 86);
       }
 
-      // 近くでスティックを弱めているときは、施設へそっと吸い付く
+      // 近くで力を抜いているときだけ、軽く吸い付く
       const { nearest, best } = findNearestPlace();
-      if (nearest && best < 16 && inputMag < 0.2) {
-        map.x += (nearest.x - map.x) * 0.06;
-        map.y += (nearest.y - map.y) * 0.06;
-        map.vx *= 0.6;
-        map.vy *= 0.6;
+      if (nearest && best < 14 && inputMag < 0.15) {
+        map.x += (nearest.x - map.x) * 0.04;
+        map.y += (nearest.y - map.y) * 0.04;
       }
 
       renderPlayer();
