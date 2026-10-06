@@ -6,15 +6,31 @@
   const gateForm = document.getElementById("gate-form");
   const gateInput = document.getElementById("gate-input");
   const gateError = document.getElementById("gate-error");
+  const rotateHint = document.getElementById("rotate-hint");
+
+  function syncOrientation() {
+    const landscape = window.matchMedia("(orientation: landscape)").matches
+      || window.innerWidth > window.innerHeight;
+    document.documentElement.classList.toggle("is-landscape", landscape);
+    document.documentElement.classList.toggle("is-portrait", !landscape);
+    const unlocked = document.documentElement.classList.contains("is-unlocked");
+    if (rotateHint) {
+      rotateHint.hidden = !(unlocked && !landscape);
+    }
+  }
 
   function unlockApp() {
     if (gateEl) gateEl.hidden = true;
     if (appEl) appEl.hidden = false;
+    document.documentElement.classList.add("is-unlocked");
+    syncOrientation();
   }
 
   function showGate() {
     if (gateEl) gateEl.hidden = false;
     if (appEl) appEl.hidden = true;
+    document.documentElement.classList.remove("is-unlocked");
+    if (rotateHint) rotateHint.hidden = true;
     if (gateInput) {
       gateInput.value = "";
       setTimeout(() => gateInput.focus(), 50);
@@ -27,6 +43,12 @@
   } catch (_) {
     showGate();
   }
+
+  window.addEventListener("resize", syncOrientation, { passive: true });
+  window.addEventListener("orientationchange", () => {
+    window.setTimeout(syncOrientation, 80);
+  });
+  syncOrientation();
 
   if (gateForm) {
     gateForm.addEventListener("submit", (event) => {
