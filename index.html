@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
   <meta name="theme-color" content="#e7f6f4" />
   <meta name="description" content="社会に出る前に、人生を何度でも試せる。LIFE QUEST デモ。" />
   <title>LIFE QUEST</title>
@@ -26,28 +26,65 @@
           <p class="brand">LIFE QUEST</p>
           <h1 class="headline">あなたなら、<br />どの人生を選ぶ？</h1>
           <p class="lede">社会に出る前に、人生を何度でも試せるゲーム</p>
-          <button type="button" class="btn-start" data-action="to-select">
+          <button type="button" class="btn-start" data-action="to-map">
             <span class="btn-start-glow"></span>
             <span class="btn-start-label">▶ START</span>
           </button>
-          <p class="title-hint">タップして QUEST をはじめる</p>
+          <p class="title-hint">マップを歩いて、気になる人生へ</p>
         </div>
       </div>
     </section>
 
-    <!-- ROUTE SELECT -->
-    <section id="screen-select" class="screen" data-screen="select" hidden>
-      <div class="select-stage">
-        <header class="hud hud-light">
+    <!-- LIFE MAP + PUNICON -->
+    <section id="screen-map" class="screen" data-screen="map" hidden>
+      <div class="map-stage">
+        <header class="map-hud">
           <div>
             <p class="brand-mini">LIFE QUEST</p>
-            <p class="hud-sub">ROUTE SELECT</p>
+            <p class="hud-sub">LIFE MAP</p>
           </div>
           <button type="button" class="hud-btn" data-action="to-start">TITLE</button>
         </header>
-        <h2 class="select-title">覗いてみたい人生を選べ</h2>
-        <p class="select-note">ルートによって、見える景色が変わります</p>
-        <div id="life-grid" class="route-grid"></div>
+
+        <p class="map-guide" id="map-guide">ぷにコンで歩いて、建物に近づこう</p>
+
+        <div class="map-viewport" id="map-viewport">
+          <div class="map-world" id="map-world">
+            <div class="map-atmos" aria-hidden="true">
+              <div class="map-orb map-orb-a"></div>
+              <div class="map-orb map-orb-b"></div>
+              <div class="map-softlight"></div>
+            </div>
+            <div id="place-layer"></div>
+            <div id="player" class="map-player" aria-label="あなた">
+              <img class="map-player-img" src="assets/char-guide.jpg" alt="" />
+              <span class="map-player-name">YOU</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="enter-prompt" class="enter-prompt" hidden>
+          <div class="enter-card">
+            <img id="enter-portrait" class="enter-portrait" src="assets/char-guide.jpg" alt="" />
+            <div class="enter-copy">
+              <p class="enter-kicker">分岐点に到着</p>
+              <p id="enter-title" class="enter-title"></p>
+              <p id="enter-hint" class="enter-hint"></p>
+              <button type="button" id="enter-btn" class="btn-start enter-btn">
+                <span class="btn-start-label">QUEST に入る</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="joystick-wrap" id="joystick-wrap">
+          <div class="joystick" id="joystick" aria-label="ぷにコン">
+            <div class="joystick-base">
+              <div class="joystick-knob" id="joystick-knob"></div>
+            </div>
+          </div>
+          <p class="joystick-caption">ぷにコン</p>
+        </div>
       </div>
     </section>
 
@@ -66,7 +103,7 @@
         <div class="vn-grain" aria-hidden="true"></div>
 
         <header class="hud">
-          <button type="button" class="hud-btn" data-action="back-select">◀ ROUTE</button>
+          <button type="button" class="hud-btn" data-action="to-map">◀ MAP</button>
           <div class="hud-center">
             <p id="path-label" class="hud-quest">QUEST</p>
             <div class="hud-dots" aria-hidden="true">
@@ -118,8 +155,8 @@
           </div>
 
           <div class="result-footer">
-            <button type="button" class="btn-start" data-action="to-select">
-              <span class="btn-start-label">別の人生も試す</span>
+            <button type="button" class="btn-start" data-action="to-map">
+              <span class="btn-start-label">マップに戻って別の人生も試す</span>
             </button>
             <button type="button" class="hud-btn wide" data-action="to-start">TITLE にもどる</button>
           </div>
