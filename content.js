@@ -51,10 +51,11 @@
     };
   }
 
-  // 大きなイベントは少なめ。間に「日常」を挟んでテンポを落とす
+  // 大きなイベントは少なめ。間に「日常」を挟み、グループ会社を横断して絡める
   function homeMadeEventQuest() {
     return {
       start: {
+        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         kicker: "QUEST / 株式会社綿伴ホームメイド",
         title: "入社一年目。売場には、まだ知らない仕事がたくさんある。",
         body: "商品を並べる人、仕入れる人、届ける人。\n一つのお店の中で、いくつもの人生が動いている。",
@@ -64,6 +65,7 @@
         ]
       },
       "ordinary-days": {
+        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         speaker: "先輩・桐谷",
         img: "assets/char-office.jpg",
         kicker: "いつもの一日",
@@ -97,8 +99,19 @@
         title: "休憩室で、美原商店の担当・陽菜と顔を合わせる。",
         body: "「このお店で、どんなお茶なら手に取ってもらえると思う？」\n仕事の相談から始まって、好きな食べ物の話まで広がった。",
         choices: [
-          { label: "企画の話を続ける", next: "planning-weeks" },
-          { label: "また今度、ゆっくり話そうと伝える", next: "planning-weeks" }
+          { label: "企画の話を続ける", next: "supply-run" },
+          { label: "また今度、ゆっくり話そうと伝える", next: "supply-run" }
+        ]
+      },
+      "supply-run": {
+        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "同じ日の午後",
+        title: "売場の備品も、ホームメイドで揃えることになった。",
+        body: "棚札、試飲カップ、案内ボード。\n「会社の備品って、意外とここにあるんだね」と陽菜が笑う。\nグループの店同士だと、必要なものがすぐ隣にある。",
+        choices: [
+          { label: "一緒にカートを押す", next: "planning-weeks" }
         ]
       },
       "planning-weeks": {
@@ -133,16 +146,49 @@
           label: "RELATIONSHIP EVENT",
           icon: "♡",
           title: "休日のお誘い",
-          text: "陽菜から「今度、お茶のお店を見に行かない？」と連絡が届いた。"
+          text: "陽菜から「今度、うちの喫茶でお茶しない？」と連絡が届いた。"
         },
         speaker: "陽菜",
         img: "assets/char-campus.jpg",
         kicker: "関係イベント",
         title: "これは仕事の続き？ それとも、少し違う時間？",
-        body: "一緒にいると、仕事の相談より未来の話が増えていく。\n急がなくていい。でも、答えを出す日は近づいている。",
+        body: "美原商店の店。仕事で何度も通った場所が、休日の待ち合わせになる。",
         choices: [
-          { label: "楽しみにしてる、と返す", next: "one-year-later" },
-          { label: "企画が一段落してからにしよう、と返す", next: "one-year-later" }
+          { label: "楽しみにしてる、と返す", next: "date-arrive" },
+          { label: "企画が一段落してからにしよう、と返す", next: "date-arrive" }
+        ]
+      },
+      "date-arrive": {
+        bg: "assets/backgrounds/bg-tea-shop-exterior.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "休日・美原商店",
+        title: "夕暮れの店先で、陽菜が手を振っている。",
+        body: "仕事の名刺は今日はいらない。\nガラスの向こうから、甘い香りが少しだけ漏れてくる。",
+        choices: [
+          { label: "店に入る", next: "date-cafe" }
+        ]
+      },
+      "date-cafe": {
+        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "喫茶席",
+        title: "木の席に座ると、窓の外が少しゆっくり見える。",
+        body: "「仕事の話、今日は半分までね」\n半分を過ぎた頃、未来の話が自然に混ざり始めた。",
+        choices: [
+          { label: "おすすめを頼む", next: "date-sweets" }
+        ]
+      },
+      "date-sweets": {
+        bg: "assets/backgrounds/bg-jonamashi.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "上生菓子とお茶",
+        title: "季節の上生菓子が、白い皿の上で小さく季節を見せる。",
+        body: "「これ、私が好きなやつ」\n仕事で扱っている商品が、今日はただの『好き』になる。",
+        choices: [
+          { label: "また来よう、と伝える", next: "one-year-later" }
         ]
       },
       "one-year-later": {
@@ -168,16 +214,50 @@
         title: "「一緒に長野へ来てほしい。でも、あなたの仕事も大切にしてほしい」",
         body: "結婚、仕事、移住。\nどれか一つではなく、いくつもの選択が同時に目の前へ来た。",
         choices: [
-          { label: "結婚して、一緒に長野へ行く", next: "end-together" },
+          { label: "結婚して、一緒に長野へ行く", next: "nest-house" },
           { label: "今の仕事を続け、遠距離を選ぶ", next: "end-distance" },
           { label: "まず自分のキャリアを優先する", next: "end-career" }
         ]
       },
+      "nest-house": {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "新居づくり / 林郷の家",
+        title: "二人の家を、木の骨組みから話し合う。",
+        body: "グループの住宅会社・林郷の家で、間取りの図面がテーブルに広がる。\n「ここに朝日が入るといいね」——仕事の社名より、暮らしの言葉が増える。",
+        choices: [
+          { label: "家具の話へ進む", next: "nest-ligna" }
+        ]
+      },
+      "nest-ligna": {
+        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "新居づくり / リグナチュラ",
+        title: "リグナで、新居の家具を選ぶ。",
+        body: "ソファ、テーブル、カーテン。\n家の形が決まると、次は部屋の景色を決める番だ。\n店員さんも『林郷の家の図面、持ってます』と当たり前のように聞いてくる。",
+        choices: [
+          { label: "収納の隙間が気になる", next: "nest-taiyo" }
+        ]
+      },
+      "nest-taiyo": {
+        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "新居づくり / 太平洋",
+        title: "家具のすき間にぴったりの収納を、大洋へ注文する。",
+        body: "既製品では埋まらない寸法。\n工場の通路を通ると、木の板が家具へ変わっていく音がする。\nグループだから、図面の続きが別の会社でつながる。",
+        choices: [
+          { label: "暮らしが動き出す", next: "end-together" }
+        ]
+      },
       "end-together": {
         ending: true,
+        bg: "assets/backgrounds/bg-house-interior.jpg",
         kicker: "この人生の感触",
         title: "仕事から始まった出会いが、暮らす場所まで変えた。",
-        body: "長野で新しい売場を立ち上げながら、二人の暮らしを始めた。\n正解だからではなく、二人で確かめて選んだ人生だ。",
+        body: "ホームメイド、美原商店、林郷の家、リグナ、大洋。\n別々の社名が、二人の一日の中で一本の線になった。",
         reality: [
           { label: "長野県での暮らしを試してみる", href: "#reality-town" },
           { label: "グループ会社の仕事体験を見る", href: "#reality-work" }
@@ -201,6 +281,380 @@
         reality: [
           { label: "この仕事をもっと知る", href: "#reality-work" },
           { label: "別の人生も試してみる", href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function solutionsLinkedQuest() {
+    const name = "綿伴ソウリューションズ株式会社";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-solution-exterior.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "入社一年目。現場の安全と納期が、毎日の会話の中心にある。",
+        body: "建物や設備の『困った』を片づける仕事。\n図面の先に、使う人の一日が見えてくる。",
+        choices: [
+          { label: "まずは現場に出てみる", next: "warehouse" },
+          { label: "先輩の出張に同行する", next: "trip" }
+        ]
+      },
+      warehouse: {
+        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        speaker: "先輩・黒瀬",
+        img: "assets/char-office.jpg",
+        kicker: "木造倉庫の現場",
+        title: "柱の香りがする倉庫で、寸法を確認する。",
+        body: "林郷の家で使う木の話とも、意外と近い。\n『建てる』と『収める』は、グループの中で隣り合っている。",
+        choices: [
+          { label: "次は空港案件へ", next: "trip" }
+        ]
+      },
+      trip: {
+        event: {
+          label: "WORK EVENT",
+          icon: "✈",
+          title: "海外出張の同行",
+          text: "部品調達の打ち合わせのため、初めての海外出張に帯同する。"
+        },
+        speaker: "先輩・黒瀬",
+        img: "assets/char-office.jpg",
+        kicker: "仕事イベント",
+        title: "「車は空港の立駐に停めて、そこから飛ぶぞ」",
+        body: "出張の始まりは、意外と足元にある。\n自社で手がけた立体駐車場が、今日の出発点になる。",
+        choices: [
+          { label: "立駐へ向かう", next: "parking" }
+        ]
+      },
+      parking: {
+        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        speaker: "先輩・黒瀬",
+        img: "assets/char-office.jpg",
+        kicker: "空港の立体駐車場",
+        title: "鉄骨の階段を上がりながら、納めた仕事を思い出す。",
+        body: "自分が関わった案件かどうかはまだ分からない。\nでも『止められる場所』をつくる仕事が、旅の入口になっている。",
+        choices: [
+          { label: "出発ゲートへ進む", next: "abroad" },
+          { label: "現場写真を一枚撮る", next: "abroad" }
+        ]
+      },
+      abroad: {
+        kicker: "出張のあと",
+        title: "海外の会議室でも、戻る場所の話が出る。",
+        body: "部品の仕様、納期、安全基準。\n帰り道はまた、あの立駐のコンクリートの上から始まる。",
+        choices: [
+          { label: "現場のプロとして深掘りする", next: "end-craft" },
+          { label: "グループ連携の仕事も見てみる", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        kicker: "この人生の感触",
+        title: "立つ場所、停める場所、収める場所をつくる仕事が残った。",
+        body: "派手さより、毎日の積み重ねが自分を形づくる。\n気になるなら、次は本物の職場で温度を確かめてほしい。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        kicker: "この人生の感触",
+        title: "一つの現場が、別の会社の一日につながっていると分かった。",
+        body: "林郷の家の木、ホームメイドの備品、空港の立駐。\nグループは、別々に見えて一本の生活圏になっている。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function houseLinkedQuest() {
+    const name = "株式会社綿伴林郷の家";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "入社一年目。図面と会話が行き来する。",
+        body: "家は、人の時間を入れる器だ。\nお客様の『朝の光がほしい』が、寸法になって戻ってくる。",
+        choices: [
+          { label: "モデルハウスで案内を覚える", next: "model" },
+          { label: "お客様の打ち合わせに同席する", next: "client" }
+        ]
+      },
+      model: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        speaker: "先輩・結城",
+        img: "assets/char-office.jpg",
+        kicker: "モデルハウス",
+        title: "木の梁の下で、暮らしの想像を一緒にする。",
+        body: "ソファの位置、階段の手触り、キッチンの色。\n家が決まると、次は家具の会社の名前が自然に出る。",
+        choices: [
+          { label: "家具の相談へつなぐ", next: "to-ligna" }
+        ]
+      },
+      client: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        speaker: "お客様",
+        img: "assets/char-guide.jpg",
+        kicker: "打ち合わせ",
+        title: "『このすき間、何か収まるかな』と図面を指差される。",
+        body: "既製家具では埋まらない寸法がある。\nそんなとき、グループの家具製造・太平洋の名前が手元に出る。",
+        choices: [
+          { label: "リグナと大洋を紹介する", next: "to-ligna" }
+        ]
+      },
+      "to-ligna": {
+        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        speaker: "先輩・結城",
+        img: "assets/char-office.jpg",
+        kicker: "連携 / リグナチュラ",
+        title: "新居の家具は、リグナで選んでもらうことになった。",
+        body: "家の骨組みは林郷の家。景色はリグナ。\n同じグループだと、図面の共有が早い。",
+        choices: [
+          { label: "すき間の収納も相談する", next: "to-taiyo" }
+        ]
+      },
+      "to-taiyo": {
+        bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
+        speaker: "先輩・結城",
+        img: "assets/char-office.jpg",
+        kicker: "連携 / 太平洋",
+        title: "家具のすき間にぴったりの収納を、大洋へ頼む。",
+        body: "ミリ単位の注文が、工場の板取りに変わる。\n『建てる』の続きが、『収める』になる瞬間だ。",
+        choices: [
+          { label: "現場のプロとして深掘りする", next: "end-craft" },
+          { label: "暮らし全体をつなぐ仕事を選ぶ", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: "この人生の感触",
+        title: "家の図面の向こうに、人の一日が見えるようになった。",
+        body: "派手さより、毎日の積み重ねが自分を形づくる。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: "この人生の感触",
+        title: "家・家具・収納が、一続きの仕事だと分かった。",
+        body: "林郷の家、リグナ、大洋。社名は分かれても、暮らしはひとつの現場だ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function lignaLinkedQuest() {
+    const name = "リグナチュラ株式会社";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "入社一年目。画面の商品が、部屋の景色に変わる。",
+        body: "おうちの景色を、やさしく整える仕事。\n今日のお客様は、林郷の家で建てたばかりの新居だという。",
+        choices: [
+          { label: "店頭でコーディネートする", next: "shop" },
+          { label: "図面を見ながら提案する", next: "plan" }
+        ]
+      },
+      shop: {
+        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        speaker: "先輩・杏",
+        img: "assets/char-campus.jpg",
+        kicker: "店頭",
+        title: "新居用の家具が、カートに静かに積み上がる。",
+        body: "ソファ、照明、ラグ。\n『ここにテーブルを置くと、朝がきれい』——家の話が家具の話になる。",
+        choices: [
+          { label: "すき間の相談を受ける", next: "gap" }
+        ]
+      },
+      plan: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        speaker: "お客様",
+        img: "assets/char-guide.jpg",
+        kicker: "図面打合せ",
+        title: "林郷の家の図面を広げて、家具の寸法を合わせる。",
+        body: "グループ内だと、間取りのデータがすぐ届く。\n『建てる人』と『整える人』が、同じ図を見られる。",
+        choices: [
+          { label: "すき間の相談を受ける", next: "gap" }
+        ]
+      },
+      gap: {
+        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+        speaker: "先輩・杏",
+        img: "assets/char-campus.jpg",
+        kicker: "連携 / 太平洋",
+        title: "既製品では埋まらないすき間を、大洋の特注で埋める。",
+        body: "家具の横に、ぴったりの収納が欲しい。\n注文票には、リグナの品番と大洋の寸法が並ぶ。",
+        choices: [
+          { label: "景色をつくる仕事を深める", next: "end-craft" },
+          { label: "家づくり全体との連携を学ぶ", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        kicker: "この人生の感触",
+        title: "部屋の景色を変える手が、自分にもあると分かった。",
+        body: "商品は物でも、渡しているのは暮らしの空気だ。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: "この人生の感触",
+        title: "家具の仕事は、家の仕事の続きだと分かった。",
+        body: "林郷の家で骨組み、リグナで景色、大洋ですき間。\n別会社でも、お客様の一日はつながっている。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function taiyoLinkedQuest() {
+    const name = "太平洋株式会社";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "入社一年目。部品が、ぴたっと家具になる現場。",
+        body: "白い壁の工場。青い柱の荷捌き場。\n今日の注文票には、リグナ経由の『すき間収納』と書いてある。",
+        choices: [
+          { label: "工場の通路を歩く", next: "factory" },
+          { label: "寸法の確認から入る", next: "measure" }
+        ]
+      },
+      factory: {
+        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+        speaker: "先輩・浜田",
+        img: "assets/char-office.jpg",
+        kicker: "工場",
+        title: "青い通路の奥で、板が家具の部品へ変わっていく。",
+        body: "林郷の家の新居、リグナのソファ横。\n数字の並びが、誰かの朝の動作になる。",
+        choices: [
+          { label: "特注の図面を見る", next: "measure" }
+        ]
+      },
+      measure: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        speaker: "先輩・浜田",
+        img: "assets/char-office.jpg",
+        kicker: "特注対応",
+        title: "家具のすき間にぴったりの収納を、ミリで合わせる。",
+        body: "既製品の端と、壁の端。そのあいだを埋めるのが今日の仕事だ。\nグループの注文は、現場の言葉が短い。",
+        choices: [
+          { label: "製造の腕を磨く", next: "end-craft" },
+          { label: "暮らしの連携をもっと知る", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+        kicker: "この人生の感触",
+        title: "ぴたっと収まる感覚が、仕事の手応えになった。",
+        body: "派手さより、寸法の正しさが人のストレスを減らす。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
+        kicker: "この人生の感触",
+        title: "工場の一枚の板が、家の一日につながると分かった。",
+        body: "リグナの家具、林郷の家の壁、大洋の収納。\nすき間を埋める仕事は、暮らしをなめらかにする仕事だ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function miharaLinkedQuest() {
+    const name = "株式会社綿伴美原商店";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-tea-shop-exterior.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "入社一年目。香りと味の現場。お客様の『おいしい』が近い。",
+        body: "お茶とおかし、カフェのやさしい香り。\n今日はホームメイドとの共同売場の打ち合わせがある。",
+        choices: [
+          { label: "ショーケースの前で商品を覚える", next: "counter" },
+          { label: "喫茶席のオペレーションを見る", next: "cafe" }
+        ]
+      },
+      counter: {
+        bg: "assets/backgrounds/bg-tea-shop-counter.jpg",
+        speaker: "先輩・陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "売場",
+        title: "色とりどりの和菓子が、ガラスの向こうで季節を並べている。",
+        body: "ホームメイドの棚に載せるお茶も、ここから選ぶ。\n別会社の売場が、同じ香りでつながる。",
+        choices: [
+          { label: "上生菓子の仕込みを見る", next: "sweets" }
+        ]
+      },
+      cafe: {
+        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        speaker: "先輩・陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "喫茶",
+        title: "木の席に、休日のお客様と、仕事帰りの人が混ざる。",
+        body: "ここで飲む一杯が、誰かのデートになることもある。\n仕事の場所が、暮らしの場所にもなる。",
+        choices: [
+          { label: "上生菓子の仕込みを見る", next: "sweets" }
+        ]
+      },
+      sweets: {
+        bg: "assets/backgrounds/bg-jonamashi.jpg",
+        speaker: "先輩・陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "上生菓子",
+        title: "小さな練り切りが、今日の季節を一言で言う。",
+        body: "ホームメイドへ卸す茶葉の横で、店頭の菓子も同じ朝に動いている。\n『グループ連携』は、会議室より先に香りの現場にある。",
+        choices: [
+          { label: "味の現場を深掘りする", next: "end-craft" },
+          { label: "他店との企画をもっと知る", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        kicker: "この人生の感触",
+        title: "おいしいの顔が見える仕事が、残った。",
+        body: "香りと味の距離が近いほど、判断も早くなる。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        kicker: "この人生の感触",
+        title: "お茶の仕事が、別の店の一日とつながると分かった。",
+        body: "美原商店の菓子、ホームメイドの売場、誰かの休日の喫茶。\n社名が分かれても、体験は一本の線になる。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
         ]
       }
     };
@@ -323,29 +777,29 @@
             id: "co-homeaid",
             label: "株式会社綿伴ホームメイド",
             tag: "小売",
-            blurb: "おうちの「あったら便利」が並ぶお店の運営",
+            blurb: "備品もお茶売場も。グループの店とつながる日常",
             scenes: homeMadeEventQuest()
           },
           {
             id: "co-solutions",
             label: "綿伴ソウリューションズ株式会社",
             tag: "建築・設備",
-            blurb: "建物や設備の「困った」をいっしょに片づける",
-            scenes: companyQuest("綿伴ソウリューションズ株式会社", "現場の安全と納期が、毎日の会話の中心にある。")
+            blurb: "木造倉庫から空港の立駐まで。出張の足元も現場",
+            scenes: solutionsLinkedQuest()
           },
           {
             id: "co-mihara",
             label: "株式会社綿伴美原商店",
             tag: "食品・茶",
-            blurb: "お茶とおかし、カフェのやさしい香り",
-            scenes: companyQuest("株式会社綿伴美原商店", "香りと味の現場。お客様の「おいしい」が近い。")
+            blurb: "お茶・上生菓子・喫茶。休日のデートにもなる店",
+            scenes: miharaLinkedQuest()
           },
           {
             id: "co-house",
             label: "株式会社綿伴林郷の家",
             tag: "住宅",
-            blurb: "木のぬくもりで、おうちをつくる",
-            scenes: companyQuest("株式会社綿伴林郷の家", "図面と会話が行き来する。家は、人の時間を入れる器だ。")
+            blurb: "家を建て、家具と収納までグループでつなぐ",
+            scenes: houseLinkedQuest()
           },
           {
             id: "co-kids",
@@ -365,15 +819,15 @@
             id: "co-taiyo",
             label: "太平洋株式会社",
             tag: "家具製造",
-            blurb: "部品が、ぴたっと家具になる現場",
-            scenes: companyQuest("太平洋株式会社", "部品が家具になる工程が、目の前で進んでいく。")
+            blurb: "家具のすき間にぴったりの収納を、工場でつくる",
+            scenes: taiyoLinkedQuest()
           },
           {
             id: "co-ligna",
             label: "リグナチュラ株式会社",
             tag: "インテリア",
-            blurb: "おうちの景色を、やさしく整える",
-            scenes: companyQuest("リグナチュラ株式会社", "画面の商品が、部屋の景色に変わる瞬間を扱う仕事だ。")
+            blurb: "新居の家具を選び、特注収納までつなぐ",
+            scenes: lignaLinkedQuest()
           },
           {
             id: "co-dotcom",

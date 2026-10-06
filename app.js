@@ -1,6 +1,6 @@
 (() => {
   const GATE_KEY = "life-quest-gate";
-  const GATE_PASS = "合才";
+  const GATE_PASS = "わたぴー";
   const gateEl = document.getElementById("gate");
   const appEl = document.getElementById("app");
   const gateForm = document.getElementById("gate-form");
@@ -58,6 +58,7 @@
   };
 
   const stage = document.getElementById("stage");
+  const stageBgPhoto = document.getElementById("stage-bg-photo");
   const pathLabel = document.getElementById("path-label");
   const sceneKicker = document.getElementById("scene-kicker");
   const nameplate = document.getElementById("nameplate");
@@ -311,6 +312,8 @@
       }
       if (!map.places.length) buildPlaces();
       else refreshClearedFlags();
+      applySceneBackground(null);
+      hideLifeEvent();
       state.nearbyId = null;
       if (enterPrompt) enterPrompt.hidden = true;
       renderPlayer();
@@ -505,6 +508,19 @@
   }
 
   /* ========== QUEST ========== */
+  function applySceneBackground(bgPath) {
+    if (!stage || !stageBgPhoto) return;
+    if (bgPath) {
+      stageBgPhoto.style.backgroundImage = `url("${bgPath}")`;
+      stageBgPhoto.hidden = false;
+      stage.classList.add("has-photo-bg");
+    } else {
+      stageBgPhoto.style.backgroundImage = "";
+      stageBgPhoto.hidden = true;
+      stage.classList.remove("has-photo-bg");
+    }
+  }
+
   function startQuest(optionId) {
     const cat = currentCategory();
     if (!cat) return;
@@ -544,6 +560,7 @@
       actorImg.src = sceneImage;
       actorImg.alt = speaker;
     }
+    applySceneBackground(scene.bg);
     updateDots();
 
     state.currentChoices = scene.choices || [];
