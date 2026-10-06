@@ -157,7 +157,7 @@
         short: "企業",
         hint: "まずは「働く」を選ぶ。次に会社を選ぶ",
         branchTitle: "どの会社で試す？",
-        branchNote: "グループ会社を選んでQUESTへ進みます（社名は仮）",
+        branchNote: "グループ会社を選んでQUESTへ（デモ用に社名は実名から少し変更）",
         theme: "bigco",
         img: "assets/char-office.jpg",
         speaker: "先輩社員",
@@ -165,32 +165,116 @@
         y: 30,
         options: [
           {
-            id: "co-retail",
-            label: "グループ会社（小売）",
+            id: "co-homeaid",
+            label: "株式会社綿伴ホームエイド",
             tag: "小売",
-            blurb: "店頭と在庫、お客様の距離が近い現場",
-            scenes: companyQuest("グループ会社（小売）", "売場の朝は早い。商品の前で、今日の売上が動き始める。")
+            blurb: "ホームセンター・食品スーパー・ドラッグストア等の運営",
+            scenes: companyQuest("株式会社綿伴ホームエイド", "売場の朝は早い。商品の前で、今日の売上が動き始める。")
           },
           {
-            id: "co-build",
-            label: "グループ会社（建材）",
-            tag: "建材",
-            blurb: "現場と倉庫をつなぐ、ものづくり寄りの仕事",
-            scenes: companyQuest("グループ会社（建材）", "資材の名前と、届ける先の顔がセットで覚えられていく。")
+            id: "co-solutions",
+            label: "綿伴ソリューションズ株式会社",
+            tag: "建築・設備",
+            blurb: "建築・土木・設備工事、維持管理、コンサルティング",
+            scenes: companyQuest("綿伴ソリューションズ株式会社", "現場の安全と納期が、毎日の会話の中心にある。")
+          },
+          {
+            id: "co-mihara",
+            label: "株式会社綿伴三原商店",
+            tag: "食品・茶",
+            blurb: "茶葉や菓子の製造・卸・販売、カフェ運営",
+            scenes: companyQuest("株式会社綿伴三原商店", "香りと味の現場。お客様の「おいしい」が近い。")
           },
           {
             id: "co-house",
-            label: "グループ会社（住宅）",
+            label: "株式会社綿伴林業の家",
             tag: "住宅",
-            blurb: "暮らしの相談に寄り添う仕事",
-            scenes: companyQuest("グループ会社（住宅）", "図面と会話が行き来する。家は、人の時間を入れる器だ。")
+            blurb: "設計・施工・管理、注文住宅の販売",
+            scenes: companyQuest("株式会社綿伴林業の家", "図面と会話が行き来する。家は、人の時間を入れる器だ。")
           },
           {
-            id: "co-service",
-            label: "グループ会社（サービス）",
-            tag: "サービス",
-            blurb: "人と接する力が問われる現場",
-            scenes: companyQuest("グループ会社（サービス）", "ありがとうの一言が、その日の評価表になる。")
+            id: "co-kids",
+            label: "株式会社綿伴キッズスクール",
+            tag: "教育",
+            blurb: "学習塾、学童保育、保育施設の運営",
+            scenes: companyQuest("株式会社綿伴キッズスクール", "子どもの声が職場のBGMになる。成長が近い仕事だ。")
+          },
+          {
+            id: "co-partners",
+            label: "綿伴パートナーズ株式会社",
+            tag: "仕入・物流",
+            blurb: "共同仕入れ、PB開発、運送と在庫の合理化",
+            scenes: companyQuest("綿伴パートナーズ株式会社", "倉庫と数字が一日の主役。店の裏側を動かす仕事だ。")
+          },
+          {
+            id: "co-taiyo",
+            label: "太平洋株式会社",
+            tag: "家具製造",
+            blurb: "組立家具の製造・卸売",
+            scenes: companyQuest("太平洋株式会社", "部品が家具になる工程が、目の前で進んでいく。")
+          },
+          {
+            id: "co-ligna",
+            label: "リグナス株式会社",
+            tag: "インテリア",
+            blurb: "家具・インテリアのEC、ショールーム、空間提案",
+            scenes: companyQuest("リグナス株式会社", "画面の商品が、部屋の景色に変わる瞬間を扱う仕事だ。")
+          },
+          {
+            id: "co-dotcom",
+            label: "株式会社綿伴ドットコム",
+            tag: "通販",
+            blurb: "家電・食品・酒などのインターネット通販",
+            scenes: companyQuest("株式会社綿伴ドットコム", "注文が入るたびに、倉庫と画面が同時に忙しくなる。")
+          },
+          {
+            id: "co-house-fc",
+            label: "株式会社綿伴林業SH",
+            tag: "住宅FC",
+            blurb: "戸建木造住宅のフランチャイズ、加盟店サポート",
+            scenes: companyQuest("株式会社綿伴林業SH", "加盟店の悩みと、家づくりの技術が同じ机に乗る。")
+          },
+          {
+            id: "co-trading",
+            label: "綿伴トレーディング株式会社",
+            tag: "原料・輸入",
+            blurb: "医薬品・化粧品原料、食品等の輸入・販売",
+            scenes: companyQuest("綿伴トレーディング株式会社", "世界の原料が、規格と信頼で日本の現場へ届く。")
+          },
+          {
+            id: "co-kenzai",
+            label: "綿伴建材株式会社",
+            tag: "建材",
+            blurb: "住宅資材販売、木材加工、木質バイオマスチップ",
+            scenes: companyQuest("綿伴建材株式会社", "資材の名前と、届ける先の顔がセットで覚えられていく。")
+          },
+          {
+            id: "co-woodpower",
+            label: "綿伴ウッドパワー株式会社",
+            tag: "エネルギー",
+            blurb: "木質バイオマス発電",
+            scenes: companyQuest("綿伴ウッドパワー株式会社", "木がエネルギーに変わる現場。数字と安全が隣り合う。")
+          },
+          {
+            id: "co-realestate",
+            label: "綿伴リアルエステート株式会社",
+            tag: "不動産",
+            blurb: "建物管理、賃貸仲介、売買、不動産コンサル",
+            scenes: companyQuest("綿伴リアルエステート株式会社", "物件は数字だけじゃない。住む人の一日が乗っている。")
+          },
+          {
+            id: "co-intec",
+            label: "株式会社綿伴インテック",
+            tag: "レンタル・物流",
+            blurb: "イベントレンタル、個人向けレンタル、運送・倉庫",
+            scenes: companyQuest("株式会社綿伴インテック", "必要なものが、必要な場所へ届く。段取りが腕になる。")
+          },
+          {
+            id: "co-farm",
+            label: "綿伴ファーム株式会社",
+            tag: "畜産",
+            blurb: "畜産事業",
+            scenes: companyQuest("綿伴ファーム株式会社", "生き物のリズムに合わせて、一日が始まる。")
           }
         ]
       },

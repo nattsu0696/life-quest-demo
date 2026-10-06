@@ -1336,6 +1336,10 @@ button {
 .branch-list {
   display: grid;
   gap: 10px;
+  max-height: calc(100dvh - 220px);
+  overflow-y: auto;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .branch-card {
