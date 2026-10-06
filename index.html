@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#e7f6f4" />
+  <meta name="description" content="社会に出る前に、人生を何度でも試せる。LIFE QUEST デモ。" />
+  <title>LIFE QUEST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app" class="app">
+    <!-- TITLE -->
+    <section id="screen-start" class="screen is-active" data-screen="start">
+      <div class="title-stage">
+        <div class="title-bg" aria-hidden="true"></div>
+        <div class="title-particles" aria-hidden="true"></div>
+        <div class="title-hero" aria-hidden="true">
+          <img src="assets/char-guide.jpg" alt="" class="title-hero-img" />
+        </div>
+        <div class="title-frame">
+          <p class="title-chip">CHAPTER 0 / DEMO</p>
+          <p class="brand">LIFE QUEST</p>
+          <h1 class="headline">あなたなら、<br />どの人生を選ぶ？</h1>
+          <p class="lede">社会に出る前に、人生を何度でも試せるゲーム</p>
+          <button type="button" class="btn-start" data-action="to-select">
+            <span class="btn-start-glow"></span>
+            <span class="btn-start-label">▶ START</span>
+          </button>
+          <p class="title-hint">タップして QUEST をはじめる</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROUTE SELECT -->
+    <section id="screen-select" class="screen" data-screen="select" hidden>
+      <div class="select-stage">
+        <header class="hud hud-light">
+          <div>
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">ROUTE SELECT</p>
+          </div>
+          <button type="button" class="hud-btn" data-action="to-start">TITLE</button>
+        </header>
+        <h2 class="select-title">覗いてみたい人生を選べ</h2>
+        <p class="select-note">ルートによって、見える景色が変わります</p>
+        <div id="life-grid" class="route-grid"></div>
+      </div>
+    </section>
+
+    <!-- PLAY (VN stage) -->
+    <section id="screen-play" class="screen" data-screen="play" hidden>
+      <div id="stage" class="vn-stage theme-bigco">
+        <div id="stage-bg" class="vn-bg" aria-hidden="true">
+          <div class="bg-sky"></div>
+          <div class="bg-far"></div>
+          <div class="bg-mid"></div>
+          <div class="bg-near"></div>
+          <div class="bg-glow"></div>
+        </div>
+        <div class="vn-grade" aria-hidden="true"></div>
+        <div class="vn-fx" aria-hidden="true"></div>
+        <div class="vn-grain" aria-hidden="true"></div>
+
+        <header class="hud">
+          <button type="button" class="hud-btn" data-action="back-select">◀ ROUTE</button>
+          <div class="hud-center">
+            <p id="path-label" class="hud-quest">QUEST</p>
+            <div class="hud-dots" aria-hidden="true">
+              <span id="dot-0" class="dot is-on"></span>
+              <span id="dot-1" class="dot"></span>
+              <span id="dot-2" class="dot"></span>
+            </div>
+          </div>
+          <p id="scene-kicker" class="hud-chip">SCENE</p>
+        </header>
+
+        <div class="actor-layer">
+          <div id="actor" class="actor actor-photo">
+            <div class="actor-shadow"></div>
+            <img id="actor-img" class="actor-img" src="assets/char-guide.jpg" alt="案内役" />
+            <p id="actor-tag" class="actor-tag">案内役</p>
+          </div>
+        </div>
+
+        <div class="vn-bottom">
+          <div id="choice-list" class="choice-panel" hidden></div>
+
+          <button type="button" id="dialogue-box" class="dialogue-box" aria-live="polite">
+            <div class="dialogue-top">
+              <span id="nameplate" class="nameplate">SYSTEM</span>
+              <span class="dialogue-deco">LIFE QUEST</span>
+            </div>
+            <p id="dialogue-text" class="dialogue-text"></p>
+            <span id="dialogue-cursor" class="dialogue-cursor">▼</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen" data-screen="result" hidden>
+      <div id="result-stage" class="result-stage">
+        <div class="result-bg" aria-hidden="true"></div>
+        <div class="result-panel">
+          <p class="clear-badge">QUEST CLEAR</p>
+          <p id="result-kicker" class="result-kicker"></p>
+          <h2 id="result-title" class="result-title"></h2>
+          <p id="result-body" class="result-body"></p>
+
+          <div class="reality-block">
+            <p class="reality-label">▶ 次は、現実へ</p>
+            <p class="reality-copy">ゲームで終わらせない。もっと知りたくなったら、本物の体験へ。</p>
+            <div id="reality-actions" class="reality-actions"></div>
+          </div>
+
+          <div class="result-footer">
+            <button type="button" class="btn-start" data-action="to-select">
+              <span class="btn-start-label">別の人生も試す</span>
+            </button>
+            <button type="button" class="hud-btn wide" data-action="to-start">TITLE にもどる</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
