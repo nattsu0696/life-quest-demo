@@ -775,6 +775,127 @@ button {
 
 .dialogue-cursor.is-hidden { opacity: 0; animation: none; }
 
+/* LIFE EVENT — scene interruption */
+.life-event-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 187, 98, 0.24), transparent 42%),
+    rgba(4, 10, 15, 0.82);
+  backdrop-filter: blur(12px) saturate(0.75);
+  opacity: 0;
+}
+
+.life-event-overlay[hidden] {
+  display: none !important;
+}
+
+.life-event-overlay.is-visible {
+  animation: eventOverlayIn 0.42s ease both;
+}
+
+.life-event-flash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.22) 48%, transparent 62%);
+  transform: translateX(-120%);
+  animation: eventFlash 0.9s ease 0.12s both;
+  pointer-events: none;
+}
+
+.life-event-card {
+  position: relative;
+  width: 100%;
+  padding: 24px 20px 20px;
+  border-radius: 24px;
+  text-align: center;
+  color: #fffdf8;
+  background:
+    linear-gradient(145deg, rgba(31, 45, 54, 0.96), rgba(8, 17, 23, 0.96));
+  border: 1px solid rgba(255, 203, 126, 0.52);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08) inset,
+    0 0 40px rgba(255, 161, 78, 0.25),
+    0 24px 60px rgba(0,0,0,0.45);
+  overflow: hidden;
+}
+
+.life-event-card::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffcb7e, transparent);
+  box-shadow: 0 0 20px #ff9d58;
+}
+
+.life-event-label {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 5px 12px;
+  border: 1px solid rgba(255, 203, 126, 0.6);
+  border-radius: 999px;
+  color: #ffcb7e;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.life-event-icon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  color: #1e1207;
+  background: linear-gradient(160deg, #ffe6a9, #ff9d58);
+  border: 3px solid rgba(255,255,255,0.78);
+  box-shadow: 0 0 30px rgba(255, 157, 88, 0.5);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  animation: eventIconPulse 1.4s ease-in-out infinite;
+}
+
+.life-event-title {
+  margin: 0 0 10px;
+  font-size: 1.42rem;
+  line-height: 1.35;
+}
+
+.life-event-text {
+  margin: 0 0 20px;
+  color: rgba(255, 253, 248, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.life-event-btn {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 14px;
+  color: #211307;
+  background: linear-gradient(180deg, #ffda92, #f4a95d);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 10px 24px rgba(244, 169, 93, 0.25);
+  -webkit-tap-highlight-color: rgba(255,255,255,0.2);
+  touch-action: manipulation;
+}
+
+.life-event-btn:active {
+  transform: translateY(1px);
+}
+
 .choice-panel {
   display: grid;
   gap: 8px;
@@ -1407,6 +1528,21 @@ button {
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes eventOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes eventFlash {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
+}
+
+@keyframes eventIconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
 }
 
 @keyframes actorIn {

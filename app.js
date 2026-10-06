@@ -48,6 +48,12 @@
   const branchKicker = document.getElementById("branch-kicker");
   const branchPortrait = document.getElementById("branch-portrait");
   const branchChip = document.getElementById("branch-chip");
+  const lifeEventOverlay = document.getElementById("life-event-overlay");
+  const lifeEventLabel = document.getElementById("life-event-label");
+  const lifeEventIcon = document.getElementById("life-event-icon");
+  const lifeEventTitle = document.getElementById("life-event-title");
+  const lifeEventText = document.getElementById("life-event-text");
+  const lifeEventBtn = document.getElementById("life-event-btn");
 
   const state = {
     categoryId: null,
@@ -60,8 +66,10 @@
     fullText: "",
     currentChoices: [],
     cleared: new Set(),
+    seenEvents: new Set(),
     mapActive: false,
-    nearbyId: null
+    nearbyId: null,
+    eventContinue: null
   };
 
   const map = {
@@ -177,6 +185,29 @@
         dialogueCursor.classList.remove("is-hidden");
       }
     }, 18);
+  }
+
+  function hideLifeEvent() {
+    if (!lifeEventOverlay) return;
+    lifeEventOverlay.hidden = true;
+    lifeEventOverlay.classList.remove("is-visible");
+  }
+
+  function showLifeEvent(eventData, onContinue) {
+    if (!lifeEventOverlay || !eventData) {
+      onContinue();
+      return;
+    }
+
+    lifeEventLabel.textContent = eventData.label || "LIFE EVENT";
+    lifeEventIcon.textContent = eventData.icon || "!";
+    lifeEventTitle.textContent = eventData.title || "イベント発生";
+    lifeEventText.textContent = eventData.text || "";
+    state.eventContinue = onContinue;
+    lifeEventOverlay.hidden = false;
+    lifeEventOverlay.classList.remove("is-visible");
+    void lifeEventOverlay.offsetWidth;
+    lifeEventOverlay.classList.add("is-visible");
   }
 
   function revealFullText() {
@@ -436,6 +467,8 @@
     state.optionId = optionId;
     state.sceneId = "start";
     state.depth = 0;
+    state.seenEvents = new Set();
+    hideLifeEvent();
     setTheme(cat.theme);
     renderScene();
   }
@@ -456,11 +489,13 @@
 
     pathLabel.textContent = opt.label;
     sceneKicker.textContent = scene.kicker.replace("QUEST / ", "Q / ");
-    nameplate.textContent = cat.speaker;
-    actorTag.textContent = cat.speaker;
+    const speaker = scene.speaker || cat.speaker;
+    const sceneImage = scene.img || cat.img;
+    nameplate.textContent = speaker;
+    actorTag.textContent = speaker;
     if (actorImg) {
-      actorImg.src = cat.img;
-      actorImg.alt = cat.speaker;
+      actorImg.src = sceneImage;
+      actorImg.alt = speaker;
     }
     updateDots();
 
@@ -478,8 +513,16 @@
       actor.style.animation = "";
     }
 
-    typeText(scene.title);
     showScreen("play");
+
+    const eventKey = `${state.optionId}:${state.sceneId}`;
+    if (scene.event && !state.seenEvents.has(eventKey)) {
+      state.seenEvents.add(eventKey);
+      showLifeEvent(scene.event, () => typeText(scene.title));
+    } else {
+      hideLifeEvent();
+      typeText(scene.title);
+    }
   }
 
   function showBody() {
@@ -544,6 +587,14 @@
   }
 
   if (dialogueBox) dialogueBox.addEventListener("click", advanceDialogue);
+  if (lifeEventBtn) {
+    lifeEventBtn.addEventListener("click", () => {
+      const next = state.eventContinue;
+      state.eventContinue = null;
+      hideLifeEvent();
+      if (next) next();
+    });
+  }
   if (enterBtn) {
     enterBtn.addEventListener("click", () => {
       if (state.nearbyId) openBranch(state.nearbyId);

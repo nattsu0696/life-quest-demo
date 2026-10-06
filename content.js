@@ -51,6 +51,153 @@
     };
   }
 
+  function homeMadeEventQuest() {
+    return {
+      start: {
+        kicker: "QUEST / 株式会社綿伴ホームメイド",
+        title: "入社一年目。売場には、まだ知らない仕事がたくさんある。",
+        body: "商品を並べる人、仕入れる人、届ける人。\n一つのお店の中で、いくつもの人生が動いている。",
+        choices: [
+          { label: "新しい売場づくりに手を挙げる", next: "project-invite" },
+          { label: "少し休憩して、周りの人と話す", next: "rest-room" }
+        ]
+      },
+      "project-invite": {
+        event: {
+          label: "WORK EVENT",
+          icon: "✦",
+          title: "共同企画への招待",
+          text: "美原商店と、新しいお茶売場をつくるプロジェクトが始まる。"
+        },
+        speaker: "先輩・桐谷",
+        img: "assets/char-office.jpg",
+        kicker: "仕事イベント",
+        title: "「君も、この企画に入ってみない？」",
+        body: "経験は足りない。でも、お客様に近い視点を期待されている。\n美原商店から来る担当者と、三か月で売場をつくる。",
+        choices: [
+          { label: "やってみます、と答える", next: "collaboration" },
+          { label: "まず担当者の話を聞いてから決める", next: "rest-room" }
+        ]
+      },
+      "rest-room": {
+        event: {
+          label: "ENCOUNTER",
+          icon: "☕",
+          title: "休憩室で、新しい出会い",
+          text: "美原商店から来た企画担当・陽菜が話しかけてきた。"
+        },
+        speaker: "美原商店・陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "出会いイベント",
+        title: "「このお店で、どんなお茶なら手に取ってもらえると思う？」",
+        body: "仕事の相談のはずなのに、好きな食べ物や休日の話まで広がっていく。\n気づけば、休憩時間は終わりかけていた。",
+        choices: [
+          { label: "企画のことを、もっと一緒に考える", next: "collaboration" },
+          { label: "今度、仕事の外でも話そうと誘う", next: "day-off" }
+        ]
+      },
+      collaboration: {
+        event: {
+          label: "GROUP QUEST",
+          icon: "🤝",
+          title: "グループ会社との共同QUEST",
+          text: "ホームメイド × 美原商店。会社をまたぐチームが結成された。"
+        },
+        speaker: "美原商店・陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "共同企画イベント",
+        title: "最初の提案は通らなかった。でも、陽菜は笑っている。",
+        body: "「失敗したから、次はもっと面白くできるね」\nその言葉で、もう一度やってみようと思えた。",
+        choices: [
+          { label: "二人で企画を練り直す", next: "day-off" },
+          { label: "会社全体を巻き込む案を出す", next: "promotion" }
+        ]
+      },
+      "day-off": {
+        event: {
+          label: "RELATIONSHIP EVENT",
+          icon: "♡",
+          title: "休日のお誘い",
+          text: "陽菜から「今度、お茶のお店を見に行かない？」と連絡が届いた。"
+        },
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "関係イベント",
+        title: "これは仕事の続き？ それとも、少し違う時間？",
+        body: "一緒にいると、仕事の相談より未来の話が増えていく。\n選ぶ言葉で、二人の関係が変わりそうだ。",
+        choices: [
+          { label: "楽しみにしてる、と返す", next: "two-years-later" },
+          { label: "企画が終わってからにしよう、と返す", next: "promotion" }
+        ]
+      },
+      promotion: {
+        event: {
+          label: "CAREER EVENT",
+          icon: "↑",
+          title: "リーダーへの打診",
+          text: "共同企画が評価され、次の売場改革を任せたいと言われた。"
+        },
+        speaker: "店長・桐谷",
+        img: "assets/char-office.jpg",
+        kicker: "キャリアイベント",
+        title: "仕事は面白くなってきた。そのぶん、使える時間は減っていく。",
+        body: "挑戦したい気持ちと、仕事だけで人生を決めたくない気持ち。\nどちらも本音だった。",
+        choices: [
+          { label: "リーダーを引き受ける", next: "end-career" },
+          { label: "陽菜にも相談してから決める", next: "two-years-later" }
+        ]
+      },
+      "two-years-later": {
+        event: {
+          label: "LIFE EVENT",
+          icon: "!",
+          title: "二年後。結婚と転勤の話",
+          text: "交際中の陽菜に、長野県で新店舗を立ち上げる話が来た。"
+        },
+        speaker: "陽菜",
+        img: "assets/char-campus.jpg",
+        kicker: "人生の分岐点",
+        title: "「一緒に長野へ来てほしい。でも、あなたの仕事も大切にしてほしい」",
+        body: "結婚、仕事、移住。\nどれか一つではなく、いくつもの選択が同時に目の前へ来た。",
+        choices: [
+          { label: "結婚して、一緒に長野へ行く", next: "end-together" },
+          { label: "今の仕事を続け、遠距離を選ぶ", next: "end-distance" },
+          { label: "まず自分のキャリアを優先する", next: "end-career" }
+        ]
+      },
+      "end-together": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "仕事から始まった出会いが、暮らす場所まで変えた。",
+        body: "長野で新しい売場を立ち上げながら、二人の暮らしを始めた。\n正解だからではなく、二人で確かめて選んだ人生だ。",
+        reality: [
+          { label: "長野県での暮らしを試してみる", href: "#reality-town" },
+          { label: "グループ会社の仕事体験を見る", href: "#reality-work" }
+        ]
+      },
+      "end-distance": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "離れて暮らしながら、二人の未来をつくることにした。",
+        body: "すぐに同じ場所を選ばなくてもいい。\n仕事も関係も、話し合いながら更新していく人生がある。",
+        reality: [
+          { label: "別の働き方も試してみる", href: "#reality-work" },
+          { label: "二拠点生活について調べる", href: "#reality-town" }
+        ]
+      },
+      "end-career": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "今は、自分の仕事を選んだ。",
+        body: "恋愛を選ばなかったわけではない。今の自分に必要な順番を選んだ。\n数年後、また違う答えになるかもしれない。",
+        reality: [
+          { label: "この仕事をもっと知る", href: "#reality-work" },
+          { label: "別の人生も試してみる", href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
   function migrateQuest(place, flavor) {
     return {
       start: {
@@ -169,7 +316,7 @@
             label: "株式会社綿伴ホームメイド",
             tag: "小売",
             blurb: "おうちの「あったら便利」が並ぶお店の運営",
-            scenes: companyQuest("株式会社綿伴ホームメイド", "売場の朝は早い。商品の前で、今日の売上が動き始める。")
+            scenes: homeMadeEventQuest()
           },
           {
             id: "co-solutions",
