@@ -69,14 +69,24 @@
     y: 48,
     vx: 0,
     vy: 0,
-    speed: 0.085,
+    speed: 0.028,
     stickX: 0,
     stickY: 0,
-    maxKnob: 34,
+    maxKnob: 38,
+    deadzone: 0.2,
     pointerId: null,
     raf: 0,
     places: []
   };
+
+  // 小さく倒したときはほぼ動かず、大きく倒すと少し速くなる
+  function curveStick(value) {
+    const abs = Math.abs(value);
+    if (abs < map.deadzone) return 0;
+    const signed = value < 0 ? -1 : 1;
+    const t = (abs - map.deadzone) / (1 - map.deadzone);
+    return signed * t * t;
+  }
 
   function showScreen(name) {
     Object.entries(screens).forEach(([key, el]) => {
@@ -205,8 +215,8 @@
     if (!playerEl) return;
     playerEl.style.left = `${map.x}%`;
     playerEl.style.top = `${map.y}%`;
-    playerEl.classList.toggle("is-moving", Math.abs(map.stickX) + Math.abs(map.stickY) > 0.08);
-    if (Math.abs(map.stickX) > 0.05) {
+    playerEl.classList.toggle("is-moving", Math.abs(map.stickX) + Math.abs(map.stickY) > 0.12);
+    if (Math.abs(map.stickX) > 0.12) {
       playerEl.classList.toggle("face-left", map.stickX < 0);
     }
   }
@@ -224,7 +234,7 @@
       }
     });
 
-    const inRange = nearest && best < 11;
+    const inRange = nearest && best < 13;
     const nextId = inRange ? nearest.id : null;
 
     if (nextId !== state.nearbyId) {
@@ -249,9 +259,9 @@
     if (map.raf) cancelAnimationFrame(map.raf);
     const tick = () => {
       if (!state.mapActive) return;
-      if (Math.abs(map.stickX) + Math.abs(map.stickY) > 0.02) {
-        map.x = clamp(map.x + map.stickX * map.speed * 16, 8, 92);
-        map.y = clamp(map.y + map.stickY * map.speed * 16, 12, 86);
+      if (Math.abs(map.stickX) + Math.abs(map.stickY) > 0.001) {
+        map.x = clamp(map.x + map.stickX * map.speed * 10, 8, 92);
+        map.y = clamp(map.y + map.stickY * map.speed * 10, 12, 86);
         renderPlayer();
         updateNearby();
       }
@@ -292,8 +302,8 @@
       dx = (dx / dist) * max;
       dy = (dy / dist) * max;
     }
-    map.stickX = dx / max;
-    map.stickY = dy / max;
+    map.stickX = curveStick(dx / max);
+    map.stickY = curveStick(dy / max);
     knob.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
   }
 
@@ -509,12 +519,14 @@
     if (keys.has("ArrowUp") || keys.has("w")) y -= 1;
     if (keys.has("ArrowDown") || keys.has("s")) y += 1;
     const len = Math.hypot(x, y) || 1;
-    map.stickX = x / len;
-    map.stickY = y / len;
+    const rawX = x / len;
+    const rawY = y / len;
+    map.stickX = curveStick(rawX);
+    map.stickY = curveStick(rawY);
     if (!x && !y) {
       resetJoystick();
     } else if (knob && joystick) {
-      knob.style.transform = `translate(calc(-50% + ${map.stickX * map.maxKnob}px), calc(-50% + ${map.stickY * map.maxKnob}px))`;
+      knob.style.transform = `translate(calc(-50% + ${rawX * map.maxKnob}px), calc(-50% + ${rawY * map.maxKnob}px))`;
       joystick.classList.add("is-active");
     }
   }
