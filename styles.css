@@ -177,6 +177,171 @@ button {
   width: 100%;
 }
 
+/* ========== SAVE / PROFILE ========== */
+.meta-stage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--safe-top) 16px var(--safe-bottom);
+  background:
+    radial-gradient(90% 60% at 80% 0%, rgba(255, 210, 140, 0.18), transparent 50%),
+    radial-gradient(70% 50% at 10% 20%, rgba(47, 210, 183, 0.14), transparent 45%),
+    linear-gradient(180deg, #07151c 0%, #10242c 55%, #16332c 100%);
+}
+
+.meta-stage .map-hud {
+  flex: 0 0 auto;
+}
+
+.meta-panel {
+  flex: 1;
+  width: min(100%, 560px);
+  margin: 8px auto 0;
+  padding: 18px 16px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(232, 244, 242, 0.14);
+  background: rgba(7, 21, 28, 0.72);
+  overflow: auto;
+}
+
+.meta-chip {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.meta-title {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.meta-note {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.save-slot-list {
+  display: grid;
+  gap: 10px;
+}
+
+.save-slot {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(232, 244, 242, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.save-slot-main {
+  min-width: 0;
+}
+
+.save-slot-index {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
+}
+
+.save-slot-name {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.save-slot-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.save-slot-actions {
+  display: grid;
+  gap: 6px;
+  min-width: 104px;
+}
+
+.save-slot-actions .hud-btn,
+.save-slot-actions .btn-start {
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.save-slot-actions .btn-start .btn-start-label {
+  font-size: 0.82rem;
+}
+
+.save-slot.is-empty .save-slot-name {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.profile-form {
+  display: grid;
+  gap: 10px;
+}
+
+.profile-name-input {
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.trait-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.trait-card {
+  display: block;
+  cursor: pointer;
+}
+
+.trait-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trait-card-body {
+  display: grid;
+  gap: 4px;
+  min-height: 72px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(232, 244, 242, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.trait-card-body strong {
+  font-size: 0.92rem;
+}
+
+.trait-card-body small {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.trait-card input:checked + .trait-card-body {
+  border-color: rgba(47, 210, 183, 0.7);
+  background: rgba(47, 210, 183, 0.12);
+}
+
 .screen {
   display: none;
   min-height: 100dvh;
@@ -1849,6 +2014,23 @@ button {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .meta-stage {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
+  .meta-panel {
+    width: min(100%, 720px);
+  }
+
+  .save-slot-list {
+    grid-template-columns: 1fr;
+  }
+
+  .trait-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

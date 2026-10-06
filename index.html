@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=26" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -51,11 +51,89 @@
           <p class="brand">LIFE QUEST</p>
           <h1 class="headline">あなたなら、<br />どの人生を選ぶ？</h1>
           <p class="lede">社会に出る前に、人生を何度でも試せるゲーム</p>
-          <button type="button" class="btn-start" id="btn-start" data-action="to-map" aria-label="スタート">
+          <button type="button" class="btn-start" id="btn-start" data-action="to-saves" aria-label="スタート">
             <span class="btn-start-glow" aria-hidden="true"></span>
             <span class="btn-start-label">▶ START</span>
           </button>
-          <p class="title-hint">マップを歩いて、気になる人生へ</p>
+          <p class="title-hint">15歳の自分から、人生を育てていく</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAVE SLOTS -->
+    <section id="screen-saves" class="screen" data-screen="saves" hidden>
+      <div class="meta-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-start">◀ TITLE</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">SAVE DATA</p>
+          </div>
+          <span class="hud-chip">SLOT</span>
+        </header>
+        <div class="meta-panel">
+          <p class="meta-chip">セーブデータ</p>
+          <h2 class="meta-title">どのデータで進む？</h2>
+          <p class="meta-note">この端末のブラウザに保存されます。別のスマホには引き継がれません。</p>
+          <div id="save-slot-list" class="save-slot-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE (age 15) -->
+    <section id="screen-profile" class="screen" data-screen="profile" hidden>
+      <div class="meta-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-saves">◀ SAVE</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">PROFILE</p>
+          </div>
+          <span class="hud-chip">AGE 15</span>
+        </header>
+        <div class="meta-panel">
+          <p class="meta-chip">15歳の自分</p>
+          <h2 class="meta-title">主人公の設定</h2>
+          <p class="meta-note">名前と、いまの得意な感じを選んでください。あとから能力の伸び方に影響します。</p>
+          <form id="profile-form" class="profile-form" autocomplete="off">
+            <label class="gate-label" for="profile-name">名前</label>
+            <input id="profile-name" class="gate-input profile-name-input" type="text" maxlength="12" placeholder="例：ナツ" required />
+            <p class="gate-label">いまの自分に近いのは？</p>
+            <div class="trait-grid" role="radiogroup" aria-label="得意な傾向">
+              <label class="trait-card">
+                <input type="radio" name="trait" value="study" checked />
+                <span class="trait-card-body">
+                  <strong>勉強が好き</strong>
+                  <small>知力が伸びやすい</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="trait" value="craft" />
+                <span class="trait-card-body">
+                  <strong>手を動かすのが好き</strong>
+                  <small>技術が伸びやすい</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="trait" value="social" />
+                <span class="trait-card-body">
+                  <strong>人と話すのが好き</strong>
+                  <small>社交性が伸びやすい</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="trait" value="brave" />
+                <span class="trait-card-body">
+                  <strong>新しいことに飛び込む</strong>
+                  <small>勇気が伸びやすい</small>
+                </span>
+              </label>
+            </div>
+            <p id="profile-error" class="gate-error" hidden>名前を入力してください</p>
+            <button type="submit" class="btn-start gate-btn">
+              <span class="btn-start-label">この自分で始める</span>
+            </button>
+          </form>
         </div>
       </div>
     </section>
@@ -229,7 +307,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=25"></script>
-  <script src="app.js?v=25"></script>
+  <script src="content.js?v=26"></script>
+  <script src="app.js?v=26"></script>
 </body>
 </html>

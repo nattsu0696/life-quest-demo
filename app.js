@@ -73,11 +73,28 @@
 
   const screens = {
     start: document.getElementById("screen-start"),
+    saves: document.getElementById("screen-saves"),
+    profile: document.getElementById("screen-profile"),
     map: document.getElementById("screen-map"),
     branch: document.getElementById("screen-branch"),
     play: document.getElementById("screen-play"),
     result: document.getElementById("screen-result")
   };
+
+  const SAVE_STORAGE_KEY = "life-quest-saves-v1";
+  const SAVE_SLOT_COUNT = 3;
+  const TRAIT_LABELS = {
+    study: "勉強が好き",
+    craft: "手を動かすのが好き",
+    social: "人と話すのが好き",
+    brave: "新しいことに飛び込む"
+  };
+
+  const saveSlotList = document.getElementById("save-slot-list");
+  const profileForm = document.getElementById("profile-form");
+  const profileNameInput = document.getElementById("profile-name");
+  const profileError = document.getElementById("profile-error");
+  let pendingNewSlot = null;
 
   const stage = document.getElementById("stage");
   const stageBgPhoto = document.getElementById("stage-bg-photo");
@@ -139,8 +156,250 @@
     seenEvents: new Set(),
     mapActive: false,
     nearbyId: null,
-    eventContinue: null
+    eventContinue: null,
+    activeSlot: null,
+    save: null
   };
+
+  function baseStats() {
+    return {
+      intellect: 10,
+      skill: 10,
+      social: 10,
+      courage: 10,
+      calm: 10,
+      stamina: 12
+    };
+  }
+
+  function statsForTrait(trait) {
+    const stats = baseStats();
+    if (trait === "study") stats.intellect += 5;
+    if (trait === "craft") stats.skill += 5;
+    if (trait === "social") stats.social += 5;
+    if (trait === "brave") stats.courage += 5;
+    return stats;
+  }
+
+  function readSaveSlots() {
+    try {
+      const raw = localStorage.getItem(SAVE_STORAGE_KEY);
+      if (!raw) return Array(SAVE_SLOT_COUNT).fill(null);
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return Array(SAVE_SLOT_COUNT).fill(null);
+      const slots = Array(SAVE_SLOT_COUNT).fill(null);
+      for (let i = 0; i < SAVE_SLOT_COUNT; i += 1) {
+        slots[i] = parsed[i] || null;
+      }
+      return slots;
+    } catch (_) {
+      return Array(SAVE_SLOT_COUNT).fill(null);
+    }
+  }
+
+  function writeSaveSlots(slots) {
+    try {
+      localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(slots));
+      return true;
+    } catch (_) {
+      window.alert("この端末にセーブできませんでした。ブラウザの保存設定を確認してください。");
+      return false;
+    }
+  }
+
+  function formatSaveTime(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  function createSaveData(slotIndex, profile) {
+    return {
+      version: 1,
+      slot: slotIndex,
+      updatedAt: new Date().toISOString(),
+      profile: {
+        name: profile.name,
+        age: 15,
+        trait: profile.trait
+      },
+      stats: statsForTrait(profile.trait),
+      week: 1,
+      cleared: [],
+      flags: {}
+    };
+  }
+
+  function applySaveToRuntime(save, slotIndex) {
+    state.activeSlot = slotIndex;
+    state.save = save;
+    state.cleared = new Set(Array.isArray(save.cleared) ? save.cleared : []);
+    state.seenEvents = new Set();
+    state.categoryId = null;
+    state.optionId = null;
+    state.sceneId = "start";
+    state.depth = 0;
+    map.x = 50;
+    map.y = 48;
+    map.vx = 0;
+    map.vy = 0;
+    updatePlayerLabel();
+  }
+
+  function persistActiveSave() {
+    if (state.activeSlot === null || !state.save) return false;
+    const slots = readSaveSlots();
+    state.save.updatedAt = new Date().toISOString();
+    state.save.cleared = Array.from(state.cleared);
+    slots[state.activeSlot] = state.save;
+    return writeSaveSlots(slots);
+  }
+
+  function updatePlayerLabel() {
+    const nameEl = playerEl?.querySelector(".map-player-name");
+    if (!nameEl) return;
+    nameEl.textContent = state.save?.profile?.name || "YOU";
+  }
+
+  function openSaveScreen() {
+    pendingNewSlot = null;
+    renderSaveSlots();
+    showScreen("saves");
+  }
+
+  function openProfileScreen(slotIndex) {
+    pendingNewSlot = slotIndex;
+    if (profileError) profileError.hidden = true;
+    if (profileNameInput) {
+      profileNameInput.value = "";
+      setTimeout(() => profileNameInput.focus(), 40);
+    }
+    const firstTrait = profileForm?.querySelector('input[name="trait"][value="study"]');
+    if (firstTrait) firstTrait.checked = true;
+    showScreen("profile");
+  }
+
+  function startNewInSlot(slotIndex) {
+    const slots = readSaveSlots();
+    if (slots[slotIndex]) {
+      const ok = window.confirm(`スロット${slotIndex + 1}のデータを消して、はじめからにしますか？`);
+      if (!ok) return;
+    }
+    openProfileScreen(slotIndex);
+  }
+
+  function continueSlot(slotIndex) {
+    const slots = readSaveSlots();
+    const save = slots[slotIndex];
+    if (!save || !save.profile?.name) {
+      window.alert("このスロットにはデータがありません。");
+      return;
+    }
+    applySaveToRuntime(save, slotIndex);
+    openMap();
+  }
+
+  function deleteSlot(slotIndex) {
+    const slots = readSaveSlots();
+    if (!slots[slotIndex]) return;
+    const name = slots[slotIndex].profile?.name || `スロット${slotIndex + 1}`;
+    const ok = window.confirm(`「${name}」のセーブを消しますか？`);
+    if (!ok) return;
+    slots[slotIndex] = null;
+    writeSaveSlots(slots);
+    if (state.activeSlot === slotIndex) {
+      state.activeSlot = null;
+      state.save = null;
+      state.cleared = new Set();
+      updatePlayerLabel();
+    }
+    renderSaveSlots();
+  }
+
+  function renderSaveSlots() {
+    if (!saveSlotList) return;
+    const slots = readSaveSlots();
+    saveSlotList.innerHTML = "";
+    slots.forEach((save, index) => {
+      const card = document.createElement("article");
+      card.className = `save-slot${save ? "" : " is-empty"}`;
+      const main = document.createElement("div");
+      main.className = "save-slot-main";
+      const idx = document.createElement("p");
+      idx.className = "save-slot-index";
+      idx.textContent = `SLOT ${index + 1}`;
+      const name = document.createElement("p");
+      name.className = "save-slot-name";
+      const meta = document.createElement("p");
+      meta.className = "save-slot-meta";
+      if (save?.profile?.name) {
+        name.textContent = save.profile.name;
+        const trait = TRAIT_LABELS[save.profile.trait] || "設定あり";
+        meta.textContent = `${save.profile.age || 15}歳 / ${trait} / 第${save.week || 1}週 ・ ${formatSaveTime(save.updatedAt)}`;
+      } else {
+        name.textContent = "データなし";
+        meta.textContent = "はじめからで、15歳の自分を作成";
+      }
+      main.append(idx, name, meta);
+
+      const actions = document.createElement("div");
+      actions.className = "save-slot-actions";
+      if (save?.profile?.name) {
+        const cont = document.createElement("button");
+        cont.type = "button";
+        cont.className = "btn-start";
+        cont.innerHTML = '<span class="btn-start-label">続きから</span>';
+        cont.addEventListener("click", () => continueSlot(index));
+        const neu = document.createElement("button");
+        neu.type = "button";
+        neu.className = "hud-btn";
+        neu.textContent = "はじめから";
+        neu.addEventListener("click", () => startNewInSlot(index));
+        const del = document.createElement("button");
+        del.type = "button";
+        del.className = "hud-btn";
+        del.textContent = "消す";
+        del.addEventListener("click", () => deleteSlot(index));
+        actions.append(cont, neu, del);
+      } else {
+        const neu = document.createElement("button");
+        neu.type = "button";
+        neu.className = "btn-start";
+        neu.innerHTML = '<span class="btn-start-label">はじめから</span>';
+        neu.addEventListener("click", () => startNewInSlot(index));
+        actions.append(neu);
+      }
+
+      card.append(main, actions);
+      saveSlotList.appendChild(card);
+    });
+  }
+
+  function finishProfile(event) {
+    event.preventDefault();
+    if (pendingNewSlot === null) {
+      openSaveScreen();
+      return;
+    }
+    const name = (profileNameInput?.value || "").trim();
+    if (!name) {
+      if (profileError) profileError.hidden = false;
+      profileNameInput?.focus();
+      return;
+    }
+    if (profileError) profileError.hidden = true;
+    const traitInput = profileForm?.querySelector('input[name="trait"]:checked');
+    const trait = traitInput?.value || "study";
+    const save = createSaveData(pendingNewSlot, { name, trait });
+    const slots = readSaveSlots();
+    slots[pendingNewSlot] = save;
+    if (!writeSaveSlots(slots)) return;
+    applySaveToRuntime(save, pendingNewSlot);
+    pendingNewSlot = null;
+    openMap();
+  }
 
   const map = {
     x: 50,
@@ -328,6 +587,10 @@
 
   function openMap() {
     try {
+      if (!state.save) {
+        openSaveScreen();
+        return;
+      }
       if (!screens.map) {
         window.alert("マップ画面が見つかりません。ページを再読み込みしてください。");
         return;
@@ -338,6 +601,7 @@
       hideLifeEvent();
       state.nearbyId = null;
       if (enterPrompt) enterPrompt.hidden = true;
+      updatePlayerLabel();
       renderPlayer();
       updateNearby();
       showScreen("map");
@@ -648,6 +912,7 @@
 
   function renderResult(cat, opt, scene) {
     state.cleared.add(opt.id);
+    persistActiveSave();
     resultKicker.textContent = scene.kicker;
     resultTitle.textContent = scene.title;
     resultBody.textContent = scene.body;
@@ -689,9 +954,11 @@
 
   function handleAction(action) {
     if (action === "to-map") openMap();
+    if (action === "to-saves") openSaveScreen();
     if (action === "to-start") {
       stopMapLoop();
       resetJoystick();
+      pendingNewSlot = null;
       showScreen("start");
     }
   }
@@ -725,6 +992,10 @@
     if (el.id === "btn-start") return;
     bindActionButton(el);
   });
+
+  if (profileForm) {
+    profileForm.addEventListener("submit", finishProfile);
+  }
 
   const keys = new Set();
   window.addEventListener("keydown", (event) => {
