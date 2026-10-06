@@ -80,6 +80,7 @@
 
   function showScreen(name) {
     Object.entries(screens).forEach(([key, el]) => {
+      if (!el) return;
       const active = key === name;
       el.hidden = !active;
       el.classList.toggle("is-active", active);
@@ -144,9 +145,11 @@
 
   /* ========== MAP ========== */
   function buildPlaces() {
+    if (!placeLayer) return;
     placeLayer.innerHTML = "";
     map.places = data.lives.map((life) => {
       const meta = ROUTE_META[life.id];
+      if (!meta) return null;
       const el = document.createElement("button");
       el.type = "button";
       el.className = `map-place theme-${life.id}`;
@@ -165,7 +168,7 @@
       });
       placeLayer.appendChild(el);
       return { id: life.id, x: meta.x, y: meta.y, el, life };
-    });
+    }).filter(Boolean);
     refreshClearedFlags();
   }
 
@@ -177,16 +180,26 @@
   }
 
   function openMap() {
-    if (!map.places.length) buildPlaces();
-    else refreshClearedFlags();
-    state.nearbyId = null;
-    enterPrompt.hidden = true;
-    renderPlayer();
-    updateNearby();
-    showScreen("map");
+    try {
+      if (!screens.map) {
+        window.alert("マップ画面が見つかりません。ページを再読み込みしてください。");
+        return;
+      }
+      if (!map.places.length) buildPlaces();
+      else refreshClearedFlags();
+      state.nearbyId = null;
+      if (enterPrompt) enterPrompt.hidden = true;
+      renderPlayer();
+      updateNearby();
+      showScreen("map");
+    } catch (err) {
+      console.error(err);
+      window.alert("マップを開けませんでした。ページを再読み込みしてください。");
+    }
   }
 
   function renderPlayer() {
+    if (!playerEl) return;
     playerEl.style.left = `${map.x}%`;
     playerEl.style.top = `${map.y}%`;
     playerEl.classList.toggle("is-moving", Math.abs(map.stickX) + Math.abs(map.stickY) > 0.08);
@@ -260,8 +273,8 @@
     map.stickX = 0;
     map.stickY = 0;
     map.pointerId = null;
-    knob.style.transform = "translate(-50%, -50%)";
-    joystick.classList.remove("is-active");
+    if (knob) knob.style.transform = "translate(-50%, -50%)";
+    if (joystick) joystick.classList.remove("is-active");
   }
 
   function setStickFromEvent(event) {
@@ -282,6 +295,7 @@
   }
 
   function bindJoystick() {
+    if (!joystick || !knob) return;
     const onDown = (event) => {
       if (!state.mapActive) return;
       event.preventDefault();
@@ -419,22 +433,31 @@
     showScreen("result");
   }
 
-  dialogueBox.addEventListener("click", advanceDialogue);
-  enterBtn.addEventListener("click", () => {
-    if (state.nearbyId) startLife(state.nearbyId);
+  // STARTなどが確実に動くよう、先にクリック委任を張る
+  document.addEventListener("click", (event) => {
+    const actionEl = event.target.closest("[data-action]");
+    if (!actionEl) return;
+    const action = actionEl.getAttribute("data-action");
+    if (action === "to-map") {
+      event.preventDefault();
+      openMap();
+    }
+    if (action === "to-start") {
+      event.preventDefault();
+      stopMapLoop();
+      resetJoystick();
+      showScreen("start");
+    }
   });
 
-  document.querySelectorAll("[data-action]").forEach((el) => {
-    el.addEventListener("click", () => {
-      const action = el.getAttribute("data-action");
-      if (action === "to-map") openMap();
-      if (action === "to-start") {
-        stopMapLoop();
-        resetJoystick();
-        showScreen("start");
-      }
+  if (dialogueBox) {
+    dialogueBox.addEventListener("click", advanceDialogue);
+  }
+  if (enterBtn) {
+    enterBtn.addEventListener("click", () => {
+      if (state.nearbyId) startLife(state.nearbyId);
     });
-  });
+  }
 
   // Desktop / keyboard support
   const keys = new Set();
@@ -467,17 +490,20 @@
     map.stickX = x / len;
     map.stickY = y / len;
     if (!x && !y) {
-      map.stickX = 0;
-      map.stickY = 0;
-      knob.style.transform = "translate(-50%, -50%)";
-      joystick.classList.remove("is-active");
-    } else {
+      resetJoystick();
+    } else if (knob && joystick) {
       knob.style.transform = `translate(calc(-50% + ${map.stickX * map.maxKnob}px), calc(-50% + ${map.stickY * map.maxKnob}px))`;
       joystick.classList.add("is-active");
     }
   }
 
-  bindJoystick();
-  buildPlaces();
-  showScreen("start");
+  window.openLifeMap = openMap;
+
+  try {
+    bindJoystick();
+    buildPlaces();
+    showScreen("start");
+  } catch (err) {
+    console.error(err);
+  }
 })();
