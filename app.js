@@ -82,8 +82,11 @@
     Object.entries(screens).forEach(([key, el]) => {
       if (!el) return;
       const active = key === name;
-      el.hidden = !active;
+      // iPhone Safari は hidden 属性と display 指定がぶつかりやすいので class だけで切替
       el.classList.toggle("is-active", active);
+      if (active) el.removeAttribute("hidden");
+      else el.setAttribute("hidden", "");
+      el.style.display = active ? "block" : "none";
     });
 
     if (name === "map") {
@@ -433,21 +436,40 @@
     showScreen("result");
   }
 
-  // STARTなどが確実に動くよう、先にクリック委任を張る
-  document.addEventListener("click", (event) => {
-    const actionEl = event.target.closest("[data-action]");
-    if (!actionEl) return;
-    const action = actionEl.getAttribute("data-action");
-    if (action === "to-map") {
-      event.preventDefault();
-      openMap();
-    }
+  function handleAction(action) {
+    if (action === "to-map") openMap();
     if (action === "to-start") {
-      event.preventDefault();
       stopMapLoop();
       resetJoystick();
       showScreen("start");
     }
+  }
+
+  // iPhone は touchend の方が安定することがある
+  function bindActionButton(el) {
+    if (!el) return;
+    let touched = false;
+    el.addEventListener("touchend", (event) => {
+      touched = true;
+      event.preventDefault();
+      handleAction(el.getAttribute("data-action"));
+      window.setTimeout(() => {
+        touched = false;
+      }, 400);
+    }, { passive: false });
+    el.addEventListener("click", (event) => {
+      if (touched) {
+        event.preventDefault();
+        return;
+      }
+      handleAction(el.getAttribute("data-action"));
+    });
+  }
+
+  bindActionButton(document.getElementById("btn-start"));
+  document.querySelectorAll("[data-action]").forEach((el) => {
+    if (el.id === "btn-start") return;
+    bindActionButton(el);
   });
 
   if (dialogueBox) {

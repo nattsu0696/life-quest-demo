@@ -47,9 +47,8 @@ button {
   min-height: 100dvh;
 }
 
-.screen.is-active,
-.screen.is-active[hidden] {
-  display: block !important;
+.screen.is-active {
+  display: block;
 }
 
 /* ========== TITLE ========== */
@@ -66,6 +65,7 @@ button {
 .title-bg {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background:
     radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.55), transparent 55%),
     radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.45), transparent 50%),
@@ -76,6 +76,7 @@ button {
 .title-particles {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background-image:
     radial-gradient(circle at 20% 30%, rgba(255,255,255,0.9) 0 1.5px, transparent 2px),
     radial-gradient(circle at 70% 20%, rgba(255,255,255,0.75) 0 1.5px, transparent 2px),
@@ -92,7 +93,7 @@ button {
   width: min(360px, 88vw);
   transform: translateX(-50%);
   z-index: 1;
-  pointer-events: none;
+  pointer-events: none !important;
   animation: actorIn 0.7s ease both;
 }
 
@@ -101,6 +102,7 @@ button {
   width: 100%;
   height: auto;
   object-fit: contain;
+  pointer-events: none !important;
   filter: drop-shadow(0 18px 28px rgba(40, 70, 80, 0.28));
   mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
   -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
@@ -108,11 +110,12 @@ button {
 
 .title-frame {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   padding: 22px 8px 18px;
   animation: rise 0.7s ease both;
   background: linear-gradient(180deg, transparent, rgba(255, 248, 236, 0.78) 18%, rgba(255, 248, 236, 0.94));
   border-radius: 24px 24px 0 0;
+  pointer-events: auto;
 }
 
 .title-chip,
@@ -180,6 +183,7 @@ button {
 
 .btn-start {
   position: relative;
+  z-index: 11;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -196,6 +200,10 @@ button {
     0 10px 30px rgba(47, 210, 183, 0.35);
   overflow: hidden;
   transition: transform 0.15s ease, filter 0.15s ease;
+  -webkit-tap-highlight-color: rgba(47, 210, 183, 0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .btn-start:hover,
@@ -213,9 +221,14 @@ button {
   background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
   transform: translateX(-120%);
   animation: shine 2.8s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.btn-start-label { position: relative; z-index: 1; }
+.btn-start-label {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
 
 /* ========== SELECT ========== */
 .select-stage {
