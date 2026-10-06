@@ -69,23 +69,23 @@
     y: 48,
     vx: 0,
     vy: 0,
-    speed: 0.028,
+    speed: 0.014,
     stickX: 0,
     stickY: 0,
-    maxKnob: 38,
-    deadzone: 0.2,
+    maxKnob: 40,
+    deadzone: 0.28,
     pointerId: null,
     raf: 0,
     places: []
   };
 
-  // 小さく倒したときはほぼ動かず、大きく倒すと少し速くなる
+  // もっさり：小さく倒してもほぼ動かず、最大まで倒してもゆっくり
   function curveStick(value) {
     const abs = Math.abs(value);
     if (abs < map.deadzone) return 0;
     const signed = value < 0 ? -1 : 1;
     const t = (abs - map.deadzone) / (1 - map.deadzone);
-    return signed * t * t;
+    return signed * t * t * t;
   }
 
   function showScreen(name) {
@@ -260,8 +260,8 @@
     const tick = () => {
       if (!state.mapActive) return;
       if (Math.abs(map.stickX) + Math.abs(map.stickY) > 0.001) {
-        map.x = clamp(map.x + map.stickX * map.speed * 10, 8, 92);
-        map.y = clamp(map.y + map.stickY * map.speed * 10, 12, 86);
+        map.x = clamp(map.x + map.stickX * map.speed * 8, 8, 92);
+        map.y = clamp(map.y + map.stickY * map.speed * 8, 12, 86);
         renderPlayer();
         updateNearby();
       }
