@@ -69,23 +69,38 @@
     y: 48,
     vx: 0,
     vy: 0,
-    speed: 0.014,
+    accel: 0.01,
+    maxVel: 0.11,
+    friction: 0.78,
     stickX: 0,
     stickY: 0,
     maxKnob: 40,
-    deadzone: 0.28,
+    deadzone: 0.34,
     pointerId: null,
     raf: 0,
     places: []
   };
 
-  // もっさり：小さく倒してもほぼ動かず、最大まで倒してもゆっくり
+  // もっさり：かなり倒さないと歩き出さない
   function curveStick(value) {
     const abs = Math.abs(value);
     if (abs < map.deadzone) return 0;
     const signed = value < 0 ? -1 : 1;
     const t = (abs - map.deadzone) / (1 - map.deadzone);
     return signed * t * t * t;
+  }
+
+  function findNearestPlace() {
+    let nearest = null;
+    let best = Infinity;
+    map.places.forEach((place) => {
+      const dist = Math.hypot(place.x - map.x, place.y - map.y);
+      if (dist < best) {
+        best = dist;
+        nearest = place;
+      }
+    });
+    return { nearest, best };
   }
 
   function showScreen(name) {
@@ -222,19 +237,8 @@
   }
 
   function updateNearby() {
-    let nearest = null;
-    let best = Infinity;
-    map.places.forEach((place) => {
-      const dx = place.x - map.x;
-      const dy = place.y - map.y;
-      const dist = Math.hypot(dx, dy);
-      if (dist < best) {
-        best = dist;
-        nearest = place;
-      }
-    });
-
-    const inRange = nearest && best < 13;
+    const { nearest, best } = findNearestPlace();
+    const inRange = nearest && best < 15;
     const nextId = inRange ? nearest.id : null;
 
     if (nextId !== state.nearbyId) {
@@ -246,7 +250,7 @@
         enterHint.textContent = nearest.life.hint;
         if (enterPortrait && meta) enterPortrait.src = meta.img;
         enterPrompt.hidden = false;
-        mapGuide.textContent = "ここに入って、人生を試してみる？";
+        mapGuide.textContent = "指を離すと止まりやすいよ。QUESTに入れる？";
       } else {
         enterPrompt.hidden = true;
         mapGuide.textContent = "ぷにコンで歩いて、気になる人生へ近づこう";
@@ -256,15 +260,52 @@
 
   function startMapLoop() {
     state.mapActive = true;
+    map.vx = 0;
+    map.vy = 0;
     if (map.raf) cancelAnimationFrame(map.raf);
     const tick = () => {
       if (!state.mapActive) return;
-      if (Math.abs(map.stickX) + Math.abs(map.stickY) > 0.001) {
-        map.x = clamp(map.x + map.stickX * map.speed * 8, 8, 92);
-        map.y = clamp(map.y + map.stickY * map.speed * 8, 12, 86);
-        renderPlayer();
-        updateNearby();
+
+      const inputMag = Math.hypot(map.stickX, map.stickY);
+      // 施設の近くはさらにのろのろ（合わせやすくする）
+      const nearSlow = state.nearbyId ? 0.3 : 1;
+      const maxVel = map.maxVel * nearSlow;
+
+      if (inputMag > 0.001) {
+        map.vx += map.stickX * map.accel * nearSlow;
+        map.vy += map.stickY * map.accel * nearSlow;
+      } else {
+        // 指を離したらすぐ減速して止まる
+        map.vx *= map.friction;
+        map.vy *= map.friction;
+        if (Math.hypot(map.vx, map.vy) < 0.012) {
+          map.vx = 0;
+          map.vy = 0;
+        }
       }
+
+      const vel = Math.hypot(map.vx, map.vy);
+      if (vel > maxVel && vel > 0) {
+        map.vx = (map.vx / vel) * maxVel;
+        map.vy = (map.vy / vel) * maxVel;
+      }
+
+      if (map.vx || map.vy) {
+        map.x = clamp(map.x + map.vx, 8, 92);
+        map.y = clamp(map.y + map.vy, 12, 86);
+      }
+
+      // 近くでスティックを弱めているときは、施設へそっと吸い付く
+      const { nearest, best } = findNearestPlace();
+      if (nearest && best < 16 && inputMag < 0.2) {
+        map.x += (nearest.x - map.x) * 0.06;
+        map.y += (nearest.y - map.y) * 0.06;
+        map.vx *= 0.6;
+        map.vy *= 0.6;
+      }
+
+      renderPlayer();
+      updateNearby();
       map.raf = requestAnimationFrame(tick);
     };
     map.raf = requestAnimationFrame(tick);
@@ -285,6 +326,8 @@
   function resetJoystick() {
     map.stickX = 0;
     map.stickY = 0;
+    map.vx = 0;
+    map.vy = 0;
     map.pointerId = null;
     if (knob) knob.style.transform = "translate(-50%, -50%)";
     if (joystick) joystick.classList.remove("is-active");
