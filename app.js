@@ -454,6 +454,9 @@
   let hubTypeTimer = null;
   let hubTyping = false;
   let hubFullText = "";
+  let hubAudio = null;
+  let hubVoiceBusy = false;
+  let hubLineToken = 0;
 
   const stage = document.getElementById("stage");
   const stageBgPhoto = document.getElementById("stage-bg-photo");
@@ -606,7 +609,9 @@
           name: "妹",
           img: "assets/char-sister.png",
           size: "sibling",
-          text: "ねえ、勉強教えて〜！ひとりだとわからないとこがあるの。",
+          text: "お兄ちゃん、勉強教えて〜！ひとりだとわからないとこがあるの。",
+          voice: "assets/voices/voice-sister-oniichan.mp3",
+          voiceCue: "お兄ちゃん",
           choices: [
             {
               label: "丁寧に教える",
@@ -756,6 +761,20 @@
     return null;
   }
 
+  function stopHubVoice() {
+    hubVoiceBusy = false;
+    if (hubAudio) {
+      try {
+        hubAudio.pause();
+        hubAudio.onended = null;
+        hubAudio.onerror = null;
+      } catch (_err) {
+        /* ignore */
+      }
+      hubAudio = null;
+    }
+  }
+
   function stopHubTyping() {
     if (hubTypeTimer) {
       window.clearInterval(hubTypeTimer);
@@ -764,17 +783,43 @@
     hubTyping = false;
   }
 
-  function typeHubVisitorText(text) {
+  function playHubVoice(src) {
+    stopHubVoice();
+    if (!src) return Promise.resolve();
+    hubVoiceBusy = true;
+    hubAudio = new Audio(src);
+    hubAudio.preload = "auto";
+    hubAudio.volume = 0.95;
+    return new Promise((resolve) => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        hubVoiceBusy = false;
+        resolve();
+      };
+      hubAudio.onended = finish;
+      hubAudio.onerror = finish;
+      const playPromise = hubAudio.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(finish);
+      }
+      // 万一 onended が来ない場合の保険
+      window.setTimeout(finish, 6000);
+    });
+  }
+
+  function startHubTypewriter(fromIndex) {
     if (!hubVisitorText) return;
     stopHubTyping();
-    hubFullText = text || "";
+    const start = Math.max(0, Number(fromIndex) || 0);
     hubTyping = true;
-    hubVisitorText.textContent = "";
-    if (!hubFullText) {
+    hubVisitorText.textContent = hubFullText.slice(0, start);
+    if (start >= hubFullText.length) {
       hubTyping = false;
       return;
     }
-    let i = 0;
+    let i = start;
     hubTypeTimer = window.setInterval(() => {
       i += 1;
       hubVisitorText.textContent = hubFullText.slice(0, i);
@@ -784,9 +829,42 @@
     }, 36);
   }
 
-  function revealHubVisitorText() {
-    if (!hubTyping) return false;
+  function typeHubVisitorText(text, options = {}) {
+    if (!hubVisitorText) return;
+    const token = ++hubLineToken;
     stopHubTyping();
+    stopHubVoice();
+    hubFullText = text || "";
+    hubVisitorText.textContent = "";
+    if (!hubFullText) {
+      hubTyping = false;
+      return;
+    }
+
+    const cue = options.voiceCue || "";
+    const voice = options.voice || "";
+    const hasCue = !!(cue && voice && hubFullText.startsWith(cue));
+
+    if (hasCue) {
+      // 「お兄ちゃん」を先に出してボイス再生 → 続きを文字送り
+      hubTyping = true;
+      hubVisitorText.textContent = cue;
+      playHubVoice(voice).then(() => {
+        if (token !== hubLineToken) return;
+        if (!pendingHubVisitor || hubFullText !== text) return;
+        startHubTypewriter(cue.length);
+      });
+      return;
+    }
+
+    startHubTypewriter(0);
+  }
+
+  function revealHubVisitorText() {
+    if (!hubTyping && !hubVoiceBusy) return false;
+    hubLineToken += 1;
+    stopHubTyping();
+    stopHubVoice();
     if (hubVisitorText) hubVisitorText.textContent = hubFullText;
     return true;
   }
@@ -823,15 +901,18 @@
       hubVisitorChoices.innerHTML = "";
     }
     if (hubVisitorOk) hubVisitorOk.hidden = true;
-    typeHubVisitorText(visitor.text);
+    typeHubVisitorText(visitor.text, {
+      voice: visitor.voice || "",
+      voiceCue: visitor.voiceCue || ""
+    });
     hubVisitorOverlay.hidden = false;
-    // 文字送りが終わったら選択肢を出す
+    // ボイス＋文字送りが終わったら選択肢を出す
     const waitForType = window.setInterval(() => {
       if (!hubVisitorBusy || pendingHubVisitor !== visitor) {
         window.clearInterval(waitForType);
         return;
       }
-      if (!hubTyping) {
+      if (!hubTyping && !hubVoiceBusy) {
         window.clearInterval(waitForType);
         showHubVisitorChoices();
       }
@@ -858,7 +939,9 @@
   }
 
   function hideHubVisitor() {
+    hubLineToken += 1;
     stopHubTyping();
+    stopHubVoice();
     if (hubVisitorOverlay) hubVisitorOverlay.hidden = true;
     if (hubVisitorChoices) {
       hubVisitorChoices.hidden = true;
