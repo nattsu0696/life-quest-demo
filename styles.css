@@ -375,9 +375,9 @@ button {
 .hub-room-shade {
   position: absolute;
   inset: 0;
-  /* 左のUI下だけ暗く、部屋の大半ははっきり見せる */
+  /* 右のステータス下だけ暗く、左の机まわりははっきり見せる */
   background:
-    linear-gradient(90deg, rgba(4, 12, 16, 0.88) 0%, rgba(4, 12, 16, 0.55) 28%, rgba(4, 12, 16, 0.12) 48%, transparent 62%),
+    linear-gradient(270deg, rgba(4, 12, 16, 0.88) 0%, rgba(4, 12, 16, 0.55) 28%, rgba(4, 12, 16, 0.12) 48%, transparent 62%),
     linear-gradient(180deg, rgba(4, 12, 16, 0.25) 0%, transparent 22%, transparent 78%, rgba(4, 12, 16, 0.28) 100%);
   pointer-events: none;
 }
@@ -392,7 +392,7 @@ button {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(160px, 34%) 1fr;
+  grid-template-columns: 1fr minmax(160px, 34%);
   gap: 14px;
   padding: 10px 14px var(--safe-bottom);
   min-height: calc(100dvh - 64px);
@@ -400,6 +400,8 @@ button {
 }
 
 .hub-status {
+  grid-column: 2;
+  grid-row: 1;
   align-self: stretch;
   padding: 14px 12px;
   border-radius: 16px;
@@ -483,6 +485,8 @@ button {
 }
 
 .hub-actions {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -492,7 +496,7 @@ button {
   /* 紺色パネルなし。ボタンだけ部屋の上に載せる */
   align-self: end;
   width: min(100%, 520px);
-  justify-self: end;
+  justify-self: start;
 }
 
 .hub-action-overlay {
@@ -2325,7 +2329,7 @@ button {
   }
 
   .hub-layout {
-    grid-template-columns: minmax(200px, 30%) 1fr;
+    grid-template-columns: 1fr minmax(200px, 30%);
     padding-left: 4vw;
     padding-right: 4vw;
   }
