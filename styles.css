@@ -789,6 +789,12 @@ html.is-fullscreen .fs-btn {
   min-height: 36px;
 }
 
+/* .btn-start の display が [hidden] を上書きするため明示 */
+.hub-action-ok[hidden],
+.hub-visitor-ok[hidden] {
+  display: none !important;
+}
+
 .hub-action-ok .btn-start-label {
   font-size: 0.84rem;
 }

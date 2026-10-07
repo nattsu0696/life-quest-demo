@@ -449,6 +449,7 @@
   let hubActionBusy = false;
   let hubVisitorBusy = false;
   let pendingHubAction = null;
+  let hubActionPhase = null; // choose | result | null
   let pendingHubVisitor = null;
   let hubVisitorPhase = "talk"; // talk | choose | done
   let hubTypeTimer = null;
@@ -1128,6 +1129,8 @@
   }
 
   function hideHubActionOverlay() {
+    // 二択中は閉じない（選択して結果が出てから部屋に戻る）
+    if (hubActionPhase === "choose") return;
     if (hubActionOverlay) hubActionOverlay.hidden = true;
     if (hubActionChoices) {
       hubActionChoices.hidden = true;
@@ -1135,6 +1138,7 @@
     }
     if (hubActionOk) hubActionOk.hidden = true;
     pendingHubAction = null;
+    hubActionPhase = null;
     const visitor = pickNextVisitor();
     if (visitor) {
       // 部屋に戻るクリックの突き抜けを避けてから訪問者を出す
@@ -1162,6 +1166,7 @@
       return;
     }
     hubActionBusy = true;
+    hubActionPhase = mode === "result" ? "result" : "choose";
     if (hubActionImg) {
       hubActionImg.src = def.img;
       hubActionImg.alt = def.title;
@@ -1173,14 +1178,17 @@
         ? (note || "")
         : (def.prompt || "どうする？");
     }
-    if (hubActionOk) hubActionOk.hidden = mode !== "result";
     if (mode === "choose") {
+      if (hubActionOk) hubActionOk.hidden = true;
       fillHubChoiceButtons(hubActionChoices, def.choices, (_index, choice) => {
         resolveHubActionChoice(choice);
       });
-    } else if (hubActionChoices) {
-      hubActionChoices.hidden = true;
-      hubActionChoices.innerHTML = "";
+    } else {
+      if (hubActionChoices) {
+        hubActionChoices.hidden = true;
+        hubActionChoices.innerHTML = "";
+      }
+      if (hubActionOk) hubActionOk.hidden = false;
     }
     hubActionOverlay.hidden = false;
   }
