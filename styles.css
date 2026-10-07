@@ -486,11 +486,10 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(232, 244, 242, 0.16);
-  background: rgba(7, 21, 28, 0.9);
-  /* 高さはボタン分だけ。空きの暗パネルで部屋を隠さない */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  /* 紺色パネルなし。ボタンだけ部屋の上に載せる */
   align-self: end;
   width: min(100%, 520px);
   justify-self: end;
@@ -567,8 +566,9 @@ button {
   margin: 0;
   font-size: 0.78rem;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  color: #dff7f1;
   font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
 }
 
 .hub-action-grid {
@@ -582,11 +582,12 @@ button {
   gap: 2px;
   padding: 12px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(232, 244, 242, 0.16);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(232, 244, 242, 0.28);
+  background: rgba(7, 21, 28, 0.78);
   text-align: left;
   font-weight: 700;
   font-size: 0.92rem;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
 }
 
 .hub-action span {
