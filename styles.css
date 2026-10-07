@@ -19,11 +19,24 @@
 
 html, body {
   margin: 0;
+  width: 100%;
+  height: 100%;
   min-height: 100%;
+  min-height: 100dvh;
   background: #040b10;
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html.is-unlocked,
+html.is-unlocked body {
+  position: fixed;
+  inset: 0;
 }
 
 button {
@@ -58,6 +71,91 @@ html:-webkit-full-screen .gate {
   max-width: none;
   min-height: 100%;
   height: 100%;
+}
+
+.fs-btn {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 12000;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(232, 244, 242, 0.28);
+  background: rgba(7, 21, 28, 0.88);
+  color: #dff7f1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.fs-btn[hidden] {
+  display: none !important;
+}
+
+html.is-standalone .fs-btn,
+html.is-fullscreen .fs-btn {
+  display: none !important;
+}
+
+.install-tip {
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(4, 11, 16, 0.78);
+}
+
+.install-tip[hidden] {
+  display: none !important;
+}
+
+.install-tip-card {
+  width: min(100%, 380px);
+  padding: 22px 20px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(232, 244, 242, 0.18);
+  background: rgba(7, 21, 28, 0.96);
+}
+
+.install-tip-chip {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.install-tip-title {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.install-tip-text {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.install-tip-text.small {
+  font-size: 0.82rem;
+  margin-bottom: 14px;
+}
+
+.install-tip-text strong {
+  color: #f2f7f6;
+}
+
+.gate-install-hint {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: center;
 }
 
 /* ========== ROTATE HINT (縦持ち時) ========== */

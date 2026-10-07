@@ -1,12 +1,36 @@
 (() => {
   const GATE_KEY = "life-quest-gate";
   const GATE_PASS = "わたぴー";
+  const INSTALL_TIP_KEY = "life-quest-install-tip";
   const gateEl = document.getElementById("gate");
   const appEl = document.getElementById("app");
   const gateForm = document.getElementById("gate-form");
   const gateInput = document.getElementById("gate-input");
   const gateError = document.getElementById("gate-error");
   const rotateHint = document.getElementById("rotate-hint");
+  const fsBtn = document.getElementById("fs-btn");
+  const installTip = document.getElementById("install-tip");
+  const installTipOk = document.getElementById("install-tip-ok");
+
+  function isStandaloneMode() {
+    return window.matchMedia("(display-mode: standalone)").matches
+      || window.navigator.standalone === true;
+  }
+
+  function isFullscreenMode() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+
+  function syncDisplayMode() {
+    const standalone = isStandaloneMode();
+    const fullscreen = isFullscreenMode();
+    document.documentElement.classList.toggle("is-standalone", standalone);
+    document.documentElement.classList.toggle("is-fullscreen", fullscreen);
+    // ホーム画面起動なら帯は出ない。Safari内だけ全画面ボタンを出す
+    if (fsBtn) {
+      fsBtn.hidden = standalone || fullscreen || !document.documentElement.classList.contains("is-unlocked");
+    }
+  }
 
   function syncOrientation() {
     const landscape = window.matchMedia("(orientation: landscape)").matches
@@ -17,22 +41,48 @@
     if (rotateHint) {
       rotateHint.hidden = !(unlocked && !landscape);
     }
+    syncDisplayMode();
   }
 
   function requestAppFullscreen() {
+    if (isStandaloneMode() || isFullscreenMode()) {
+      syncDisplayMode();
+      return;
+    }
     try {
       const root = document.documentElement;
-      if (document.fullscreenElement || document.webkitFullscreenElement) return;
+      let result;
       if (root.requestFullscreen) {
-        root.requestFullscreen({ navigationUI: "hide" }).catch(() => {});
+        try {
+          result = root.requestFullscreen({ navigationUI: "hide" });
+        } catch (_) {
+          result = root.requestFullscreen();
+        }
       } else if (root.webkitRequestFullscreen) {
         root.webkitRequestFullscreen();
       } else if (root.webkitRequestFullScreen) {
         root.webkitRequestFullScreen();
       }
+      if (result && typeof result.catch === "function") {
+        result.catch(() => syncDisplayMode());
+      }
     } catch (_) {
-      // iPhoneのSafariなど、非対応端末は通常表示のまま
+      // iPhone Safari はホーム画面追加が本命
     }
+    window.setTimeout(syncDisplayMode, 120);
+  }
+
+  function maybeShowInstallTip() {
+    if (isStandaloneMode()) return;
+    try {
+      if (sessionStorage.getItem(INSTALL_TIP_KEY) === "ok") return;
+    } catch (_) {}
+    if (installTip) installTip.hidden = false;
+  }
+
+  function hideInstallTip() {
+    if (installTip) installTip.hidden = true;
+    try { sessionStorage.setItem(INSTALL_TIP_KEY, "ok"); } catch (_) {}
   }
 
   function unlockApp() {
@@ -40,6 +90,7 @@
     if (appEl) appEl.hidden = false;
     document.documentElement.classList.add("is-unlocked");
     syncOrientation();
+    maybeShowInstallTip();
   }
 
   function showGate() {
@@ -64,7 +115,23 @@
   window.addEventListener("orientationchange", () => {
     window.setTimeout(syncOrientation, 80);
   });
+  document.addEventListener("fullscreenchange", syncDisplayMode);
+  document.addEventListener("webkitfullscreenchange", syncDisplayMode);
   syncOrientation();
+
+  if (fsBtn) {
+    fsBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      requestAppFullscreen();
+    });
+  }
+  if (installTipOk) {
+    installTipOk.addEventListener("click", (event) => {
+      event.preventDefault();
+      hideInstallTip();
+      requestAppFullscreen();
+    });
+  }
 
   if (gateForm) {
     gateForm.addEventListener("submit", (event) => {
