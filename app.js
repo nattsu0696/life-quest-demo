@@ -330,7 +330,7 @@
   }
 
   function avatarForGender(gender) {
-    return gender === "boy" ? "assets/char-teen-boy.jpg" : "assets/char-teen-girl.jpg";
+    return gender === "boy" ? "assets/char-teen-boy.png" : "assets/char-teen-girl.png";
   }
 
   function ensureSaveShape(save) {

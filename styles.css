@@ -625,6 +625,8 @@ button {
 
 .title-hero-pair .title-hero-img {
   width: 52%;
+  background: transparent;
+  mix-blend-mode: normal;
 }
 
 .title-hero-boy {
