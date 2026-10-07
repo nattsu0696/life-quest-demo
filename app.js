@@ -14,6 +14,8 @@
 
   function isStandaloneMode() {
     return window.matchMedia("(display-mode: standalone)").matches
+      || window.matchMedia("(display-mode: fullscreen)").matches
+      || window.matchMedia("(display-mode: minimal-ui)").matches
       || window.navigator.standalone === true;
   }
 
@@ -21,11 +23,18 @@
     return !!(document.fullscreenElement || document.webkitFullscreenElement);
   }
 
+  function isTypingTarget(el) {
+    if (!el || el === document.body) return false;
+    const tag = (el.tagName || "").toLowerCase();
+    return tag === "input" || tag === "textarea" || tag === "select" || el.isContentEditable;
+  }
+
   function syncDisplayMode() {
     const standalone = isStandaloneMode();
     const fullscreen = isFullscreenMode();
     document.documentElement.classList.toggle("is-standalone", standalone);
     document.documentElement.classList.toggle("is-fullscreen", fullscreen);
+    if (standalone && installTip) installTip.hidden = true;
     // ホーム画面起動なら帯は出ない。Safari内だけ全画面ボタンを出す
     if (fsBtn) {
       fsBtn.hidden = standalone || fullscreen || !document.documentElement.classList.contains("is-unlocked");
@@ -33,8 +42,12 @@
   }
 
   function syncOrientation() {
-    const landscape = window.matchMedia("(orientation: landscape)").matches
-      || window.innerWidth > window.innerHeight;
+    // キーボード表示中は縦判定しない（合言葉入力直後に画面が消える対策）
+    if (isTypingTarget(document.activeElement)) {
+      syncDisplayMode();
+      return;
+    }
+    const landscape = window.innerWidth >= window.innerHeight;
     document.documentElement.classList.toggle("is-landscape", landscape);
     document.documentElement.classList.toggle("is-portrait", !landscape);
     const unlocked = document.documentElement.classList.contains("is-unlocked");
@@ -86,11 +99,24 @@
   }
 
   function unlockApp() {
+    try {
+      if (gateInput) gateInput.blur();
+      if (document.activeElement && typeof document.activeElement.blur === "function") {
+        document.activeElement.blur();
+      }
+    } catch (_) {}
     if (gateEl) gateEl.hidden = true;
     if (appEl) appEl.hidden = false;
     document.documentElement.classList.add("is-unlocked");
-    syncOrientation();
-    maybeShowInstallTip();
+    // いったん横扱いしてタイトルを必ず出す（キーボード閉じ待ちで固まらない）
+    document.documentElement.classList.add("is-landscape");
+    document.documentElement.classList.remove("is-portrait");
+    if (rotateHint) rotateHint.hidden = true;
+    syncDisplayMode();
+    window.setTimeout(() => {
+      syncOrientation();
+      maybeShowInstallTip();
+    }, 350);
   }
 
   function showGate() {
@@ -140,9 +166,9 @@
       if (value === GATE_PASS) {
         try { sessionStorage.setItem(GATE_KEY, "ok"); } catch (_) {}
         if (gateError) gateError.hidden = true;
-        // ユーザー操作の直後なので全画面化できる
-        requestAppFullscreen();
         unlockApp();
+        // ホーム画面起動では全画面API不要（逆に不安定になる）
+        if (!isStandaloneMode()) requestAppFullscreen();
         return;
       }
       if (gateError) gateError.hidden = false;

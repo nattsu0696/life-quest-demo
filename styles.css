@@ -33,11 +33,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-html.is-unlocked,
-html.is-unlocked body {
-  position: fixed;
-  inset: 0;
-}
+/* iOSホーム画面起動：キーボード後に position:fixed だと画面が固まるので使わない */
 
 button {
   font: inherit;
@@ -2370,22 +2366,26 @@ html.is-fullscreen .fs-btn {
   }
 }
 
-/* 縦持ち：回転案内。合言葉入力だけは縦でも可 */
-@media (orientation: portrait) {
-  html.is-unlocked .rotate-hint {
-    display: grid;
-  }
+/* 縦持ち案内は JS の is-portrait のみ使う（キーボード中の orientation 誤判定で固まるのを防ぐ） */
+html.is-unlocked.is-portrait .rotate-hint {
+  display: grid;
+}
 
-  html.is-unlocked .app {
-    visibility: hidden;
-    pointer-events: none;
-  }
+html.is-unlocked.is-portrait .app {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.is-landscape .rotate-hint {
+  display: none !important;
+}
+
+html.is-unlocked.is-landscape .app {
+  visibility: visible;
+  pointer-events: auto;
 }
 
 @media (orientation: landscape) {
-  .rotate-hint {
-    display: none !important;
-  }
 
   .title-stage {
     display: grid;
