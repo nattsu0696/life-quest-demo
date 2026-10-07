@@ -350,6 +350,10 @@ button {
 }
 
 /* ========== HOME HUB ========== */
+#screen-hub.is-active {
+  display: block !important;
+}
+
 .hub-stage {
   position: relative;
   min-height: 100dvh;

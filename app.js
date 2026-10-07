@@ -151,6 +151,7 @@
   const profileForm = document.getElementById("profile-form");
   const profileNameInput = document.getElementById("profile-name");
   const profileError = document.getElementById("profile-error");
+  const profileSubmit = document.getElementById("profile-submit");
   const hubRoomBg = document.getElementById("hub-room-bg");
   const hubAvatar = document.getElementById("hub-avatar");
   const hubName = document.getElementById("hub-name");
@@ -347,10 +348,12 @@
     state.optionId = null;
     state.sceneId = "start";
     state.depth = 0;
-    map.x = 50;
-    map.y = 48;
-    map.vx = 0;
-    map.vy = 0;
+    if (typeof map !== "undefined" && map) {
+      map.x = 50;
+      map.y = 48;
+      map.vx = 0;
+      map.vy = 0;
+    }
     updatePlayerVisuals();
   }
 
@@ -407,15 +410,29 @@
   }
 
   function openHub() {
-    if (!state.save) {
-      openSaveScreen();
-      return;
+    try {
+      if (!state.save) {
+        openSaveScreen();
+        return;
+      }
+      if (!screens.hub) {
+        window.alert("部屋画面が見つかりません。index.html を最新の ?v=29 でアップロードしてください。");
+        return;
+      }
+      if (typeof hideLifeEvent === "function") hideLifeEvent();
+      if (typeof applySceneBackground === "function") applySceneBackground(null);
+      updatePlayerVisuals();
+      renderHub();
+      showScreen("hub");
+      // 一部端末で1回目の切替が効かないことがあるため再適用
+      window.requestAnimationFrame(() => {
+        showScreen("hub");
+        renderHub();
+      });
+    } catch (err) {
+      console.error(err);
+      window.alert("部屋画面を開けませんでした。ページを再読み込みして、もう一度お試しください。");
     }
-    hideLifeEvent();
-    applySceneBackground(null);
-    updatePlayerVisuals();
-    renderHub();
-    showScreen("hub");
   }
 
   function doHubAction(actionId) {
@@ -486,10 +503,11 @@
 
   function openProfileScreen(slotIndex) {
     pendingNewSlot = slotIndex;
+    if (profileForm) profileForm.dataset.slot = String(slotIndex);
     if (profileError) profileError.hidden = true;
     if (profileNameInput) {
       profileNameInput.value = "";
-      setTimeout(() => profileNameInput.focus(), 40);
+      // iPhoneでキーボードが遷移を邪魔しないよう、自動フォーカスはしない
     }
     const firstTrait = profileForm?.querySelector('input[name="trait"][value="study"]');
     if (firstTrait) firstTrait.checked = true;
@@ -596,15 +614,14 @@
   }
 
   function finishProfile(event) {
-    event.preventDefault();
-    if (pendingNewSlot === null) {
-      openSaveScreen();
-      return;
-    }
+    if (event && typeof event.preventDefault === "function") event.preventDefault();
+    const slotFromForm = Number(profileForm?.dataset?.slot);
+    const slotIndex = pendingNewSlot !== null && pendingNewSlot !== undefined
+      ? pendingNewSlot
+      : (Number.isFinite(slotFromForm) ? slotFromForm : 0);
     const name = (profileNameInput?.value || "").trim();
     if (!name) {
       if (profileError) profileError.hidden = false;
-      profileNameInput?.focus();
       return;
     }
     if (profileError) profileError.hidden = true;
@@ -612,13 +629,18 @@
     const genderInput = profileForm?.querySelector('input[name="gender"]:checked');
     const trait = traitInput?.value || "study";
     const gender = genderInput?.value || "girl";
-    const save = createSaveData(pendingNewSlot, { name, trait, gender });
-    const slots = readSaveSlots();
-    slots[pendingNewSlot] = save;
-    if (!writeSaveSlots(slots)) return;
-    applySaveToRuntime(save, pendingNewSlot);
-    pendingNewSlot = null;
-    openHub();
+    try {
+      const save = createSaveData(slotIndex, { name, trait, gender });
+      const slots = readSaveSlots();
+      slots[slotIndex] = save;
+      if (!writeSaveSlots(slots)) return;
+      applySaveToRuntime(save, slotIndex);
+      pendingNewSlot = null;
+      openHub();
+    } catch (err) {
+      console.error(err);
+      window.alert("セーブに失敗しました。もう一度お試しください。");
+    }
   }
 
   const map = {
@@ -1216,6 +1238,9 @@
 
   if (profileForm) {
     profileForm.addEventListener("submit", finishProfile);
+  }
+  if (profileSubmit) {
+    bindTap(profileSubmit, () => finishProfile());
   }
 
   document.querySelectorAll("[data-hub-action]").forEach((el) => {
