@@ -43,6 +43,23 @@ button {
   overflow: hidden;
 }
 
+html:fullscreen,
+html:-webkit-full-screen {
+  background: #040b10;
+}
+
+html:fullscreen body,
+html:-webkit-full-screen body,
+html:fullscreen .app,
+html:-webkit-full-screen .app,
+html:fullscreen .gate,
+html:-webkit-full-screen .gate {
+  width: 100%;
+  max-width: none;
+  min-height: 100%;
+  height: 100%;
+}
+
 /* ========== ROTATE HINT (縦持ち時) ========== */
 .rotate-hint {
   position: fixed;

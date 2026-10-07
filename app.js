@@ -19,6 +19,22 @@
     }
   }
 
+  function requestAppFullscreen() {
+    try {
+      const root = document.documentElement;
+      if (document.fullscreenElement || document.webkitFullscreenElement) return;
+      if (root.requestFullscreen) {
+        root.requestFullscreen({ navigationUI: "hide" }).catch(() => {});
+      } else if (root.webkitRequestFullscreen) {
+        root.webkitRequestFullscreen();
+      } else if (root.webkitRequestFullScreen) {
+        root.webkitRequestFullScreen();
+      }
+    } catch (_) {
+      // iPhoneのSafariなど、非対応端末は通常表示のまま
+    }
+  }
+
   function unlockApp() {
     if (gateEl) gateEl.hidden = true;
     if (appEl) appEl.hidden = false;
@@ -57,6 +73,8 @@
       if (value === GATE_PASS) {
         try { sessionStorage.setItem(GATE_KEY, "ok"); } catch (_) {}
         if (gateError) gateError.hidden = true;
+        // ユーザー操作の直後なので全画面化できる
+        requestAppFullscreen();
         unlockApp();
         return;
       }
@@ -1265,7 +1283,10 @@
   function handleAction(action) {
     if (action === "to-map") openMap();
     if (action === "to-hub") openHub();
-    if (action === "to-saves") openSaveScreen();
+    if (action === "to-saves") {
+      requestAppFullscreen();
+      openSaveScreen();
+    }
     if (action === "to-start") {
       stopMapLoop();
       resetJoystick();

@@ -4,13 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
   <meta name="screen-orientation" content="landscape" />
-  <meta name="theme-color" content="#e7f6f4" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#040b10" />
   <meta name="description" content="社会に出る前に、人生を何度でも試せる。LIFE QUEST デモ。" />
   <title>LIFE QUEST</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=35" />
+  <link rel="stylesheet" href="styles.css?v=37" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -234,7 +237,7 @@
             </div>
             <div id="place-layer"></div>
             <div id="player" class="map-player" aria-label="あなた">
-              <img class="map-player-img" src="assets/char-guide.jpg" alt="" />
+              <img class="map-player-img" src="assets/char-guide.png" alt="" />
               <span class="map-player-name">YOU</span>
             </div>
           </div>
@@ -242,7 +245,7 @@
 
         <div id="enter-prompt" class="enter-prompt" hidden>
           <div class="enter-card">
-            <img id="enter-portrait" class="enter-portrait" src="assets/char-guide.jpg" alt="" />
+            <img id="enter-portrait" class="enter-portrait" src="assets/char-guide.png" alt="" />
             <div class="enter-copy">
               <p class="enter-kicker">分岐点に到着</p>
               <p id="enter-title" class="enter-title"></p>
@@ -278,7 +281,7 @@
         </header>
 
         <div class="branch-hero">
-          <img id="branch-portrait" class="branch-portrait" src="assets/char-guide.jpg" alt="" />
+          <img id="branch-portrait" class="branch-portrait" src="assets/char-guide.png" alt="" />
           <div>
             <p class="branch-kicker" id="branch-kicker">次の分岐</p>
             <h2 class="branch-title" id="branch-title">どれを試す？</h2>
@@ -334,7 +337,7 @@
         <div class="actor-layer">
           <div id="actor" class="actor actor-photo">
             <div class="actor-shadow"></div>
-            <img id="actor-img" class="actor-img" src="assets/char-guide.jpg" alt="案内役" />
+            <img id="actor-img" class="actor-img" src="assets/char-guide.png" alt="案内役" />
             <p id="actor-tag" class="actor-tag">案内役</p>
           </div>
         </div>
@@ -381,7 +384,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=35"></script>
-  <script src="app.js?v=35"></script>
+  <script src="content.js?v=37"></script>
+  <script src="app.js?v=37"></script>
 </body>
 </html>

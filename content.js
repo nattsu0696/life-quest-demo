@@ -67,7 +67,7 @@
       "ordinary-days": {
         bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         speaker: "先輩・桐谷",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "いつもの一日",
         title: "特別なことは起きない。でも、毎日が少しずつ上手くなる。",
         body: "朝の陳列、お客様対応、夕方の棚直し。\n慣れてきた頃、店長が声をかけてきた。",
@@ -83,7 +83,7 @@
           text: "美原商店と、新しいお茶売場をつくるプロジェクトが始まる。"
         },
         speaker: "先輩・桐谷",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "仕事イベント",
         title: "「君も、この企画に入ってみない？」",
         body: "経験は足りない。でも、お客様に近い視点を期待されている。\n美原商店から来る担当者と、三か月かけて売場をつくる。",
@@ -94,7 +94,7 @@
       },
       "meet-hinata": {
         speaker: "美原商店・陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "数日後",
         title: "休憩室で、美原商店の担当・陽菜と顔を合わせる。",
         body: "「このお店で、どんなお茶なら手に取ってもらえると思う？」\n仕事の相談から始まって、好きな食べ物の話まで広がった。",
@@ -106,7 +106,7 @@
       "supply-run": {
         bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "同じ日の午後",
         title: "売場の備品も、ホームメイドで揃えることになった。",
         body: "棚札、試飲カップ、案内ボード。\n「会社の備品って、意外とここにあるんだね」と陽菜が笑う。\nグループの店同士だと、必要なものがすぐ隣にある。",
@@ -124,7 +124,7 @@
       },
       collaboration: {
         speaker: "美原商店・陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "提案のあと",
         title: "最初の提案は通らなかった。でも、陽菜は笑っている。",
         body: "「失敗したから、次はもっと面白くできるね」\nその言葉で、もう一度やってみようと思えた。",
@@ -149,7 +149,7 @@
           text: "陽菜から「今度、うちの喫茶でお茶しない？」と連絡が届いた。"
         },
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "関係イベント",
         title: "これは仕事の続き？ それとも、少し違う時間？",
         body: "美原商店の店。仕事で何度も通った場所が、休日の待ち合わせになる。",
@@ -161,7 +161,7 @@
       "date-arrive": {
         bg: "assets/backgrounds/bg-tea-shop-exterior.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "休日・美原商店",
         title: "夕暮れの店先で、陽菜が手を振っている。",
         body: "仕事の名刺は今日はいらない。\nガラスの向こうから、甘い香りが少しだけ漏れてくる。",
@@ -172,7 +172,7 @@
       "date-cafe": {
         bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "喫茶席",
         title: "木の席に座ると、窓の外が少しゆっくり見える。",
         body: "「仕事の話、今日は半分までね」\n半分を過ぎた頃、未来の話が自然に混ざり始めた。",
@@ -183,7 +183,7 @@
       "date-sweets": {
         bg: "assets/backgrounds/bg-jonamashi.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "上生菓子とお茶",
         title: "季節の上生菓子が、白い皿の上で小さく季節を見せる。",
         body: "「これ、私が好きなやつ」\n仕事で扱っている商品が、今日はただの『好き』になる。",
@@ -193,7 +193,7 @@
       },
       "one-year-later": {
         speaker: "店長・桐谷",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "約一年後",
         title: "仕事も、人間関係も、以前より少し大人になっている。",
         body: "共同企画は形になり、店長からは次の役割の話も出た。\n陽菜とは、まだ同じ場所で働きながら、未来の話を続けている。",
@@ -209,7 +209,7 @@
           text: "交際中の陽菜に、長野県で新店舗を立ち上げる話が来た。"
         },
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "人生の分岐点",
         title: "「一緒に長野へ来てほしい。でも、あなたの仕事も大切にしてほしい」",
         body: "結婚、仕事、移住。\nどれか一つではなく、いくつもの選択が同時に目の前へ来た。",
@@ -222,7 +222,7 @@
       "nest-house": {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "新居づくり / 林郷の家",
         title: "二人の家を、木の骨組みから話し合う。",
         body: "グループの住宅会社・林郷の家で、間取りの図面がテーブルに広がる。\n「ここに朝日が入るといいね」——仕事の社名より、暮らしの言葉が増える。",
@@ -233,7 +233,7 @@
       "nest-ligna": {
         bg: "assets/backgrounds/bg-rigna-storefront.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "新居づくり / リグナチュラ",
         title: "リグナで、新居の家具を選ぶ。",
         body: "ソファ、テーブル、カーテン。\n家の形が決まると、次は部屋の景色を決める番だ。\n店員さんも『林郷の家の図面、持ってます』と当たり前のように聞いてくる。",
@@ -244,7 +244,7 @@
       "nest-taiyo": {
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
         speaker: "陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "新居づくり / 太平洋",
         title: "家具のすき間にぴったりの収納を、大洋へ注文する。",
         body: "既製品では埋まらない寸法。\n工場の通路を通ると、木の板が家具へ変わっていく音がする。\nグループだから、図面の続きが別の会社でつながる。",
@@ -302,7 +302,7 @@
       warehouse: {
         bg: "assets/backgrounds/bg-solution-warehouse.jpg",
         speaker: "先輩・黒瀬",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "木造倉庫の現場",
         title: "柱の香りがする倉庫で、寸法を確認する。",
         body: "林郷の家で使う木の話とも、意外と近い。\n『建てる』と『収める』は、グループの中で隣り合っている。",
@@ -318,7 +318,7 @@
           text: "部品調達の打ち合わせのため、初めての海外出張に帯同する。"
         },
         speaker: "先輩・黒瀬",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "仕事イベント",
         title: "「車は空港の立駐に停めて、そこから飛ぶぞ」",
         body: "出張の始まりは、意外と足元にある。\n自社で手がけた立体駐車場が、今日の出発点になる。",
@@ -329,7 +329,7 @@
       parking: {
         bg: "assets/backgrounds/bg-solution-parking.jpg",
         speaker: "先輩・黒瀬",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "空港の立体駐車場",
         title: "鉄骨の階段を上がりながら、納めた仕事を思い出す。",
         body: "自分が関わった案件かどうかはまだ分からない。\nでも『止められる場所』をつくる仕事が、旅の入口になっている。",
@@ -388,7 +388,7 @@
       model: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "先輩・結城",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "モデルハウス",
         title: "木の梁の下で、暮らしの想像を一緒にする。",
         body: "ソファの位置、階段の手触り、キッチンの色。\n家が決まると、次は家具の会社の名前が自然に出る。",
@@ -399,7 +399,7 @@
       client: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "お客様",
-        img: "assets/char-guide.jpg",
+        img: "assets/char-guide.png",
         kicker: "打ち合わせ",
         title: "『このすき間、何か収まるかな』と図面を指差される。",
         body: "既製家具では埋まらない寸法がある。\nそんなとき、グループの家具製造・太平洋の名前が手元に出る。",
@@ -410,7 +410,7 @@
       "to-ligna": {
         bg: "assets/backgrounds/bg-rigna-storefront.jpg",
         speaker: "先輩・結城",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "連携 / リグナチュラ",
         title: "新居の家具は、リグナで選んでもらうことになった。",
         body: "家の骨組みは林郷の家。景色はリグナ。\n同じグループだと、図面の共有が早い。",
@@ -421,7 +421,7 @@
       "to-taiyo": {
         bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
         speaker: "先輩・結城",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "連携 / 太平洋",
         title: "家具のすき間にぴったりの収納を、大洋へ頼む。",
         body: "ミリ単位の注文が、工場の板取りに変わる。\n『建てる』の続きが、『収める』になる瞬間だ。",
@@ -471,7 +471,7 @@
       shop: {
         bg: "assets/backgrounds/bg-rigna-storefront.jpg",
         speaker: "先輩・杏",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "店頭",
         title: "新居用の家具が、カートに静かに積み上がる。",
         body: "ソファ、照明、ラグ。\n『ここにテーブルを置くと、朝がきれい』——家の話が家具の話になる。",
@@ -482,7 +482,7 @@
       plan: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "お客様",
-        img: "assets/char-guide.jpg",
+        img: "assets/char-guide.png",
         kicker: "図面打合せ",
         title: "林郷の家の図面を広げて、家具の寸法を合わせる。",
         body: "グループ内だと、間取りのデータがすぐ届く。\n『建てる人』と『整える人』が、同じ図を見られる。",
@@ -493,7 +493,7 @@
       gap: {
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
         speaker: "先輩・杏",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "連携 / 太平洋",
         title: "既製品では埋まらないすき間を、大洋の特注で埋める。",
         body: "家具の横に、ぴったりの収納が欲しい。\n注文票には、リグナの品番と大洋の寸法が並ぶ。",
@@ -543,7 +543,7 @@
       factory: {
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
         speaker: "先輩・浜田",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "工場",
         title: "青い通路の奥で、板が家具の部品へ変わっていく。",
         body: "林郷の家の新居、リグナのソファ横。\n数字の並びが、誰かの朝の動作になる。",
@@ -554,7 +554,7 @@
       measure: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "先輩・浜田",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         kicker: "特注対応",
         title: "家具のすき間にぴったりの収納を、ミリで合わせる。",
         body: "既製品の端と、壁の端。そのあいだを埋めるのが今日の仕事だ。\nグループの注文は、現場の言葉が短い。",
@@ -604,7 +604,7 @@
       counter: {
         bg: "assets/backgrounds/bg-tea-shop-counter.jpg",
         speaker: "先輩・陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "売場",
         title: "色とりどりの和菓子が、ガラスの向こうで季節を並べている。",
         body: "ホームメイドの棚に載せるお茶も、ここから選ぶ。\n別会社の売場が、同じ香りでつながる。",
@@ -615,7 +615,7 @@
       cafe: {
         bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
         speaker: "先輩・陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "喫茶",
         title: "木の席に、休日のお客様と、仕事帰りの人が混ざる。",
         body: "ここで飲む一杯が、誰かのデートになることもある。\n仕事の場所が、暮らしの場所にもなる。",
@@ -626,7 +626,7 @@
       sweets: {
         bg: "assets/backgrounds/bg-jonamashi.jpg",
         speaker: "先輩・陽菜",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         kicker: "上生菓子",
         title: "小さな練り切りが、今日の季節を一言で言う。",
         body: "ホームメイドへ卸す茶葉の横で、店頭の菓子も同じ朝に動いている。\n『グループ連携』は、会議室より先に香りの現場にある。",
@@ -768,7 +768,7 @@
         branchTitle: "どの会社で試す？",
         branchNote: "グループ会社を選んでQUESTへ（社名はかわいくデフォルメしたデモ用）",
         theme: "bigco",
-        img: "assets/char-office.jpg",
+        img: "assets/char-office.png",
         speaker: "先輩社員",
         x: 22,
         y: 30,
@@ -895,7 +895,7 @@
         branchTitle: "どこの県で試す？",
         branchNote: "気になる地域を選んで、暮らしのQUESTへ",
         theme: "local",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         speaker: "地域の人",
         x: 72,
         y: 68,
@@ -938,7 +938,7 @@
         branchTitle: "どんな学び方を試す？",
         branchNote: "進学の向きを選んでQUESTへ",
         theme: "univ",
-        img: "assets/char-campus.jpg",
+        img: "assets/char-campus.png",
         speaker: "先輩学生",
         x: 28,
         y: 62,
@@ -1031,7 +1031,7 @@
         branchTitle: "どの技術に触れる？",
         branchNote: "気になる分野を選んでQUESTへ",
         theme: "skill",
-        img: "assets/char-creator.jpg",
+        img: "assets/char-creator.png",
         speaker: "技術者",
         x: 52,
         y: 22,
@@ -1124,7 +1124,7 @@
         branchTitle: "どこから起業を試す？",
         branchNote: "入口の違いを選んでQUESTへ",
         theme: "startup",
-        img: "assets/char-creator.jpg",
+        img: "assets/char-creator.png",
         speaker: "創業者",
         x: 78,
         y: 36,
