@@ -342,6 +342,221 @@ button {
   background: rgba(47, 210, 183, 0.12);
 }
 
+.gender-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* ========== HOME HUB ========== */
+.hub-stage {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  color: var(--text);
+}
+
+.hub-room-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.04);
+  transition: opacity 0.45s ease, filter 0.45s ease;
+}
+
+.hub-room-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(4, 12, 16, 0.78) 0%, rgba(4, 12, 16, 0.35) 42%, rgba(4, 12, 16, 0.55) 100%),
+    linear-gradient(180deg, rgba(4, 12, 16, 0.35) 0%, transparent 30%, rgba(4, 12, 16, 0.55) 100%);
+  pointer-events: none;
+}
+
+.hub-hud {
+  position: relative;
+  z-index: 2;
+  padding: var(--safe-top) 14px 0;
+}
+
+.hub-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(160px, 34%) 1fr;
+  gap: 14px;
+  padding: 10px 14px var(--safe-bottom);
+  min-height: calc(100dvh - 64px);
+  align-items: stretch;
+}
+
+.hub-status {
+  padding: 14px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(232, 244, 242, 0.14);
+  background: rgba(7, 21, 28, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.hub-avatar-wrap {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.hub-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+}
+
+.hub-name {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.hub-age,
+.hub-room-label,
+.hub-room-hint {
+  margin: 2px 0 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.hub-room-label {
+  margin-top: 10px;
+  color: var(--accent-2);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.hub-stats {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.hub-stat-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 28px;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.hub-stat-row span:first-child {
+  color: var(--muted);
+}
+
+.hub-stat-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.hub-stat-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2fd2b7, #f0b35a);
+  width: 0;
+  transition: width 0.35s ease;
+}
+
+.hub-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(232, 244, 242, 0.12);
+  background: rgba(7, 21, 28, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.hub-actions-label {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.hub-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.hub-action {
+  display: grid;
+  gap: 2px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(232, 244, 242, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.hub-action span {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.hub-action:active {
+  border-color: rgba(47, 210, 183, 0.65);
+  background: rgba(47, 210, 183, 0.12);
+}
+
+.hub-toast {
+  margin: 0;
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  color: #dff7f1;
+}
+
+.hub-map-btn {
+  width: 100%;
+}
+
+.title-hero-pair {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+}
+
+.title-hero-pair .title-hero-img {
+  width: 52%;
+}
+
+.title-hero-boy {
+  margin-right: -8%;
+  z-index: 1;
+}
+
+.title-hero-girl {
+  margin-left: -8%;
+  z-index: 2;
+}
+
 .screen {
   display: none;
   min-height: 100dvh;
@@ -2031,6 +2246,20 @@ button {
 
   .trait-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .hub-layout {
+    grid-template-columns: minmax(200px, 30%) 1fr;
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
+
+  .hub-action-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .title-hero-pair {
+    width: min(420px, 40vw);
   }
 }
 

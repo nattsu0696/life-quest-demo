@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=26" />
+  <link rel="stylesheet" href="styles.css?v=28" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -43,8 +43,9 @@
       <div class="title-stage">
         <div class="title-bg" aria-hidden="true"></div>
         <div class="title-particles" aria-hidden="true"></div>
-        <div class="title-hero" aria-hidden="true">
-          <img src="assets/char-guide.jpg" alt="" class="title-hero-img" />
+        <div class="title-hero title-hero-pair" aria-hidden="true">
+          <img src="assets/char-teen-boy.jpg" alt="" class="title-hero-img title-hero-boy" />
+          <img src="assets/char-teen-girl.jpg" alt="" class="title-hero-img title-hero-girl" />
         </div>
         <div class="title-frame">
           <p class="title-chip">CHAPTER 0 / DEMO</p>
@@ -98,6 +99,23 @@
           <form id="profile-form" class="profile-form" autocomplete="off">
             <label class="gate-label" for="profile-name">名前</label>
             <input id="profile-name" class="gate-input profile-name-input" type="text" maxlength="12" placeholder="例：ナツ" required />
+            <p class="gate-label">性別</p>
+            <div class="gender-grid" role="radiogroup" aria-label="性別">
+              <label class="trait-card">
+                <input type="radio" name="gender" value="boy" />
+                <span class="trait-card-body">
+                  <strong>少年</strong>
+                  <small>15歳くらいの男の子</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="gender" value="girl" checked />
+                <span class="trait-card-body">
+                  <strong>少女</strong>
+                  <small>15歳くらいの女の子</small>
+                </span>
+              </label>
+            </div>
             <p class="gate-label">いまの自分に近いのは？</p>
             <div class="trait-grid" role="radiogroup" aria-label="得意な傾向">
               <label class="trait-card">
@@ -138,6 +156,48 @@
       </div>
     </section>
 
+    <!-- HOME HUB (自分の部屋) -->
+    <section id="screen-hub" class="screen" data-screen="hub" hidden>
+      <div class="hub-stage">
+        <div id="hub-room-bg" class="hub-room-bg" aria-hidden="true"></div>
+        <div class="hub-room-shade" aria-hidden="true"></div>
+        <header class="map-hud hub-hud">
+          <button type="button" class="hud-btn" data-action="to-start">TITLE</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">MY ROOM</p>
+          </div>
+          <button type="button" class="hud-btn" data-action="to-saves">SAVE</button>
+        </header>
+        <div class="hub-layout">
+          <aside class="hub-status">
+            <div class="hub-avatar-wrap">
+              <img id="hub-avatar" class="hub-avatar" src="assets/char-teen-girl.jpg" alt="" />
+            </div>
+            <p id="hub-name" class="hub-name">—</p>
+            <p id="hub-age" class="hub-age">15歳</p>
+            <p id="hub-room-label" class="hub-room-label">自分の部屋</p>
+            <p id="hub-room-hint" class="hub-room-hint">まだ始まったばかり</p>
+            <div id="hub-stats" class="hub-stats"></div>
+          </aside>
+          <div class="hub-actions">
+            <p class="hub-actions-label">今日の行動</p>
+            <div class="hub-action-grid">
+              <button type="button" class="hub-action" data-hub-action="study">勉強する<span>知力↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="craft">手を動かす<span>技術↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="talk">人と話す<span>社交↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="brave">挑戦する<span>勇気↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="rest">休む<span>体力↑</span></button>
+            </div>
+            <p id="hub-toast" class="hub-toast" hidden></p>
+            <button type="button" class="btn-start hub-map-btn" data-action="to-map">
+              <span class="btn-start-label">外に出る（LIFE MAP）</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- LIFE MAP + PUNICON -->
     <section id="screen-map" class="screen" data-screen="map" hidden>
       <div class="map-stage">
@@ -146,7 +206,7 @@
             <p class="brand-mini">LIFE QUEST</p>
             <p class="hud-sub">LIFE MAP</p>
           </div>
-          <button type="button" class="hud-btn" data-action="to-start">TITLE</button>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋</button>
         </header>
 
         <p class="map-guide" id="map-guide">ぷにコンで歩いて、建物に近づこう</p>
@@ -307,7 +367,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=26"></script>
-  <script src="app.js?v=26"></script>
+  <script src="content.js?v=28"></script>
+  <script src="app.js?v=28"></script>
 </body>
 </html>

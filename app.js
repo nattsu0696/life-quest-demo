@@ -75,6 +75,7 @@
     start: document.getElementById("screen-start"),
     saves: document.getElementById("screen-saves"),
     profile: document.getElementById("screen-profile"),
+    hub: document.getElementById("screen-hub"),
     map: document.getElementById("screen-map"),
     branch: document.getElementById("screen-branch"),
     play: document.getElementById("screen-play"),
@@ -90,11 +91,76 @@
     brave: "新しいことに飛び込む"
   };
 
+  const STAT_LABELS = {
+    intellect: "知力",
+    skill: "技術",
+    social: "社交",
+    courage: "勇気",
+    calm: "冷静",
+    stamina: "体力"
+  };
+
+  const ROOM_TIERS = [
+    {
+      id: 0,
+      bg: "assets/backgrounds/bg-room-01-teen.jpg",
+      label: "自分の部屋",
+      hint: "まだ始まったばかりの、等身大の部屋"
+    },
+    {
+      id: 1,
+      bg: "assets/backgrounds/bg-room-02-study.jpg",
+      label: "学びの部屋",
+      hint: "本とノートが増えて、少し整ってきた"
+    },
+    {
+      id: 2,
+      bg: "assets/backgrounds/bg-room-03-start.jpg",
+      label: "ひとり暮らしのはじまり",
+      hint: "初めての部屋。家具は必要最低限"
+    },
+    {
+      id: 3,
+      bg: "assets/backgrounds/bg-room-04-work.jpg",
+      label: "仕事のある暮らし",
+      hint: "安定した収入で、部屋に余裕が出てきた"
+    },
+    {
+      id: 4,
+      bg: "assets/backgrounds/bg-room-05-career.jpg",
+      label: "キャリアの部屋",
+      hint: "仕事の成果が、住む景色にも表れている"
+    },
+    {
+      id: 5,
+      bg: "assets/backgrounds/bg-room-06-success.jpg",
+      label: "ゆとりのある家",
+      hint: "選んできた人生が、広い部屋になっている"
+    }
+  ];
+
+  const HUB_ACTIONS = {
+    study: { key: "intellect", gain: 2, cost: 1, msg: "勉強した。知力が少し上がった。" },
+    craft: { key: "skill", gain: 2, cost: 1, msg: "手を動かした。技術が少し上がった。" },
+    talk: { key: "social", gain: 2, cost: 1, msg: "人と話した。社交性が少し上がった。" },
+    brave: { key: "courage", gain: 2, cost: 1, msg: "挑戦した。勇気が少し上がった。" },
+    rest: { key: "stamina", gain: 3, cost: 0, msg: "休んだ。体力が戻った。" }
+  };
+
   const saveSlotList = document.getElementById("save-slot-list");
   const profileForm = document.getElementById("profile-form");
   const profileNameInput = document.getElementById("profile-name");
   const profileError = document.getElementById("profile-error");
+  const hubRoomBg = document.getElementById("hub-room-bg");
+  const hubAvatar = document.getElementById("hub-avatar");
+  const hubName = document.getElementById("hub-name");
+  const hubAge = document.getElementById("hub-age");
+  const hubRoomLabel = document.getElementById("hub-room-label");
+  const hubRoomHint = document.getElementById("hub-room-hint");
+  const hubStats = document.getElementById("hub-stats");
+  const hubToast = document.getElementById("hub-toast");
   let pendingNewSlot = null;
+  let hubToastTimer = null;
 
   const stage = document.getElementById("stage");
   const stageBgPhoto = document.getElementById("stage-bg-photo");
@@ -215,6 +281,45 @@
     return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
+  function avatarForGender(gender) {
+    return gender === "boy" ? "assets/char-teen-boy.jpg" : "assets/char-teen-girl.jpg";
+  }
+
+  function ensureSaveShape(save) {
+    if (!save.profile) save.profile = {};
+    if (!save.profile.gender) save.profile.gender = "girl";
+    if (!save.profile.age) save.profile.age = 15;
+    if (!save.stats) save.stats = baseStats();
+    Object.keys(baseStats()).forEach((key) => {
+      if (typeof save.stats[key] !== "number") save.stats[key] = 10;
+    });
+    if (!save.week) save.week = 1;
+    if (!Array.isArray(save.cleared)) save.cleared = [];
+    if (!save.flags) save.flags = {};
+    return save;
+  }
+
+  function statsTotal(stats) {
+    return Object.values(stats || {}).reduce((sum, n) => sum + (Number(n) || 0), 0);
+  }
+
+  function roomTierFromSave(save) {
+    const data = ensureSaveShape({ ...save, profile: { ...save.profile }, stats: { ...save.stats } });
+    const age = data.profile.age || 15;
+    const total = statsTotal(data.stats);
+    let tier = 0;
+    if (total >= 70) tier = 1;
+    if (total >= 82) tier = 2;
+    if (total >= 96) tier = 3;
+    if (total >= 112) tier = 4;
+    if (total >= 128) tier = 5;
+    // 年齢で上限（大人になるほど上の部屋へ進める）
+    if (age < 18) tier = Math.min(tier, 1);
+    else if (age < 22) tier = Math.min(tier, 3);
+    else if (age < 28) tier = Math.min(tier, 4);
+    return ROOM_TIERS[tier] || ROOM_TIERS[0];
+  }
+
   function createSaveData(slotIndex, profile) {
     return {
       version: 1,
@@ -223,6 +328,7 @@
       profile: {
         name: profile.name,
         age: 15,
+        gender: profile.gender || "girl",
         trait: profile.trait
       },
       stats: statsForTrait(profile.trait),
@@ -234,8 +340,8 @@
 
   function applySaveToRuntime(save, slotIndex) {
     state.activeSlot = slotIndex;
-    state.save = save;
-    state.cleared = new Set(Array.isArray(save.cleared) ? save.cleared : []);
+    state.save = ensureSaveShape(save);
+    state.cleared = new Set(Array.isArray(state.save.cleared) ? state.save.cleared : []);
     state.seenEvents = new Set();
     state.categoryId = null;
     state.optionId = null;
@@ -245,26 +351,135 @@
     map.y = 48;
     map.vx = 0;
     map.vy = 0;
-    updatePlayerLabel();
+    updatePlayerVisuals();
   }
 
   function persistActiveSave() {
     if (state.activeSlot === null || !state.save) return false;
     const slots = readSaveSlots();
+    state.save = ensureSaveShape(state.save);
     state.save.updatedAt = new Date().toISOString();
     state.save.cleared = Array.from(state.cleared);
     slots[state.activeSlot] = state.save;
     return writeSaveSlots(slots);
   }
 
-  function updatePlayerLabel() {
+  function updatePlayerVisuals() {
     const nameEl = playerEl?.querySelector(".map-player-name");
-    if (!nameEl) return;
-    nameEl.textContent = state.save?.profile?.name || "YOU";
+    if (nameEl) nameEl.textContent = state.save?.profile?.name || "YOU";
+    const img = playerEl?.querySelector(".map-player-img");
+    const gender = state.save?.profile?.gender || "girl";
+    const src = avatarForGender(gender);
+    if (img) img.src = src;
+    if (enterPortrait) enterPortrait.src = src;
+  }
+
+  function showHubToast(text) {
+    if (!hubToast) return;
+    hubToast.hidden = false;
+    hubToast.textContent = text;
+    if (hubToastTimer) window.clearTimeout(hubToastTimer);
+    hubToastTimer = window.setTimeout(() => {
+      hubToast.hidden = true;
+    }, 2200);
+  }
+
+  function renderHub() {
+    if (!state.save) return;
+    const save = ensureSaveShape(state.save);
+    const room = roomTierFromSave(save);
+    if (hubRoomBg) hubRoomBg.style.backgroundImage = `url("${room.bg}")`;
+    if (hubAvatar) hubAvatar.src = avatarForGender(save.profile.gender);
+    if (hubName) hubName.textContent = save.profile.name || "—";
+    if (hubAge) hubAge.textContent = `${save.profile.age || 15}歳 / 第${save.week || 1}週`;
+    if (hubRoomLabel) hubRoomLabel.textContent = room.label;
+    if (hubRoomHint) hubRoomHint.textContent = room.hint;
+    if (hubStats) {
+      hubStats.innerHTML = "";
+      Object.keys(STAT_LABELS).forEach((key) => {
+        const value = Math.max(0, Math.min(40, Number(save.stats[key]) || 0));
+        const row = document.createElement("div");
+        row.className = "hub-stat-row";
+        row.innerHTML = `<span>${STAT_LABELS[key]}</span><div class="hub-stat-bar"><i style="width:${(value / 40) * 100}%"></i></div><span>${value}</span>`;
+        hubStats.appendChild(row);
+      });
+    }
+  }
+
+  function openHub() {
+    if (!state.save) {
+      openSaveScreen();
+      return;
+    }
+    hideLifeEvent();
+    applySceneBackground(null);
+    updatePlayerVisuals();
+    renderHub();
+    showScreen("hub");
+  }
+
+  function doHubAction(actionId) {
+    if (!state.save) return;
+    const def = HUB_ACTIONS[actionId];
+    if (!def) return;
+    const save = ensureSaveShape(state.save);
+    const beforeRoom = roomTierFromSave(save).id;
+    if (def.cost > 0) {
+      save.stats.stamina = Math.max(1, (save.stats.stamina || 1) - def.cost);
+    }
+    save.stats[def.key] = Math.min(40, (save.stats[def.key] || 0) + def.gain);
+    if (actionId !== "rest") {
+      save.stats.calm = Math.min(40, (save.stats.calm || 0) + 1);
+    }
+    save.week = (save.week || 1) + 1;
+    // だいたい8行動で1歳（デモ用の簡易進行）
+    if (save.week > 0 && save.week % 8 === 0) {
+      save.profile.age = Math.min(40, (save.profile.age || 15) + 1);
+    }
+    state.save = save;
+    persistActiveSave();
+    renderHub();
+    const afterRoom = roomTierFromSave(save).id;
+    if (afterRoom !== beforeRoom) {
+      showHubToast(`${def.msg} 部屋の景色が変わった。`);
+    } else {
+      showHubToast(def.msg);
+    }
+  }
+
+  function bindTap(el, handler) {
+    if (!el) return;
+    let touched = false;
+    el.addEventListener(
+      "touchend",
+      (event) => {
+        touched = true;
+        event.preventDefault();
+        handler(event);
+        window.setTimeout(() => {
+          touched = false;
+        }, 400);
+      },
+      { passive: false }
+    );
+    el.addEventListener("click", (event) => {
+      if (touched) {
+        event.preventDefault();
+        return;
+      }
+      handler(event);
+    });
   }
 
   function openSaveScreen() {
     pendingNewSlot = null;
+    const slots = readSaveSlots();
+    const hasAny = slots.some((save) => save?.profile?.name);
+    // まだ1件も無いときは、セーブ一覧を飛ばして15歳設定へ
+    if (!hasAny) {
+      openProfileScreen(0);
+      return;
+    }
     renderSaveSlots();
     showScreen("saves");
   }
@@ -278,6 +493,8 @@
     }
     const firstTrait = profileForm?.querySelector('input[name="trait"][value="study"]');
     if (firstTrait) firstTrait.checked = true;
+    const girlGender = profileForm?.querySelector('input[name="gender"][value="girl"]');
+    if (girlGender) girlGender.checked = true;
     showScreen("profile");
   }
 
@@ -298,7 +515,7 @@
       return;
     }
     applySaveToRuntime(save, slotIndex);
-    openMap();
+    openHub();
   }
 
   function deleteSlot(slotIndex) {
@@ -313,7 +530,7 @@
       state.activeSlot = null;
       state.save = null;
       state.cleared = new Set();
-      updatePlayerLabel();
+      updatePlayerVisuals();
     }
     renderSaveSlots();
   }
@@ -337,7 +554,8 @@
       if (save?.profile?.name) {
         name.textContent = save.profile.name;
         const trait = TRAIT_LABELS[save.profile.trait] || "設定あり";
-        meta.textContent = `${save.profile.age || 15}歳 / ${trait} / 第${save.week || 1}週 ・ ${formatSaveTime(save.updatedAt)}`;
+        const gender = save.profile.gender === "boy" ? "少年" : "少女";
+        meta.textContent = `${save.profile.age || 15}歳 / ${gender} / ${trait} / 第${save.week || 1}週 ・ ${formatSaveTime(save.updatedAt)}`;
       } else {
         name.textContent = "データなし";
         meta.textContent = "はじめからで、15歳の自分を作成";
@@ -351,24 +569,24 @@
         cont.type = "button";
         cont.className = "btn-start";
         cont.innerHTML = '<span class="btn-start-label">続きから</span>';
-        cont.addEventListener("click", () => continueSlot(index));
+        bindTap(cont, () => continueSlot(index));
         const neu = document.createElement("button");
         neu.type = "button";
         neu.className = "hud-btn";
-        neu.textContent = "はじめから";
-        neu.addEventListener("click", () => startNewInSlot(index));
+        neu.textContent = "15歳から作り直す";
+        bindTap(neu, () => startNewInSlot(index));
         const del = document.createElement("button");
         del.type = "button";
         del.className = "hud-btn";
         del.textContent = "消す";
-        del.addEventListener("click", () => deleteSlot(index));
+        bindTap(del, () => deleteSlot(index));
         actions.append(cont, neu, del);
       } else {
         const neu = document.createElement("button");
         neu.type = "button";
         neu.className = "btn-start";
-        neu.innerHTML = '<span class="btn-start-label">はじめから</span>';
-        neu.addEventListener("click", () => startNewInSlot(index));
+        neu.innerHTML = '<span class="btn-start-label">15歳の自分を作る</span>';
+        bindTap(neu, () => startNewInSlot(index));
         actions.append(neu);
       }
 
@@ -391,14 +609,16 @@
     }
     if (profileError) profileError.hidden = true;
     const traitInput = profileForm?.querySelector('input[name="trait"]:checked');
+    const genderInput = profileForm?.querySelector('input[name="gender"]:checked');
     const trait = traitInput?.value || "study";
-    const save = createSaveData(pendingNewSlot, { name, trait });
+    const gender = genderInput?.value || "girl";
+    const save = createSaveData(pendingNewSlot, { name, trait, gender });
     const slots = readSaveSlots();
     slots[pendingNewSlot] = save;
     if (!writeSaveSlots(slots)) return;
     applySaveToRuntime(save, pendingNewSlot);
     pendingNewSlot = null;
-    openMap();
+    openHub();
   }
 
   const map = {
@@ -601,7 +821,7 @@
       hideLifeEvent();
       state.nearbyId = null;
       if (enterPrompt) enterPrompt.hidden = true;
-      updatePlayerLabel();
+      updatePlayerVisuals();
       renderPlayer();
       updateNearby();
       showScreen("map");
@@ -954,6 +1174,7 @@
 
   function handleAction(action) {
     if (action === "to-map") openMap();
+    if (action === "to-hub") openHub();
     if (action === "to-saves") openSaveScreen();
     if (action === "to-start") {
       stopMapLoop();
@@ -996,6 +1217,10 @@
   if (profileForm) {
     profileForm.addEventListener("submit", finishProfile);
   }
+
+  document.querySelectorAll("[data-hub-action]").forEach((el) => {
+    bindTap(el, () => doHubAction(el.getAttribute("data-hub-action")));
+  });
 
   const keys = new Set();
   window.addEventListener("keydown", (event) => {
