@@ -396,10 +396,11 @@ button {
   gap: 14px;
   padding: 10px 14px var(--safe-bottom);
   min-height: calc(100dvh - 64px);
-  align-items: stretch;
+  align-items: end;
 }
 
 .hub-status {
+  align-self: stretch;
   padding: 14px 12px;
   border-radius: 16px;
   border: 1px solid rgba(232, 244, 242, 0.18);
@@ -484,12 +485,15 @@ button {
 .hub-actions {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   gap: 10px;
   padding: 12px;
   border-radius: 16px;
   border: 1px solid rgba(232, 244, 242, 0.16);
   background: rgba(7, 21, 28, 0.9);
+  /* 高さはボタン分だけ。空きの暗パネルで部屋を隠さない */
+  align-self: end;
+  width: min(100%, 520px);
+  justify-self: end;
 }
 
 .hub-action-overlay {
