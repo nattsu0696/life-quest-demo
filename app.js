@@ -29,10 +29,8 @@
     document.documentElement.classList.toggle("is-standalone", standalone);
     document.documentElement.classList.toggle("is-fullscreen", fullscreen);
     if (standalone && installTip) installTip.hidden = true;
-    // ホーム画面起動なら帯は出ない。Safari内だけ全画面ボタンを出す
-    if (fsBtn) {
-      fsBtn.hidden = standalone || fullscreen || !document.documentElement.classList.contains("is-unlocked");
-    }
+    // 自動全画面はやらない。ホーム画面追加が本線
+    if (fsBtn) fsBtn.hidden = true;
   }
 
   function syncOrientation() {
@@ -199,7 +197,6 @@
     installTipOk.addEventListener("click", (event) => {
       event.preventDefault();
       hideInstallTip();
-      requestAppFullscreen();
     });
   }
 
@@ -211,8 +208,6 @@
         try { sessionStorage.setItem(GATE_KEY, "ok"); } catch (_) {}
         if (gateError) gateError.hidden = true;
         unlockApp();
-        // ホーム画面起動では全画面API不要（逆に不安定になる）
-        if (!isStandaloneMode()) requestAppFullscreen();
         return;
       }
       if (gateError) gateError.hidden = false;
@@ -296,58 +291,130 @@
 
   const HUB_ACTIONS = {
     study: {
-      key: "intellect",
-      gain: 2,
-      cost: 1,
       title: "勉強する",
       kicker: "STUDY",
       img: "assets/actions/action-study.jpg",
-      msg: "机に向かった。知力が少し上がった。"
+      prompt: "今日の勉強、どう進める？",
+      cost: 1,
+      choices: [
+        {
+          label: "じっくり教科書",
+          hint: "知力↑↑",
+          gains: { intellect: 3 },
+          msg: "教科書をじっくり読んだ。知力がしっかり上がった。"
+        },
+        {
+          label: "要点だけ確認",
+          hint: "知力↑ 冷静↑",
+          gains: { intellect: 1, calm: 1 },
+          msg: "要点だけサッと確認した。知力が少し上がり、冷静さも保った。"
+        }
+      ]
     },
     craft: {
-      key: "skill",
-      gain: 2,
-      cost: 1,
       title: "手を動かす",
       kicker: "CRAFT",
       img: "assets/actions/action-craft.jpg",
-      msg: "手を動かして作った。技術が少し上がった。"
+      prompt: "何を作る？",
+      cost: 1,
+      choices: [
+        {
+          label: "ていねいに仕上げる",
+          hint: "技術↑↑",
+          gains: { skill: 3 },
+          msg: "細部まで丁寧に仕上げた。技術がしっかり上がった。"
+        },
+        {
+          label: "アイデア優先で試作",
+          hint: "技術↑ 勇気↑",
+          gains: { skill: 1, courage: 1 },
+          msg: "思いつきで試作した。技術と勇気が少し上がった。"
+        }
+      ]
     },
     talk: {
-      key: "social",
-      gain: 2,
-      cost: 1,
       title: "人と話す",
       kicker: "TALK",
       img: "assets/actions/action-talk.jpg",
-      msg: "人と話した。社交性が少し上がった。"
+      prompt: "どんな話し方にする？",
+      cost: 1,
+      choices: [
+        {
+          label: "じっくり聞く",
+          hint: "社交↑↑",
+          gains: { social: 3 },
+          msg: "相手の話をじっくり聞いた。社交性がしっかり上がった。"
+        },
+        {
+          label: "自分の話も交える",
+          hint: "社交↑ 勇気↑",
+          gains: { social: 1, courage: 1 },
+          msg: "自分のことも交えて話した。社交と勇気が少し上がった。"
+        }
+      ]
     },
     play: {
-      key: "social",
-      gain: 2,
-      cost: 1,
       title: "遊びに行く",
       kicker: "PLAY",
       img: "assets/actions/action-play.jpg",
-      msg: "外で思いきり遊んだ。社交性が少し上がった。"
+      prompt: "どう遊ぶ？",
+      cost: 1,
+      choices: [
+        {
+          label: "みんなでワイワイ",
+          hint: "社交↑↑",
+          gains: { social: 3 },
+          msg: "みんなでワイワイ遊んだ。社交性がしっかり上がった。"
+        },
+        {
+          label: "体を動かして遊ぶ",
+          hint: "社交↑ 体力↑",
+          gains: { social: 1, stamina: 1 },
+          msg: "体を動かして遊んだ。社交と体力が少し上がった。"
+        }
+      ]
     },
     brave: {
-      key: "courage",
-      gain: 2,
-      cost: 1,
       title: "挑戦する",
       kicker: "CHALLENGE",
       img: "assets/actions/action-brave.jpg",
-      msg: "一歩踏み出した。勇気が少し上がった。"
+      prompt: "どう挑戦する？",
+      cost: 1,
+      choices: [
+        {
+          label: "思いきり飛び込む",
+          hint: "勇気↑↑",
+          gains: { courage: 3 },
+          msg: "思いきり飛び込んだ。勇気がしっかり上がった。"
+        },
+        {
+          label: "準備してから挑む",
+          hint: "勇気↑ 冷静↑",
+          gains: { courage: 1, calm: 1 },
+          msg: "準備してから挑んだ。勇気と冷静さが少し上がった。"
+        }
+      ]
     },
     rest: {
-      key: "stamina",
-      gain: 3,
-      cost: 0,
       title: "休む",
       kicker: "REST",
       img: "assets/actions/action-rest.jpg",
-      msg: "しっかり休んだ。体力が戻った。"
+      prompt: "どう休む？",
+      cost: 0,
+      choices: [
+        {
+          label: "しっかり寝る",
+          hint: "体力↑↑",
+          gains: { stamina: 4 },
+          msg: "しっかり眠った。体力が大きく戻った。"
+        },
+        {
+          label: "ぼんやり過ごす",
+          hint: "体力↑ 冷静↑",
+          gains: { stamina: 2, calm: 1 },
+          msg: "ぼんやり過ごした。体力が戻り、冷静さも少し上がった。"
+        }
+      ]
     }
   };
 
@@ -369,17 +436,24 @@
   const hubActionKicker = document.getElementById("hub-action-kicker");
   const hubActionTitle = document.getElementById("hub-action-title");
   const hubActionText = document.getElementById("hub-action-text");
+  const hubActionChoices = document.getElementById("hub-action-choices");
   const hubActionOk = document.getElementById("hub-action-ok");
   const hubVisitorOverlay = document.getElementById("hub-visitor-overlay");
   const hubVisitorImg = document.getElementById("hub-visitor-img");
   const hubVisitorName = document.getElementById("hub-visitor-name");
   const hubVisitorText = document.getElementById("hub-visitor-text");
+  const hubVisitorChoices = document.getElementById("hub-visitor-choices");
   const hubVisitorOk = document.getElementById("hub-visitor-ok");
   let pendingNewSlot = null;
   let hubToastTimer = null;
   let hubActionBusy = false;
   let hubVisitorBusy = false;
+  let pendingHubAction = null;
   let pendingHubVisitor = null;
+  let hubVisitorPhase = "talk"; // talk | choose | done
+  let hubTypeTimer = null;
+  let hubTyping = false;
+  let hubFullText = "";
 
   const stage = document.getElementById("stage");
   const stageBgPhoto = document.getElementById("stage-bg-photo");
@@ -531,30 +605,86 @@
           id: "sister",
           name: "妹",
           img: "assets/char-sister.png",
+          size: "sibling",
           text: "ねえ、勉強教えて〜！ひとりだとわからないとこがあるの。",
-          boost: { intellect: 1 }
+          choices: [
+            {
+              label: "丁寧に教える",
+              hint: "知力↑↑",
+              gains: { intellect: 2 },
+              toast: "妹に丁寧に教えた。知力がしっかり上がった。"
+            },
+            {
+              label: "要点だけ教える",
+              hint: "知力↑ 社交↑",
+              gains: { intellect: 1, social: 1 },
+              toast: "妹に要点だけ教えた。知力と社交が少し上がった。"
+            }
+          ]
         }
       : {
           id: "brother",
           name: "弟",
           img: "assets/char-brother.png",
+          size: "sibling",
           text: "お姉ちゃん、勉強教えて〜！宿題がむずかしいんだ。",
-          boost: { intellect: 1 }
+          choices: [
+            {
+              label: "丁寧に教える",
+              hint: "知力↑↑",
+              gains: { intellect: 2 },
+              toast: "弟に丁寧に教えた。知力がしっかり上がった。"
+            },
+            {
+              label: "要点だけ教える",
+              hint: "知力↑ 社交↑",
+              gains: { intellect: 1, social: 1 },
+              toast: "弟に要点だけ教えた。知力と社交が少し上がった。"
+            }
+          ]
         };
     const friend = gender === "boy"
       ? {
           id: "friend-boy",
           name: "男の友だち",
           img: "assets/char-friend-boy.png",
+          size: "friend",
           text: "よー、ひさしぶり！ちょっと部屋、おじゃまするわ。今日なにすんの？",
-          boost: { social: 1 }
+          choices: [
+            {
+              label: "一緒に遊ぶ",
+              hint: "社交↑↑",
+              gains: { social: 2 },
+              toast: "友だちと一緒に遊んだ。社交性がしっかり上がった。"
+            },
+            {
+              label: "近況を話す",
+              hint: "社交↑ 冷静↑",
+              gains: { social: 1, calm: 1 },
+              toast: "友だちと近況を話した。社交と冷静さが少し上がった。"
+            }
+          ]
         }
       : {
           id: "friend-girl",
           name: "女の友だち",
           img: "assets/char-friend-girl.png",
+          size: "friend",
           text: "ひさびさ〜！部屋おじゃまするね。きょうなにしようか？",
-          boost: { social: 1 }
+          choices: [
+            {
+              label: "一緒に遊ぶ",
+              hint: "社交↑↑",
+              gains: { social: 2 },
+              toast: "友だちと一緒に遊んだ。社交性がしっかり上がった。"
+            },
+            {
+              label: "近況を話す",
+              hint: "社交↑ 冷静↑",
+              gains: { social: 1, calm: 1 },
+              toast: "友だちと近況を話した。社交と冷静さが少し上がった。"
+            }
+          ]
         };
     return {
       sibling,
@@ -563,15 +693,43 @@
           id: "father",
           name: "お父さん",
           img: "assets/char-father.png",
+          size: "parent",
           text: "お疲れさま。無理しすぎるなよ。何かあったら、ちゃんと話せ。",
-          boost: { calm: 1 }
+          choices: [
+            {
+              label: "ゆっくり話す",
+              hint: "冷静↑↑",
+              gains: { calm: 2 },
+              toast: "お父さんとゆっくり話した。冷静さがしっかり上がった。"
+            },
+            {
+              label: "元気だよと答える",
+              hint: "勇気↑ 冷静↑",
+              gains: { courage: 1, calm: 1 },
+              toast: "お父さんに元気だと答えた。勇気と冷静さが少し上がった。"
+            }
+          ]
         },
         {
           id: "mother",
           name: "お母さん",
           img: "assets/char-mother.png",
+          size: "parent",
           text: "おかえり。少し休んだ？温かいもの、いる？",
-          boost: { stamina: 1 }
+          choices: [
+            {
+              label: "温かいものをもらう",
+              hint: "体力↑↑",
+              gains: { stamina: 2 },
+              toast: "お母さんにもらった温かいもので、体力がしっかり戻った。"
+            },
+            {
+              label: "今日の話をする",
+              hint: "体力↑ 社交↑",
+              gains: { stamina: 1, social: 1 },
+              toast: "お母さんと今日の話をした。体力と社交が少し上がった。"
+            }
+          ]
         },
         friend
       ]
@@ -598,32 +756,133 @@
     return null;
   }
 
+  function stopHubTyping() {
+    if (hubTypeTimer) {
+      window.clearInterval(hubTypeTimer);
+      hubTypeTimer = null;
+    }
+    hubTyping = false;
+  }
+
+  function typeHubVisitorText(text) {
+    if (!hubVisitorText) return;
+    stopHubTyping();
+    hubFullText = text || "";
+    hubTyping = true;
+    hubVisitorText.textContent = "";
+    if (!hubFullText) {
+      hubTyping = false;
+      return;
+    }
+    let i = 0;
+    hubTypeTimer = window.setInterval(() => {
+      i += 1;
+      hubVisitorText.textContent = hubFullText.slice(0, i);
+      if (i >= hubFullText.length) {
+        stopHubTyping();
+      }
+    }, 36);
+  }
+
+  function revealHubVisitorText() {
+    if (!hubTyping) return false;
+    stopHubTyping();
+    if (hubVisitorText) hubVisitorText.textContent = hubFullText;
+    return true;
+  }
+
+  function fillHubChoiceButtons(container, choices, onPick) {
+    if (!container) return;
+    container.innerHTML = "";
+    (choices || []).forEach((choice, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "hub-choice-btn";
+      btn.innerHTML = `${choice.label}<span>${choice.hint || ""}</span>`;
+      bindTap(btn, () => onPick(index, choice));
+      container.appendChild(btn);
+    });
+    container.hidden = !(choices && choices.length);
+  }
+
   function showHubVisitor(visitor) {
     if (!visitor || !hubVisitorOverlay) return false;
     pendingHubVisitor = visitor;
     hubVisitorBusy = true;
     hubActionBusy = true;
+    hubVisitorPhase = "talk";
     if (hubVisitorImg) {
       hubVisitorImg.src = visitor.img;
       hubVisitorImg.alt = visitor.name;
+      hubVisitorImg.classList.toggle("is-parent", visitor.size === "parent");
+      hubVisitorImg.classList.toggle("is-friend", visitor.size === "friend");
     }
     if (hubVisitorName) hubVisitorName.textContent = visitor.name;
-    if (hubVisitorText) hubVisitorText.textContent = visitor.text;
+    if (hubVisitorChoices) {
+      hubVisitorChoices.hidden = true;
+      hubVisitorChoices.innerHTML = "";
+    }
+    if (hubVisitorOk) hubVisitorOk.hidden = true;
+    typeHubVisitorText(visitor.text);
     hubVisitorOverlay.hidden = false;
+    // 文字送りが終わったら選択肢を出す
+    const waitForType = window.setInterval(() => {
+      if (!hubVisitorBusy || pendingHubVisitor !== visitor) {
+        window.clearInterval(waitForType);
+        return;
+      }
+      if (!hubTyping) {
+        window.clearInterval(waitForType);
+        showHubVisitorChoices();
+      }
+    }, 80);
     return true;
   }
 
+  function showHubVisitorChoices() {
+    if (!pendingHubVisitor) return;
+    hubVisitorPhase = "choose";
+    const choices = pendingHubVisitor.choices || [];
+    if (hubVisitorOk) hubVisitorOk.hidden = true;
+    if (!choices.length) {
+      if (hubVisitorOk) {
+        hubVisitorOk.hidden = false;
+        const label = hubVisitorOk.querySelector(".btn-start-label");
+        if (label) label.textContent = "わかった";
+      }
+      return;
+    }
+    fillHubChoiceButtons(hubVisitorChoices, choices, (_index, choice) => {
+      resolveHubVisitor(choice);
+    });
+  }
+
   function hideHubVisitor() {
+    stopHubTyping();
     if (hubVisitorOverlay) hubVisitorOverlay.hidden = true;
+    if (hubVisitorChoices) {
+      hubVisitorChoices.hidden = true;
+      hubVisitorChoices.innerHTML = "";
+    }
+    if (hubVisitorOk) hubVisitorOk.hidden = true;
+    if (hubVisitorImg) {
+      hubVisitorImg.classList.remove("is-parent", "is-friend");
+    }
     pendingHubVisitor = null;
+    hubVisitorPhase = "talk";
     hubVisitorBusy = false;
     hubActionBusy = false;
     renderHub();
   }
 
-  function resolveHubVisitor() {
+  function resolveHubVisitor(choice) {
     if (!state.save || !pendingHubVisitor) {
       hideHubVisitor();
+      return;
+    }
+    if (revealHubVisitorText()) return;
+    if (hubVisitorPhase === "talk") {
+      showHubVisitorChoices();
       return;
     }
     const visitor = pendingHubVisitor;
@@ -631,16 +890,17 @@
     if (!save.flags.visitorsSeen.includes(visitor.id)) {
       save.flags.visitorsSeen.push(visitor.id);
     }
-    if (visitor.boost) {
+    const picked = choice || (visitor.choices && visitor.choices[0]) || null;
+    if (picked && picked.gains) {
+      Object.entries(picked.gains).forEach(([key, gain]) => {
+        save.stats[key] = Math.min(40, (save.stats[key] || 0) + gain);
+      });
+    } else if (visitor.boost) {
       Object.entries(visitor.boost).forEach(([key, gain]) => {
         save.stats[key] = Math.min(40, (save.stats[key] || 0) + gain);
       });
     }
-    if (visitor.id === "sister" || visitor.id === "brother") {
-      showHubToast(`${visitor.name}に勉強を教えた。知力が少し上がった。`);
-    } else {
-      showHubToast(`${visitor.name}が部屋に来た。`);
-    }
+    showHubToast(picked?.toast || `${visitor.name}が部屋に来た。`);
     state.save = save;
     persistActiveSave();
     hideHubVisitor();
@@ -783,6 +1043,12 @@
 
   function hideHubActionOverlay() {
     if (hubActionOverlay) hubActionOverlay.hidden = true;
+    if (hubActionChoices) {
+      hubActionChoices.hidden = true;
+      hubActionChoices.innerHTML = "";
+    }
+    if (hubActionOk) hubActionOk.hidden = true;
+    pendingHubAction = null;
     const visitor = pickNextVisitor();
     if (visitor && showHubVisitor(visitor)) {
       renderHub();
@@ -792,9 +1058,9 @@
     renderHub();
   }
 
-  function showHubActionScene(def, extraNote) {
+  function showHubActionScene(def, mode, note) {
     if (!hubActionOverlay) {
-      showHubToast(extraNote || def.msg);
+      showHubToast(note || def.prompt || def.title);
       return;
     }
     hubActionBusy = true;
@@ -804,30 +1070,45 @@
     }
     if (hubActionKicker) hubActionKicker.textContent = def.kicker || "ACTION";
     if (hubActionTitle) hubActionTitle.textContent = def.title;
-    if (hubActionText) hubActionText.textContent = extraNote || def.msg;
+    if (hubActionText) {
+      hubActionText.textContent = mode === "result"
+        ? (note || "")
+        : (def.prompt || "どうする？");
+    }
+    if (hubActionOk) hubActionOk.hidden = mode !== "result";
+    if (mode === "choose") {
+      fillHubChoiceButtons(hubActionChoices, def.choices, (_index, choice) => {
+        resolveHubActionChoice(choice);
+      });
+    } else if (hubActionChoices) {
+      hubActionChoices.hidden = true;
+      hubActionChoices.innerHTML = "";
+    }
     hubActionOverlay.hidden = false;
   }
 
-  function doHubAction(actionId) {
-    if (!state.save || hubActionBusy || hubVisitorBusy) return;
+  function applyHubActionGains(save, actionId, choice) {
     const def = HUB_ACTIONS[actionId];
     if (!def) return;
-    const save = ensureSaveShape(state.save);
-    const beforeRoom = roomTierFromSave(save).id;
-    if (def.cost > 0) {
+    if ((def.cost || 0) > 0) {
       save.stats.stamina = Math.max(1, (save.stats.stamina || 1) - def.cost);
     }
-    save.stats[def.key] = Math.min(40, (save.stats[def.key] || 0) + def.gain);
-    if (actionId !== "rest") {
+    Object.entries(choice.gains || {}).forEach(([key, gain]) => {
+      save.stats[key] = Math.min(40, (save.stats[key] || 0) + gain);
+    });
+    // 休息以外は少し冷静さも付く
+    if (actionId !== "rest" && !(choice.gains && choice.gains.calm)) {
       save.stats.calm = Math.min(40, (save.stats.calm || 0) + 1);
     }
-    // 遊びは社交に加えて気持ちも少し回復
-    if (actionId === "play") {
-      save.stats.calm = Math.min(40, (save.stats.calm || 0) + 1);
-    }
+  }
+
+  function resolveHubActionChoice(choice) {
+    if (!state.save || !pendingHubAction || !choice) return;
+    const { actionId, def, beforeRoom } = pendingHubAction;
+    const save = ensureSaveShape(state.save);
+    applyHubActionGains(save, actionId, choice);
     save.week = (save.week || 1) + 1;
     save.flags.hubActions = (save.flags.hubActions || 0) + 1;
-    // だいたい8行動で1歳（デモ用の簡易進行）
     if (save.week > 0 && save.week % 8 === 0) {
       save.profile.age = Math.min(40, (save.profile.age || 15) + 1);
     }
@@ -835,10 +1116,24 @@
     persistActiveSave();
     const afterRoom = roomTierFromSave(save).id;
     const note = afterRoom !== beforeRoom
-      ? `${def.msg} 部屋の景色が変わった。`
-      : def.msg;
-    showHubActionScene(def, note);
+      ? `${choice.msg} 部屋の景色が変わった。`
+      : choice.msg;
+    showHubActionScene(def, "result", note);
     showHubToast(note);
+    renderHub();
+  }
+
+  function doHubAction(actionId) {
+    if (!state.save || hubActionBusy || hubVisitorBusy) return;
+    const def = HUB_ACTIONS[actionId];
+    if (!def) return;
+    const save = ensureSaveShape(state.save);
+    pendingHubAction = {
+      actionId,
+      def,
+      beforeRoom: roomTierFromSave(save).id
+    };
+    showHubActionScene(def, "choose");
   }
 
   function bindTap(el, handler) {
@@ -1575,7 +1870,6 @@
     if (action === "to-map") openMap();
     if (action === "to-hub") openHub();
     if (action === "to-saves") {
-      requestAppFullscreen();
       openSaveScreen();
     }
     if (action === "to-start") {
@@ -1629,18 +1923,29 @@
   if (hubActionOk) {
     bindTap(hubActionOk, () => hideHubActionOverlay());
   }
-  if (hubActionOverlay) {
-    bindTap(hubActionOverlay, (event) => {
-      if (event.target === hubActionOverlay) hideHubActionOverlay();
-    });
-  }
   if (hubVisitorOk) {
     bindTap(hubVisitorOk, () => resolveHubVisitor());
   }
   if (hubVisitorOverlay) {
     bindTap(hubVisitorOverlay, (event) => {
-      if (event.target === hubVisitorOverlay) resolveHubVisitor();
+      if (event.target !== hubVisitorOverlay && event.target !== hubVisitorImg) return;
+      if (revealHubVisitorText()) {
+        showHubVisitorChoices();
+        return;
+      }
+      if (hubVisitorPhase === "talk") {
+        showHubVisitorChoices();
+      }
     });
+    if (hubVisitorText) {
+      bindTap(hubVisitorText, () => {
+        if (revealHubVisitorText()) {
+          showHubVisitorChoices();
+        } else if (hubVisitorPhase === "talk") {
+          showHubVisitorChoices();
+        }
+      });
+    }
   }
 
   const keys = new Set();

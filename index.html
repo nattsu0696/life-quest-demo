@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=42" />
+  <link rel="stylesheet" href="styles.css?v=44" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -208,6 +208,20 @@
             <div id="hub-stats" class="hub-stats"></div>
           </aside>
           <div class="hub-actions">
+            <div id="hub-action-overlay" class="hub-action-overlay" hidden>
+              <div class="hub-action-card">
+                <img id="hub-action-img" class="hub-action-img" src="" alt="" />
+                <div class="hub-action-copy">
+                  <p id="hub-action-kicker" class="hub-action-kicker">ACTION</p>
+                  <h3 id="hub-action-title" class="hub-action-title"></h3>
+                  <p id="hub-action-text" class="hub-action-text"></p>
+                  <div id="hub-action-choices" class="hub-action-choices" hidden></div>
+                  <button type="button" id="hub-action-ok" class="btn-start hub-action-ok" hidden>
+                    <span class="btn-start-label">部屋に戻る</span>
+                  </button>
+                </div>
+              </div>
+            </div>
             <p class="hub-actions-label">今日の行動</p>
             <div class="hub-action-grid">
               <button type="button" class="hub-action" data-hub-action="study">勉強する<span>知力↑</span></button>
@@ -224,27 +238,14 @@
           </div>
         </div>
 
-        <div id="hub-action-overlay" class="hub-action-overlay" hidden>
-          <div class="hub-action-card">
-            <img id="hub-action-img" class="hub-action-img" src="" alt="" />
-            <div class="hub-action-copy">
-              <p id="hub-action-kicker" class="hub-action-kicker">ACTION</p>
-              <h3 id="hub-action-title" class="hub-action-title"></h3>
-              <p id="hub-action-text" class="hub-action-text"></p>
-              <button type="button" id="hub-action-ok" class="btn-start hub-action-ok">
-                <span class="btn-start-label">部屋に戻る</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
         <div id="hub-visitor-overlay" class="hub-visitor-overlay" hidden>
           <div class="hub-visitor-stage">
             <img id="hub-visitor-img" class="hub-visitor-img" src="" alt="" />
             <div class="hub-visitor-balloon">
               <p id="hub-visitor-name" class="hub-visitor-name"></p>
               <p id="hub-visitor-text" class="hub-visitor-text"></p>
-              <button type="button" id="hub-visitor-ok" class="btn-start hub-visitor-ok">
+              <div id="hub-visitor-choices" class="hub-visitor-choices" hidden></div>
+              <button type="button" id="hub-visitor-ok" class="btn-start hub-visitor-ok" hidden>
                 <span class="btn-start-label">わかった</span>
               </button>
             </div>
@@ -422,7 +423,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=42"></script>
-  <script src="app.js?v=42"></script>
+  <script src="content.js?v=44"></script>
+  <script src="app.js?v=44"></script>
 </body>
 </html>

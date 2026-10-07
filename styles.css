@@ -54,6 +54,39 @@ button {
   overflow: hidden;
 }
 
+/* PCブラウザ：全画面にせず、16:9のゲーム枠に収める */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  html:not(.is-standalone):not(.is-fullscreen) body {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(60% 50% at 50% 40%, rgba(47, 210, 183, 0.08), transparent 55%),
+      #040b10;
+  }
+
+  html:not(.is-standalone):not(.is-fullscreen) .app,
+  html:not(.is-standalone):not(.is-fullscreen) .gate {
+    position: relative;
+    inset: auto;
+    width: min(96vw, 1080px);
+    height: min(92dvh, calc(min(96vw, 1080px) * 9 / 16));
+    max-width: 1080px;
+    max-height: 92dvh;
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 28px 70px rgba(0, 0, 0, 0.55);
+  }
+
+  html:not(.is-standalone):not(.is-fullscreen) .fs-btn,
+  html:not(.is-standalone):not(.is-fullscreen) .install-tip {
+    display: none !important;
+  }
+}
+
 .app[hidden],
 .gate[hidden],
 .rotate-hint[hidden],
@@ -623,9 +656,10 @@ html.is-fullscreen .fs-btn {
 .hub-actions {
   grid-column: 1;
   grid-row: 1;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -633,16 +667,21 @@ html.is-fullscreen .fs-btn {
   width: min(100%, 420px);
   justify-self: start;
   max-height: 100%;
+  z-index: 6;
 }
 
+/* 行動実行パネル：ボタン群の直上に表示 */
 .hub-action-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  display: grid;
-  place-items: center;
-  padding: 10px;
-  background: rgba(3, 10, 14, 0.5);
+  position: relative;
+  inset: auto;
+  z-index: 8;
+  display: block;
+  padding: 0;
+  margin: 0 0 2px;
+  background: transparent;
+  order: -1;
+  flex: 0 1 auto;
+  min-height: 0;
 }
 
 .hub-action-overlay[hidden] {
@@ -650,20 +689,20 @@ html.is-fullscreen .fs-btn {
 }
 
 .hub-action-card {
-  width: min(72vw, 360px);
-  max-height: min(78vh, 420px);
-  border-radius: 14px;
+  width: 100%;
+  max-height: min(46vh, 300px);
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(232, 244, 242, 0.2);
+  border: 1px solid rgba(232, 244, 242, 0.22);
   background: rgba(7, 21, 28, 0.96);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
   animation: hubActionIn 0.28s ease both;
   display: flex;
   flex-direction: column;
 }
 
 @keyframes hubActionIn {
-  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to { opacity: 1; transform: none; }
 }
 
@@ -671,7 +710,7 @@ html.is-fullscreen .fs-btn {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 28vh;
+  max-height: min(18vh, 140px);
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
@@ -680,7 +719,9 @@ html.is-fullscreen .fs-btn {
 }
 
 .hub-action-copy {
-  padding: 10px 12px 12px;
+  padding: 8px 10px 10px;
+  min-height: 0;
+  overflow: auto;
 }
 
 .hub-action-kicker {
@@ -693,29 +734,68 @@ html.is-fullscreen .fs-btn {
 
 .hub-action-title {
   margin: 0 0 4px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
 }
 
 .hub-action-text {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.hub-action-choices,
+.hub-visitor-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.hub-action-choices[hidden],
+.hub-visitor-choices[hidden] {
+  display: none !important;
+}
+
+.hub-choice-btn {
+  display: grid;
+  gap: 1px;
+  padding: 8px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(47, 210, 183, 0.45);
+  background: rgba(47, 210, 183, 0.12);
+  color: var(--text);
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.74rem;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+.hub-choice-btn span {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: #9fd9ce;
+}
+
+.hub-choice-btn:active {
+  border-color: rgba(47, 210, 183, 0.85);
+  background: rgba(47, 210, 183, 0.22);
 }
 
 .hub-action-ok {
   width: 100%;
-  min-height: 40px;
+  min-height: 36px;
 }
 
 .hub-action-ok .btn-start-label {
-  font-size: 0.88rem;
+  font-size: 0.84rem;
 }
 
 .hub-actions-label {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   color: #dff7f1;
   font-weight: 700;
@@ -725,24 +805,25 @@ html.is-fullscreen .fs-btn {
 .hub-action-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 6px;
+  gap: 4px;
 }
 
 .hub-action {
   display: grid;
-  gap: 1px;
-  padding: 8px 8px;
-  border-radius: 10px;
+  gap: 0;
+  padding: 5px 6px;
+  border-radius: 8px;
   border: 1px solid rgba(232, 244, 242, 0.28);
   background: rgba(7, 21, 28, 0.78);
   text-align: left;
   font-weight: 700;
-  font-size: 0.8rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.28);
 }
 
 .hub-action span {
-  font-size: 0.64rem;
+  font-size: 0.58rem;
   font-weight: 500;
   color: var(--muted);
 }
@@ -753,9 +834,9 @@ html.is-fullscreen .fs-btn {
   inset: 0;
   z-index: 25;
   display: grid;
-  place-items: center;
-  padding: 12px;
-  background: rgba(3, 10, 14, 0.35);
+  place-items: end center;
+  padding: 8px 12px max(10px, env(safe-area-inset-bottom));
+  background: rgba(3, 10, 14, 0.28);
 }
 
 .hub-visitor-overlay[hidden] {
@@ -764,23 +845,37 @@ html.is-fullscreen .fs-btn {
 
 .hub-visitor-stage {
   position: relative;
-  width: min(100%, 420px);
-  height: min(78vh, 460px);
+  width: min(100%, 520px);
+  height: min(88vh, 560px);
   display: grid;
-  place-items: center;
+  place-items: end center;
   justify-items: center;
+  align-content: end;
 }
 
 .hub-visitor-img {
   display: block;
   width: auto;
-  height: min(52vh, 300px);
-  max-width: min(58vw, 280px);
+  height: min(68vh, 420px);
+  max-width: min(78vw, 380px);
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
   animation: hubVisitorIn 0.35s ease both;
   pointer-events: none;
+  margin-bottom: 88px;
+}
+
+/* 父母は弟妹より大きく */
+.hub-visitor-img.is-parent {
+  height: min(78vh, 500px);
+  max-width: min(88vw, 460px);
+  margin-bottom: 72px;
+}
+
+.hub-visitor-img.is-friend {
+  height: min(70vh, 440px);
+  max-width: min(80vw, 400px);
 }
 
 @keyframes hubVisitorIn {
@@ -793,12 +888,13 @@ html.is-fullscreen .fs-btn {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: min(100%, 340px);
-  padding: 12px 14px 12px;
+  width: min(100%, 380px);
+  padding: 10px 12px 10px;
   border-radius: 14px;
   border: 1px solid rgba(232, 244, 242, 0.22);
   background: rgba(7, 21, 28, 0.94);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  z-index: 2;
 }
 
 .hub-visitor-name {
@@ -814,16 +910,24 @@ html.is-fullscreen .fs-btn {
   color: var(--text);
   font-size: 0.9rem;
   line-height: 1.5;
+  min-height: 2.7em;
 }
 
 .hub-visitor-ok {
   width: 100%;
-  min-height: 40px;
+  min-height: 36px;
 }
 
 .hub-action:active {
   border-color: rgba(47, 210, 183, 0.65);
   background: rgba(47, 210, 183, 0.12);
+}
+
+.hub-actions:has(.hub-action-overlay:not([hidden])) .hub-actions-label,
+.hub-actions:has(.hub-action-overlay:not([hidden])) .hub-action-grid,
+.hub-actions:has(.hub-action-overlay:not([hidden])) .hub-map-btn {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .hub-toast {
@@ -1200,9 +1304,9 @@ html.is-fullscreen .fs-btn {
 
 .vn-bg {
   overflow: hidden;
-  transform: scale(1.06);
-  animation: kenburns 18s ease-in-out infinite alternate;
-  transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
+  transform: none;
+  animation: none;
+  transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
 .vn-stage.has-photo-bg .vn-bg {
@@ -1234,10 +1338,10 @@ html.is-fullscreen .fs-btn {
   animation: glowPulse 5s ease-in-out infinite alternate;
 }
 
-/* 会社背景：横画面では画面いっぱいに自然表示 */
+/* 会社背景：拡大アニメなし。やや広めに見せて見切れを抑える */
 .bg-photo {
   inset: 0;
-  background-position: center center;
+  background-position: center 38%;
   background-size: cover;
   background-repeat: no-repeat;
   opacity: 0;
@@ -1252,7 +1356,7 @@ html.is-fullscreen .fs-btn {
 }
 
 .vn-stage.has-photo-bg .bg-sky {
-  opacity: 0.15;
+  opacity: 0.12;
 }
 
 .vn-stage.has-photo-bg .bg-far,
@@ -1265,18 +1369,19 @@ html.is-fullscreen .fs-btn {
 }
 
 .vn-stage.has-photo-bg .bg-near {
+  /* 下だけ薄く落とす（背景の建物を食いすぎない） */
   background:
-    linear-gradient(180deg, transparent 45%, rgba(8, 10, 14, 0.2) 68%, rgba(6, 8, 12, 0.72) 100%);
+    linear-gradient(180deg, transparent 52%, rgba(8, 10, 14, 0.12) 72%, rgba(6, 8, 12, 0.62) 100%);
   z-index: 2;
 }
 
 .vn-stage.has-photo-bg .bg-glow {
-  opacity: 0.12;
+  opacity: 0.08;
   z-index: 2;
 }
 
 .vn-stage.has-photo-bg .vn-grade {
-  opacity: 0.2;
+  opacity: 0.12;
 }
 
 .vn-grade {
@@ -1459,7 +1564,11 @@ html.is-fullscreen .fs-btn {
 .vn-stage > .hud {
   position: relative;
   z-index: 3;
-  padding: var(--safe-top) 12px 0;
+  padding:
+    max(6px, env(safe-area-inset-top))
+    max(10px, env(safe-area-inset-right))
+    0
+    max(10px, env(safe-area-inset-left));
   margin: 0;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
 }
@@ -1513,22 +1622,23 @@ html.is-fullscreen .fs-btn {
 
 .vn-stage.has-photo-bg .actor-layer {
   place-items: end right;
-  padding-right: clamp(12px, 8vw, 80px);
+  padding-right: max(10px, env(safe-area-inset-right), 4vw);
+  padding-bottom: 0;
   margin-top: 0;
 }
 
 .vn-stage.has-photo-bg .actor {
-  width: min(280px, 34vw);
+  width: min(220px, 28vw);
   opacity: 1;
 }
 
 .vn-stage.has-photo-bg .actor-img {
-  max-height: min(62dvh, 420px);
+  max-height: min(52dvh, 360px);
 }
 
 .actor {
   position: relative;
-  width: min(260px, 32vw);
+  width: min(220px, 28vw);
   animation: actorIn 0.45s ease both;
 }
 
@@ -1550,7 +1660,7 @@ html.is-fullscreen .fs-btn {
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(68dvh, 460px);
+  max-height: min(52dvh, 360px);
   object-fit: contain;
   object-position: center bottom;
   animation: actorIdle 3.2s ease-in-out infinite;
@@ -1582,20 +1692,25 @@ html.is-fullscreen .fs-btn {
 .vn-bottom {
   position: relative;
   z-index: 4;
-  padding: 0 max(16px, 6vw) var(--safe-bottom);
+  padding:
+    0
+    max(12px, env(safe-area-inset-right), 3vw)
+    max(8px, env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left), 3vw);
   display: grid;
-  gap: 8px;
-  width: min(920px, 92vw);
+  gap: 6px;
+  width: min(880px, 94%);
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .dialogue-box {
   position: relative;
   width: 100%;
   text-align: left;
-  min-height: 112px;
-  padding: 12px 18px 20px;
-  border-radius: 16px;
+  min-height: 88px;
+  padding: 10px 16px 16px;
+  border-radius: 14px;
   color: #fffdf8;
   background:
     linear-gradient(180deg, rgba(18, 22, 30, 0.52), rgba(10, 12, 18, 0.78));
@@ -1648,11 +1763,126 @@ html.is-fullscreen .fs-btn {
 
 .dialogue-text {
   margin: 0;
-  min-height: 2.8em;
-  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
-  line-height: 1.7;
+  min-height: 2.2em;
+  font-size: clamp(0.86rem, 1.5vw, 1.02rem);
+  line-height: 1.65;
   white-space: pre-wrap;
   text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+/* スマホ横・短い画面：見切れ対策 */
+@media (orientation: landscape) and (max-height: 430px) {
+  .vn-stage > .hud {
+    padding-top: max(4px, env(safe-area-inset-top));
+  }
+
+  .hud-quest { font-size: 0.72rem; }
+  .hud-dots { margin-top: 2px; }
+
+  .vn-stage.has-photo-bg .actor {
+    width: min(170px, 24vw);
+  }
+
+  .vn-stage.has-photo-bg .actor-img,
+  .actor-img {
+    max-height: min(46dvh, 220px);
+  }
+
+  .dialogue-box {
+    min-height: 72px;
+    padding: 8px 14px 12px;
+  }
+
+  .dialogue-text {
+    min-height: 1.8em;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .vn-bottom {
+    width: min(920px, 96%);
+    gap: 4px;
+  }
+
+  /* スマホ横：行動ボタンをさらにコンパクトに */
+  .hub-actions {
+    width: min(100%, 300px);
+    gap: 3px;
+  }
+
+  .hub-action-card {
+    max-height: min(42vh, 210px);
+  }
+
+  .hub-action-img {
+    max-height: min(14vh, 96px);
+  }
+
+  .hub-action-copy {
+    padding: 6px 8px 8px;
+  }
+
+  .hub-action-title {
+    font-size: 0.84rem;
+  }
+
+  .hub-action-text {
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+  }
+
+  .hub-actions-label {
+    font-size: 0.6rem;
+  }
+
+  .hub-action-grid {
+    gap: 3px;
+  }
+
+  .hub-action {
+    padding: 3px 5px;
+    font-size: 0.62rem;
+    border-radius: 6px;
+  }
+
+  .hub-action span {
+    font-size: 0.5rem;
+  }
+
+  .hub-map-btn {
+    min-height: 32px;
+  }
+
+  .hub-map-btn .btn-start-label {
+    font-size: 0.72rem;
+  }
+
+  .hub-choice-btn {
+    padding: 5px 6px;
+    font-size: 0.66rem;
+  }
+
+  .hub-visitor-img {
+    height: min(62vh, 280px);
+    max-width: min(48vw, 240px);
+    margin-bottom: 70px;
+  }
+
+  .hub-visitor-img.is-parent {
+    height: min(74vh, 340px);
+    max-width: min(56vw, 300px);
+    margin-bottom: 58px;
+  }
+
+  .hub-visitor-balloon {
+    width: min(100%, 300px);
+    padding: 8px 10px;
+  }
+
+  .hub-visitor-text {
+    font-size: 0.8rem;
+    min-height: 2.4em;
+  }
 }
 
 .dialogue-cursor {
@@ -2563,8 +2793,42 @@ html.is-landscape .rotate-hint {
     padding-right: 4vw;
   }
 
+  .hub-actions {
+    width: min(100%, 400px);
+    gap: 6px;
+  }
+
+  .hub-action-card {
+    max-height: min(48vh, 320px);
+  }
+
+  .hub-action-img {
+    max-height: min(22vh, 160px);
+  }
+
   .hub-action-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .hub-action {
+    padding: 7px 8px;
+    font-size: 0.78rem;
+    border-radius: 10px;
+  }
+
+  .hub-action span {
+    font-size: 0.62rem;
+  }
+
+  .hub-visitor-img {
+    height: min(72vh, 460px);
+    max-width: min(52vw, 420px);
+  }
+
+  .hub-visitor-img.is-parent {
+    height: min(82vh, 540px);
+    max-width: min(58vw, 500px);
   }
 
   .title-hero-pair {
