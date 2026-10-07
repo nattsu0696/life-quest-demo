@@ -322,6 +322,15 @@
       img: "assets/actions/action-talk.jpg",
       msg: "人と話した。社交性が少し上がった。"
     },
+    play: {
+      key: "social",
+      gain: 2,
+      cost: 1,
+      title: "遊びに行く",
+      kicker: "PLAY",
+      img: "assets/actions/action-play.jpg",
+      msg: "外で思いきり遊んだ。社交性が少し上がった。"
+    },
     brave: {
       key: "courage",
       gain: 2,
@@ -361,9 +370,16 @@
   const hubActionTitle = document.getElementById("hub-action-title");
   const hubActionText = document.getElementById("hub-action-text");
   const hubActionOk = document.getElementById("hub-action-ok");
+  const hubVisitorOverlay = document.getElementById("hub-visitor-overlay");
+  const hubVisitorImg = document.getElementById("hub-visitor-img");
+  const hubVisitorName = document.getElementById("hub-visitor-name");
+  const hubVisitorText = document.getElementById("hub-visitor-text");
+  const hubVisitorOk = document.getElementById("hub-visitor-ok");
   let pendingNewSlot = null;
   let hubToastTimer = null;
   let hubActionBusy = false;
+  let hubVisitorBusy = false;
+  let pendingHubVisitor = null;
 
   const stage = document.getElementById("stage");
   const stageBgPhoto = document.getElementById("stage-bg-photo");
@@ -499,7 +515,135 @@
     if (!save.week) save.week = 1;
     if (!Array.isArray(save.cleared)) save.cleared = [];
     if (!save.flags) save.flags = {};
+    if (typeof save.flags.hubActions !== "number") save.flags.hubActions = 0;
+    if (!Array.isArray(save.flags.visitorsSeen)) save.flags.visitorsSeen = [];
     return save;
+  }
+
+  function playerGender() {
+    return state.save?.profile?.gender === "boy" ? "boy" : "girl";
+  }
+
+  function buildVisitorDefs() {
+    const gender = playerGender();
+    const sibling = gender === "boy"
+      ? {
+          id: "sister",
+          name: "妹",
+          img: "assets/char-sister.png",
+          text: "ねえ、勉強教えて〜！ひとりだとわからないとこがあるの。",
+          boost: { intellect: 1 }
+        }
+      : {
+          id: "brother",
+          name: "弟",
+          img: "assets/char-brother.png",
+          text: "お姉ちゃん、勉強教えて〜！宿題がむずかしいんだ。",
+          boost: { intellect: 1 }
+        };
+    const friend = gender === "boy"
+      ? {
+          id: "friend-boy",
+          name: "男の友だち",
+          img: "assets/char-friend-boy.png",
+          text: "よー、ひさしぶり！ちょっと部屋、おじゃまするわ。今日なにすんの？",
+          boost: { social: 1 }
+        }
+      : {
+          id: "friend-girl",
+          name: "女の友だち",
+          img: "assets/char-friend-girl.png",
+          text: "ひさびさ〜！部屋おじゃまするね。きょうなにしようか？",
+          boost: { social: 1 }
+        };
+    return {
+      sibling,
+      later: [
+        {
+          id: "father",
+          name: "お父さん",
+          img: "assets/char-father.png",
+          text: "お疲れさま。無理しすぎるなよ。何かあったら、ちゃんと話せ。",
+          boost: { calm: 1 }
+        },
+        {
+          id: "mother",
+          name: "お母さん",
+          img: "assets/char-mother.png",
+          text: "おかえり。少し休んだ？温かいもの、いる？",
+          boost: { stamina: 1 }
+        },
+        friend
+      ]
+    };
+  }
+
+  function pickNextVisitor() {
+    if (!state.save) return null;
+    const save = ensureSaveShape(state.save);
+    const count = save.flags.hubActions || 0;
+    const seen = new Set(save.flags.visitorsSeen || []);
+    const defs = buildVisitorDefs();
+
+    // 2行動目のあと：弟 or 妹
+    if (count === 2 && !seen.has(defs.sibling.id)) {
+      return defs.sibling;
+    }
+    // 3行動目は普通の行動だけ
+    // 4行動目以降、偶数回のあとに親・友人を順に
+    if (count >= 4 && count % 2 === 0) {
+      const next = defs.later.find((v) => !seen.has(v.id));
+      return next || null;
+    }
+    return null;
+  }
+
+  function showHubVisitor(visitor) {
+    if (!visitor || !hubVisitorOverlay) return false;
+    pendingHubVisitor = visitor;
+    hubVisitorBusy = true;
+    hubActionBusy = true;
+    if (hubVisitorImg) {
+      hubVisitorImg.src = visitor.img;
+      hubVisitorImg.alt = visitor.name;
+    }
+    if (hubVisitorName) hubVisitorName.textContent = visitor.name;
+    if (hubVisitorText) hubVisitorText.textContent = visitor.text;
+    hubVisitorOverlay.hidden = false;
+    return true;
+  }
+
+  function hideHubVisitor() {
+    if (hubVisitorOverlay) hubVisitorOverlay.hidden = true;
+    pendingHubVisitor = null;
+    hubVisitorBusy = false;
+    hubActionBusy = false;
+    renderHub();
+  }
+
+  function resolveHubVisitor() {
+    if (!state.save || !pendingHubVisitor) {
+      hideHubVisitor();
+      return;
+    }
+    const visitor = pendingHubVisitor;
+    const save = ensureSaveShape(state.save);
+    if (!save.flags.visitorsSeen.includes(visitor.id)) {
+      save.flags.visitorsSeen.push(visitor.id);
+    }
+    if (visitor.boost) {
+      Object.entries(visitor.boost).forEach(([key, gain]) => {
+        save.stats[key] = Math.min(40, (save.stats[key] || 0) + gain);
+      });
+    }
+    if (visitor.id === "sister" || visitor.id === "brother") {
+      showHubToast(`${visitor.name}に勉強を教えた。知力が少し上がった。`);
+    } else {
+      showHubToast(`${visitor.name}が部屋に来た。`);
+    }
+    state.save = save;
+    persistActiveSave();
+    hideHubVisitor();
   }
 
   function statsTotal(stats) {
@@ -639,6 +783,11 @@
 
   function hideHubActionOverlay() {
     if (hubActionOverlay) hubActionOverlay.hidden = true;
+    const visitor = pickNextVisitor();
+    if (visitor && showHubVisitor(visitor)) {
+      renderHub();
+      return;
+    }
     hubActionBusy = false;
     renderHub();
   }
@@ -660,7 +809,7 @@
   }
 
   function doHubAction(actionId) {
-    if (!state.save || hubActionBusy) return;
+    if (!state.save || hubActionBusy || hubVisitorBusy) return;
     const def = HUB_ACTIONS[actionId];
     if (!def) return;
     const save = ensureSaveShape(state.save);
@@ -672,7 +821,12 @@
     if (actionId !== "rest") {
       save.stats.calm = Math.min(40, (save.stats.calm || 0) + 1);
     }
+    // 遊びは社交に加えて気持ちも少し回復
+    if (actionId === "play") {
+      save.stats.calm = Math.min(40, (save.stats.calm || 0) + 1);
+    }
     save.week = (save.week || 1) + 1;
+    save.flags.hubActions = (save.flags.hubActions || 0) + 1;
     // だいたい8行動で1歳（デモ用の簡易進行）
     if (save.week > 0 && save.week % 8 === 0) {
       save.profile.age = Math.min(40, (save.profile.age || 15) + 1);
@@ -1478,6 +1632,14 @@
   if (hubActionOverlay) {
     bindTap(hubActionOverlay, (event) => {
       if (event.target === hubActionOverlay) hideHubActionOverlay();
+    });
+  }
+  if (hubVisitorOk) {
+    bindTap(hubVisitorOk, () => resolveHubVisitor());
+  }
+  if (hubVisitorOverlay) {
+    bindTap(hubVisitorOverlay, (event) => {
+      if (event.target === hubVisitorOverlay) resolveHubVisitor();
     });
   }
 

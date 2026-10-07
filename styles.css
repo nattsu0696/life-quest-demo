@@ -48,11 +48,10 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
-  min-height: 100dvh;
+  max-height: 100dvh;
   max-width: none;
   margin: 0;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
 .app[hidden],
@@ -307,10 +306,12 @@ html.is-fullscreen .fs-btn {
 
 /* ========== SAVE / PROFILE ========== */
 .meta-stage {
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: var(--safe-top) 16px var(--safe-bottom);
+  overflow: auto;
+  padding: max(8px, env(safe-area-inset-top)) 14px max(8px, env(safe-area-inset-bottom));
   background:
     radial-gradient(90% 60% at 80% 0%, rgba(255, 210, 140, 0.18), transparent 50%),
     radial-gradient(70% 50% at 10% 20%, rgba(47, 210, 183, 0.14), transparent 45%),
@@ -484,7 +485,10 @@ html.is-fullscreen .fs-btn {
 
 .hub-stage {
   position: relative;
-  min-height: 100dvh;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
   overflow: hidden;
   color: var(--text);
 }
@@ -520,31 +524,35 @@ html.is-fullscreen .fs-btn {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr minmax(160px, 34%);
-  gap: 14px;
-  padding: 10px 14px var(--safe-bottom);
-  min-height: calc(100dvh - 64px);
+  grid-template-columns: 1fr minmax(140px, 30%);
+  gap: 10px;
+  padding: 6px 12px max(8px, env(safe-area-inset-bottom));
+  height: calc(100% - 52px);
+  max-height: calc(100% - 52px);
   align-items: end;
+  box-sizing: border-box;
 }
 
 .hub-status {
   grid-column: 2;
   grid-row: 1;
   align-self: stretch;
-  padding: 14px 12px;
-  border-radius: 16px;
+  max-height: 100%;
+  overflow: auto;
+  padding: 10px 10px;
+  border-radius: 14px;
   border: 1px solid rgba(232, 244, 242, 0.18);
   background: rgba(7, 21, 28, 0.92);
 }
 
 .hub-avatar-wrap {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 10px;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 8px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
 }
 
 .hub-avatar {
@@ -559,7 +567,7 @@ html.is-fullscreen .fs-btn {
   margin: 0;
   text-align: center;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
 .hub-age,
@@ -567,7 +575,7 @@ html.is-fullscreen .fs-btn {
 .hub-room-hint {
   margin: 2px 0 0;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--muted);
 }
 
@@ -580,16 +588,16 @@ html.is-fullscreen .fs-btn {
 
 .hub-stats {
   display: grid;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 4px;
+  margin-top: 8px;
 }
 
 .hub-stat-row {
   display: grid;
-  grid-template-columns: 52px 1fr 28px;
-  gap: 6px;
+  grid-template-columns: 44px 1fr 24px;
+  gap: 5px;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
 }
 
 .hub-stat-row span:first-child {
@@ -617,14 +625,14 @@ html.is-fullscreen .fs-btn {
   grid-row: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   padding: 0;
   border: 0;
   background: transparent;
-  /* 紺色パネルなし。ボタンだけ部屋の上に載せる */
   align-self: end;
-  width: min(100%, 520px);
+  width: min(100%, 420px);
   justify-self: start;
+  max-height: 100%;
 }
 
 .hub-action-overlay {
@@ -633,8 +641,8 @@ html.is-fullscreen .fs-btn {
   z-index: 20;
   display: grid;
   place-items: center;
-  padding: 16px;
-  background: rgba(3, 10, 14, 0.55);
+  padding: 10px;
+  background: rgba(3, 10, 14, 0.5);
 }
 
 .hub-action-overlay[hidden] {
@@ -642,13 +650,16 @@ html.is-fullscreen .fs-btn {
 }
 
 .hub-action-card {
-  width: min(100%, 640px);
-  border-radius: 18px;
+  width: min(72vw, 360px);
+  max-height: min(78vh, 420px);
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid rgba(232, 244, 242, 0.2);
   background: rgba(7, 21, 28, 0.96);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
   animation: hubActionIn 0.28s ease both;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes hubActionIn {
@@ -659,44 +670,52 @@ html.is-fullscreen .fs-btn {
 .hub-action-img {
   display: block;
   width: 100%;
+  height: auto;
+  max-height: 28vh;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
   background: #102028;
+  flex: 0 0 auto;
 }
 
 .hub-action-copy {
-  padding: 14px 16px 16px;
+  padding: 10px 12px 12px;
 }
 
 .hub-action-kicker {
-  margin: 0 0 4px;
-  font-size: 11px;
+  margin: 0 0 2px;
+  font-size: 10px;
   letter-spacing: 0.12em;
   color: var(--accent);
   font-weight: 700;
 }
 
 .hub-action-title {
-  margin: 0 0 6px;
-  font-size: 1.2rem;
+  margin: 0 0 4px;
+  font-size: 1rem;
   font-weight: 800;
 }
 
 .hub-action-text {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.5;
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .hub-action-ok {
   width: 100%;
+  min-height: 40px;
+}
+
+.hub-action-ok .btn-start-label {
+  font-size: 0.88rem;
 }
 
 .hub-actions-label {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   color: #dff7f1;
   font-weight: 700;
@@ -705,27 +724,101 @@ html.is-fullscreen .fs-btn {
 
 .hub-action-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
 }
 
 .hub-action {
   display: grid;
-  gap: 2px;
-  padding: 12px 10px;
-  border-radius: 12px;
+  gap: 1px;
+  padding: 8px 8px;
+  border-radius: 10px;
   border: 1px solid rgba(232, 244, 242, 0.28);
   background: rgba(7, 21, 28, 0.78);
   text-align: left;
   font-weight: 700;
-  font-size: 0.92rem;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+  font-size: 0.8rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
 }
 
 .hub-action span {
-  font-size: 0.72rem;
+  font-size: 0.64rem;
   font-weight: 500;
   color: var(--muted);
+}
+
+/* 訪問者（弟妹・親・友人） */
+.hub-visitor-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: rgba(3, 10, 14, 0.35);
+}
+
+.hub-visitor-overlay[hidden] {
+  display: none !important;
+}
+
+.hub-visitor-stage {
+  position: relative;
+  width: min(100%, 420px);
+  height: min(78vh, 460px);
+  display: grid;
+  place-items: center;
+  justify-items: center;
+}
+
+.hub-visitor-img {
+  display: block;
+  width: auto;
+  height: min(52vh, 300px);
+  max-width: min(58vw, 280px);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+  animation: hubVisitorIn 0.35s ease both;
+  pointer-events: none;
+}
+
+@keyframes hubVisitorIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+.hub-visitor-balloon {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(100%, 340px);
+  padding: 12px 14px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(232, 244, 242, 0.22);
+  background: rgba(7, 21, 28, 0.94);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.hub-visitor-name {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hub-visitor-text {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hub-visitor-ok {
+  width: 100%;
+  min-height: 40px;
 }
 
 .hub-action:active {
@@ -769,7 +862,11 @@ html.is-fullscreen .fs-btn {
 
 .screen {
   display: none;
-  min-height: 100dvh;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .screen.is-active {
@@ -779,10 +876,12 @@ html.is-fullscreen .fs-btn {
 /* ========== TITLE ========== */
 .title-stage {
   position: relative;
-  min-height: 100dvh;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   display: grid;
   place-items: end stretch;
-  padding: var(--safe-top) 20px var(--safe-bottom);
+  padding: max(8px, env(safe-area-inset-top)) 16px max(8px, env(safe-area-inset-bottom));
   overflow: hidden;
   color: #16303a;
 }
@@ -1078,7 +1177,8 @@ html.is-fullscreen .fs-btn {
 /* ========== VN STAGE ========== */
 .vn-stage {
   position: relative;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1834,10 +1934,12 @@ html.is-fullscreen .fs-btn {
 /* ========== LIFE MAP + PUNICON ========== */
 .map-stage {
   position: relative;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: var(--safe-top) 12px 0;
+  overflow: hidden;
+  padding: max(8px, env(safe-area-inset-top)) 10px 0;
   background:
     radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.45), transparent 55%),
     radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.35), transparent 50%),

@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=41" />
+  <link rel="stylesheet" href="styles.css?v=42" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -213,6 +213,7 @@
               <button type="button" class="hub-action" data-hub-action="study">勉強する<span>知力↑</span></button>
               <button type="button" class="hub-action" data-hub-action="craft">手を動かす<span>技術↑</span></button>
               <button type="button" class="hub-action" data-hub-action="talk">人と話す<span>社交↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="play">遊びに行く<span>社交↑</span></button>
               <button type="button" class="hub-action" data-hub-action="brave">挑戦する<span>勇気↑</span></button>
               <button type="button" class="hub-action" data-hub-action="rest">休む<span>体力↑</span></button>
             </div>
@@ -232,6 +233,19 @@
               <p id="hub-action-text" class="hub-action-text"></p>
               <button type="button" id="hub-action-ok" class="btn-start hub-action-ok">
                 <span class="btn-start-label">部屋に戻る</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="hub-visitor-overlay" class="hub-visitor-overlay" hidden>
+          <div class="hub-visitor-stage">
+            <img id="hub-visitor-img" class="hub-visitor-img" src="" alt="" />
+            <div class="hub-visitor-balloon">
+              <p id="hub-visitor-name" class="hub-visitor-name"></p>
+              <p id="hub-visitor-text" class="hub-visitor-text"></p>
+              <button type="button" id="hub-visitor-ok" class="btn-start hub-visitor-ok">
+                <span class="btn-start-label">わかった</span>
               </button>
             </div>
           </div>
@@ -408,7 +422,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=41"></script>
-  <script src="app.js?v=41"></script>
+  <script src="content.js?v=42"></script>
+  <script src="app.js?v=42"></script>
 </body>
 </html>
