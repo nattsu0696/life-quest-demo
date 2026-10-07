@@ -748,11 +748,10 @@
     const seen = new Set(save.flags.visitorsSeen || []);
     const defs = buildVisitorDefs();
 
-    // 2行動目のあと：弟 or 妹
-    if (count === 2 && !seen.has(defs.sibling.id)) {
+    // 2行動目以降：未登場なら弟/妹を優先（===2 だと回数飛ばしで永久欠番になる）
+    if (count >= 2 && !seen.has(defs.sibling.id)) {
       return defs.sibling;
     }
-    // 3行動目は普通の行動だけ
     // 4行動目以降、偶数回のあとに親・友人を順に
     if (count >= 4 && count % 2 === 0) {
       const next = defs.later.find((v) => !seen.has(v.id));
@@ -811,7 +810,11 @@
 
   function startHubTypewriter(fromIndex) {
     if (!hubVisitorText) return;
-    stopHubTyping();
+    // hubTyping を落とさない（ボイス直後の隙間で選択肢が先に出るのを防ぐ）
+    if (hubTypeTimer) {
+      window.clearInterval(hubTypeTimer);
+      hubTypeTimer = null;
+    }
     const start = Math.max(0, Number(fromIndex) || 0);
     hubTyping = true;
     hubVisitorText.textContent = hubFullText.slice(0, start);
@@ -1133,8 +1136,20 @@
     if (hubActionOk) hubActionOk.hidden = true;
     pendingHubAction = null;
     const visitor = pickNextVisitor();
-    if (visitor && showHubVisitor(visitor)) {
-      renderHub();
+    if (visitor) {
+      // 部屋に戻るクリックの突き抜けを避けてから訪問者を出す
+      window.setTimeout(() => {
+        if (!state.save) {
+          hubActionBusy = false;
+          return;
+        }
+        if (showHubVisitor(visitor)) {
+          renderHub();
+          return;
+        }
+        hubActionBusy = false;
+        renderHub();
+      }, 40);
       return;
     }
     hubActionBusy = false;
@@ -1187,7 +1202,9 @@
 
   function resolveHubActionChoice(choice) {
     if (!state.save || !pendingHubAction || !choice) return;
+    // 二重タップで hubActions が飛び越えないように先に消費
     const { actionId, def, beforeRoom } = pendingHubAction;
+    pendingHubAction = null;
     const save = ensureSaveShape(state.save);
     applyHubActionGains(save, actionId, choice);
     save.week = (save.week || 1) + 1;
