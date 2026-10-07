@@ -140,11 +140,51 @@
   ];
 
   const HUB_ACTIONS = {
-    study: { key: "intellect", gain: 2, cost: 1, msg: "勉強した。知力が少し上がった。" },
-    craft: { key: "skill", gain: 2, cost: 1, msg: "手を動かした。技術が少し上がった。" },
-    talk: { key: "social", gain: 2, cost: 1, msg: "人と話した。社交性が少し上がった。" },
-    brave: { key: "courage", gain: 2, cost: 1, msg: "挑戦した。勇気が少し上がった。" },
-    rest: { key: "stamina", gain: 3, cost: 0, msg: "休んだ。体力が戻った。" }
+    study: {
+      key: "intellect",
+      gain: 2,
+      cost: 1,
+      title: "勉強する",
+      kicker: "STUDY",
+      img: "assets/actions/action-study.jpg",
+      msg: "机に向かった。知力が少し上がった。"
+    },
+    craft: {
+      key: "skill",
+      gain: 2,
+      cost: 1,
+      title: "手を動かす",
+      kicker: "CRAFT",
+      img: "assets/actions/action-craft.jpg",
+      msg: "手を動かして作った。技術が少し上がった。"
+    },
+    talk: {
+      key: "social",
+      gain: 2,
+      cost: 1,
+      title: "人と話す",
+      kicker: "TALK",
+      img: "assets/actions/action-talk.jpg",
+      msg: "人と話した。社交性が少し上がった。"
+    },
+    brave: {
+      key: "courage",
+      gain: 2,
+      cost: 1,
+      title: "挑戦する",
+      kicker: "CHALLENGE",
+      img: "assets/actions/action-brave.jpg",
+      msg: "一歩踏み出した。勇気が少し上がった。"
+    },
+    rest: {
+      key: "stamina",
+      gain: 3,
+      cost: 0,
+      title: "休む",
+      kicker: "REST",
+      img: "assets/actions/action-rest.jpg",
+      msg: "しっかり休んだ。体力が戻った。"
+    }
   };
 
   const saveSlotList = document.getElementById("save-slot-list");
@@ -160,8 +200,15 @@
   const hubRoomHint = document.getElementById("hub-room-hint");
   const hubStats = document.getElementById("hub-stats");
   const hubToast = document.getElementById("hub-toast");
+  const hubActionOverlay = document.getElementById("hub-action-overlay");
+  const hubActionImg = document.getElementById("hub-action-img");
+  const hubActionKicker = document.getElementById("hub-action-kicker");
+  const hubActionTitle = document.getElementById("hub-action-title");
+  const hubActionText = document.getElementById("hub-action-text");
+  const hubActionOk = document.getElementById("hub-action-ok");
   let pendingNewSlot = null;
   let hubToastTimer = null;
+  let hubActionBusy = false;
 
   const stage = document.getElementById("stage");
   const stageBgPhoto = document.getElementById("stage-bg-photo");
@@ -435,8 +482,30 @@
     }
   }
 
+  function hideHubActionOverlay() {
+    if (hubActionOverlay) hubActionOverlay.hidden = true;
+    hubActionBusy = false;
+    renderHub();
+  }
+
+  function showHubActionScene(def, extraNote) {
+    if (!hubActionOverlay) {
+      showHubToast(extraNote || def.msg);
+      return;
+    }
+    hubActionBusy = true;
+    if (hubActionImg) {
+      hubActionImg.src = def.img;
+      hubActionImg.alt = def.title;
+    }
+    if (hubActionKicker) hubActionKicker.textContent = def.kicker || "ACTION";
+    if (hubActionTitle) hubActionTitle.textContent = def.title;
+    if (hubActionText) hubActionText.textContent = extraNote || def.msg;
+    hubActionOverlay.hidden = false;
+  }
+
   function doHubAction(actionId) {
-    if (!state.save) return;
+    if (!state.save || hubActionBusy) return;
     const def = HUB_ACTIONS[actionId];
     if (!def) return;
     const save = ensureSaveShape(state.save);
@@ -455,13 +524,12 @@
     }
     state.save = save;
     persistActiveSave();
-    renderHub();
     const afterRoom = roomTierFromSave(save).id;
-    if (afterRoom !== beforeRoom) {
-      showHubToast(`${def.msg} 部屋の景色が変わった。`);
-    } else {
-      showHubToast(def.msg);
-    }
+    const note = afterRoom !== beforeRoom
+      ? `${def.msg} 部屋の景色が変わった。`
+      : def.msg;
+    showHubActionScene(def, note);
+    showHubToast(note);
   }
 
   function bindTap(el, handler) {
@@ -1246,6 +1314,14 @@
   document.querySelectorAll("[data-hub-action]").forEach((el) => {
     bindTap(el, () => doHubAction(el.getAttribute("data-hub-action")));
   });
+  if (hubActionOk) {
+    bindTap(hubActionOk, () => hideHubActionOverlay());
+  }
+  if (hubActionOverlay) {
+    bindTap(hubActionOverlay, (event) => {
+      if (event.target === hubActionOverlay) hideHubActionOverlay();
+    });
+  }
 
   const keys = new Set();
   window.addEventListener("keydown", (event) => {
