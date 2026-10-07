@@ -23,12 +23,6 @@
     return !!(document.fullscreenElement || document.webkitFullscreenElement);
   }
 
-  function isTypingTarget(el) {
-    if (!el || el === document.body) return false;
-    const tag = (el.tagName || "").toLowerCase();
-    return tag === "input" || tag === "textarea" || tag === "select" || el.isContentEditable;
-  }
-
   function syncDisplayMode() {
     const standalone = isStandaloneMode();
     const fullscreen = isFullscreenMode();
@@ -42,18 +36,17 @@
   }
 
   function syncOrientation() {
-    // キーボード表示中は縦判定しない（合言葉入力直後に画面が消える対策）
-    if (isTypingTarget(document.activeElement)) {
-      syncDisplayMode();
-      return;
-    }
-    const landscape = window.innerWidth >= window.innerHeight;
+    const w = Math.max(window.innerWidth, document.documentElement.clientWidth || 0);
+    const h = Math.max(window.innerHeight, document.documentElement.clientHeight || 0);
+    const bySize = w >= h;
+    const byWinOrient = typeof window.orientation === "number" && Math.abs(window.orientation) === 90;
+    const byScreen = !!(screen.orientation && String(screen.orientation.type || "").includes("landscape"));
+    // どれか一つでも横なら横扱い（誤って縦ロックしない）
+    const landscape = bySize || byWinOrient || byScreen;
     document.documentElement.classList.toggle("is-landscape", landscape);
     document.documentElement.classList.toggle("is-portrait", !landscape);
-    const unlocked = document.documentElement.classList.contains("is-unlocked");
-    if (rotateHint) {
-      rotateHint.hidden = !(unlocked && !landscape);
-    }
+    // 回転案内は出さない（誤判定でフリーズする方が致命傷）
+    if (rotateHint) rotateHint.hidden = true;
     syncDisplayMode();
   }
 
@@ -106,9 +99,13 @@
       }
     } catch (_) {}
     if (gateEl) gateEl.hidden = true;
-    if (appEl) appEl.hidden = false;
+    if (appEl) {
+      appEl.hidden = false;
+      appEl.style.visibility = "";
+      appEl.style.pointerEvents = "";
+    }
     document.documentElement.classList.add("is-unlocked");
-    // いったん横扱いしてタイトルを必ず出す（キーボード閉じ待ちで固まらない）
+    // 入った直後は必ずタイトルを触れる状態にする
     document.documentElement.classList.add("is-landscape");
     document.documentElement.classList.remove("is-portrait");
     if (rotateHint) rotateHint.hidden = true;
@@ -117,6 +114,15 @@
       syncOrientation();
       maybeShowInstallTip();
     }, 350);
+  }
+
+  function dismissRotateHint() {
+    document.documentElement.classList.add("rotate-dismissed");
+    if (rotateHint) rotateHint.hidden = true;
+    if (appEl) {
+      appEl.style.visibility = "";
+      appEl.style.pointerEvents = "";
+    }
   }
 
   function showGate() {
@@ -140,10 +146,23 @@
   window.addEventListener("resize", syncOrientation, { passive: true });
   window.addEventListener("orientationchange", () => {
     window.setTimeout(syncOrientation, 80);
+    window.setTimeout(syncOrientation, 400);
   });
+  if (screen.orientation && screen.orientation.addEventListener) {
+    screen.orientation.addEventListener("change", () => {
+      window.setTimeout(syncOrientation, 80);
+    });
+  }
   document.addEventListener("fullscreenchange", syncDisplayMode);
   document.addEventListener("webkitfullscreenchange", syncDisplayMode);
   syncOrientation();
+
+  if (rotateHint) {
+    rotateHint.addEventListener("click", (event) => {
+      event.preventDefault();
+      dismissRotateHint();
+    });
+  }
 
   if (fsBtn) {
     fsBtn.addEventListener("click", (event) => {
