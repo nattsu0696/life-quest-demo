@@ -91,6 +91,8 @@
     try { sessionStorage.setItem(INSTALL_TIP_KEY, "ok"); } catch (_) {}
   }
 
+  let goToTitleScreen = null;
+
   function unlockApp() {
     try {
       if (gateInput) gateInput.blur();
@@ -98,22 +100,37 @@
         document.activeElement.blur();
       }
     } catch (_) {}
-    if (gateEl) gateEl.hidden = true;
+    if (gateEl) {
+      gateEl.hidden = true;
+      gateEl.setAttribute("hidden", "");
+      gateEl.style.display = "none";
+    }
     if (appEl) {
       appEl.hidden = false;
+      appEl.removeAttribute("hidden");
+      appEl.style.display = "block";
       appEl.style.visibility = "";
       appEl.style.pointerEvents = "";
     }
     document.documentElement.classList.add("is-unlocked");
-    // 入った直後は必ずタイトルを触れる状態にする
     document.documentElement.classList.add("is-landscape");
     document.documentElement.classList.remove("is-portrait");
     if (rotateHint) rotateHint.hidden = true;
+    try {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      if (appEl) appEl.scrollTop = 0;
+    } catch (_) {}
     syncDisplayMode();
+    if (typeof goToTitleScreen === "function") {
+      goToTitleScreen();
+    }
     window.setTimeout(() => {
       syncOrientation();
+      // タイトルを見せてから案内（すぐ被せない）
       maybeShowInstallTip();
-    }, 350);
+    }, 600);
   }
 
   function dismissRotateHint() {
@@ -126,8 +143,16 @@
   }
 
   function showGate() {
-    if (gateEl) gateEl.hidden = false;
-    if (appEl) appEl.hidden = true;
+    if (gateEl) {
+      gateEl.hidden = false;
+      gateEl.removeAttribute("hidden");
+      gateEl.style.display = "grid";
+    }
+    if (appEl) {
+      appEl.hidden = true;
+      appEl.setAttribute("hidden", "");
+      appEl.style.display = "none";
+    }
     document.documentElement.classList.remove("is-unlocked");
     if (rotateHint) rotateHint.hidden = true;
     if (gateInput) {
@@ -1496,10 +1521,22 @@
 
   window.openLifeMap = openMap;
 
+  goToTitleScreen = () => {
+    showScreen("start");
+    try {
+      window.scrollTo(0, 0);
+      if (appEl) appEl.scrollTop = 0;
+    } catch (_) {}
+  };
+
   try {
     bindJoystick();
     buildPlaces();
-    showScreen("start");
+    if (document.documentElement.classList.contains("is-unlocked")) {
+      goToTitleScreen();
+    } else {
+      showScreen("start");
+    }
   } catch (err) {
     console.error(err);
   }
