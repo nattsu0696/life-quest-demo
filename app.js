@@ -667,7 +667,37 @@
     if (!save.flags) save.flags = {};
     if (typeof save.flags.hubActions !== "number") save.flags.hubActions = 0;
     if (!Array.isArray(save.flags.visitorsSeen)) save.flags.visitorsSeen = [];
+    if (!save.flags.lastPlace || typeof save.flags.lastPlace !== "object") {
+      save.flags.lastPlace = null;
+    }
     return save;
+  }
+
+  function rememberLastPlace(categoryId, optionId) {
+    if (!state.save || !categoryId) return;
+    const save = ensureSaveShape(state.save);
+    const cat = getCategory(categoryId);
+    const opt = optionId && cat ? getOption(cat, optionId) : null;
+    save.flags.lastPlace = {
+      categoryId,
+      optionId: optionId || null,
+      categoryLabel: cat?.label || categoryId,
+      optionLabel: opt?.label || ""
+    };
+    state.save = save;
+    persistActiveSave();
+  }
+
+  function goBackFromQuest() {
+    hideLifeEvent();
+    applySceneBackground(null);
+    const place = state.save?.flags?.lastPlace;
+    const catId = state.categoryId || place?.categoryId;
+    if (catId && getCategory(catId)) {
+      openBranch(catId);
+      return;
+    }
+    openOutside();
   }
 
   function playerGender() {
@@ -1714,6 +1744,7 @@
 
       if (outsideList) {
         outsideList.innerHTML = "";
+        const lastCat = save.flags.lastPlace?.categoryId || "";
         (stage.categories || []).forEach((catId) => {
           const cat = getCategory(catId);
           if (!cat) return;
@@ -1721,8 +1752,13 @@
           btn.type = "button";
           btn.className = "branch-card";
           if (categoryCleared(cat)) btn.classList.add("is-cleared");
+          if (cat.id === lastCat) btn.classList.add("is-last-place");
+          const pin = cat.id === lastCat
+            ? `<span class="branch-pin">前回の地点</span>`
+            : `<span class="branch-pin"></span>`;
           btn.innerHTML = `
             <span class="branch-tag">${cat.short || "PATH"}</span>
+            ${pin}
             <span class="branch-label">${cat.label}</span>
             <span class="branch-blurb">${cat.hint || ""}</span>
             <span class="branch-go">${categoryCleared(cat) ? "CLEAR" : "GO"}</span>
@@ -1921,17 +1957,41 @@
   }
 
   function formatGapTip(gaps) {
-    if (!gaps.length) return "今の自分でも、体験できる距離感";
-    return gaps
+    if (!gaps.length) return "今の能力で、しっかり手が届く";
+    return "伸ばすと近づく：" + gaps
       .slice(0, 3)
       .map((g) => `${STAT_LABELS[g.key] || g.key}あと${g.lack}`)
       .join("・");
+  }
+
+  function renderRequireMeters(require, stats) {
+    if (!require) return "";
+    return Object.entries(require).map(([key, need]) => {
+      const want = Number(need) || 0;
+      const have = Number(stats?.[key]) || 0;
+      const pct = want > 0 ? Math.min(100, Math.round((have / want) * 100)) : 100;
+      const ok = have >= want;
+      return `
+        <div class="branch-meter${ok ? " is-ok" : ""}">
+          <div class="branch-meter-top">
+            <span>${STAT_LABELS[key] || key}</span>
+            <strong>${have}/${want}</strong>
+          </div>
+          <div class="branch-meter-bar"><i style="width:${pct}%"></i></div>
+        </div>
+      `;
+    }).join("");
   }
 
   function openBranch(categoryId) {
     const cat = getCategory(categoryId);
     if (!cat) return;
     state.categoryId = categoryId;
+    {
+      const prev = state.save?.flags?.lastPlace;
+      const keepOpt = prev?.categoryId === categoryId ? prev.optionId : null;
+      rememberLastPlace(categoryId, keepOpt);
+    }
     if (enterPrompt) enterPrompt.hidden = true;
 
     if (cat.options.length === 1) {
@@ -1946,6 +2006,9 @@
     if (branchPortrait) branchPortrait.src = cat.img;
 
     const stats = state.save ? ensureSaveShape(state.save).stats : baseStats();
+    const lastOpt = state.save?.flags?.lastPlace?.categoryId === categoryId
+      ? state.save.flags.lastPlace.optionId
+      : "";
 
     branchList.innerHTML = "";
     cat.options.forEach((opt) => {
@@ -1958,19 +2021,22 @@
       else if (evalReq.ratio >= 0.5) btn.classList.add("is-near-req");
       else btn.classList.add("is-far-req");
       if (state.cleared.has(opt.id)) btn.classList.add("is-cleared");
+      if (opt.id === lastOpt) btn.classList.add("is-last-place");
 
-      const reqLine = formatRequireLine(opt.require);
       const tip = formatGapTip(evalReq.gaps);
+      const meters = renderRequireMeters(opt.require, stats);
       const goLabel = state.cleared.has(opt.id)
         ? "CLEAR"
         : (evalReq.ok ? "GO" : "体験");
+      const pin = opt.id === lastOpt ? `<span class="branch-pin">前回の地点</span>` : "";
 
       btn.innerHTML = `
         <span class="branch-tag">${opt.tag || "OPTION"}</span>
         <span class="branch-match">${evalReq.label}</span>
         <span class="branch-label">${opt.label}</span>
+        ${pin}
         <span class="branch-blurb">${opt.blurb || ""}</span>
-        ${reqLine ? `<span class="branch-req">必要：${reqLine}</span>` : ""}
+        ${meters ? `<div class="branch-meters">${meters}</div>` : ""}
         <span class="branch-tip">${tip}</span>
         <span class="branch-go">${goLabel}</span>
       `;
@@ -2005,6 +2071,7 @@
     state.sceneId = "start";
     state.depth = 0;
     state.seenEvents = new Set();
+    rememberLastPlace(cat.id, optionId);
     hideLifeEvent();
     setTheme(cat.theme);
     renderScene();
@@ -2142,6 +2209,7 @@
 
   function handleAction(action) {
     if (action === "to-map" || action === "to-outside") openOutside();
+    if (action === "to-back" || action === "to-branch") goBackFromQuest();
     if (action === "to-hub") openHub();
     if (action === "to-saves") {
       openSaveScreen();

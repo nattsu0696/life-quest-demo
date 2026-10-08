@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=50" />
+  <link rel="stylesheet" href="styles.css?v=51" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -415,16 +415,17 @@
         </div>
 
         <header class="hud">
-          <button type="button" class="hud-btn" data-action="to-hub">◀ 部屋</button>
+          <button type="button" class="hud-btn" data-action="to-back">◀ 戻る</button>
           <div class="hud-center">
             <p id="path-label" class="hud-quest">QUEST</p>
+            <p id="scene-kicker" class="hud-chip hud-chip-inline">SCENE</p>
             <div class="hud-dots" aria-hidden="true">
               <span id="dot-0" class="dot is-on"></span>
               <span id="dot-1" class="dot"></span>
               <span id="dot-2" class="dot"></span>
             </div>
           </div>
-          <p id="scene-kicker" class="hud-chip">SCENE</p>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋</button>
         </header>
 
         <div class="actor-layer">
@@ -467,9 +468,10 @@
           </div>
 
           <div class="result-footer">
-            <button type="button" class="btn-start" data-action="to-hub">
-              <span class="btn-start-label">部屋に戻って別の人生も試す</span>
+            <button type="button" class="btn-start" data-action="to-back">
+              <span class="btn-start-label">一覧に戻る（地点を残す）</span>
             </button>
+            <button type="button" class="hud-btn wide" data-action="to-hub">部屋に戻る</button>
             <button type="button" class="hud-btn wide" data-action="to-start">TITLE にもどる</button>
           </div>
         </div>
@@ -477,7 +479,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=50"></script>
-  <script src="app.js?v=50"></script>
+  <script src="content.js?v=51"></script>
+  <script src="app.js?v=51"></script>
 </body>
 </html>

@@ -2640,10 +2640,11 @@ html.is-fullscreen .fs-btn {
   grid-template-areas:
     "tag match"
     "label go"
+    "pin go"
     "blurb go"
-    "req go"
+    "meters go"
     "tip go";
-  gap: 2px 12px;
+  gap: 3px 12px;
   width: 100%;
   text-align: left;
   padding: 12px 14px;
@@ -2652,20 +2653,29 @@ html.is-fullscreen .fs-btn {
   background: rgba(255, 252, 246, 0.92);
   box-shadow: 0 8px 18px rgba(40, 70, 80, 0.1);
   color: #16303a;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .branch-card.has-require.is-ready {
-  border-color: rgba(15, 138, 122, 0.35);
+  border-color: rgba(15, 138, 122, 0.45);
+  box-shadow: 0 8px 20px rgba(15, 138, 122, 0.16);
 }
 
 .branch-card.has-require.is-near-req {
-  border-color: rgba(240, 179, 90, 0.45);
+  border-color: rgba(240, 179, 90, 0.55);
+  box-shadow: 0 8px 20px rgba(240, 179, 90, 0.14);
 }
 
 .branch-card.has-require.is-far-req {
-  border-color: rgba(20, 60, 70, 0.14);
-  background: rgba(255, 252, 246, 0.82);
+  border-color: rgba(120, 140, 150, 0.35);
+  background:
+    linear-gradient(135deg, rgba(90, 110, 120, 0.08), transparent 45%),
+    rgba(255, 252, 246, 0.88);
+}
+
+.branch-card.is-last-place {
+  outline: 2px solid rgba(47, 210, 183, 0.55);
+  outline-offset: 1px;
 }
 
 .branch-card:hover,
@@ -2691,18 +2701,36 @@ html.is-fullscreen .fs-btn {
   grid-area: match;
   justify-self: end;
   align-self: start;
-  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.06em;
-  color: #149987;
+  color: #0b5f55;
+  background: rgba(47, 210, 183, 0.22);
 }
 
 .branch-card.is-near-req .branch-match {
-  color: #c4892a;
+  color: #7a4d10;
+  background: rgba(240, 179, 90, 0.28);
 }
 
 .branch-card.is-far-req .branch-match {
-  color: #6a7f86;
+  color: #3d4f55;
+  background: rgba(90, 110, 120, 0.18);
+}
+
+.branch-pin {
+  grid-area: pin;
+  min-height: 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #0f7a6e;
+}
+
+.branch-pin:empty {
+  display: none;
 }
 
 .branch-label {
@@ -2718,19 +2746,60 @@ html.is-fullscreen .fs-btn {
   line-height: 1.45;
 }
 
-.branch-req {
-  grid-area: req;
-  margin-top: 2px;
-  font-size: 0.72rem;
+.branch-meters {
+  grid-area: meters;
+  display: grid;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.branch-meter-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #2a5a62;
 }
 
+.branch-meter-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(20, 60, 70, 0.12);
+  overflow: hidden;
+}
+
+.branch-meter-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7aa0a8, #5c7c84);
+  transition: width 0.35s ease;
+}
+
+.branch-meter.is-ok .branch-meter-bar i {
+  background: linear-gradient(90deg, #2fd2b7, #149987);
+}
+
+.branch-meter.is-ok .branch-meter-top {
+  color: #0f7a6e;
+}
+
 .branch-tip {
   grid-area: tip;
-  font-size: 0.72rem;
-  color: #6a7f86;
+  margin-top: 2px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #4a6a72;
   line-height: 1.4;
+}
+
+.branch-card.is-far-req .branch-tip {
+  color: #5a4540;
+}
+
+.branch-card.is-near-req .branch-tip {
+  color: #8a5a18;
 }
 
 .branch-go {
@@ -2741,6 +2810,11 @@ html.is-fullscreen .fs-btn {
   letter-spacing: 0.08em;
   color: #149987;
   font-size: 0.85rem;
+}
+
+.hud-chip-inline {
+  margin: 2px auto 0;
+  width: fit-content;
 }
 
 /* ========== MOTION ========== */
