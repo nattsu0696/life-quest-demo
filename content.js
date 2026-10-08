@@ -758,16 +758,52 @@
     };
   }
 
-  function schoolQuest(name, flavor, focusA, focusB) {
+  function schoolQuest(name, flavor, focusA, focusB, kind) {
+    const meta = {
+      highschool: {
+        span: "三年",
+        realityA: [
+          { label: "気になる高校のオープンスクールを調べる", href: "#reality-campus" },
+          { label: "進路体験を探す", href: "#reality-class" }
+        ],
+        realityB: [
+          { label: "別タイプの高校も比べてみる", href: "#reality-campus" },
+          { label: "今の自分に近い学び方を探す", href: "#reality-class" }
+        ]
+      },
+      univ: {
+        span: "四年",
+        realityA: [
+          { label: "オープンキャンパスを調べる", href: "#reality-campus" },
+          { label: "体験授業を探す", href: "#reality-class" }
+        ],
+        realityB: [
+          { label: "別タイプの大学も比べてみる", href: "#reality-campus" },
+          { label: "学生プロジェクト事例を見る", href: "#reality-class" }
+        ]
+      },
+      skill: {
+        span: "学びの期間",
+        realityA: [
+          { label: "専門学校の体験授業を探す", href: "#reality-class" },
+          { label: "技術職の職場見学を調べる", href: "#reality-work" }
+        ],
+        realityB: [
+          { label: "別分野の専門学校も見る", href: "#reality-campus" },
+          { label: "現場体験の機会を探す", href: "#reality-work" }
+        ]
+      }
+    };
+    const m = meta[kind] || meta.highschool;
     return simpleQuest(
       name,
       `${name}の門をくぐった。${flavor}`,
-      "正解の三年はない。どんな自分で過ごすかが、景色を変える。",
+      `正解の${m.span}はない。どんな自分で過ごすかが、景色を変える。`,
       {
         label: focusA.label,
         title: focusA.title,
         body: focusA.body,
-        nextLabel: "この空気のまま三年を想像する"
+        nextLabel: `この空気のまま${m.span}を想像する`
       },
       {
         label: focusB.label,
@@ -778,18 +814,12 @@
       {
         title: `${name}で過ごした感触が残った。`,
         body: focusA.ending,
-        reality: [
-          { label: "気になる高校のオープンスクールを調べる", href: "#reality-campus" },
-          { label: "進路体験を探す", href: "#reality-class" }
-        ]
+        reality: m.realityA
       },
       {
         title: `${name}は、別の自分にも開いていた。`,
         body: focusB.ending,
-        reality: [
-          { label: "別タイプの高校も比べてみる", href: "#reality-campus" },
-          { label: "今の自分に近い学び方を探す", href: "#reality-class" }
-        ]
+        reality: m.realityB
       }
     );
   }
@@ -1123,9 +1153,9 @@
         id: "univ",
         label: "大学へ進む",
         short: "大学",
-        hint: "学びの四年を、目的のある時間に変える",
-        branchTitle: "どんな学び方を試す？",
-        branchNote: "進学の向きを選んでQUESTへ",
+        hint: "校風の違う大学で、四年の感触を試す",
+        branchTitle: "どの大学を試す？",
+        branchNote: "難関＝正解ではない。必要能力と、今の自分の距離を見て選ぼう",
         theme: "univ",
         img: "assets/char-campus.png",
         speaker: "先輩学生",
@@ -1133,174 +1163,306 @@
         y: 62,
         options: [
           {
-            id: "univ-deep",
-            label: "研究・専門を深める",
-            tag: "研究",
-            blurb: "一つの問いを長く追う四年",
-            scenes: simpleQuest(
-              "大学（研究）",
+            id: "univ-tohto",
+            label: "東都大学",
+            tag: "難関国立",
+            blurb: "研究の空気が濃い。問いを長く追う四年",
+            require: { intellect: 20, calm: 15 },
+            scenes: schoolQuest(
+              "東都大学",
               "キャンパスは広い。時間割より、余白が多い。",
-              "講義、ゼミ、図書館。何を選んでも四年は進む。",
               {
                 label: "研究室やゼミで深く学ぶ",
                 title: "一つの問いを追い続けると、世界が細かく見える。",
                 body: "すぐに就活の話にはならない。でも、「考える筋力」がつく。",
-                nextLabel: "この分野で大学院も視野に入れる"
+                ending: "「何を問い続けたいか」が見えると、四年の意味が変わる。"
               },
               {
                 label: "学外のプロジェクトにも出る",
                 title: "学外は、フィードバックが早い。",
                 body: "大学は拠点で、学びの現場は外にもある。",
-                nextLabel: "実践を軸に進路を探す"
+                ending: "閉じた四年じゃなく、外と往復できる時間だった。"
               },
-              {
-                title: "大学は、答えより問いを増やす場所だった。",
-                body: "「とりあえず進学」ではなく、「何を問い続けたいか」が見えると四年の意味が変わる。",
-                reality: [
-                  { label: "オープンキャンパスを調べる", href: "#reality-campus" },
-                  { label: "体験授業を探す", href: "#reality-class" }
-                ]
-              },
-              {
-                title: "学ぶことと、社会側の動きがつながった。",
-                body: "大学は閉じた四年じゃない。外と往復できる時間でもある。",
-                reality: [
-                  { label: "気になる大学の学びを知る", href: "#reality-campus" },
-                  { label: "学生プロジェクト事例を見る", href: "#reality-class" }
-                ]
-              }
+              "univ"
             )
           },
           {
-            id: "univ-practice",
-            label: "実践・社会接続を増やす",
-            tag: "実践",
-            blurb: "キャンパスを拠点に外へ出る四年",
-            scenes: simpleQuest(
-              "大学（実践）",
+            id: "univ-keioh",
+            label: "慶央義塾大学",
+            tag: "私立難関",
+            blurb: "私学の難関。人脈と競争が同時に来る",
+            require: { intellect: 19, social: 14, calm: 14 },
+            scenes: schoolQuest(
+              "慶央義塾大学",
+              "看板の前で、同期の熱量が先に届く。",
+              {
+                label: "ゼミと就活を両立する",
+                title: "速さの中で、軸を見失わない練習になった。",
+                body: "周囲のペースに飲まれないことも、実力のうちだ。",
+                ending: "難関の空気でも、自分の舵は握れる。"
+              },
+              {
+                label: "サークルで人を動かす",
+                title: "企画を通す経験が、授業より残った。",
+                body: "単位とは別の、動かし方の筋肉がつく。",
+                ending: "社交と知力が、同じ四年で育った。"
+              },
+              "univ"
+            )
+          },
+          {
+            id: "univ-sowa",
+            label: "早稲田総合大学",
+            tag: "私立総合",
+            blurb: "総合私学。学部の幅が広く、外への出口も多い",
+            require: { intellect: 16, social: 14 },
+            scenes: schoolQuest(
+              "早稲田総合大学",
               "授業のあいだに、学外の予定が埋まっていく。",
-              "インターン、イベント、地域活動。大学は基地になる。",
               {
                 label: "インターンを軸にする",
                 title: "現場の言葉は、教科書より早い。",
                 body: "失敗も、次の授業の問いになる。",
-                nextLabel: "実践を軸に進路を探す"
+                ending: "実践のあとで学びに戻ると、問いの質が変わる。"
               },
               {
                 label: "学内の活動を育てる",
-                title: "仲間と企画を通す経験が残った。",
-                body: "単位とは別の、動かし方の筋肉がつく。",
-                nextLabel: "この分野で大学院も視野に入れる"
+                title: "仲間と通した企画が、自信の根拠になった。",
+                body: "広いキャンパスは、出会いの密度でもある。",
+                ending: "総合大学の強さは、選択肢の多さだった。"
+              },
+              "univ"
+            )
+          },
+          {
+            id: "univ-shizuoka",
+            label: "静岡国立大学",
+            tag: "地域国立",
+            blurb: "地元の国立。研究も就職も、距離感が現実的",
+            require: { intellect: 15, calm: 12 },
+            scenes: schoolQuest(
+              "静岡国立大学",
+              "知っている街の延長に、少し高い天井がある。",
+              {
+                label: "地域課題の研究に関わる",
+                title: "地元の問いが、全国の景色につながる。",
+                body: "身近な場所からでも、遠くを狙える四年だった。",
+                ending: "地域に根ざす学びが、進路の軸になった。"
               },
               {
-                title: "学ぶことと、社会側の動きがつながった。",
-                body: "大学は閉じた四年じゃない。外と往復できる時間でもある。",
-                reality: [
-                  { label: "気になる大学の学びを知る", href: "#reality-campus" },
-                  { label: "学生プロジェクト事例を見る", href: "#reality-class" }
-                ]
+                label: "首都圏の機会にも出てみる",
+                title: "往復するほど、自分の居場所が見える。",
+                body: "地元に残る／出る、どちらも選びやすくなる。",
+                ending: "静岡を拠点に、外とつながる感覚が残った。"
+              },
+              "univ"
+            )
+          },
+          {
+            id: "univ-sokyu-sports",
+            label: "蒼穹体育大学",
+            tag: "スポーツ",
+            blurb: "競技と科学が並ぶ。身体が研究室になる四年",
+            require: { stamina: 17, courage: 14, social: 12 },
+            scenes: schoolQuest(
+              "蒼穹体育大学",
+              "朝からグラウンドの音が、講義棟まで届く。",
+              {
+                label: "競技で結果を取りにいく",
+                title: "勝ち負けより、準備の密度が残った。",
+                body: "本番の緊張は、勇気のトレーニングだ。",
+                ending: "身体を張った四年は、自信の根拠になった。"
               },
               {
-                title: "大学は、答えより問いを増やす場所だった。",
-                body: "実践のあとで研究に戻ると、問いの質が変わる。",
-                reality: [
-                  { label: "オープンキャンパスを調べる", href: "#reality-campus" },
-                  { label: "体験授業を探す", href: "#reality-class" }
-                ]
-              }
+                label: "トレーナー／支援側を学ぶ",
+                title: "支える側に回ると、試合の見え方が変わる。",
+                body: "科学とケアが、勝敗の裏側を動かす。",
+                ending: "競技以外の出口も、ちゃんと見えた。"
+              },
+              "univ"
+            )
+          },
+          {
+            id: "univ-seisai-art",
+            label: "星彩芸術大学",
+            tag: "美術・芸術",
+            blurb: "アトリエが研究室。感覚を作品に変える四年",
+            require: { skill: 16, calm: 14, intellect: 12 },
+            scenes: schoolQuest(
+              "星彩芸術大学",
+              "白い壁に、まだ乾かない絵の具の匂い。",
+              {
+                label: "作品を外に出す",
+                title: "公開した瞬間、評価が自分を通り過ぎる。",
+                body: "褒めも批判も、次の制作の材料になる。",
+                ending: "表現は才能の証明より、続ける習慣だった。"
+              },
+              {
+                label: "理論と制作を往復する",
+                title: "言葉が増えると、作品の解像度が上がる。",
+                body: "感覚だけに頼らず、意図を説明できる四年。",
+                ending: "技術と知性が、同じアトリエで育った。"
+              },
+              "univ"
             )
           }
         ]
       },
       {
         id: "skill",
-        label: "専門技術を身につける",
+        label: "専門学校へ進む",
         short: "専門",
-        hint: "手に職の感触を、短い訓練で確かめる",
-        branchTitle: "どの技術に触れる？",
-        branchNote: "気になる分野を選んでQUESTへ",
+        hint: "分野の違う専門学校で、手に職の感触を試す",
+        branchTitle: "どの専門学校を試す？",
+        branchNote: "早い専門＝正解ではない。必要能力と、今の自分の距離を見て選ぼう",
         theme: "skill",
         img: "assets/char-creator.png",
-        speaker: "技術者",
+        speaker: "先輩",
         x: 52,
         y: 22,
         options: [
           {
-            id: "skill-craft",
-            label: "制作・クラフト系",
-            tag: "制作",
-            blurb: "手を動かして形にする技術",
-            scenes: simpleQuest(
-              "専門（制作）",
+            id: "voc-monozukuri",
+            label: "東海ものづくり専門学校",
+            tag: "工業・制作",
+            blurb: "実習が主役。手を動かして形にする",
+            require: { skill: 15, stamina: 12 },
+            scenes: schoolQuest(
+              "東海ものづくり専門学校",
               "座学より先に、道具が渡される。",
-              "上手い下手は、すぐに作品に出る。",
               {
                 label: "基礎を反復して型を入れる",
                 title: "地味な反復のあと、手が勝手に動く瞬間が来る。",
                 body: "才能の話より、時間の使い方の話になる。",
-                nextLabel: "資格や到達点で確認する"
+                ending: "技術は、自信を感覚から根拠に変える。"
               },
               {
-                label: "作品を作って外に出す",
+                label: "作品を外に出す",
                 title: "公開した作品に、想定外の反応が来る。",
                 body: "技術は、誰かとの接点で磨かれる。",
-                nextLabel: "現場の課題で腕を試す"
+                ending: "作ったものが、誰かの役に立つ瞬間が残った。"
               },
-              {
-                title: "技術は、自信を「感覚」から「根拠」に変える。",
-                body: "専門性は進路を狭めるためじゃない。選べる幅を増やすためにある。",
-                reality: [
-                  { label: "専門学校の体験授業を探す", href: "#reality-class" },
-                  { label: "技術職の職場見学を調べる", href: "#reality-work" }
-                ]
-              },
-              {
-                title: "作ったものが、誰かの役に立つ瞬間が残った。",
-                body: "上手くなることだけじゃない。届く相手が見えることにある。",
-                reality: [
-                  { label: "制作系のオープンキャンパスへ", href: "#reality-campus" },
-                  { label: "現場体験の機会を探す", href: "#reality-work" }
-                ]
-              }
+              "skill"
             )
           },
           {
-            id: "skill-it",
-            label: "デジタル・IT系",
-            tag: "IT",
-            blurb: "画面の向こうに届く技術",
-            scenes: simpleQuest(
-              "専門（IT）",
+            id: "voc-digital",
+            label: "デジタルクラフト専門学校",
+            tag: "IT・デジタル",
+            blurb: "画面の向こうに届く技術を、短期間で積む",
+            require: { skill: 14, intellect: 14 },
+            scenes: schoolQuest(
+              "デジタルクラフト専門学校",
               "黒い画面に、最初の一行を打つ。",
-              "動いた瞬間の快感と、動かない時間の長さがセットで来る。",
               {
                 label: "基礎から丁寧に積む",
                 title: "エラーの読み方が、少しずつ分かる。",
                 body: "遠回りに見えて、いちばん速い道だったりする。",
-                nextLabel: "資格や到達点で確認する"
+                ending: "専門性は進路を狭めず、選べる幅を増やす。"
               },
               {
                 label: "小さなサービスを公開する",
                 title: "使った人の反応が、次の課題になる。",
                 body: "コードは孤独な作業に見えて、実は対話だ。",
-                nextLabel: "現場の課題で腕を試す"
+                ending: "動くものには、必ず誰かの時間が乗っている。"
+              },
+              "skill"
+            )
+          },
+          {
+            id: "voc-seisai-design",
+            label: "星彩デザイン専門学校",
+            tag: "美術・デザイン",
+            blurb: "ポートフォリオが教科書。見せ方が仕事になる",
+            require: { skill: 15, calm: 13 },
+            scenes: schoolQuest(
+              "星彩デザイン専門学校",
+              "壁一面に、先輩の作品が並んでいる。",
+              {
+                label: "課題を量産して型を覚える",
+                title: "上手い下手は、すぐに画面に出る。",
+                body: "フィードバックの速さが、成長を加速する。",
+                ending: "好きが、提出物の習慣に変わった。"
               },
               {
-                title: "技術は、自信を「感覚」から「根拠」に変える。",
-                body: "専門性は進路を狭めるためじゃない。選べる幅を増やすためにある。",
-                reality: [
-                  { label: "専門学校の体験授業を探す", href: "#reality-class" },
-                  { label: "技術職の職場見学を調べる", href: "#reality-work" }
-                ]
+                label: "コンペに出してみる",
+                title: "審査の一言が、次の一作を変える。",
+                body: "外の目に晒す勇気が、技術を一段上げる。",
+                ending: "デザインは、伝えるための技術だと分かった。"
+              },
+              "skill"
+            )
+          },
+          {
+            id: "voc-sokai-trainer",
+            label: "蒼海スポーツ専門学校",
+            tag: "スポーツ",
+            blurb: "競技とトレーナー。身体の使い方を仕事にする",
+            require: { stamina: 16, social: 12, courage: 12 },
+            scenes: schoolQuest(
+              "蒼海スポーツ専門学校",
+              "朝練の汗が、教室の机にも残っている。",
+              {
+                label: "現場実習を増やす",
+                title: "支える側に回ると、試合の見え方が変わる。",
+                body: "声かけ一つで、選手の表情が変わる。",
+                ending: "体力と社交が、同じ現場で育った。"
               },
               {
-                title: "作ったものが、誰かの役に立つ瞬間が残った。",
-                body: "動くものには、必ず誰かの時間が乗っている。",
-                reality: [
-                  { label: "IT系のオープンキャンパスへ", href: "#reality-campus" },
-                  { label: "現場体験の機会を探す", href: "#reality-work" }
-                ]
-              }
+                label: "資格取得を軸にする",
+                title: "数字と記録が、感覚を言葉にする。",
+                body: "根拠のあるアドバイスが、信頼につながる。",
+                ending: "スポーツの出口は、選手だけじゃないと知った。"
+              },
+              "skill"
+            )
+          },
+          {
+            id: "voc-business",
+            label: "ビジネストラベル専門学校",
+            tag: "ビジネス・観光",
+            blurb: "接客と企画。人と場を動かす実務を学ぶ",
+            require: { social: 15, calm: 12 },
+            scenes: schoolQuest(
+              "ビジネストラベル専門学校",
+              "ロールプレイの声が、廊下まで明るい。",
+              {
+                label: "接客実習を積み上げる",
+                title: "相手の表情が、いちばん速い教材だった。",
+                body: "正解より、その場での判断力が残る。",
+                ending: "社交は才能より、回数で伸びると実感した。"
+              },
+              {
+                label: "イベント運営に入る",
+                title: "裏方の段取りが、表の笑顔をつくる。",
+                body: "人と場所を動かす感覚が、仕事の原型になる。",
+                ending: "観光もビジネスも、結局は人だった。"
+              },
+              "skill"
+            )
+          },
+          {
+            id: "voc-care",
+            label: "メディカルケア専門学校",
+            tag: "医療・福祉",
+            blurb: "支える技術。冷静さと継続が武器になる",
+            require: { calm: 15, intellect: 13, stamina: 12 },
+            scenes: schoolQuest(
+              "メディカルケア専門学校",
+              "白衣のポケットに、メモと優しさが同居する。",
+              {
+                label: "実習で現場の空気を知る",
+                title: "教科書では分からない緊張がある。",
+                body: "冷静さは、冷ややかさじゃなく、相手を守る力だ。",
+                ending: "支える仕事の重みと、やりがいが同時に残った。"
+              },
+              {
+                label: "基礎を丁寧に固める",
+                title: "ミスの少なさが、信頼になる。",
+                body: "派手さより、続く正確さが評価される。",
+                ending: "技術と冷静さが、同じ白衣の中で育った。"
+              },
+              "skill"
             )
           }
         ]
