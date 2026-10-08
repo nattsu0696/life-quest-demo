@@ -518,16 +518,6 @@ html.is-fullscreen .fs-btn {
   margin-bottom: 8px;
 }
 
-.outside-stage {
-  height: 100%;
-  min-height: 0;
-  overflow: auto;
-}
-
-#screen-outside.is-active {
-  display: block !important;
-}
-
 /* ========== HOME HUB ========== */
 #screen-hub.is-active {
   display: block !important;
@@ -1715,6 +1705,10 @@ html.is-fullscreen .fs-btn {
 .vn-bottom {
   position: relative;
   z-index: 4;
+  flex: 0 0 auto;
+  max-height: min(46%, 320px);
+  overflow-x: hidden;
+  overflow-y: auto;
   padding:
     0
     max(12px, env(safe-area-inset-right), 3vw)
@@ -1725,6 +1719,7 @@ html.is-fullscreen .fs-btn {
   width: min(880px, 94%);
   margin: 0 auto;
   box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dialogue-box {
@@ -2052,8 +2047,9 @@ html.is-fullscreen .fs-btn {
 .choice-btn {
   width: 100%;
   text-align: left;
-  padding: 14px 16px;
-  border-radius: 14px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 0.92rem;
   background: linear-gradient(90deg, rgba(8, 12, 18, 0.82), rgba(8, 12, 18, 0.55));
   border: 1px solid color-mix(in srgb, var(--name) 55%, white 10%);
   box-shadow:
@@ -2084,10 +2080,15 @@ html.is-fullscreen .fs-btn {
 /* ========== RESULT ========== */
 .result-stage {
   position: relative;
-  min-height: 100dvh;
-  padding: var(--safe-top) 16px var(--safe-bottom);
-  display: grid;
-  place-items: center;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  box-sizing: border-box;
+  padding: max(8px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .result-bg {
@@ -2099,7 +2100,8 @@ html.is-fullscreen .fs-btn {
 .result-panel {
   position: relative;
   z-index: 1;
-  width: 100%;
+  width: min(100%, 640px);
+  margin: auto;
   padding: 8px 4px 10px;
   animation: rise 0.55s ease both;
 }
@@ -2539,9 +2541,26 @@ html.is-fullscreen .fs-btn {
 }
 
 /* ========== BRANCH SELECT ========== */
+#screen-branch.is-active,
+#screen-outside.is-active,
+#screen-result.is-active,
+#screen-play.is-active {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .branch-stage {
-  min-height: 100dvh;
-  padding: var(--safe-top) 16px max(20px, env(safe-area-inset-bottom));
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: max(8px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
   background:
     radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.4), transparent 55%),
     radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.3), transparent 50%),
@@ -2550,7 +2569,8 @@ html.is-fullscreen .fs-btn {
 }
 
 .branch-stage .map-hud {
-  margin-bottom: 14px;
+  flex: 0 0 auto;
+  margin-bottom: 10px;
 }
 
 .branch-stage .hud-center {
@@ -2558,21 +2578,22 @@ html.is-fullscreen .fs-btn {
 }
 
 .branch-hero {
+  flex: 0 0 auto;
   display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 12px;
+  grid-template-columns: 64px 1fr;
+  gap: 10px;
   align-items: center;
-  margin-bottom: 16px;
-  padding: 12px;
-  border-radius: 20px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 16px;
   background: rgba(255, 252, 246, 0.88);
   border: 1px solid rgba(20, 60, 70, 0.1);
   box-shadow: 0 12px 28px rgba(40, 70, 80, 0.1);
 }
 
 .branch-portrait {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   object-fit: cover;
   object-position: center 16%;
   border-radius: 50%;
@@ -2590,23 +2611,26 @@ html.is-fullscreen .fs-btn {
 
 .branch-title {
   margin: 0 0 4px;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   line-height: 1.35;
 }
 
 .branch-note {
   margin: 0;
   color: #4a6a72;
-  font-size: 0.84rem;
-  line-height: 1.5;
+  font-size: 0.8rem;
+  line-height: 1.45;
 }
 
 .branch-list {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
-  gap: 10px;
-  max-height: calc(100dvh - 220px);
+  gap: 8px;
+  align-content: start;
+  overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 8px;
+  padding: 0 2px 10px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -2620,11 +2644,11 @@ html.is-fullscreen .fs-btn {
   gap: 2px 12px;
   width: 100%;
   text-align: left;
-  padding: 14px 16px;
-  border-radius: 18px;
+  padding: 12px 14px;
+  border-radius: 14px;
   border: 1px solid rgba(20, 60, 70, 0.1);
   background: rgba(255, 252, 246, 0.92);
-  box-shadow: 0 10px 24px rgba(40, 70, 80, 0.1);
+  box-shadow: 0 8px 18px rgba(40, 70, 80, 0.1);
   color: #16303a;
   transition: transform 0.15s ease, border-color 0.15s ease;
 }
@@ -2791,6 +2815,48 @@ html.is-landscape .rotate-hint {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* PCの16:9枠内で企業一覧・体験UIが切れないように */
+  .branch-stage,
+  .outside-stage,
+  .result-stage,
+  .vn-stage {
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .branch-list {
+    gap: 7px;
+  }
+
+  .branch-card {
+    padding: 10px 12px;
+  }
+
+  .branch-label {
+    font-size: 0.95rem;
+  }
+
+  .branch-blurb {
+    font-size: 0.78rem;
+  }
+
+  .vn-bottom {
+    max-height: min(42%, 280px);
+    width: min(860px, 92%);
+  }
+
+  .choice-btn {
+    padding: 10px 12px;
+    font-size: 0.88rem;
+  }
+
+  .result-footer {
+    position: sticky;
+    bottom: 0;
+    padding-top: 8px;
+    background: linear-gradient(180deg, transparent, rgba(7, 21, 28, 0.92) 30%);
   }
 
   .meta-stage {
