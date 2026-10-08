@@ -1890,11 +1890,49 @@
   }
 
   /* ========== BRANCH ========== */
+  function evaluateRequirements(require, stats) {
+    if (!require || typeof require !== "object") {
+      return { ok: true, gaps: [], ratio: 1, label: "手が届く" };
+    }
+    const gaps = [];
+    let met = 0;
+    let total = 0;
+    Object.entries(require).forEach(([key, need]) => {
+      const want = Number(need) || 0;
+      if (want <= 0) return;
+      total += 1;
+      const have = Number(stats?.[key]) || 0;
+      if (have >= want) met += 1;
+      else gaps.push({ key, need: want, have, lack: want - have });
+    });
+    const ratio = total ? met / total : 1;
+    let label = "手が届く";
+    if (!gaps.length) label = "手が届く";
+    else if (ratio >= 0.5) label = "もう少し";
+    else label = "まだ遠い";
+    return { ok: gaps.length === 0, gaps, ratio, label };
+  }
+
+  function formatRequireLine(require) {
+    if (!require) return "";
+    return Object.entries(require)
+      .map(([key, need]) => `${STAT_LABELS[key] || key}${need}`)
+      .join(" / ");
+  }
+
+  function formatGapTip(gaps) {
+    if (!gaps.length) return "今の自分でも、体験できる距離感";
+    return gaps
+      .slice(0, 3)
+      .map((g) => `${STAT_LABELS[g.key] || g.key}あと${g.lack}`)
+      .join("・");
+  }
+
   function openBranch(categoryId) {
     const cat = getCategory(categoryId);
     if (!cat) return;
     state.categoryId = categoryId;
-    enterPrompt.hidden = true;
+    if (enterPrompt) enterPrompt.hidden = true;
 
     if (cat.options.length === 1) {
       startQuest(cat.options[0].id);
@@ -1907,19 +1945,36 @@
     branchChip.textContent = cat.short;
     if (branchPortrait) branchPortrait.src = cat.img;
 
+    const stats = state.save ? ensureSaveShape(state.save).stats : baseStats();
+
     branchList.innerHTML = "";
     cat.options.forEach((opt) => {
       const btn = document.createElement("button");
       btn.type = "button";
+      const evalReq = evaluateRequirements(opt.require, stats);
       btn.className = "branch-card";
+      if (opt.require) btn.classList.add("has-require");
+      if (evalReq.ok) btn.classList.add("is-ready");
+      else if (evalReq.ratio >= 0.5) btn.classList.add("is-near-req");
+      else btn.classList.add("is-far-req");
       if (state.cleared.has(opt.id)) btn.classList.add("is-cleared");
+
+      const reqLine = formatRequireLine(opt.require);
+      const tip = formatGapTip(evalReq.gaps);
+      const goLabel = state.cleared.has(opt.id)
+        ? "CLEAR"
+        : (evalReq.ok ? "GO" : "体験");
+
       btn.innerHTML = `
         <span class="branch-tag">${opt.tag || "OPTION"}</span>
+        <span class="branch-match">${evalReq.label}</span>
         <span class="branch-label">${opt.label}</span>
         <span class="branch-blurb">${opt.blurb || ""}</span>
-        <span class="branch-go">${state.cleared.has(opt.id) ? "CLEAR" : "GO"}</span>
+        ${reqLine ? `<span class="branch-req">必要：${reqLine}</span>` : ""}
+        <span class="branch-tip">${tip}</span>
+        <span class="branch-go">${goLabel}</span>
       `;
-      btn.addEventListener("click", () => startQuest(opt.id));
+      bindTap(btn, () => startQuest(opt.id));
       branchList.appendChild(btn);
     });
 

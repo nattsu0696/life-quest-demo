@@ -2638,9 +2638,11 @@ html.is-fullscreen .fs-btn {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "tag go"
+    "tag match"
     "label go"
-    "blurb go";
+    "blurb go"
+    "req go"
+    "tip go";
   gap: 2px 12px;
   width: 100%;
   text-align: left;
@@ -2651,6 +2653,19 @@ html.is-fullscreen .fs-btn {
   box-shadow: 0 8px 18px rgba(40, 70, 80, 0.1);
   color: #16303a;
   transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.branch-card.has-require.is-ready {
+  border-color: rgba(15, 138, 122, 0.35);
+}
+
+.branch-card.has-require.is-near-req {
+  border-color: rgba(240, 179, 90, 0.45);
+}
+
+.branch-card.has-require.is-far-req {
+  border-color: rgba(20, 60, 70, 0.14);
+  background: rgba(255, 252, 246, 0.82);
 }
 
 .branch-card:hover,
@@ -2672,6 +2687,24 @@ html.is-fullscreen .fs-btn {
   color: #0f7a6e;
 }
 
+.branch-match {
+  grid-area: match;
+  justify-self: end;
+  align-self: start;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #149987;
+}
+
+.branch-card.is-near-req .branch-match {
+  color: #c4892a;
+}
+
+.branch-card.is-far-req .branch-match {
+  color: #6a7f86;
+}
+
 .branch-label {
   grid-area: label;
   font-size: 1.02rem;
@@ -2683,6 +2716,21 @@ html.is-fullscreen .fs-btn {
   font-size: 0.82rem;
   color: #4a6a72;
   line-height: 1.45;
+}
+
+.branch-req {
+  grid-area: req;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #2a5a62;
+}
+
+.branch-tip {
+  grid-area: tip;
+  font-size: 0.72rem;
+  color: #6a7f86;
+  line-height: 1.4;
 }
 
 .branch-go {

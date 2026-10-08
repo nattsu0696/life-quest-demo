@@ -758,15 +758,51 @@
     };
   }
 
+  function schoolQuest(name, flavor, focusA, focusB) {
+    return simpleQuest(
+      name,
+      `${name}の門をくぐった。${flavor}`,
+      "正解の三年はない。どんな自分で過ごすかが、景色を変える。",
+      {
+        label: focusA.label,
+        title: focusA.title,
+        body: focusA.body,
+        nextLabel: "この空気のまま三年を想像する"
+      },
+      {
+        label: focusB.label,
+        title: focusB.title,
+        body: focusB.body,
+        nextLabel: "別の自分の過ごし方も見る"
+      },
+      {
+        title: `${name}で過ごした感触が残った。`,
+        body: focusA.ending,
+        reality: [
+          { label: "気になる高校のオープンスクールを調べる", href: "#reality-campus" },
+          { label: "進路体験を探す", href: "#reality-class" }
+        ]
+      },
+      {
+        title: `${name}は、別の自分にも開いていた。`,
+        body: focusB.ending,
+        reality: [
+          { label: "別タイプの高校も比べてみる", href: "#reality-campus" },
+          { label: "今の自分に近い学び方を探す", href: "#reality-class" }
+        ]
+      }
+    );
+  }
+
   window.LIFE_QUEST = {
     categories: [
       {
         id: "highschool",
         label: "高校へ進む",
         short: "高校",
-        hint: "高校受験の先で、どんな三年にするか試す",
-        branchTitle: "どんな高校生活を試す？",
-        branchNote: "進学の向きを選んでQUESTへ",
+        hint: "校風の違う高校で、三年の感触を試す",
+        branchTitle: "どの高校を試す？",
+        branchNote: "強い学校＝正解ではない。必要能力と、今の自分の距離を見て選ぼう",
         theme: "univ",
         img: "assets/char-campus.png",
         speaker: "先輩",
@@ -774,80 +810,140 @@
         y: 40,
         options: [
           {
-            id: "hs-study",
-            label: "進学重視の高校",
-            tag: "進学",
-            blurb: "授業と模試が生活の軸になる三年",
-            scenes: simpleQuest(
-              "高校（進学）",
-              "教室の空気は、まだ少し緊張している。",
-              "時間割、課題、模試。毎日が積み上がっていく。",
+            id: "hs-kaisei",
+            label: "開星高校",
+            tag: "難関進学",
+            blurb: "模試と自習室が生活のリズムになる三年",
+            require: { intellect: 18, calm: 13 },
+            scenes: schoolQuest(
+              "開星高校",
+              "廊下でも参考書を開く人がいる。",
               {
                 label: "勉強の型を先につくる",
                 title: "地味な復習が、いちばん効いた。",
                 body: "点数が上がると、次に挑戦できる幅も広がる。",
-                nextLabel: "志望に向けて計画を立てる"
+                ending: "進学の先はまだぼんやりでも、「続け方」の筋肉がついた。"
               },
               {
-                label: "部活と両立してみる",
-                title: "時間の使い方が上手くなる。",
-                body: "全部はできない。優先順位が、自分をつくる。",
-                nextLabel: "得意を軸に進路を探す"
-              },
-              {
-                title: "高校は、答えより「続け方」を学ぶ場所だった。",
-                body: "進学の先に何があるかは、まだぼんやりでもいい。選び方の筋肉がつく。",
-                reality: [
-                  { label: "高校のオープンスクールを調べる", href: "#reality-campus" },
-                  { label: "進路体験を探す", href: "#reality-class" }
-                ]
-              },
-              {
-                title: "「できること」が増えると、選択肢も増えた。",
-                body: "高校三年は短い。でも、習慣は長く残る。",
-                reality: [
-                  { label: "気になる高校を知る", href: "#reality-campus" },
-                  { label: "体験授業を探す", href: "#reality-class" }
-                ]
+                label: "友人と高め合う",
+                title: "競争より、並走の三年だった。",
+                body: "一人だと折れそうな日も、隣の努力が見える。",
+                ending: "知力だけじゃなく、人と並ぶ感覚も残った。"
               }
             )
           },
           {
-            id: "hs-practice",
-            label: "実践・専門寄りな高校",
-            tag: "実践",
-            blurb: "手を動かしながら進路を探す三年",
-            scenes: simpleQuest(
-              "高校（実践）",
-              "実習室の音が、教室より近い。",
-              "座学だけじゃない。作る・動く時間が入ってくる。",
+            id: "hs-nanyo",
+            label: "灘陽高校",
+            tag: "最難関",
+            blurb: "最難関クラス。密度の高い毎日が待つ",
+            require: { intellect: 22, calm: 16 },
+            scenes: schoolQuest(
+              "灘陽高校",
+              "空気が薄いほど、集中が澄んでいく。",
+              {
+                label: "最前線の問題に挑む",
+                title: "解けない時間が、むしろ長かった。",
+                body: "正解より、問いの立て方を磨かれる。",
+                ending: "難問の向こうに、思考の体力が残った。"
+              },
+              {
+                label: "睡眠とペースを守る",
+                title: "速さより、続く速度を選んだ。",
+                body: "周囲のペースに飲まれないことも、実力のうちだ。",
+                ending: "頂点を目指す場所でも、自分の舵は握れる。"
+              }
+            )
+          },
+          {
+            id: "hs-shizuoka",
+            label: "静岡中央高校",
+            tag: "地域上位",
+            blurb: "地元の上位校。進学も部活も選びやすい",
+            require: { intellect: 13, social: 11 },
+            scenes: schoolQuest(
+              "静岡中央高校",
+              "知っている景色の延長に、少し高い天井がある。",
+              {
+                label: "進学コースを軸にする",
+                title: "地元にいながら、視野は外へ向いた。",
+                body: "模試の全国順位が、世界の縮尺を変える。",
+                ending: "身近な場所からでも、遠くを狙える三年だった。"
+              },
+              {
+                label: "部活と両立する",
+                title: "時間の使い方が上手くなった。",
+                body: "全部はできない。優先順位が自分をつくる。",
+                ending: "進学だけが高校じゃない、と体で分かった。"
+              }
+            )
+          },
+          {
+            id: "hs-tokai-tech",
+            label: "東海工科高校",
+            tag: "工業・技術",
+            blurb: "実習が主役。手を動かして進路を探す",
+            require: { skill: 15, stamina: 12 },
+            scenes: schoolQuest(
+              "東海工科高校",
+              "座学より先に、道具が渡される。",
               {
                 label: "実習を軸にする",
                 title: "上手い下手は、すぐに作品に出る。",
                 body: "失敗も次の課題になる。成長が目に見える。",
-                nextLabel: "得意分野を深掘りする"
+                ending: "「好き」が「できる」に近づくと、次の一歩が軽い。"
               },
               {
                 label: "一般科目もバランスよく",
                 title: "両輪があると、進路の幅が残る。",
                 body: "専門だけに閉じない三年も、強い選択だ。",
-                nextLabel: "進学と就職の両方を見る"
+                ending: "技術と学びの両方が、選択肢を増やした。"
+              }
+            )
+          },
+          {
+            id: "hs-sokai-sports",
+            label: "蒼海体育高校",
+            tag: "スポーツ",
+            blurb: "朝練から一日が始まる。身体が教科書になる",
+            require: { stamina: 16, courage: 13, social: 11 },
+            scenes: schoolQuest(
+              "蒼海体育高校",
+              "グラウンドの音が、校舎より近い。",
+              {
+                label: "試合で結果を取りにいく",
+                title: "勝ち負けより、準備の密度が残った。",
+                body: "本番の緊張は、勇気のトレーニングだ。",
+                ending: "身体を張った三年は、自信の根拠になった。"
               },
               {
-                title: "手応えのある三年が残った。",
-                body: "「好き」が「できる」に近づくと、次の一歩が踏みやすい。",
-                reality: [
-                  { label: "専門高校の体験を調べる", href: "#reality-class" },
-                  { label: "職場見学を探す", href: "#reality-work" }
-                ]
+                label: "チームを支える役に回る",
+                title: "エースじゃなくても、必要とされる場所がある。",
+                body: "声かけ、整列、ケア。勝敗の裏側を動かす。",
+                ending: "社交と体力が、同じ場所で育った。"
+              }
+            )
+          },
+          {
+            id: "hs-seisai-art",
+            label: "星彩芸術高校",
+            tag: "美術・芸術",
+            blurb: "アトリエが教室。感覚を技術に変える三年",
+            require: { skill: 15, calm: 13, intellect: 11 },
+            scenes: schoolQuest(
+              "星彩芸術高校",
+              "白い壁に、まだ乾かない絵の具の匂い。",
+              {
+                label: "作品を外に出す",
+                title: "公開した瞬間、評価が自分を通り過ぎる。",
+                body: "褒めも批判も、次の制作の材料になる。",
+                ending: "表現は才能の証明より、続ける習慣だった。"
               },
               {
-                title: "進路は、才能の証明より習慣の延長だった。",
-                body: "毎日の実習が、そのまま次の選択につながる。",
-                reality: [
-                  { label: "オープンスクールへ", href: "#reality-campus" },
-                  { label: "現場体験の機会を探す", href: "#reality-work" }
-                ]
+                label: "基礎デッサンを積み上げる",
+                title: "地味な線が、いちばん効いた。",
+                body: "感覚だけに頼らず、手に型が入っていく。",
+                ending: "技術がつくと、伝えたいことが言葉になる。"
               }
             )
           }
