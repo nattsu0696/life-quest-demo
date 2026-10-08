@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=51" />
+  <link rel="stylesheet" href="styles.css?v=52" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -455,8 +455,13 @@
     <section id="screen-result" class="screen" data-screen="result" hidden>
       <div id="result-stage" class="result-stage">
         <div class="result-bg" aria-hidden="true"></div>
+        <div id="result-burst" class="result-burst" aria-hidden="true"></div>
         <div class="result-panel">
-          <p class="clear-badge">QUEST CLEAR</p>
+          <div class="clear-hero" aria-live="polite">
+            <p class="clear-stamp">QUEST CLEAR</p>
+            <p class="clear-sub">体験完了</p>
+            <p id="result-path" class="clear-path"></p>
+          </div>
           <p id="result-kicker" class="result-kicker"></p>
           <h2 id="result-title" class="result-title"></h2>
           <p id="result-body" class="result-body"></p>
@@ -479,7 +484,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=51"></script>
-  <script src="app.js?v=51"></script>
+  <script src="content.js?v=52"></script>
+  <script src="app.js?v=52"></script>
 </body>
 </html>

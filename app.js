@@ -2172,6 +2172,18 @@
     resultTitle.textContent = scene.title;
     resultBody.textContent = scene.body;
 
+    const resultPath = document.getElementById("result-path");
+    if (resultPath) {
+      resultPath.textContent = `${cat.label} ／ ${opt.label}`;
+    }
+
+    const resultStage = document.getElementById("result-stage");
+    if (resultStage) {
+      resultStage.classList.remove("is-clearing");
+      void resultStage.offsetWidth;
+      resultStage.classList.add("is-clearing");
+    }
+
     realityActions.innerHTML = "";
     (scene.reality || []).forEach((item) => {
       const a = document.createElement("a");
