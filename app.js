@@ -691,6 +691,10 @@
   function goBackFromQuest() {
     hideLifeEvent();
     applySceneBackground(null);
+    // 後退しても地点は残す（将来の計測フック想定）
+    if (state.categoryId) {
+      rememberLastPlace(state.categoryId, state.optionId);
+    }
     const place = state.save?.flags?.lastPlace;
     const catId = state.categoryId || place?.categoryId;
     if (catId && getCategory(catId)) {
@@ -698,6 +702,19 @@
       return;
     }
     openOutside();
+  }
+
+  function retreatToHub() {
+    // いつでも部屋へ。後退時も地点データは残す
+    if (state.categoryId || state.optionId) {
+      rememberLastPlace(
+        state.categoryId || state.save?.flags?.lastPlace?.categoryId,
+        state.optionId || state.save?.flags?.lastPlace?.optionId || null
+      );
+    }
+    hideLifeEvent();
+    applySceneBackground(null);
+    openHub();
   }
 
   function playerGender() {
@@ -2222,7 +2239,7 @@
   function handleAction(action) {
     if (action === "to-map" || action === "to-outside") openOutside();
     if (action === "to-back" || action === "to-branch") goBackFromQuest();
-    if (action === "to-hub") openHub();
+    if (action === "to-hub") retreatToHub();
     if (action === "to-saves") {
       openSaveScreen();
     }
