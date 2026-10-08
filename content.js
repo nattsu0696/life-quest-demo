@@ -761,6 +761,99 @@
   window.LIFE_QUEST = {
     categories: [
       {
+        id: "highschool",
+        label: "高校へ進む",
+        short: "高校",
+        hint: "高校受験の先で、どんな三年にするか試す",
+        branchTitle: "どんな高校生活を試す？",
+        branchNote: "進学の向きを選んでQUESTへ",
+        theme: "univ",
+        img: "assets/char-campus.png",
+        speaker: "先輩",
+        x: 40,
+        y: 40,
+        options: [
+          {
+            id: "hs-study",
+            label: "進学重視の高校",
+            tag: "進学",
+            blurb: "授業と模試が生活の軸になる三年",
+            scenes: simpleQuest(
+              "高校（進学）",
+              "教室の空気は、まだ少し緊張している。",
+              "時間割、課題、模試。毎日が積み上がっていく。",
+              {
+                label: "勉強の型を先につくる",
+                title: "地味な復習が、いちばん効いた。",
+                body: "点数が上がると、次に挑戦できる幅も広がる。",
+                nextLabel: "志望に向けて計画を立てる"
+              },
+              {
+                label: "部活と両立してみる",
+                title: "時間の使い方が上手くなる。",
+                body: "全部はできない。優先順位が、自分をつくる。",
+                nextLabel: "得意を軸に進路を探す"
+              },
+              {
+                title: "高校は、答えより「続け方」を学ぶ場所だった。",
+                body: "進学の先に何があるかは、まだぼんやりでもいい。選び方の筋肉がつく。",
+                reality: [
+                  { label: "高校のオープンスクールを調べる", href: "#reality-campus" },
+                  { label: "進路体験を探す", href: "#reality-class" }
+                ]
+              },
+              {
+                title: "「できること」が増えると、選択肢も増えた。",
+                body: "高校三年は短い。でも、習慣は長く残る。",
+                reality: [
+                  { label: "気になる高校を知る", href: "#reality-campus" },
+                  { label: "体験授業を探す", href: "#reality-class" }
+                ]
+              }
+            )
+          },
+          {
+            id: "hs-practice",
+            label: "実践・専門寄りな高校",
+            tag: "実践",
+            blurb: "手を動かしながら進路を探す三年",
+            scenes: simpleQuest(
+              "高校（実践）",
+              "実習室の音が、教室より近い。",
+              "座学だけじゃない。作る・動く時間が入ってくる。",
+              {
+                label: "実習を軸にする",
+                title: "上手い下手は、すぐに作品に出る。",
+                body: "失敗も次の課題になる。成長が目に見える。",
+                nextLabel: "得意分野を深掘りする"
+              },
+              {
+                label: "一般科目もバランスよく",
+                title: "両輪があると、進路の幅が残る。",
+                body: "専門だけに閉じない三年も、強い選択だ。",
+                nextLabel: "進学と就職の両方を見る"
+              },
+              {
+                title: "手応えのある三年が残った。",
+                body: "「好き」が「できる」に近づくと、次の一歩が踏みやすい。",
+                reality: [
+                  { label: "専門高校の体験を調べる", href: "#reality-class" },
+                  { label: "職場見学を探す", href: "#reality-work" }
+                ]
+              },
+              {
+                title: "進路は、才能の証明より習慣の延長だった。",
+                body: "毎日の実習が、そのまま次の選択につながる。",
+                reality: [
+                  { label: "オープンスクールへ", href: "#reality-campus" },
+                  { label: "現場体験の機会を探す", href: "#reality-work" }
+                ]
+              }
+            )
+          }
+        ]
+      },
+      {
         id: "work",
         label: "企業で働く",
         short: "企業",

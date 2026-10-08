@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=47" />
+  <link rel="stylesheet" href="styles.css?v=48" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -83,7 +83,7 @@
             <span class="btn-start-glow" aria-hidden="true"></span>
             <span class="btn-start-label">▶ START</span>
           </button>
-          <p class="title-hint">15歳の自分から、人生を育てていく</p>
+          <p class="title-hint">好きな年齢から、人生を何度でも試せる</p>
         </div>
       </div>
     </section>
@@ -108,7 +108,7 @@
       </div>
     </section>
 
-    <!-- PROFILE (age 15) -->
+    <!-- PROFILE -->
     <section id="screen-profile" class="screen" data-screen="profile" hidden>
       <div class="meta-stage">
         <header class="map-hud">
@@ -117,29 +117,60 @@
             <p class="brand-mini">LIFE QUEST</p>
             <p class="hud-sub">PROFILE</p>
           </div>
-          <span class="hud-chip">AGE 15</span>
+          <span class="hud-chip">START</span>
         </header>
         <div class="meta-panel">
-          <p class="meta-chip">15歳の自分</p>
-          <h2 class="meta-title">主人公の設定</h2>
-          <p class="meta-note">名前と、いまの得意な感じを選んでください。あとから能力の伸び方に影響します。</p>
+          <p class="meta-chip">自分の設定</p>
+          <h2 class="meta-title">どの年齢から始める？</h2>
+          <p class="meta-note">スタート年齢で、部屋の雰囲気と「外に出たとき」の選択肢が変わります。大人の転職検討からも遊べます。</p>
           <form id="profile-form" class="profile-form" autocomplete="off">
             <label class="gate-label" for="profile-name">名前</label>
             <input id="profile-name" class="gate-input profile-name-input" type="text" maxlength="12" placeholder="例：ナツ" />
+            <p class="gate-label">スタート年齢</p>
+            <div class="stage-grid" role="radiogroup" aria-label="スタート年齢">
+              <label class="trait-card">
+                <input type="radio" name="stage" value="junior" checked />
+                <span class="trait-card-body">
+                  <strong>高校受験前</strong>
+                  <small>15歳〜 ・ 高校の選択</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="senior" />
+                <span class="trait-card-body">
+                  <strong>大学受験前</strong>
+                  <small>18歳〜 ・ 大学/専門/企業/移住</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="grad" />
+                <span class="trait-card-body">
+                  <strong>大学卒業前後</strong>
+                  <small>22歳〜 ・ 企業/起業/移住</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="adult" />
+                <span class="trait-card-body">
+                  <strong>就職後</strong>
+                  <small>28歳〜 ・ 企業/起業/移住</small>
+                </span>
+              </label>
+            </div>
             <p class="gate-label">性別</p>
             <div class="gender-grid" role="radiogroup" aria-label="性別">
               <label class="trait-card">
                 <input type="radio" name="gender" value="boy" />
                 <span class="trait-card-body">
-                  <strong>少年</strong>
-                  <small>15歳くらいの男の子</small>
+                  <strong>男性</strong>
+                  <small>主人公を男性で</small>
                 </span>
               </label>
               <label class="trait-card">
                 <input type="radio" name="gender" value="girl" checked />
                 <span class="trait-card-body">
-                  <strong>少女</strong>
-                  <small>15歳くらいの女の子</small>
+                  <strong>女性</strong>
+                  <small>主人公を女性で</small>
                 </span>
               </label>
             </div>
@@ -232,8 +263,8 @@
               <button type="button" class="hub-action" data-hub-action="rest">休む<span>体力↑</span></button>
             </div>
             <p id="hub-toast" class="hub-toast" hidden></p>
-            <button type="button" class="btn-start hub-map-btn" data-action="to-map">
-              <span class="btn-start-label">外に出る（LIFE MAP）</span>
+            <button type="button" class="btn-start hub-map-btn" data-action="to-outside">
+              <span class="btn-start-label">外に出る</span>
             </button>
           </div>
         </div>
@@ -254,7 +285,30 @@
       </div>
     </section>
 
-    <!-- LIFE MAP + PUNICON -->
+    <!-- OUTSIDE (age-gated destinations) -->
+    <section id="screen-outside" class="screen" data-screen="outside" hidden>
+      <div class="branch-stage outside-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-hub">◀ 部屋</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">OUTSIDE</p>
+          </div>
+          <span class="hud-chip" id="outside-chip">GO</span>
+        </header>
+        <div class="branch-hero">
+          <img id="outside-portrait" class="branch-portrait" src="assets/char-guide.png" alt="" />
+          <div>
+            <p class="branch-kicker" id="outside-kicker">今日の外</p>
+            <h2 class="branch-title" id="outside-title">どこへ行く？</h2>
+            <p class="branch-note" id="outside-note">スタート年齢に応じた選択肢です</p>
+          </div>
+        </div>
+        <div id="outside-list" class="branch-list"></div>
+      </div>
+    </section>
+
+    <!-- LIFE MAP + PUNICON (legacy / unused entry) -->
     <section id="screen-map" class="screen" data-screen="map" hidden>
       <div class="map-stage">
         <header class="map-hud">
@@ -311,7 +365,7 @@
     <section id="screen-branch" class="screen" data-screen="branch" hidden>
       <div class="branch-stage">
         <header class="map-hud">
-          <button type="button" class="hud-btn" data-action="to-map">◀ MAP</button>
+          <button type="button" class="hud-btn" data-action="to-outside">◀ 外</button>
           <div class="hud-center">
             <p class="brand-mini">LIFE QUEST</p>
             <p class="hud-sub">BRANCH</p>
@@ -361,7 +415,7 @@
         </div>
 
         <header class="hud">
-          <button type="button" class="hud-btn" data-action="to-map">◀ MAP</button>
+          <button type="button" class="hud-btn" data-action="to-hub">◀ 部屋</button>
           <div class="hud-center">
             <p id="path-label" class="hud-quest">QUEST</p>
             <div class="hud-dots" aria-hidden="true">
@@ -413,8 +467,8 @@
           </div>
 
           <div class="result-footer">
-            <button type="button" class="btn-start" data-action="to-map">
-              <span class="btn-start-label">マップに戻って別の人生も試す</span>
+            <button type="button" class="btn-start" data-action="to-hub">
+              <span class="btn-start-label">部屋に戻って別の人生も試す</span>
             </button>
             <button type="button" class="hud-btn wide" data-action="to-start">TITLE にもどる</button>
           </div>
@@ -423,7 +477,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=47"></script>
-  <script src="app.js?v=47"></script>
+  <script src="content.js?v=48"></script>
+  <script src="app.js?v=48"></script>
 </body>
 </html>

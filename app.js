@@ -226,10 +226,62 @@
     saves: document.getElementById("screen-saves"),
     profile: document.getElementById("screen-profile"),
     hub: document.getElementById("screen-hub"),
+    outside: document.getElementById("screen-outside"),
     map: document.getElementById("screen-map"),
     branch: document.getElementById("screen-branch"),
     play: document.getElementById("screen-play"),
     result: document.getElementById("screen-result")
+  };
+
+  const LIFE_STAGES = {
+    junior: {
+      id: "junior",
+      age: 15,
+      label: "高校受験前",
+      short: "15歳〜",
+      roomBase: 0,
+      roomLabel: "実家の子ども部屋",
+      roomHint: "高校受験を前にした、等身大の部屋",
+      categories: ["highschool"],
+      outsideTitle: "高校の先へ",
+      outsideNote: "高校受験前の今、試せる大きな選択です"
+    },
+    senior: {
+      id: "senior",
+      age: 18,
+      label: "大学受験前",
+      short: "18歳〜",
+      roomBase: 1,
+      roomLabel: "高校生の部屋",
+      roomHint: "進路の紙と本が増えてきた部屋",
+      categories: ["univ", "skill", "work", "migrate"],
+      outsideTitle: "進学か、働くか",
+      outsideNote: "大学・専門・企業・移住。いま選べる道です"
+    },
+    grad: {
+      id: "grad",
+      age: 22,
+      label: "大学卒業前後",
+      short: "22歳〜",
+      roomBase: 2,
+      roomLabel: "ひとり暮らしのはじまり",
+      roomHint: "卒業と就職のあいだにある部屋",
+      categories: ["work", "startup", "migrate"],
+      outsideTitle: "社会への出口",
+      outsideNote: "企業・起業・移住。次の暮らしを試せます"
+    },
+    adult: {
+      id: "adult",
+      age: 28,
+      label: "就職後",
+      short: "28歳〜",
+      roomBase: 3,
+      roomLabel: "仕事のある暮らし",
+      roomHint: "働き始めてからの、現実味のある部屋",
+      categories: ["work", "startup", "migrate"],
+      outsideTitle: "次のキャリア",
+      outsideNote: "転職・起業・移住。大人の分岐を試せます"
+    }
   };
 
   const SAVE_STORAGE_KEY = "life-quest-saves-v1";
@@ -493,6 +545,12 @@
   const knob = document.getElementById("joystick-knob");
 
   const branchList = document.getElementById("branch-list");
+  const outsideList = document.getElementById("outside-list");
+  const outsideTitle = document.getElementById("outside-title");
+  const outsideNote = document.getElementById("outside-note");
+  const outsideKicker = document.getElementById("outside-kicker");
+  const outsideChip = document.getElementById("outside-chip");
+  const outsidePortrait = document.getElementById("outside-portrait");
   const branchTitle = document.getElementById("branch-title");
   const branchNote = document.getElementById("branch-note");
   const branchKicker = document.getElementById("branch-kicker");
@@ -582,10 +640,24 @@
     return gender === "boy" ? "assets/char-teen-boy.png" : "assets/char-teen-girl.png";
   }
 
+  function resolveLifeStage(profile) {
+    const p = profile || {};
+    if (p.startStage && LIFE_STAGES[p.startStage]) return LIFE_STAGES[p.startStage];
+    const age = Number(p.age) || 15;
+    if (age < 18) return LIFE_STAGES.junior;
+    if (age < 22) return LIFE_STAGES.senior;
+    if (age < 26) return LIFE_STAGES.grad;
+    return LIFE_STAGES.adult;
+  }
+
   function ensureSaveShape(save) {
     if (!save.profile) save.profile = {};
     if (!save.profile.gender) save.profile.gender = "girl";
-    if (!save.profile.age) save.profile.age = 15;
+    if (!save.profile.startStage || !LIFE_STAGES[save.profile.startStage]) {
+      save.profile.startStage = resolveLifeStage(save.profile).id;
+    }
+    const stage = LIFE_STAGES[save.profile.startStage] || LIFE_STAGES.junior;
+    if (!save.profile.age) save.profile.age = stage.age;
     if (!save.stats) save.stats = baseStats();
     Object.keys(baseStats()).forEach((key) => {
       if (typeof save.stats[key] !== "number") save.stats[key] = 10;
@@ -999,29 +1071,33 @@
 
   function roomTierFromSave(save) {
     const data = ensureSaveShape({ ...save, profile: { ...save.profile }, stats: { ...save.stats } });
-    const age = data.profile.age || 15;
+    const stage = resolveLifeStage(data.profile);
     const total = statsTotal(data.stats);
-    let tier = 0;
-    if (total >= 70) tier = 1;
-    if (total >= 82) tier = 2;
-    if (total >= 96) tier = 3;
-    if (total >= 112) tier = 4;
-    if (total >= 128) tier = 5;
-    // 年齢で上限（大人になるほど上の部屋へ進める）
-    if (age < 18) tier = Math.min(tier, 1);
-    else if (age < 22) tier = Math.min(tier, 3);
-    else if (age < 28) tier = Math.min(tier, 4);
-    return ROOM_TIERS[tier] || ROOM_TIERS[0];
+    let bonus = 0;
+    if (total >= 75) bonus = 1;
+    if (total >= 95) bonus = 2;
+    if (total >= 115) bonus = 3;
+    if (total >= 130) bonus = 4;
+    const tierIndex = Math.min(ROOM_TIERS.length - 1, (stage.roomBase || 0) + bonus);
+    const room = { ...(ROOM_TIERS[tierIndex] || ROOM_TIERS[0]) };
+    // 開始直後は年代らしい部屋名を優先
+    if (bonus === 0) {
+      room.label = stage.roomLabel || room.label;
+      room.hint = stage.roomHint || room.hint;
+    }
+    return room;
   }
 
   function createSaveData(slotIndex, profile) {
+    const stage = LIFE_STAGES[profile.stage] || LIFE_STAGES.junior;
     return {
-      version: 1,
+      version: 2,
       slot: slotIndex,
       updatedAt: new Date().toISOString(),
       profile: {
         name: profile.name,
-        age: 15,
+        age: stage.age,
+        startStage: stage.id,
         gender: profile.gender || "girl",
         trait: profile.trait
       },
@@ -1083,11 +1159,12 @@
   function renderHub() {
     if (!state.save) return;
     const save = ensureSaveShape(state.save);
+    const stage = resolveLifeStage(save.profile);
     const room = roomTierFromSave(save);
     if (hubRoomBg) hubRoomBg.style.backgroundImage = `url("${room.bg}")`;
     if (hubAvatar) hubAvatar.src = avatarForGender(save.profile.gender);
     if (hubName) hubName.textContent = save.profile.name || "—";
-    if (hubAge) hubAge.textContent = `${save.profile.age || 15}歳 / 第${save.week || 1}週`;
+    if (hubAge) hubAge.textContent = `${save.profile.age || stage.age}歳 / ${stage.label} / 第${save.week || 1}週`;
     if (hubRoomLabel) hubRoomLabel.textContent = room.label;
     if (hubRoomHint) hubRoomHint.textContent = room.hint;
     if (hubStats) {
@@ -1272,7 +1349,7 @@
     pendingNewSlot = null;
     const slots = readSaveSlots();
     const hasAny = slots.some((save) => save?.profile?.name);
-    // まだ1件も無いときは、セーブ一覧を飛ばして15歳設定へ
+    // まだ1件も無いときは、セーブ一覧を飛ばしてプロフィールへ
     if (!hasAny) {
       openProfileScreen(0);
       return;
@@ -1293,6 +1370,8 @@
     if (firstTrait) firstTrait.checked = true;
     const girlGender = profileForm?.querySelector('input[name="gender"][value="girl"]');
     if (girlGender) girlGender.checked = true;
+    const juniorStage = profileForm?.querySelector('input[name="stage"][value="junior"]');
+    if (juniorStage) juniorStage.checked = true;
     showScreen("profile");
   }
 
@@ -1352,11 +1431,12 @@
       if (save?.profile?.name) {
         name.textContent = save.profile.name;
         const trait = TRAIT_LABELS[save.profile.trait] || "設定あり";
-        const gender = save.profile.gender === "boy" ? "少年" : "少女";
-        meta.textContent = `${save.profile.age || 15}歳 / ${gender} / ${trait} / 第${save.week || 1}週 ・ ${formatSaveTime(save.updatedAt)}`;
+        const gender = save.profile.gender === "boy" ? "男性" : "女性";
+        const stage = resolveLifeStage(save.profile);
+        meta.textContent = `${save.profile.age || stage.age}歳 / ${stage.label} / ${gender} / ${trait} / 第${save.week || 1}週 ・ ${formatSaveTime(save.updatedAt)}`;
       } else {
         name.textContent = "データなし";
-        meta.textContent = "はじめからで、15歳の自分を作成";
+        meta.textContent = "はじめからで、スタート年齢を選んで作成";
       }
       main.append(idx, name, meta);
 
@@ -1371,7 +1451,7 @@
         const neu = document.createElement("button");
         neu.type = "button";
         neu.className = "hud-btn";
-        neu.textContent = "15歳から作り直す";
+        neu.textContent = "はじめから作り直す";
         bindTap(neu, () => startNewInSlot(index));
         const del = document.createElement("button");
         del.type = "button";
@@ -1383,7 +1463,7 @@
         const neu = document.createElement("button");
         neu.type = "button";
         neu.className = "btn-start";
-        neu.innerHTML = '<span class="btn-start-label">15歳の自分を作る</span>';
+        neu.innerHTML = '<span class="btn-start-label">自分を作る</span>';
         bindTap(neu, () => startNewInSlot(index));
         actions.append(neu);
       }
@@ -1407,10 +1487,12 @@
     if (profileError) profileError.hidden = true;
     const traitInput = profileForm?.querySelector('input[name="trait"]:checked');
     const genderInput = profileForm?.querySelector('input[name="gender"]:checked');
+    const stageInput = profileForm?.querySelector('input[name="stage"]:checked');
     const trait = traitInput?.value || "study";
     const gender = genderInput?.value || "girl";
+    const stage = stageInput?.value || "junior";
     try {
-      const save = createSaveData(slotIndex, { name, trait, gender });
+      const save = createSaveData(slotIndex, { name, trait, gender, stage });
       const slots = readSaveSlots();
       slots[slotIndex] = save;
       if (!writeSaveSlots(slots)) return;
@@ -1607,30 +1689,59 @@
     });
   }
 
-  function openMap() {
+  function openOutside() {
     try {
       if (!state.save) {
         openSaveScreen();
         return;
       }
-      if (!screens.map) {
-        window.alert("マップ画面が見つかりません。ページを再読み込みしてください。");
+      if (!screens.outside) {
+        window.alert("外メニューが見つかりません。最新の index.html をアップロードしてください。");
         return;
       }
-      if (!map.places.length) buildPlaces();
-      else refreshClearedFlags();
+      const save = ensureSaveShape(state.save);
+      const stage = resolveLifeStage(save.profile);
       applySceneBackground(null);
       hideLifeEvent();
-      state.nearbyId = null;
-      if (enterPrompt) enterPrompt.hidden = true;
-      updatePlayerVisuals();
-      renderPlayer();
-      updateNearby();
-      showScreen("map");
+      stopMapLoop();
+      resetJoystick();
+
+      if (outsideKicker) outsideKicker.textContent = stage.label;
+      if (outsideTitle) outsideTitle.textContent = stage.outsideTitle || "どこへ行く？";
+      if (outsideNote) outsideNote.textContent = stage.outsideNote || "スタート年齢に応じた選択肢です";
+      if (outsideChip) outsideChip.textContent = stage.short || "GO";
+      if (outsidePortrait) outsidePortrait.src = avatarForGender(save.profile.gender);
+
+      if (outsideList) {
+        outsideList.innerHTML = "";
+        (stage.categories || []).forEach((catId) => {
+          const cat = getCategory(catId);
+          if (!cat) return;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "branch-card";
+          if (categoryCleared(cat)) btn.classList.add("is-cleared");
+          btn.innerHTML = `
+            <span class="branch-tag">${cat.short || "PATH"}</span>
+            <span class="branch-label">${cat.label}</span>
+            <span class="branch-blurb">${cat.hint || ""}</span>
+            <span class="branch-go">${categoryCleared(cat) ? "CLEAR" : "GO"}</span>
+          `;
+          bindTap(btn, () => openBranch(cat.id));
+          outsideList.appendChild(btn);
+        });
+      }
+
+      showScreen("outside");
     } catch (err) {
       console.error(err);
-      window.alert("マップを開けませんでした。ページを再読み込みしてください。");
+      window.alert("外メニューを開けませんでした。ページを再読み込みしてください。");
     }
+  }
+
+  function openMap() {
+    // ぷにコンマップは使わず、年齢別の外メニューへ
+    openOutside();
   }
 
   function renderPlayer() {
@@ -1975,7 +2086,7 @@
   }
 
   function handleAction(action) {
-    if (action === "to-map") openMap();
+    if (action === "to-map" || action === "to-outside") openOutside();
     if (action === "to-hub") openHub();
     if (action === "to-saves") {
       openSaveScreen();

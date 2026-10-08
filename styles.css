@@ -511,6 +511,23 @@ html.is-fullscreen .fs-btn {
   margin-bottom: 4px;
 }
 
+.stage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.outside-stage {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+}
+
+#screen-outside.is-active {
+  display: block !important;
+}
+
 /* ========== HOME HUB ========== */
 #screen-hub.is-active {
   display: block !important;
