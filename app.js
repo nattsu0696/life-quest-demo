@@ -1613,6 +1613,41 @@
     return opt ? opt.scenes : null;
   }
 
+  const FLEX_SCREENS = new Set(["outside", "branch", "play", "result"]);
+
+  // 試す系（高校・大学・専門・企業・地方・今後追加分）は data-hub-escape を付ければ自動で部屋に戻れる
+  function ensureHubEscape(screenEl) {
+    if (!screenEl || !screenEl.hasAttribute("data-hub-escape")) return;
+
+    const headers = screenEl.querySelectorAll(".map-hud, .hud");
+    headers.forEach((header) => {
+      let hubBtn = header.querySelector('[data-action="to-hub"]');
+      if (!hubBtn) {
+        hubBtn = document.createElement("button");
+        hubBtn.type = "button";
+        hubBtn.className = "hud-btn";
+        hubBtn.setAttribute("data-action", "to-hub");
+        header.appendChild(hubBtn);
+        bindActionButton(hubBtn);
+      }
+      hubBtn.textContent = "部屋に戻る";
+    });
+
+    let bar = screenEl.querySelector(".hub-escape-bar");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.className = "hub-escape-bar";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn-start hub-escape-btn";
+      btn.setAttribute("data-action", "to-hub");
+      btn.innerHTML = '<span class="btn-start-label">部屋に戻る</span>';
+      bar.appendChild(btn);
+      screenEl.appendChild(bar);
+      bindActionButton(btn);
+    }
+  }
+
   function showScreen(name) {
     Object.entries(screens).forEach(([key, el]) => {
       if (!el) return;
@@ -1620,7 +1655,10 @@
       el.classList.toggle("is-active", active);
       if (active) el.removeAttribute("hidden");
       else el.setAttribute("hidden", "");
-      el.style.display = active ? "block" : "none";
+      el.style.display = active
+        ? (FLEX_SCREENS.has(key) ? "flex" : "block")
+        : "none";
+      if (active) ensureHubEscape(el);
     });
 
     if (name === "map") startMapLoop();

@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=54" />
+  <link rel="stylesheet" href="styles.css?v=55" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -286,10 +286,10 @@
     </section>
 
     <!-- OUTSIDE (age-gated destinations) -->
-    <section id="screen-outside" class="screen" data-screen="outside" hidden>
+    <section id="screen-outside" class="screen" data-screen="outside" data-hub-escape hidden>
       <div class="branch-stage outside-stage">
         <header class="map-hud">
-          <button type="button" class="hud-btn" data-action="to-hub">◀ 部屋</button>
+          <button type="button" class="hud-btn" data-action="to-hub">◀ 部屋に戻る</button>
           <div class="hud-center">
             <p class="brand-mini">LIFE QUEST</p>
             <p class="hud-sub">OUTSIDE</p>
@@ -309,14 +309,14 @@
     </section>
 
     <!-- LIFE MAP + PUNICON (legacy / unused entry) -->
-    <section id="screen-map" class="screen" data-screen="map" hidden>
+    <section id="screen-map" class="screen" data-screen="map" data-hub-escape hidden>
       <div class="map-stage">
         <header class="map-hud">
           <div>
             <p class="brand-mini">LIFE QUEST</p>
             <p class="hud-sub">LIFE MAP</p>
           </div>
-          <button type="button" class="hud-btn" data-action="to-hub">部屋</button>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋に戻る</button>
         </header>
 
         <p class="map-guide" id="map-guide">ぷにコンで歩いて、建物に近づこう</p>
@@ -362,7 +362,7 @@
     </section>
 
     <!-- CATEGORY BRANCH (会社 / 県など) -->
-    <section id="screen-branch" class="screen" data-screen="branch" hidden>
+    <section id="screen-branch" class="screen" data-screen="branch" data-hub-escape hidden>
       <div class="branch-stage">
         <header class="map-hud">
           <button type="button" class="hud-btn" data-action="to-outside">◀ 外</button>
@@ -371,7 +371,7 @@
             <p class="hud-sub">BRANCH</p>
             <span class="hud-chip hud-chip-inline" id="branch-chip">SELECT</span>
           </div>
-          <button type="button" class="hud-btn" data-action="to-hub">部屋</button>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋に戻る</button>
         </header>
 
         <div class="branch-hero">
@@ -426,7 +426,7 @@
               <span id="dot-2" class="dot"></span>
             </div>
           </div>
-          <button type="button" class="hud-btn" data-action="to-hub">部屋</button>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋に戻る</button>
         </header>
 
         <div class="actor-layer">
@@ -485,7 +485,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=54"></script>
-  <script src="app.js?v=54"></script>
+  <script src="content.js?v=55"></script>
+  <script src="app.js?v=55"></script>
 </body>
 </html>

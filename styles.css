@@ -2637,6 +2637,41 @@ html.is-fullscreen .fs-btn {
   overflow: hidden;
 }
 
+/* 試す系画面：下にも常時「部屋に戻る」 */
+.hub-escape-bar {
+  flex: 0 0 auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 30;
+  display: grid;
+  padding: 8px 12px max(10px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent, rgba(7, 21, 28, 0.92) 28%);
+}
+
+#screen-branch .hub-escape-bar,
+#screen-outside .hub-escape-bar {
+  background: linear-gradient(180deg, transparent, rgba(247, 252, 255, 0.96) 30%);
+}
+
+.hub-escape-btn {
+  width: 100%;
+  min-height: 44px;
+}
+
+#screen-branch .hub-escape-btn,
+#screen-outside .hub-escape-btn {
+  background: rgba(7, 21, 28, 0.92);
+  color: #dff7f1;
+  border: 1px solid rgba(47, 210, 183, 0.35);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(20, 60, 70, 0.18);
+}
+
+#screen-branch .branch-stage,
+#screen-outside .branch-stage {
+  padding-bottom: 4px;
+}
+
 .branch-stage {
   height: 100%;
   min-height: 0;
@@ -2715,7 +2750,7 @@ html.is-fullscreen .fs-btn {
   align-content: start;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 2px 10px;
+  padding: 0 2px 64px;
   -webkit-overflow-scrolling: touch;
 }
 
