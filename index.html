@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=58" />
+  <link rel="stylesheet" href="styles.css?v=61" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -69,7 +69,7 @@
     <section id="screen-start" class="screen is-active" data-screen="start">
       <div class="title-stage">
         <div class="title-bg" aria-hidden="true">
-          <img class="title-bg-img" src="assets/backgrounds/bg-room-03-start.jpg" alt="" />
+          <img class="title-bg-img" src="assets/backgrounds/bg-title-puni.jpg" alt="" />
         </div>
         <div class="title-particles" aria-hidden="true"></div>
         <div class="title-hero title-hero-pair" aria-hidden="true">
@@ -78,7 +78,16 @@
         </div>
         <div class="title-frame">
           <p class="title-chip">CHAPTER 0 / DEMO</p>
-          <p class="brand">LIFE QUEST</p>
+          <div class="title-brand-wrap">
+            <p class="brand" id="title-brand-text">LIFE QUEST</p>
+            <img
+              id="title-logo-img"
+              class="title-logo-img"
+              src="assets/title/title-logo-puni.jpg"
+              alt="LIFE QUEST"
+              hidden
+            />
+          </div>
           <h1 class="headline">
             <span class="headline-line">あなたなら、</span>
             <span class="headline-line">どの人生を選ぶ？</span>
@@ -89,6 +98,21 @@
             <span class="btn-start-label">▶ START</span>
           </button>
           <p class="title-hint">好きな年齢から、人生を何度でも試せる</p>
+          <div class="title-logo-picker" id="title-logo-picker" aria-label="タイトルロゴ">
+            <button type="button" class="title-bg-chip is-active" data-title-logo="text">文字</button>
+            <button type="button" class="title-bg-chip" data-title-logo="puni">ぷにロゴ</button>
+            <button type="button" class="title-bg-chip" data-title-logo="cream">クリーム</button>
+            <button type="button" class="title-bg-chip" data-title-logo="sparkle">きらきら</button>
+            <button type="button" class="title-bg-chip" data-title-logo="mint">ミント</button>
+          </div>
+          <div class="title-bg-picker" id="title-bg-picker" aria-label="タイトル背景の雰囲気">
+            <button type="button" class="title-bg-chip is-active" data-title-bg="puni">ぷに</button>
+            <button type="button" class="title-bg-chip" data-title-bg="morning">朝</button>
+            <button type="button" class="title-bg-chip" data-title-bg="sunset">夕</button>
+            <button type="button" class="title-bg-chip" data-title-bg="dream">夢</button>
+            <button type="button" class="title-bg-chip" data-title-bg="window">窓</button>
+            <button type="button" class="title-bg-chip" data-title-bg="room">部屋</button>
+          </div>
         </div>
       </div>
     </section>
@@ -490,7 +514,7 @@
     </section>
   </main>
 
-  <script src="content.js?v=58"></script>
-  <script src="app.js?v=58"></script>
+  <script src="content.js?v=61"></script>
+  <script src="app.js?v=61"></script>
 </body>
 </html>

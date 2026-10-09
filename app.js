@@ -1613,7 +1613,7 @@
     return opt ? opt.scenes : null;
   }
 
-  const FLEX_SCREENS = new Set(["outside", "branch", "play", "result"]);
+  const FLEX_SCREENS = new Set(["outside", "branch", "map", "play", "result"]);
 
   // 試す系（高校・大学・専門・企業・地方・今後追加分）は data-hub-escape を付ければ自動で部屋に戻れる
   function ensureHubEscape(screenEl) {
@@ -2397,6 +2397,95 @@
 
   window.openLifeMap = openMap;
 
+  const TITLE_BG_KEY = "life-quest-title-bg";
+  const TITLE_LOGO_KEY = "life-quest-title-logo";
+  const TITLE_BGS = {
+    puni: "assets/backgrounds/bg-title-puni.jpg",
+    morning: "assets/backgrounds/bg-title-morning.jpg",
+    sunset: "assets/backgrounds/bg-title-sunset.jpg",
+    dream: "assets/backgrounds/bg-title-dream.jpg",
+    window: "assets/backgrounds/bg-title-window.jpg",
+    room: "assets/backgrounds/bg-room-03-start.jpg",
+  };
+  const TITLE_LOGOS = {
+    text: null,
+    puni: "assets/title/title-logo-puni.jpg",
+    cream: "assets/title/title-logo-cream.jpg",
+    sparkle: "assets/title/title-logo-sparkle.jpg",
+    mint: "assets/title/title-logo-mint.jpg",
+  };
+
+  function applyTitleBg(id) {
+    const key = TITLE_BGS[id] ? id : "puni";
+    const img = document.querySelector(".title-bg-img");
+    if (img) img.src = TITLE_BGS[key];
+    try {
+      localStorage.setItem(TITLE_BG_KEY, key);
+    } catch (_) {}
+    document.querySelectorAll("[data-title-bg]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.getAttribute("data-title-bg") === key);
+    });
+  }
+
+  function applyTitleLogo(id) {
+    const key = Object.prototype.hasOwnProperty.call(TITLE_LOGOS, id) ? id : "text";
+    const wrap = document.querySelector(".title-brand-wrap");
+    const logoImg = document.getElementById("title-logo-img");
+    const src = TITLE_LOGOS[key];
+    const useLogo = !!src;
+    if (wrap) wrap.classList.toggle("is-logo", useLogo);
+    if (logoImg) {
+      if (useLogo) {
+        logoImg.src = src;
+        logoImg.removeAttribute("hidden");
+      } else {
+        logoImg.setAttribute("hidden", "");
+      }
+    }
+    try {
+      localStorage.setItem(TITLE_LOGO_KEY, key);
+    } catch (_) {}
+    document.querySelectorAll("[data-title-logo]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.getAttribute("data-title-logo") === key);
+    });
+  }
+
+  function initTitleBgPicker() {
+    const params = new URLSearchParams(window.location.search);
+    const fromQuery = params.get("titlebg");
+    let saved = "puni";
+    try {
+      saved = localStorage.getItem(TITLE_BG_KEY) || "puni";
+    } catch (_) {}
+    applyTitleBg(TITLE_BGS[fromQuery] ? fromQuery : saved);
+
+    const picker = document.getElementById("title-bg-picker");
+    if (!picker) return;
+    picker.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("[data-title-bg]");
+      if (!btn) return;
+      applyTitleBg(btn.getAttribute("data-title-bg"));
+    });
+  }
+
+  function initTitleLogoPicker() {
+    const params = new URLSearchParams(window.location.search);
+    const fromQuery = params.get("titlelogo");
+    let saved = "puni";
+    try {
+      saved = localStorage.getItem(TITLE_LOGO_KEY) || "puni";
+    } catch (_) {}
+    applyTitleLogo(Object.prototype.hasOwnProperty.call(TITLE_LOGOS, fromQuery) ? fromQuery : saved);
+
+    const picker = document.getElementById("title-logo-picker");
+    if (!picker) return;
+    picker.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("[data-title-logo]");
+      if (!btn) return;
+      applyTitleLogo(btn.getAttribute("data-title-logo"));
+    });
+  }
+
   goToTitleScreen = () => {
     showScreen("start");
     try {
@@ -2408,6 +2497,8 @@
   try {
     bindJoystick();
     buildPlaces();
+    initTitleBgPicker();
+    initTitleLogoPicker();
     if (document.documentElement.classList.contains("is-unlocked")) {
       goToTitleScreen();
     } else {
