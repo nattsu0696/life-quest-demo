@@ -9,8 +9,17 @@
   <title>LIFE QUEST — Music Video</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    @font-face {
+      font-family: "Harshita";
+      src:
+        url("fonts/Harshita.otf") format("opentype"),
+        url("fonts/Harshita.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
     :root {
       --ink: #f7f1e8;
       --muted: rgba(247, 241, 232, 0.72);
@@ -51,8 +60,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 55% 20%;
-      filter: saturate(0.92) contrast(1.05) brightness(0.72);
+      object-position: 45% 40%;
+      filter: saturate(0.95) contrast(1.04) brightness(0.68);
       transform: scale(1.04);
       animation: drift 18s ease-in-out infinite alternate;
     }
@@ -98,8 +107,8 @@
     }
 
     .artist {
-      width: min(100%, 280px);
-      aspect-ratio: 3 / 4;
+      width: 100%;
+      aspect-ratio: 16 / 9;
       margin: 0 auto 14px;
       border-radius: 18px;
       overflow: hidden;
@@ -112,7 +121,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 18%;
+      object-position: center 42%;
       display: block;
     }
     @keyframes softIn {
@@ -121,12 +130,12 @@
     }
 
     .brand {
-      margin: 0 0 4px;
-      font-family: "Cormorant Garamond", "Times New Roman", serif;
-      font-size: clamp(2rem, 8vw, 2.7rem);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      line-height: 1;
+      margin: 0 0 6px;
+      font-family: "Harshita", cursive;
+      font-size: clamp(2.6rem, 11vw, 3.6rem);
+      font-weight: normal;
+      letter-spacing: 0.02em;
+      line-height: 1.05;
       color: #f8efe2;
       text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
     }
@@ -197,22 +206,21 @@
 
     @media (min-width: 720px) {
       .panel { padding: 22px 22px 20px; }
-      .artist { width: 300px; }
     }
   </style>
 </head>
 <body>
   <div class="bg" aria-hidden="true">
-    <img class="bg-photo" src="artist-cover.jpg?v=4" alt="" />
+    <img class="bg-photo" src="artist-cover.jpg?v=6" alt="" />
   </div>
 
   <main class="stage">
     <section class="panel">
       <p class="chip">LIFE QUEST / MUSIC VIDEO</p>
       <div class="artist">
-        <img src="artist-cover.jpg?v=4" width="900" height="1200" alt="LIFE QUEST アーティスト" />
+        <img src="artist-cover.jpg?v=6" width="1920" height="1080" alt="LIFE QUEST アーティスト" />
       </div>
-      <h1 class="brand">LIFE QUEST</h1>
+      <h1 class="brand">Life quest</h1>
       <p class="sub">Theme Song MV</p>
       <p class="lede">会場のみなさんへ。<br />完成したミュージックビデオを、下から視聴・保存できます。</p>
 
