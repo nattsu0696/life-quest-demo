@@ -60,8 +60,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 45% 40%;
-      filter: saturate(0.95) contrast(1.04) brightness(0.68);
+      object-position: center 45%;
+      filter: saturate(0.95) contrast(1.04) brightness(0.62);
       transform: scale(1.04);
       animation: drift 18s ease-in-out infinite alternate;
     }
@@ -121,7 +121,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 42%;
+      object-position: center center;
       display: block;
     }
     @keyframes softIn {
@@ -130,18 +130,20 @@
     }
 
     .brand {
-      margin: 0 0 2px;
+      display: block;
+      margin: 0;
+      padding: 0.15em 0 0.55em;
       font-family: "Harshita", cursive;
-      font-size: clamp(2rem, 8.2vw, 2.75rem);
+      font-size: clamp(1.75rem, 7vw, 2.35rem);
       font-weight: normal;
       letter-spacing: 0.02em;
-      line-height: 1.2;
+      line-height: 1.45;
       color: #f8efe2;
       text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
-      overflow: visible;
     }
     .sub {
-      margin: 10px 0 8px;
+      margin: 0 0 8px;
+      padding-top: 4px;
       color: var(--soft);
       font-size: 0.78rem;
       letter-spacing: 0.22em;
@@ -212,14 +214,14 @@
 </head>
 <body>
   <div class="bg" aria-hidden="true">
-    <img class="bg-photo" src="artist-cover.jpg?v=7" alt="" />
+    <img class="bg-photo" src="artist-cover.jpg?v=9" alt="" />
   </div>
 
   <main class="stage">
     <section class="panel">
       <p class="chip">LIFE QUEST / MUSIC VIDEO</p>
       <div class="artist">
-        <img src="artist-cover.jpg?v=7" width="1920" height="1080" alt="LIFE QUEST アーティスト" />
+        <img src="artist-cover.jpg?v=9" width="1920" height="1080" alt="LIFE QUEST カバー" />
       </div>
       <h1 class="brand">Life quest</h1>
       <p class="sub">Theme Song MV</p>
