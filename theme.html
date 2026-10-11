@@ -3,82 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#040b10" />
+  <meta name="theme-color" content="#1a1410" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>LIFE QUEST 主題歌</title>
+  <meta name="description" content="LIFE QUEST 主題歌ミュージックビデオ" />
+  <title>LIFE QUEST — Music Video</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #040b10;
-      --text: #f2f7f6;
-      --muted: rgba(242, 247, 246, 0.72);
-      --accent: #2fd2b7;
-      --panel: rgba(7, 21, 28, 0.94);
-      --border: rgba(232, 244, 242, 0.18);
+      --ink: #f7f1e8;
+      --muted: rgba(247, 241, 232, 0.72);
+      --soft: rgba(247, 241, 232, 0.5);
+      --gold: #e4c089;
+      --gold-deep: #c8965a;
+      --sea: #6fb4b0;
+      --panel: rgba(18, 14, 12, 0.55);
+      --line: rgba(247, 241, 232, 0.16);
     }
     * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
     body {
-      margin: 0;
+      min-height: 100dvh;
+      color: var(--ink);
+      font-family: "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: #120e0c;
+      overflow-x: hidden;
+    }
+
+    .stage {
+      position: relative;
       min-height: 100dvh;
       display: grid;
       place-items: center;
-      padding: 16px 12px;
-      font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-      color: var(--text);
+      padding: max(16px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 55% 20%;
+      filter: saturate(0.92) contrast(1.05) brightness(0.72);
+      transform: scale(1.04);
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.22), transparent 55%),
-        radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.18), transparent 50%),
-        linear-gradient(180deg, #0a161c 0%, #12262e 50%, #1a2e28 100%);
+        linear-gradient(180deg, rgba(12, 10, 9, 0.35) 0%, rgba(12, 10, 9, 0.2) 35%, rgba(12, 10, 9, 0.78) 100%),
+        radial-gradient(70% 55% at 70% 15%, rgba(228, 192, 137, 0.28), transparent 60%),
+        radial-gradient(55% 45% at 15% 80%, rgba(111, 180, 176, 0.18), transparent 55%);
     }
-    .card {
-      width: min(100%, 560px);
-      padding: 12px 12px 16px;
-      border-radius: 22px;
-      border: 1px solid var(--border);
+    @keyframes drift {
+      from { transform: scale(1.04) translate3d(0, 0, 0); }
+      to { transform: scale(1.08) translate3d(-1.2%, -1%, 0); }
+    }
+
+    .panel {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 520px);
+      padding: 18px 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
       background: var(--panel);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
       text-align: center;
+      animation: rise 0.7s ease both;
     }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .chip {
-      margin: 0 0 8px;
-      color: var(--accent);
+      margin: 0 0 10px;
+      color: var(--gold);
       font-size: 11px;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.18em;
       font-weight: 700;
     }
-    .jacket-wrap {
-      width: 100%;
-      max-width: 520px;
-      margin: 0 auto 12px;
+
+    .artist {
+      width: min(100%, 280px);
+      aspect-ratio: 3 / 4;
+      margin: 0 auto 14px;
       border-radius: 18px;
       overflow: hidden;
-      background: #102028;
+      border: 1px solid rgba(228, 192, 137, 0.28);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
       line-height: 0;
-      box-shadow:
-        0 22px 44px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.08);
+      animation: softIn 1s ease 0.15s both;
     }
-    .jacket {
-      display: block;
+    .artist img {
       width: 100%;
-      height: auto;
-      max-width: 100%;
-      vertical-align: top;
-      border: 0;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
     }
-    h1 {
-      margin: 0 0 6px;
-      font-size: 1.35rem;
-      letter-spacing: 0.04em;
+    @keyframes softIn {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .brand {
+      margin: 0 0 4px;
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: clamp(2rem, 8vw, 2.7rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      color: #f8efe2;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+    }
+    .sub {
+      margin: 0 0 8px;
+      color: var(--soft);
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
     }
     .lede {
       margin: 0 0 14px;
       color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.55;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
-    audio {
+
+    .player-wrap {
       width: 100%;
-      margin-bottom: 12px;
+      margin: 0 0 12px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0b0a09;
+      border: 1px solid rgba(247, 241, 232, 0.1);
+      line-height: 0;
+    }
+    video {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      background: #0b0a09;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
     }
     .btn {
       display: block;
@@ -86,41 +171,72 @@
       padding: 14px 16px;
       border: 0;
       border-radius: 999px;
-      background: linear-gradient(135deg, #2fd2b7, #1aa890);
-      color: #042018;
-      font-weight: 800;
-      font-size: 1rem;
       text-decoration: none;
-      box-shadow: 0 10px 24px rgba(47, 210, 183, 0.28);
+      font-weight: 800;
+      font-size: 0.98rem;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary {
+      color: #24180e;
+      background: linear-gradient(135deg, #efd2a4, #c8965a);
+      box-shadow: 0 10px 26px rgba(200, 150, 90, 0.28);
+    }
+    .btn-secondary {
+      color: var(--ink);
+      background: rgba(247, 241, 232, 0.08);
+      border: 1px solid rgba(247, 241, 232, 0.18);
     }
     .btn:active { transform: scale(0.98); }
+
     .note {
       margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 0.74rem;
-      line-height: 1.45;
+      color: var(--soft);
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    @media (min-width: 720px) {
+      .panel { padding: 22px 22px 20px; }
+      .artist { width: 300px; }
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <p class="chip">LIFE QUEST / THEME SONG</p>
-    <div class="jacket-wrap">
-      <img
-        class="jacket"
-        src="life-quest-jacket.jpg?v=3"
-        width="1024"
-        height="1024"
-        alt="LIFE QUEST 主題歌ジャケット"
-      />
-    </div>
-    <h1>主題歌</h1>
-    <p class="lede">会場のみなさんへ。<br />ジャケットの曲を、下からダウンロードできます。</p>
-    <audio controls preload="metadata" src="Life-Quest.m4a?v=3">
-      お使いの端末では再生できない場合があります。ダウンロードしてください。
-    </audio>
-    <a class="btn" href="Life-Quest.m4a" download="Life-Quest.m4a">ダウンロード</a>
-    <p class="note">ファイル名：Life Quest.m4a<br />保存できないときは、再生バーの「…」や共有から保存してください。</p>
+  <div class="bg" aria-hidden="true">
+    <img class="bg-photo" src="artist-cover.jpg?v=4" alt="" />
+  </div>
+
+  <main class="stage">
+    <section class="panel">
+      <p class="chip">LIFE QUEST / MUSIC VIDEO</p>
+      <div class="artist">
+        <img src="artist-cover.jpg?v=4" width="900" height="1200" alt="LIFE QUEST アーティスト" />
+      </div>
+      <h1 class="brand">LIFE QUEST</h1>
+      <p class="sub">Theme Song MV</p>
+      <p class="lede">会場のみなさんへ。<br />完成したミュージックビデオを、下から視聴・保存できます。</p>
+
+      <div class="player-wrap">
+        <video
+          controls
+          playsinline
+          preload="metadata"
+          poster="mv-poster.jpg?v=4"
+          src="Life-Quest-MV.mp4?v=4"
+        >
+          お使いの端末では再生できない場合があります。ダウンロードしてください。
+        </video>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="Life-Quest-MV.mp4" download="Life-Quest-MV.mp4">MVをダウンロード</a>
+        <a class="btn btn-secondary" href="Life-Quest.m4a" download="Life-Quest.m4a">音源のみ（m4a）</a>
+      </div>
+      <p class="note">
+        MV：約4分40秒 / 1080p<br />
+        保存できないときは、再生バーの「…」や共有から保存してください。
+      </p>
+    </section>
   </main>
 </body>
 </html>
