@@ -1,12 +1,22 @@
 :root {
+  /* VN/ハブ用（暗い画面上の文字） */
   --ink: #07151c;
   --panel: rgba(7, 21, 28, 0.82);
   --panel-border: rgba(232, 244, 242, 0.18);
   --text: #f2f7f6;
   --muted: rgba(242, 247, 246, 0.72);
-  --accent: #2fd2b7;
+  /* タイトル連動：水色CTA + ティールチップ */
+  --accent: #3aa8d8;
+  --accent-soft: #5ec9ef;
+  --accent-teal: #0f7a6e;
   --accent-2: #f0b35a;
-  --danger: #ff7a6e;
+  --danger: #e25b55;
+  --page-bg: #ffffff;
+  --page-ink: #16303a;
+  --page-muted: #4a6a72;
+  --page-grad: radial-gradient(90% 60% at 70% 8%, rgba(255, 210, 140, 0.28), transparent 55%),
+    radial-gradient(80% 50% at 12% 18%, rgba(120, 210, 235, 0.22), transparent 50%),
+    linear-gradient(180deg, #f7fcff 0%, #ffffff 42%, #fff8ef 100%);
   --font-sans: "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", sans-serif;
   --font-display: "Syne", "IBM Plex Sans JP", sans-serif;
   --safe-top: max(12px, env(safe-area-inset-top));
@@ -23,7 +33,7 @@ html, body {
   height: 100%;
   min-height: 100%;
   min-height: 100dvh;
-  background: #040b10;
+  background: var(--page-bg);
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -61,8 +71,8 @@ button {
     display: grid;
     place-items: center;
     background:
-      radial-gradient(60% 50% at 50% 40%, rgba(47, 210, 183, 0.08), transparent 55%),
-      #040b10;
+      radial-gradient(60% 50% at 50% 40%, rgba(94, 201, 239, 0.14), transparent 55%),
+      #eef6fa;
   }
 
   html:not(.is-standalone):not(.is-fullscreen) .app,
@@ -77,8 +87,8 @@ button {
     border-radius: 14px;
     overflow: hidden;
     box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08),
-      0 28px 70px rgba(0, 0, 0, 0.55);
+      0 0 0 1px rgba(20, 60, 70, 0.08),
+      0 28px 70px rgba(40, 80, 100, 0.18);
   }
 
   html:not(.is-standalone):not(.is-fullscreen) .fs-btn,
@@ -97,7 +107,7 @@ button {
 
 html:fullscreen,
 html:-webkit-full-screen {
-  background: #040b10;
+  background: var(--page-bg);
 }
 
 html:fullscreen body,
@@ -119,13 +129,13 @@ html:-webkit-full-screen .gate {
   z-index: 12000;
   padding: 10px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(232, 244, 242, 0.28);
-  background: rgba(7, 21, 28, 0.88);
-  color: #dff7f1;
+  border: 1px solid rgba(20, 60, 70, 0.14);
+  background: rgba(255, 252, 248, 0.94);
+  color: #16303a;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 20px rgba(40, 80, 100, 0.14);
 }
 
 .fs-btn[hidden] {
@@ -144,7 +154,9 @@ html.is-fullscreen .fs-btn {
   display: grid;
   place-items: center;
   padding: 20px;
-  background: rgba(4, 11, 16, 0.78);
+  background: rgba(255, 252, 248, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .install-tip[hidden] {
@@ -154,14 +166,16 @@ html.is-fullscreen .fs-btn {
 .install-tip-card {
   width: min(100%, 380px);
   padding: 22px 20px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(232, 244, 242, 0.18);
-  background: rgba(7, 21, 28, 0.96);
+  border-radius: 20px;
+  border: 1px solid rgba(230, 220, 210, 0.9);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(255, 246, 236, 0.98));
+  box-shadow: 0 16px 40px rgba(40, 80, 100, 0.14);
+  color: #16303a;
 }
 
 .install-tip-chip {
   margin: 0 0 8px;
-  color: var(--accent);
+  color: var(--accent-teal);
   font-size: 11px;
   letter-spacing: 0.12em;
   font-weight: 700;
@@ -171,6 +185,7 @@ html.is-fullscreen .fs-btn {
   margin: 0 0 10px;
   font-size: 1.2rem;
   font-weight: 800;
+  color: #16303a;
 }
 
 .install-tip-text {
@@ -186,7 +201,7 @@ html.is-fullscreen .fs-btn {
 }
 
 .install-tip-text strong {
-  color: #f2f7f6;
+  color: #16303a;
 }
 
 .gate-install-hint {
@@ -206,21 +221,26 @@ html.is-fullscreen .fs-btn {
   place-items: center;
   padding: 28px;
   background:
-    radial-gradient(circle at 50% 40%, rgba(47, 210, 183, 0.18), transparent 45%),
-    rgba(4, 11, 16, 0.78);
+    radial-gradient(circle at 50% 40%, rgba(94, 201, 239, 0.2), transparent 45%),
+    rgba(255, 252, 248, 0.82);
   cursor: pointer;
 }
 
 .rotate-hint-card {
   max-width: 320px;
   text-align: center;
-  color: #f2f7f6;
+  color: #16303a;
+  padding: 22px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(230, 220, 210, 0.9);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(255, 246, 236, 0.98));
+  box-shadow: 0 16px 40px rgba(40, 80, 100, 0.12);
 }
 
 .rotate-hint-icon {
   margin: 0 0 12px;
   font-size: 2.8rem;
-  color: #2fd2b7;
+  color: var(--accent);
   animation: rotateHintSpin 2.4s ease-in-out infinite;
 }
 
@@ -236,7 +256,7 @@ html.is-fullscreen .fs-btn {
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.7;
-  color: rgba(242, 247, 246, 0.78);
+  color: var(--muted);
 }
 
 @keyframes rotateHintSpin {
@@ -259,27 +279,30 @@ html.is-fullscreen .fs-btn {
   place-items: center;
   padding: var(--safe-top) 24px var(--safe-bottom);
   overflow: auto;
-  background:
-    radial-gradient(90% 60% at 70% 10%, rgba(255, 210, 140, 0.35), transparent 55%),
-    radial-gradient(80% 50% at 10% 20%, rgba(120, 220, 210, 0.3), transparent 50%),
-    linear-gradient(180deg, #0a161c 0%, #12262e 50%, #1a2e28 100%);
+  background: var(--page-grad);
+  color: var(--page-ink);
 }
 
 .gate-card {
-  width: min(100%, 360px);
+  width: min(100%, 400px);
   padding: 28px 24px 24px;
   border-radius: 20px;
-  border: 1px solid rgba(232, 244, 242, 0.16);
-  background: rgba(7, 21, 28, 0.72);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(230, 220, 210, 0.95);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(255, 246, 236, 0.98));
+  box-shadow: 0 16px 40px rgba(40, 80, 100, 0.14);
 }
 
 .gate-chip {
   margin: 0 0 10px;
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 140, 126, 0.28);
+  background: rgba(255, 255, 255, 0.85);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: var(--accent);
-  font-weight: 600;
+  color: var(--accent-teal);
+  font-weight: 700;
 }
 
 .gate-title {
@@ -288,11 +311,12 @@ html.is-fullscreen .fs-btn {
   font-size: 1.55rem;
   font-weight: 800;
   letter-spacing: 0.04em;
+  color: var(--page-ink);
 }
 
 .gate-note {
   margin: 0 0 22px;
-  color: var(--muted);
+  color: var(--page-muted);
   font-size: 0.92rem;
   line-height: 1.5;
 }
@@ -304,7 +328,7 @@ html.is-fullscreen .fs-btn {
 
 .gate-label {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--page-muted);
   letter-spacing: 0.06em;
 }
 
@@ -312,18 +336,23 @@ html.is-fullscreen .fs-btn {
   width: 100%;
   padding: 14px 16px;
   border-radius: 12px;
-  border: 1px solid rgba(232, 244, 242, 0.22);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text);
+  border: 1px solid rgba(20, 60, 70, 0.16);
+  background: #ffffff;
+  color: var(--page-ink);
   font: inherit;
   font-size: 1.1rem;
   letter-spacing: 0.12em;
   outline: none;
 }
 
+.gate-input::placeholder {
+  color: #8aa0a8;
+  letter-spacing: 0.04em;
+}
+
 .gate-input:focus {
-  border-color: rgba(47, 210, 183, 0.65);
-  box-shadow: 0 0 0 3px rgba(47, 210, 183, 0.18);
+  border-color: rgba(58, 168, 216, 0.7);
+  box-shadow: 0 0 0 3px rgba(94, 201, 239, 0.22);
 }
 
 .gate-error {
@@ -345,14 +374,39 @@ html.is-fullscreen .fs-btn {
   flex-direction: column;
   overflow: auto;
   padding: max(8px, env(safe-area-inset-top)) 14px max(8px, env(safe-area-inset-bottom));
-  background:
-    radial-gradient(90% 60% at 80% 0%, rgba(255, 210, 140, 0.18), transparent 50%),
-    radial-gradient(70% 50% at 10% 20%, rgba(47, 210, 183, 0.14), transparent 45%),
-    linear-gradient(180deg, #07151c 0%, #10242c 55%, #16332c 100%);
+  background: var(--page-grad);
+  color: var(--page-ink);
 }
 
 .meta-stage .map-hud {
   flex: 0 0 auto;
+}
+
+.meta-stage .brand-mini {
+  color: #12343c;
+  font-family: var(--font-display);
+}
+
+.meta-stage .hud-sub {
+  color: var(--page-muted);
+}
+
+.meta-stage .hud-btn {
+  color: #24505a;
+  border-color: rgba(20, 60, 70, 0.16);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.meta-stage .hud-btn:hover,
+.meta-stage .hud-btn:focus-visible {
+  color: var(--page-ink);
+  border-color: rgba(58, 168, 216, 0.45);
+}
+
+.meta-stage .hud-chip {
+  color: var(--accent-teal);
+  border-color: rgba(20, 140, 126, 0.28);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .meta-panel {
@@ -360,18 +414,24 @@ html.is-fullscreen .fs-btn {
   width: min(100%, 560px);
   margin: 8px auto 0;
   padding: 18px 16px 20px;
-  border-radius: 18px;
-  border: 1px solid rgba(232, 244, 242, 0.14);
-  background: rgba(7, 21, 28, 0.72);
+  border-radius: 20px;
+  border: 1px solid rgba(230, 220, 210, 0.95);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.96), rgba(255, 246, 236, 0.98));
+  box-shadow: 0 12px 28px rgba(40, 80, 100, 0.1);
   overflow: auto;
 }
 
 .meta-chip {
   margin: 0 0 6px;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(20, 140, 126, 0.28);
+  background: rgba(255, 255, 255, 0.85);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: var(--accent);
-  font-weight: 600;
+  color: var(--accent-teal);
+  font-weight: 700;
 }
 
 .meta-title {
@@ -379,11 +439,12 @@ html.is-fullscreen .fs-btn {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 800;
+  color: var(--page-ink);
 }
 
 .meta-note {
   margin: 0 0 16px;
-  color: var(--muted);
+  color: var(--page-muted);
   font-size: 0.88rem;
   line-height: 1.55;
 }
@@ -400,8 +461,8 @@ html.is-fullscreen .fs-btn {
   align-items: center;
   padding: 14px;
   border-radius: 14px;
-  border: 1px solid rgba(232, 244, 242, 0.14);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(20, 60, 70, 0.1);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .save-slot-main {
@@ -412,19 +473,20 @@ html.is-fullscreen .fs-btn {
   margin: 0 0 4px;
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: var(--accent-2);
+  color: #c4893a;
 }
 
 .save-slot-name {
   margin: 0 0 4px;
   font-size: 1.05rem;
   font-weight: 700;
+  color: var(--page-ink);
 }
 
 .save-slot-meta {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--muted);
+  color: var(--page-muted);
   line-height: 1.4;
 }
 
@@ -447,7 +509,7 @@ html.is-fullscreen .fs-btn {
 }
 
 .save-slot.is-empty .save-slot-name {
-  color: var(--muted);
+  color: var(--page-muted);
   font-weight: 500;
 }
 
@@ -459,6 +521,18 @@ html.is-fullscreen .fs-btn {
 .profile-name-input {
   letter-spacing: 0.04em;
   margin-bottom: 4px;
+}
+
+.meta-stage .gate-input,
+.meta-stage .profile-name-input,
+.profile-form .gate-input {
+  border: 1px solid rgba(20, 60, 70, 0.16);
+  background: #ffffff;
+  color: var(--page-ink);
+}
+
+.meta-stage .gate-label {
+  color: var(--page-muted);
 }
 
 .trait-grid {
@@ -484,8 +558,9 @@ html.is-fullscreen .fs-btn {
   min-height: 72px;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid rgba(232, 244, 242, 0.16);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(20, 60, 70, 0.12);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--page-ink);
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -494,14 +569,14 @@ html.is-fullscreen .fs-btn {
 }
 
 .trait-card-body small {
-  color: var(--muted);
+  color: var(--page-muted);
   font-size: 0.75rem;
   line-height: 1.35;
 }
 
 .trait-card input:checked + .trait-card-body {
-  border-color: rgba(47, 210, 183, 0.7);
-  background: rgba(47, 210, 183, 0.12);
+  border-color: rgba(58, 168, 216, 0.7);
+  background: rgba(94, 201, 239, 0.16);
 }
 
 .gender-grid {
@@ -655,7 +730,7 @@ html.is-fullscreen .fs-btn {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #2fd2b7, #f0b35a);
+  background: linear-gradient(90deg, #5ec9ef, #f0b35a);
   width: 0;
   transition: width 0.35s ease;
 }
@@ -1392,16 +1467,16 @@ html.is-fullscreen .fs-btn {
   min-height: 56px;
   padding: 0 28px;
   border-radius: 14px;
-  background: linear-gradient(180deg, #2fd2b7, #149987);
-  color: #042018;
+  background: linear-gradient(180deg, #5ec9ef, #3aa8d8);
+  color: #0b2a38;
   font-weight: 700;
   letter-spacing: 0.06em;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.18) inset,
-    0 10px 30px rgba(47, 210, 183, 0.35);
+    0 0 0 1px rgba(255,255,255,0.35) inset,
+    0 10px 30px rgba(40, 140, 180, 0.28);
   overflow: hidden;
   transition: transform 0.15s ease, filter 0.15s ease;
-  -webkit-tap-highlight-color: rgba(47, 210, 183, 0.35);
+  -webkit-tap-highlight-color: rgba(94, 201, 239, 0.35);
   touch-action: manipulation;
   cursor: pointer;
   pointer-events: auto;
@@ -1433,11 +1508,43 @@ html.is-fullscreen .fs-btn {
 
 /* ========== SELECT ========== */
 .select-stage {
-  min-height: 100dvh;
+  min-height: 100%;
+  height: 100%;
   padding: var(--safe-top) 16px var(--safe-bottom);
-  background:
-    radial-gradient(100% 60% at 50% -10%, rgba(47, 210, 183, 0.18), transparent 55%),
-    linear-gradient(180deg, #0a1820, #07151c 40%, #0d1c22);
+  overflow: auto;
+  background: var(--page-grad);
+  color: var(--page-ink);
+}
+
+.select-stage .brand-mini {
+  color: #12343c;
+}
+
+.select-stage .hud-sub,
+.select-stage .select-note {
+  color: var(--page-muted);
+}
+
+.select-stage .hud-btn {
+  color: #24505a;
+  border-color: rgba(20, 60, 70, 0.16);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.select-stage .hud-btn:hover,
+.select-stage .hud-btn:focus-visible {
+  color: var(--page-ink);
+  border-color: rgba(58, 168, 216, 0.45);
+}
+
+.select-stage .hud-chip {
+  color: var(--accent-teal);
+  border-color: rgba(20, 140, 126, 0.28);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.select-stage .select-title {
+  color: var(--page-ink);
 }
 
 .hud,
@@ -1466,7 +1573,7 @@ html.is-fullscreen .fs-btn {
 .hud-btn:hover,
 .hud-btn:focus-visible {
   color: var(--text);
-  border-color: rgba(47, 210, 183, 0.45);
+  border-color: rgba(58, 168, 216, 0.45);
   outline: none;
 }
 
@@ -1496,16 +1603,17 @@ html.is-fullscreen .fs-btn {
   text-align: left;
   padding: 14px;
   border-radius: 16px;
-  border: 1px solid var(--panel-border);
-  background: linear-gradient(135deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
-  box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  border: 1px solid rgba(20, 60, 70, 0.1);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.96), rgba(255, 246, 236, 0.98));
+  box-shadow: 0 10px 28px rgba(40, 80, 100, 0.1);
+  color: var(--page-ink);
   transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .route-card:hover,
 .route-card:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(47, 210, 183, 0.55);
+  border-color: rgba(58, 168, 216, 0.55);
   outline: none;
 }
 
@@ -1519,8 +1627,8 @@ html.is-fullscreen .fs-btn {
   font-weight: 800;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
-  color: #042018;
-  background: linear-gradient(160deg, var(--accent), #149987);
+  color: #0b2a38;
+  background: linear-gradient(160deg, var(--accent-soft), var(--accent));
 }
 
 .route-card[data-theme="bigco"] .route-icon { background: linear-gradient(160deg, #7eb7ff, #3b6ea8); color: #07131f; }
@@ -1538,7 +1646,7 @@ html.is-fullscreen .fs-btn {
 
 .route-copy .hint {
   display: block;
-  color: var(--muted);
+  color: var(--page-muted);
   font-size: 0.82rem;
   line-height: 1.45;
 }
@@ -2353,9 +2461,10 @@ html.is-fullscreen .fs-btn {
 
 .result-bg {
   background:
-    radial-gradient(70% 55% at 50% 18%, rgba(47, 210, 183, 0.38), transparent 58%),
-    radial-gradient(50% 40% at 80% 70%, rgba(240, 179, 90, 0.18), transparent 55%),
-    linear-gradient(180deg, #061820, #07151c 48%, #0c1c24);
+    radial-gradient(70% 55% at 50% 18%, rgba(94, 201, 239, 0.28), transparent 58%),
+    radial-gradient(50% 40% at 80% 70%, rgba(240, 179, 90, 0.2), transparent 55%),
+    linear-gradient(180deg, #f7fcff 0%, #ffffff 45%, #fff4e8 100%);
+  color: var(--page-ink);
 }
 
 .result-burst {
@@ -2390,13 +2499,11 @@ html.is-fullscreen .fs-btn {
   padding: 18px 14px 16px;
   border-radius: 18px;
   text-align: center;
-  border: 1px solid rgba(47, 210, 183, 0.45);
-  background:
-    linear-gradient(145deg, rgba(47, 210, 183, 0.22), rgba(7, 21, 28, 0.55) 55%),
-    rgba(7, 21, 28, 0.88);
+  border: 1px solid rgba(58, 168, 216, 0.35);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(255, 246, 236, 0.98));
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-    0 16px 40px rgba(47, 210, 183, 0.18);
+    0 0 0 1px rgba(255, 255, 255, 0.7) inset,
+    0 16px 40px rgba(40, 80, 100, 0.12);
   animation: clearHeroIn 0.7s cubic-bezier(0.2, 0.9, 0.2, 1.15) both;
 }
 
@@ -2407,10 +2514,8 @@ html.is-fullscreen .fs-btn {
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.05;
-  color: #dffcf5;
-  text-shadow:
-    0 0 18px rgba(47, 210, 183, 0.65),
-    0 2px 0 rgba(0, 0, 0, 0.35);
+  color: #2a92c4;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.65);
   animation: clearStampPop 0.85s cubic-bezier(0.2, 0.9, 0.2, 1.2) both;
 }
 
@@ -2422,26 +2527,26 @@ html.is-fullscreen .fs-btn {
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.14em;
-  color: #042018;
-  background: linear-gradient(135deg, #2fd2b7, #f0b35a);
-  box-shadow: 0 6px 16px rgba(47, 210, 183, 0.35);
+  color: #0b2a38;
+  background: linear-gradient(135deg, #5ec9ef, #f0b35a);
+  box-shadow: 0 6px 16px rgba(40, 140, 180, 0.28);
 }
 
 .clear-path {
   margin: 10px 0 0;
-  color: rgba(242, 247, 246, 0.82);
+  color: var(--page-muted);
   font-size: 0.88rem;
   font-weight: 700;
 }
 
 .clear-badge {
   margin-bottom: 14px;
-  background: rgba(47, 210, 183, 0.12);
+  background: rgba(94, 201, 239, 0.14);
 }
 
 .result-kicker {
   margin: 0 0 8px;
-  color: var(--accent-2);
+  color: #c4893a;
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -2451,11 +2556,12 @@ html.is-fullscreen .fs-btn {
   margin: 0 0 12px;
   font-size: 1.4rem;
   line-height: 1.4;
+  color: var(--page-ink);
 }
 
 .result-body {
   margin: 0 0 20px;
-  color: var(--muted);
+  color: var(--page-muted);
   white-space: pre-line;
   font-size: 0.95rem;
   line-height: 1.75;
@@ -2900,10 +3006,10 @@ html.is-fullscreen .fs-btn {
   height: 54px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(160deg, #5fe0cb, #149987);
+  background: linear-gradient(160deg, #5ec9ef, #3aa8d8);
   border: 3px solid rgba(255,255,255,0.9);
   box-shadow:
-    0 8px 14px rgba(20, 90, 80, 0.25),
+    0 8px 14px rgba(40, 120, 160, 0.25),
     inset 0 3px 6px rgba(255,255,255,0.45);
 }
 
@@ -2952,9 +3058,9 @@ html.is-fullscreen .fs-btn {
   z-index: 40;
   display: grid;
   padding: 10px 14px max(12px, env(safe-area-inset-bottom));
-  background: #16303a;
-  border-top: 2px solid rgba(47, 210, 183, 0.55);
-  box-shadow: 0 -10px 28px rgba(7, 21, 28, 0.28);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.98), rgba(255, 246, 236, 0.98));
+  border-top: 2px solid rgba(58, 168, 216, 0.35);
+  box-shadow: 0 -10px 28px rgba(40, 80, 100, 0.1);
 }
 
 .hub-escape-btn {
@@ -2963,18 +3069,18 @@ html.is-fullscreen .fs-btn {
   border-radius: 14px;
   font-size: 1rem;
   letter-spacing: 0.08em;
-  background: linear-gradient(180deg, #2fd2b7, #149987);
-  color: #042018;
+  background: linear-gradient(180deg, #5ec9ef, #3aa8d8);
+  color: #0b2a38;
   border: none;
-  box-shadow: 0 8px 18px rgba(20, 60, 70, 0.22);
+  box-shadow: 0 8px 18px rgba(40, 140, 180, 0.22);
 }
 
 .branch-stage .map-hud .hud-btn[data-action="to-hub"],
 .branch-stage .map-hud .hud-btn[data-action="to-outside"],
 .map-stage .map-hud .hud-btn[data-action="to-hub"] {
-  background: #16303a;
-  color: #dff7f1;
-  border: 1px solid rgba(47, 210, 183, 0.5);
+  background: rgba(255, 255, 255, 0.9);
+  color: #24505a;
+  border: 1px solid rgba(58, 168, 216, 0.4);
   font-weight: 700;
   min-height: 36px;
   padding: 8px 14px;
@@ -3206,11 +3312,11 @@ html.is-fullscreen .fs-btn {
 }
 
 .branch-meter.is-ok .branch-meter-bar i {
-  background: linear-gradient(90deg, #2fd2b7, #149987);
+  background: linear-gradient(90deg, #5ec9ef, #3aa8d8);
 }
 
 .branch-meter.is-ok .branch-meter-top {
-  color: #0f7a6e;
+  color: var(--accent-teal);
 }
 
 .branch-tip {
@@ -3236,7 +3342,7 @@ html.is-fullscreen .fs-btn {
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: #149987;
+  color: #2a92c4;
   font-size: 0.85rem;
 }
 
@@ -3314,7 +3420,7 @@ html.is-fullscreen .fs-btn {
 
 .rotate-hint-skip {
   margin: 16px 0 0;
-  color: #2fd2b7;
+  color: var(--accent);
   font-size: 0.88rem;
   font-weight: 700;
   text-decoration: underline;
@@ -3503,7 +3609,7 @@ html.is-landscape .rotate-hint {
     position: sticky;
     bottom: 0;
     padding-top: 8px;
-    background: linear-gradient(180deg, transparent, rgba(7, 21, 28, 0.92) 30%);
+    background: linear-gradient(180deg, transparent, rgba(255, 248, 240, 0.96) 30%);
   }
 
   .meta-stage {
