@@ -1018,19 +1018,22 @@ html.is-fullscreen .fs-btn {
   color: #16303a;
 }
 
-/* タイトル：ユーザーKV（ロゴ入り16:9）全面 + 下部に薄い操作帯 */
+/* タイトル：KV（ロゴ入り）を上段に丸ごと表示し、操作は下段ドック＝ロゴ被りなし */
 .title-stage-kv {
   padding: 0;
   color: #16303a;
   display: grid;
-  place-items: end center;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: stretch;
+  background: linear-gradient(180deg, #b7d8f0 0%, #eef6fb 55%, #fff8f0 100%);
 }
 
 .title-kv {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  inset: auto;
   z-index: 0;
   overflow: hidden;
+  min-height: 0;
   background: #9ec8e8;
 }
 
@@ -1039,8 +1042,8 @@ html.is-fullscreen .fs-btn {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 42%;
+  object-fit: contain;
+  object-position: center center;
   display: none;
 }
 
@@ -1050,29 +1053,43 @@ html.is-fullscreen .fs-btn {
 
 .title-kv-wide {
   display: block;
-  object-position: center 40%;
 }
 
-.title-frame-kv {
+.title-frame-kv,
+.title-frame-dock {
+  position: relative;
   z-index: 10;
-  margin: 0 12px max(12px, env(safe-area-inset-bottom));
-  padding: 14px 16px 16px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 252, 248, 0.42) 0%,
-    rgba(255, 250, 244, 0.82) 40%,
-    rgba(255, 248, 240, 0.94) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 20px;
-  box-shadow: 0 10px 28px rgba(40, 80, 90, 0.16);
+  margin: 0;
+  padding: 10px 16px max(12px, env(safe-area-inset-bottom));
+  background: rgba(255, 252, 248, 0.94);
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 0;
+  box-shadow: 0 -8px 24px rgba(40, 80, 90, 0.1);
   text-align: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.title-frame-on-art .title-logo-wrap {
+.title-frame-dock .title-logo-wrap,
+.title-frame-dock .headline-kv,
+.title-frame-dock .title-hint {
   display: none;
+}
+
+.title-frame-dock .title-chip {
+  margin-bottom: 6px;
+}
+
+.title-frame-dock .title-dock-lede {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  color: #3d5a63;
+}
+
+.title-frame-dock .btn-start-kv {
+  width: min(100%, 320px);
+  margin: 0 auto;
 }
 
 .title-frame-kv .title-chip {
@@ -3286,20 +3303,21 @@ html.is-landscape .rotate-hint {
     padding: 16px 5vw;
   }
 
-  /* 横画面：KV全面（ロゴは絵の中）+ 下部中央に操作帯 */
+  /* 横画面：上＝KV全体（ロゴ見える）／下＝STARTドック（被らない） */
   .title-stage-kv {
     display: grid;
     grid-template-columns: 1fr;
-    place-items: end center;
-    align-content: end;
+    grid-template-rows: minmax(0, 1fr) auto;
+    place-items: stretch;
+    align-content: stretch;
     gap: 0;
-    padding: 0 0 max(14px, 2.2vh);
-    background: #9ec8e8;
+    padding: 0;
+    background: linear-gradient(180deg, #a8d0ec 0%, #eef6fb 70%, #fff8f0 100%);
   }
 
   .title-stage-kv .title-kv {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    inset: auto;
     height: auto;
     min-height: 0;
     border-radius: 0;
@@ -3308,17 +3326,7 @@ html.is-landscape .rotate-hint {
   }
 
   .title-stage-kv .title-kv::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      transparent 58%,
-      rgba(255, 252, 248, 0.18) 78%,
-      rgba(20, 48, 64, 0.22) 100%
-    );
-    pointer-events: none;
+    display: none;
   }
 
   .title-kv-portrait {
@@ -3327,51 +3335,33 @@ html.is-landscape .rotate-hint {
 
   .title-kv-wide {
     display: block !important;
-    object-fit: cover;
-    object-position: center 38%;
+    object-fit: contain;
+    object-position: center center;
   }
 
   .title-frame-kv,
-  .title-frame-on-art {
+  .title-frame-dock {
     position: relative;
     z-index: 10;
-    width: min(520px, 52vw);
+    width: 100%;
     max-width: none;
-    justify-self: center;
+    justify-self: stretch;
     align-self: end;
     margin: 0;
-    border-radius: 18px;
-    background: rgba(255, 252, 248, 0.78);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0;
+    background: rgba(255, 252, 248, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     text-align: center;
-    padding: 12px 18px 14px;
-    box-shadow: 0 12px 28px rgba(20, 48, 56, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.78);
+    padding: 10px 18px max(12px, 1.6vh);
+    box-shadow: 0 -6px 18px rgba(20, 48, 56, 0.1);
+    border: none;
+    border-top: 1px solid rgba(20, 60, 70, 0.08);
   }
 
-  .title-frame-on-art .title-logo-wrap {
-    display: none !important;
-  }
-
-  .title-frame-kv .headline-kv {
-    font-size: clamp(1.05rem, 1.7vw, 1.35rem);
-    margin: 6px 0 4px;
-  }
-
-  .title-frame-kv .lede {
-    margin: 0 0 8px;
-    font-size: 0.9rem;
-  }
-
-  .title-frame-kv .title-hint {
-    margin: 8px 0 0;
-    font-size: 0.78rem;
-  }
-
-  .title-frame-kv .btn-start-kv {
+  .title-frame-dock .btn-start-kv {
     margin: 0 auto;
-    min-width: min(100%, 280px);
+    min-width: min(100%, 300px);
   }
 
   .title-hero {
