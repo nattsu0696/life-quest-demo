@@ -1025,7 +1025,7 @@ html.is-fullscreen .fs-btn {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   align-items: stretch;
-  background: linear-gradient(180deg, #b7d8f0 0%, #eef6fb 55%, #fff8f0 100%);
+  background: #f4f8fc;
 }
 
 .title-kv {
@@ -1034,7 +1034,7 @@ html.is-fullscreen .fs-btn {
   z-index: 0;
   overflow: hidden;
   min-height: 0;
-  background: #9ec8e8;
+  background: #f4f8fc;
 }
 
 .title-kv-img {
@@ -3312,7 +3312,7 @@ html.is-landscape .rotate-hint {
     align-content: stretch;
     gap: 0;
     padding: 0;
-    background: linear-gradient(180deg, #a8d0ec 0%, #eef6fb 70%, #fff8f0 100%);
+    background: #f4f8fc;
   }
 
   .title-stage-kv .title-kv {
@@ -3323,6 +3323,7 @@ html.is-landscape .rotate-hint {
     border-radius: 0;
     overflow: hidden;
     box-shadow: none;
+    background: #f4f8fc;
   }
 
   .title-stage-kv .title-kv::after {
