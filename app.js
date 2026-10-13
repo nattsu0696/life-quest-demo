@@ -1370,10 +1370,52 @@
 
   function bindTap(el, handler) {
     if (!el) return;
+
+    // スクロール一覧内は click のみ。
+    // iPhone はスクロール後に click を出さないが、touchend 即発火だとスクロールがQUEST入場になる。
+    const inScroller = !!el.closest(".branch-list, .meta-panel, .route-grid, .save-slot-list");
+    if (inScroller) {
+      el.addEventListener("click", (event) => handler(event));
+      return;
+    }
+
     let touched = false;
+    let startX = 0;
+    let startY = 0;
+    let moved = false;
+    const MOVE_TOL = 12;
+
+    el.addEventListener(
+      "touchstart",
+      (event) => {
+        const t = event.changedTouches?.[0] || event.touches?.[0];
+        if (!t) return;
+        startX = t.clientX;
+        startY = t.clientY;
+        moved = false;
+      },
+      { passive: true }
+    );
+
+    el.addEventListener(
+      "touchmove",
+      (event) => {
+        const t = event.changedTouches?.[0] || event.touches?.[0];
+        if (!t) return;
+        if (
+          Math.abs(t.clientX - startX) > MOVE_TOL ||
+          Math.abs(t.clientY - startY) > MOVE_TOL
+        ) {
+          moved = true;
+        }
+      },
+      { passive: true }
+    );
+
     el.addEventListener(
       "touchend",
       (event) => {
+        if (moved) return;
         touched = true;
         event.preventDefault();
         handler(event);
@@ -1803,23 +1845,24 @@
         (stage.categories || []).forEach((catId) => {
           const cat = getCategory(catId);
           if (!cat) return;
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "branch-card";
-          if (categoryCleared(cat)) btn.classList.add("is-cleared");
-          if (cat.id === lastCat) btn.classList.add("is-last-place");
+          const card = document.createElement("article");
+          card.className = "branch-card";
+          if (categoryCleared(cat)) card.classList.add("is-cleared");
+          if (cat.id === lastCat) card.classList.add("is-last-place");
           const pin = cat.id === lastCat
             ? `<span class="branch-pin">前回の地点</span>`
             : `<span class="branch-pin"></span>`;
-          btn.innerHTML = `
+          const goLabel = categoryCleared(cat) ? "CLEAR" : "GO";
+          card.innerHTML = `
             <span class="branch-tag">${cat.short || "PATH"}</span>
             ${pin}
             <span class="branch-label">${cat.label}</span>
             <span class="branch-blurb">${cat.hint || ""}</span>
-            <span class="branch-go">${categoryCleared(cat) ? "CLEAR" : "GO"}</span>
+            <button type="button" class="branch-go-btn" aria-label="${goLabel}">${goLabel}</button>
           `;
-          bindTap(btn, () => openBranch(cat.id));
-          outsideList.appendChild(btn);
+          const goBtn = card.querySelector(".branch-go-btn");
+          bindTap(goBtn, () => openBranch(cat.id));
+          outsideList.appendChild(card);
         });
       }
 
@@ -2067,16 +2110,15 @@
 
     branchList.innerHTML = "";
     cat.options.forEach((opt) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
+      const card = document.createElement("article");
       const evalReq = evaluateRequirements(opt.require, stats);
-      btn.className = "branch-card";
-      if (opt.require) btn.classList.add("has-require");
-      if (evalReq.ok) btn.classList.add("is-ready");
-      else if (evalReq.ratio >= 0.5) btn.classList.add("is-near-req");
-      else btn.classList.add("is-far-req");
-      if (state.cleared.has(opt.id)) btn.classList.add("is-cleared");
-      if (opt.id === lastOpt) btn.classList.add("is-last-place");
+      card.className = "branch-card";
+      if (opt.require) card.classList.add("has-require");
+      if (evalReq.ok) card.classList.add("is-ready");
+      else if (evalReq.ratio >= 0.5) card.classList.add("is-near-req");
+      else card.classList.add("is-far-req");
+      if (state.cleared.has(opt.id)) card.classList.add("is-cleared");
+      if (opt.id === lastOpt) card.classList.add("is-last-place");
 
       const tip = formatGapTip(evalReq.gaps);
       const meters = renderRequireMeters(opt.require, stats);
@@ -2085,7 +2127,7 @@
         : (evalReq.ok ? "GO" : "体験");
       const pin = opt.id === lastOpt ? `<span class="branch-pin">前回の地点</span>` : "";
 
-      btn.innerHTML = `
+      card.innerHTML = `
         <span class="branch-tag">${opt.tag || "OPTION"}</span>
         <span class="branch-match">${evalReq.label}</span>
         <span class="branch-label">${opt.label}</span>
@@ -2093,10 +2135,11 @@
         <span class="branch-blurb">${opt.blurb || ""}</span>
         ${meters ? `<div class="branch-meters">${meters}</div>` : ""}
         <span class="branch-tip">${tip}</span>
-        <span class="branch-go">${goLabel}</span>
+        <button type="button" class="branch-go-btn" aria-label="${goLabel}">${goLabel}</button>
       `;
-      bindTap(btn, () => startQuest(opt.id));
-      branchList.appendChild(btn);
+      const goBtn = card.querySelector(".branch-go-btn");
+      bindTap(goBtn, () => startQuest(opt.id));
+      branchList.appendChild(card);
     });
 
     showScreen("branch");
