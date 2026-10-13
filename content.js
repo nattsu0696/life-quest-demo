@@ -72,7 +72,19 @@
         title: "特別なことは起きない。でも、毎日が少しずつ上手くなる。",
         body: "朝の陳列、お客様対応、夕方の棚直し。\n慣れてきた頃、店長が声をかけてきた。",
         choices: [
-          { label: "話を聞く", next: "project-invite" }
+          { label: "話を聞く", next: "season-fest" }
+        ]
+      },
+      "season-fest": {
+        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        speaker: "先輩・桐谷",
+        img: "assets/char-manager.png",
+        kicker: "季節の店頭",
+        title: "炭の香りが店先に立つ日がある。チーム全員で場をつくる。",
+        body: "予約の電話、焼き場の順番、包み方の確認。\n『去年よりうまく』は、気合より段取りで決まる。",
+        choices: [
+          { label: "焼き場のサポートに入る", next: "project-invite" },
+          { label: "受付と案内を担当する", next: "project-invite" }
         ]
       },
       "project-invite": {
@@ -288,6 +300,7 @@
 
   function solutionsLinkedQuest() {
     const name = "綿伴ソウリューションズ株式会社";
+    const senior = "assets/char-work-uniform-site-man.png";
     return {
       start: {
         bg: "assets/backgrounds/bg-solution-exterior.jpg",
@@ -302,12 +315,37 @@
       warehouse: {
         bg: "assets/backgrounds/bg-solution-warehouse.jpg",
         speaker: "先輩・黒瀬",
-        img: "assets/char-construction-senior.png",
+        img: senior,
         kicker: "木造倉庫の現場",
         title: "柱の香りがする倉庫で、寸法を確認する。",
         body: "林郷の家で使う木の話とも、意外と近い。\n『建てる』と『収める』は、グループの中で隣り合っている。",
         choices: [
-          { label: "次は空港案件へ", next: "trip" }
+          { label: "雪国の立駐現場へ行く", next: "snow" },
+          { label: "沿岸の立駐現場へ行く", next: "resilient" }
+        ]
+      },
+      snow: {
+        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "雪対策",
+        title: "止めやすさの奥に、雪との戦いがある。",
+        body: "融雪、防雪、足元の安全。\n『止められる』は、天候の設計でもある。",
+        choices: [
+          { label: "融雪の仕組みを確認する", next: "trip" },
+          { label: "柱スパンの広さを体感する", next: "trip" }
+        ]
+      },
+      resilient: {
+        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "備えの設計",
+        title: "もしもの水を想定して、設備の置き場が決まっている。",
+        body: "大切な盤を上の階へ。屋根には太陽光。\n使う人の安心が、図面の優先順位になる。",
+        choices: [
+          { label: "電気設備の配置を確認する", next: "trip" },
+          { label: "屋根の発電パネルを見上げる", next: "trip" }
         ]
       },
       trip: {
@@ -318,7 +356,7 @@
           text: "部品調達の打ち合わせのため、初めての海外出張に帯同する。"
         },
         speaker: "先輩・黒瀬",
-        img: "assets/char-construction-senior.png",
+        img: senior,
         kicker: "仕事イベント",
         title: "「車は空港の立駐に停めて、そこから飛ぶぞ」",
         body: "出張の始まりは、意外と足元にある。\n自社で手がけた立体駐車場が、今日の出発点になる。",
@@ -329,7 +367,7 @@
       parking: {
         bg: "assets/backgrounds/bg-solution-parking.jpg",
         speaker: "先輩・黒瀬",
-        img: "assets/char-construction-senior.png",
+        img: senior,
         kicker: "空港の立体駐車場",
         title: "鉄骨の階段を上がりながら、納めた仕事を思い出す。",
         body: "自分が関わった案件かどうかはまだ分からない。\nでも『止められる場所』をつくる仕事が、旅の入口になっている。",
@@ -339,6 +377,8 @@
         ]
       },
       abroad: {
+        speaker: "先輩・黒瀬",
+        img: senior,
         kicker: "出張のあと",
         title: "海外の会議室でも、戻る場所の話が出る。",
         body: "部品の仕様、納期、安全基準。\n帰り道はまた、あの立駐のコンクリートの上から始まる。",
@@ -351,7 +391,7 @@
         ending: true,
         bg: "assets/backgrounds/bg-solution-warehouse.jpg",
         kicker: "この人生の感触",
-        title: "立つ場所、停める場所、収める場所をつくる仕事が残った。",
+        title: "立つ場所、停める場所、備える場所をつくる仕事が残った。",
         body: "派手さより、毎日の積み重ねが自分を形づくる。\n気になるなら、次は本物の職場で温度を確かめてほしい。",
         reality: [
           { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
@@ -393,6 +433,19 @@
         title: "木の梁の下で、暮らしの想像を一緒にする。",
         body: "ソファの位置、階段の手触り、キッチンの色。\n家が決まると、次は家具の会社の名前が自然に出る。",
         choices: [
+          { label: "『疲れがほどける家』の案内をする", next: "recover" },
+          { label: "家具の相談へつなぐ", next: "to-ligna" }
+        ]
+      },
+      recover: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        speaker: "先輩・結城",
+        img: "assets/char-office.png",
+        kicker: "展示場",
+        title: "家事の動線が短いほど、夜の自分を取り戻しやすい。",
+        body: "木の手触り、光、静けさ。五感の休め方が間取りに入っている。\n『住む』は、回復の設計でもある。",
+        choices: [
+          { label: "お客様に体感してもらう", next: "client" },
           { label: "家具の相談へつなぐ", next: "to-ligna" }
         ]
       },
@@ -476,6 +529,7 @@
         title: "新居用の家具が、カートに静かに積み上がる。",
         body: "ソファ、照明、ラグ。\n『ここにテーブルを置くと、朝がきれい』——家の話が家具の話になる。",
         choices: [
+          { label: "買い付け担当の一日を見る", next: "buyer" },
           { label: "すき間の相談を受ける", next: "gap" }
         ]
       },
@@ -487,13 +541,25 @@
         title: "林郷の家の図面を広げて、家具の寸法を合わせる。",
         body: "グループ内だと、間取りのデータがすぐ届く。\n『建てる人』と『整える人』が、同じ図を見られる。",
         choices: [
+          { label: "買い付け担当の一日を見る", next: "buyer" },
+          { label: "すき間の相談を受ける", next: "gap" }
+        ]
+      },
+      buyer: {
+        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        speaker: "先輩・杏",
+        img: "assets/char-campus.png",
+        kicker: "ライフスタイル",
+        title: "今日の一品は、暮らしを少しだけ豊かにする道具。",
+        body: "照明、食器、外で使う小物、軽やかなおやつ。\n売場の反応を見て、次の仕入れが決まる。",
+        choices: [
           { label: "すき間の相談を受ける", next: "gap" }
         ]
       },
       gap: {
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
-        speaker: "先輩・杏",
-        img: "assets/char-campus.png",
+        speaker: "先輩・浜田",
+        img: "assets/char-work-senior-man.png",
         kicker: "連携 / 太平洋",
         title: "既製品では埋まらないすき間を、大洋の特注で埋める。",
         body: "家具の横に、ぴったりの収納が欲しい。\n注文票には、リグナの品番と大洋の寸法が並ぶ。",
@@ -529,6 +595,7 @@
 
   function taiyoLinkedQuest() {
     const name = "太平洋株式会社";
+    const senior = "assets/char-work-senior-man.png";
     return {
       start: {
         bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
@@ -543,21 +610,34 @@
       factory: {
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
         speaker: "先輩・浜田",
-        img: "assets/char-factory-senior.png",
+        img: senior,
         kicker: "工場",
         title: "青い通路の奥で、板が家具の部品へ変わっていく。",
         body: "林郷の家の新居、リグナのソファ横。\n数字の並びが、誰かの朝の動作になる。",
         choices: [
-          { label: "特注の図面を見る", next: "measure" }
+          { label: "特注の図面を見る", next: "measure" },
+          { label: "街で使う什器の製作を見る", next: "kiosk" }
         ]
       },
       measure: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "先輩・浜田",
-        img: "assets/char-factory-senior.png",
+        img: senior,
         kicker: "特注対応",
         title: "家具のすき間にぴったりの収納を、ミリで合わせる。",
         body: "既製品の端と、壁の端。そのあいだを埋めるのが今日の仕事だ。\nグループの注文は、現場の言葉が短い。",
+        choices: [
+          { label: "街で使う什器の製作も見る", next: "kiosk" },
+          { label: "製造の腕を磨く", next: "end-craft" }
+        ]
+      },
+      kiosk: {
+        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+        speaker: "先輩・浜田",
+        img: senior,
+        kicker: "什器",
+        title: "街の片隅で人が触る道具も、工場の手から生まれる。",
+        body: "耐久、使いやすさ、運びやすさ。\n家具づくりの技術が、都市の小さな設備にも生きる。",
         choices: [
           { label: "製造の腕を磨く", next: "end-craft" },
           { label: "暮らしの連携をもっと知る", next: "end-link" }
@@ -630,6 +710,18 @@
         kicker: "上生菓子",
         title: "小さな練り切りが、今日の季節を一言で言う。",
         body: "ホームメイドへ卸す茶葉の横で、店頭の菓子も同じ朝に動いている。\n『グループ連携』は、会議室より先に香りの現場にある。",
+        choices: [
+          { label: "季節のフルーツ菓子を見る", next: "seasonal" },
+          { label: "味の現場を深掘りする", next: "end-craft" }
+        ]
+      },
+      seasonal: {
+        bg: "assets/backgrounds/bg-jonamashi.jpg",
+        speaker: "先輩・陽菜",
+        img: "assets/char-campus.png",
+        kicker: "季節限定",
+        title: "旬の実を包んだ菓子と、焼きたての甘い香り。",
+        body: "果物の生菓子、りんごを入れたまんじゅう。\nお茶との合わせ方まで考えると、売場が物語になる。",
         choices: [
           { label: "味の現場を深掘りする", next: "end-craft" },
           { label: "他店との企画をもっと知る", next: "end-link" }
@@ -912,6 +1004,7 @@
 
   function kenzaiThemeQuest() {
     const name = "綿伴健材株式会社";
+    const senior = "assets/char-work-senior-man.png";
     return {
       start: {
         kicker: `QUEST / ${name}`,
@@ -923,6 +1016,8 @@
         ]
       },
       local: {
+        speaker: "先輩・樫",
+        img: senior,
         kicker: "品質",
         title: "基準を超える、はスローガンじゃなくチェック表だ。",
         body: "見えない部分ほど、後から効いてくる。\nだから今日の確認が、十年後の暮らしになる。",
@@ -932,6 +1027,8 @@
         ]
       },
       deliver: {
+        speaker: "先輩・樫",
+        img: senior,
         kicker: "納品",
         title: "現場の朝は、資材の到着から始まる。",
         body: "遅れると作業が止まる。早すぎても置き場がない。\nタイミングも技術のうちだ。",
@@ -941,6 +1038,8 @@
         ]
       },
       talk: {
+        speaker: "先輩・樫",
+        img: senior,
         kicker: "一日の芯",
         title: "資材の話が、家族の『ここがいい』につながる。",
         body: "直接お客様に会わなくても、暮らしの土台をつくっている。",
@@ -1104,6 +1203,7 @@
 
   function woodpowerThemeQuest() {
     const name = "綿伴ウッドフラワー株式会社";
+    const senior = "assets/char-work-uniform-field-man.png";
     return {
       start: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
@@ -1117,6 +1217,8 @@
       },
       plant: {
         bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        speaker: "先輩・青葉",
+        img: senior,
         kicker: "発電",
         title: "木くずや端材が、燃料として息づく。",
         body: "燃やす、で終わりじゃない。\n熱が電気になり、地域の暮らしへつながる。",
@@ -1127,6 +1229,8 @@
       },
       cycle: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        speaker: "先輩・青葉",
+        img: senior,
         kicker: "循環",
         title: "遠くの化石燃料に頼らない、地産地消のエネルギー。",
         body: "森を守りながら使う。使いながら育てる。\n数字の前に、関係性の設計がある。",
@@ -1137,6 +1241,8 @@
       },
       fuel: {
         bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        speaker: "先輩・青葉",
+        img: senior,
         kicker: "燃料",
         title: "チップの山が、次の電力の準備になる。",
         body: "水分、量、運び方。燃え方は、手入れの結果だ。\n現場は静かに見えるが、判断は連続している。",
@@ -1146,6 +1252,8 @@
       },
       safety: {
         bg: "assets/backgrounds/bg-solution-parking.jpg",
+        speaker: "先輩・青葉",
+        img: senior,
         kicker: "安全",
         title: "再生可能でも、危険ゼロではない。",
         body: "手順書は貼ってあるだけでは意味がない。\n今日の確認が、明日の運転を守る。",
@@ -1155,6 +1263,8 @@
       },
       watch: {
         bg: "assets/backgrounds/bg-holdings-office.jpg",
+        speaker: "先輩・青葉",
+        img: senior,
         kicker: "監視",
         title: "メーターと警報が、森の先の一日を映す。",
         body: "安定して回すことが、いちばんの貢献になることもある。\n派手さより、続く運転。",
@@ -1190,6 +1300,7 @@
 
   function farmThemeQuest() {
     const name = "綿伴ファームフル株式会社";
+    const senior = "assets/char-work-uniform-field-woman.png";
     return {
       start: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
@@ -1203,6 +1314,8 @@
       },
       monitor: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        speaker: "先輩・牧",
+        img: senior,
         kicker: "見守り",
         title: "画面の向こうで、小さな変化を拾う。",
         body: "カメラはズームできる。体調のサインは、数字より先に『様子』で出ることもある。\n人が入らない時間を守ることも、健康のための仕事だ。",
@@ -1213,6 +1326,8 @@
       },
       feed: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        speaker: "先輩・牧",
+        img: senior,
         kicker: "えさ",
         title: "地元の素材が、配合のレシピになる。",
         body: "粉砕して混ぜて、今日の体調に合わせる。\n水は澄んだ湧き水。口に入るものから一日が始まる。",
@@ -1223,6 +1338,8 @@
       },
       sort: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        speaker: "先輩・牧",
+        img: senior,
         kicker: "仕分け",
         title: "体重に応じて、次の場所へ案内する装置が動く。",
         body: "力任せじゃなく、流れで判断する。\n出荷も、生き物のリズムに合わせた段取りだ。",
@@ -1232,6 +1349,8 @@
       },
       climate: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        speaker: "先輩・牧",
+        img: senior,
         kicker: "環境",
         title: "温度・湿度・空気。見えない快適を機械が整える。",
         body: "小さな個体ほど寒さに弱い。\nあたたかい場所をつくることも、飼育の技術だ。",
@@ -1241,6 +1360,8 @@
       },
       clean: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        speaker: "先輩・牧",
+        img: senior,
         kicker: "清潔",
         title: "霧とロボットが、静かに床を整えていく。",
         body: "きれいさは、においの前に仕組みで守る。\n人の手は、必要なときに必要な場所へ。",
@@ -1618,6 +1739,7 @@
             label: "綿伴ソウリューションズ株式会社",
             tag: "建築・設備",
             blurb: "木造倉庫から空港の立駐まで。出張の足元も現場",
+            img: "assets/char-work-uniform-site-man.png",
             scenes: solutionsLinkedQuest()
           },
           {
@@ -1646,6 +1768,7 @@
             label: "太平洋株式会社",
             tag: "家具製造",
             blurb: "家具のすき間にぴったりの収納を、工場でつくる",
+            img: "assets/char-work-senior-man.png",
             scenes: taiyoLinkedQuest()
           },
           {
@@ -1681,6 +1804,7 @@
             label: "綿伴健材株式会社",
             tag: "建材",
             blurb: "家の骨組みを、木と資材で支える",
+            img: "assets/char-work-senior-man.png",
             scenes: kenzaiThemeQuest()
           },
           {
@@ -1688,6 +1812,7 @@
             label: "綿伴ウッドフラワー株式会社",
             tag: "エネルギー",
             blurb: "森を生かし、木からあかりをつくる",
+            img: "assets/char-work-uniform-field-man.png",
             scenes: woodpowerThemeQuest()
           },
           {
@@ -1709,6 +1834,7 @@
             label: "綿伴ファームフル株式会社",
             tag: "畜産・スマート飼育",
             blurb: "見守りと仕組みで、生き物の一日を支える",
+            img: "assets/char-work-uniform-field-woman.png",
             scenes: farmThemeQuest()
           }
         ]
