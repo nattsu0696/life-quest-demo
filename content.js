@@ -1102,6 +1102,92 @@
     };
   }
 
+  function woodpowerThemeQuest() {
+    const name = "綿伴ウッドフラワー株式会社";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "森と生き、森を生かす。木がエネルギーの現場になる。",
+        body: "植える、育てる、使う、また植える。\nその循環の先に、あかりとあたたかさがある。",
+        choices: [
+          { label: "発電の流れを見学する", next: "plant" },
+          { label: "森と資源の循環の話を聞く", next: "cycle" }
+        ]
+      },
+      plant: {
+        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        kicker: "発電",
+        title: "木くずや端材が、燃料として息づく。",
+        body: "燃やす、で終わりじゃない。\n熱が電気になり、地域の暮らしへつながる。",
+        choices: [
+          { label: "安全確認の手順を覚える", next: "safety" },
+          { label: "燃料の受け入れを手伝う", next: "fuel" }
+        ]
+      },
+      cycle: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "循環",
+        title: "遠くの化石燃料に頼らない、地産地消のエネルギー。",
+        body: "森を守りながら使う。使いながら育てる。\n数字の前に、関係性の設計がある。",
+        choices: [
+          { label: "加工の端材が燃料になる工程を見る", next: "fuel" },
+          { label: "『また植える』側の話を聞く", next: "safety" }
+        ]
+      },
+      fuel: {
+        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        kicker: "燃料",
+        title: "チップの山が、次の電力の準備になる。",
+        body: "水分、量、運び方。燃え方は、手入れの結果だ。\n現場は静かに見えるが、判断は連続している。",
+        choices: [
+          { label: "運転監視の部屋へ行く", next: "watch" }
+        ]
+      },
+      safety: {
+        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        kicker: "安全",
+        title: "再生可能でも、危険ゼロではない。",
+        body: "手順書は貼ってあるだけでは意味がない。\n今日の確認が、明日の運転を守る。",
+        choices: [
+          { label: "運転監視の部屋へ行く", next: "watch" }
+        ]
+      },
+      watch: {
+        bg: "assets/backgrounds/bg-holdings-office.jpg",
+        kicker: "監視",
+        title: "メーターと警報が、森の先の一日を映す。",
+        body: "安定して回すことが、いちばんの貢献になることもある。\n派手さより、続く運転。",
+        choices: [
+          { label: "運転・現場の仕事を深掘りする", next: "end-craft" },
+          { label: "森の循環づくり側も見る", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        kicker: "この人生の感触",
+        title: "木をエネルギーに変える現場感が、残った。",
+        body: "あかりの裏側に、森と人の段取りがある。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "この人生の感触",
+        title: "発電は、森のサイクルの一部だと分かった。",
+        body: "使うだけで終わらせない。次の木につながる仕事だ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
   function farmThemeQuest() {
     const name = "綿伴ファームフル株式会社";
     return {
@@ -1601,8 +1687,8 @@
             id: "co-woodpower",
             label: "綿伴ウッドフラワー株式会社",
             tag: "エネルギー",
-            blurb: "木の力で、あかりをつくる",
-            scenes: companyQuest("綿伴ウッドフラワー株式会社", "木がエネルギーに変わる現場。数字と安全が隣り合う。")
+            blurb: "森を生かし、木からあかりをつくる",
+            scenes: woodpowerThemeQuest()
           },
           {
             id: "co-realestate",
@@ -1617,13 +1703,6 @@
             tag: "宿・観光",
             blurb: "山あいの宿で、四季のあたたかさをおもてなし",
             scenes: resortThemeQuest()
-          },
-          {
-            id: "co-intec",
-            label: "株式会社綿伴インテクト",
-            tag: "レンタル・物流",
-            blurb: "必要なものを、必要なときに届ける",
-            scenes: companyQuest("株式会社綿伴インテクト", "必要なものが、必要な場所へ届く。段取りが腕になる。")
           },
           {
             id: "co-farm",
