@@ -1018,15 +1018,34 @@ html.is-fullscreen .fs-btn {
   color: #16303a;
 }
 
-/* タイトル：lifequest.png を3:1のまま上に置き、下の空きにUI（ロゴ非被り） */
+/* タイトル：上余白でKVを下げ、DEMOは右上、下枠は説明+STARTのみ */
 .title-stage-kv {
-  padding: 0 0 max(10px, env(safe-area-inset-bottom));
+  position: relative;
+  padding: max(12px, env(safe-area-inset-top)) 0 max(12px, env(safe-area-inset-bottom));
   color: #16303a;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   background: #ffffff;
+}
+
+.title-demo-badge {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  z-index: 20;
+  margin: 0;
+  padding: 6px 14px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #0f7a6e;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(20, 140, 126, 0.28);
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(40, 80, 100, 0.1);
+  pointer-events: none;
 }
 
 .title-kv {
@@ -1036,10 +1055,11 @@ html.is-fullscreen .fs-btn {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
   overflow: hidden;
   background: #ffffff;
+  padding-top: clamp(28px, 7vh, 72px);
 }
 
 .title-kv-img {
@@ -1053,7 +1073,7 @@ html.is-fullscreen .fs-btn {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  object-position: top center;
+  object-position: bottom center;
 }
 
 .title-kv::after {
@@ -1066,8 +1086,8 @@ html.is-fullscreen .fs-btn {
   z-index: 10;
   flex: 0 0 auto;
   width: min(860px, 66.666%);
-  margin: 10px auto 0;
-  padding: 14px 22px 16px;
+  margin: 8px auto 0;
+  padding: 16px 22px 18px;
   background: linear-gradient(
     180deg,
     rgba(255, 252, 248, 0.94) 0%,
@@ -1084,19 +1104,13 @@ html.is-fullscreen .fs-btn {
 
 .title-frame-dock .title-logo-wrap,
 .title-frame-dock .headline-kv,
-.title-frame-dock .title-hint {
+.title-frame-dock .title-hint,
+.title-frame-dock .title-chip {
   display: none;
 }
 
-.title-frame-dock .title-chip {
-  margin-bottom: 6px;
-  color: #0f7a6e;
-  border-color: rgba(20, 140, 126, 0.28);
-  background: rgba(255, 255, 255, 0.7);
-}
-
 .title-frame-dock .title-dock-lede {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   color: #3d5a63;
@@ -3322,15 +3336,20 @@ html.is-landscape .rotate-hint {
     padding: 16px 5vw;
   }
 
-  /* 横画面：3:1バナーを上に、下の余白にドック（coverしない） */
+  /* 横画面：上余白でKV下げ、下に説明+START（coverしない） */
   .title-stage-kv {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
     gap: 0;
-    padding: 0 0 max(12px, 2vh);
+    padding: max(10px, env(safe-area-inset-top)) 0 max(12px, 2vh);
     background: #ffffff;
+  }
+
+  .title-demo-badge {
+    top: max(10px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
   }
 
   .title-stage-kv .title-kv {
@@ -3339,10 +3358,12 @@ html.is-landscape .rotate-hint {
     width: 100%;
     flex: 1 1 auto;
     min-height: 0;
+    align-items: flex-end;
     border-radius: 0;
     overflow: hidden;
     box-shadow: none;
     background: #ffffff;
+    padding-top: clamp(20px, 5vh, 56px);
   }
 
   .title-stage-kv .title-kv::after {
@@ -3356,7 +3377,7 @@ html.is-landscape .rotate-hint {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    object-position: top center;
+    object-position: bottom center;
   }
 
   .title-frame-kv,
@@ -3376,7 +3397,7 @@ html.is-landscape .rotate-hint {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     text-align: center;
-    padding: 14px 24px 16px;
+    padding: 16px 24px 18px;
     box-shadow: 0 12px 28px rgba(40, 80, 100, 0.12);
     border: 1px solid rgba(230, 220, 210, 0.9);
     color: #16303a;
