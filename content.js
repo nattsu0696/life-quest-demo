@@ -67,7 +67,7 @@
       "ordinary-days": {
         bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         speaker: "先輩・桐谷",
-        img: "assets/char-office.png",
+        img: "assets/char-manager.png",
         kicker: "いつもの一日",
         title: "特別なことは起きない。でも、毎日が少しずつ上手くなる。",
         body: "朝の陳列、お客様対応、夕方の棚直し。\n慣れてきた頃、店長が声をかけてきた。",
@@ -83,7 +83,7 @@
           text: "美原商店と、新しいお茶売場をつくるプロジェクトが始まる。"
         },
         speaker: "先輩・桐谷",
-        img: "assets/char-office.png",
+        img: "assets/char-manager.png",
         kicker: "仕事イベント",
         title: "「君も、この企画に入ってみない？」",
         body: "経験は足りない。でも、お客様に近い視点を期待されている。\n美原商店から来る担当者と、三か月かけて売場をつくる。",
@@ -193,7 +193,7 @@
       },
       "one-year-later": {
         speaker: "店長・桐谷",
-        img: "assets/char-office.png",
+        img: "assets/char-manager.png",
         kicker: "約一年後",
         title: "仕事も、人間関係も、以前より少し大人になっている。",
         body: "共同企画は形になり、店長からは次の役割の話も出た。\n陽菜とは、まだ同じ場所で働きながら、未来の話を続けている。",
@@ -302,7 +302,7 @@
       warehouse: {
         bg: "assets/backgrounds/bg-solution-warehouse.jpg",
         speaker: "先輩・黒瀬",
-        img: "assets/char-office.png",
+        img: "assets/char-construction-senior.png",
         kicker: "木造倉庫の現場",
         title: "柱の香りがする倉庫で、寸法を確認する。",
         body: "林郷の家で使う木の話とも、意外と近い。\n『建てる』と『収める』は、グループの中で隣り合っている。",
@@ -318,7 +318,7 @@
           text: "部品調達の打ち合わせのため、初めての海外出張に帯同する。"
         },
         speaker: "先輩・黒瀬",
-        img: "assets/char-office.png",
+        img: "assets/char-construction-senior.png",
         kicker: "仕事イベント",
         title: "「車は空港の立駐に停めて、そこから飛ぶぞ」",
         body: "出張の始まりは、意外と足元にある。\n自社で手がけた立体駐車場が、今日の出発点になる。",
@@ -329,7 +329,7 @@
       parking: {
         bg: "assets/backgrounds/bg-solution-parking.jpg",
         speaker: "先輩・黒瀬",
-        img: "assets/char-office.png",
+        img: "assets/char-construction-senior.png",
         kicker: "空港の立体駐車場",
         title: "鉄骨の階段を上がりながら、納めた仕事を思い出す。",
         body: "自分が関わった案件かどうかはまだ分からない。\nでも『止められる場所』をつくる仕事が、旅の入口になっている。",
@@ -399,7 +399,7 @@
       client: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "お客様",
-        img: "assets/char-guide.png",
+        img: "assets/char-customer-woman.png",
         kicker: "打ち合わせ",
         title: "『このすき間、何か収まるかな』と図面を指差される。",
         body: "既製家具では埋まらない寸法がある。\nそんなとき、グループの家具製造・太平洋の名前が手元に出る。",
@@ -482,7 +482,7 @@
       plan: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "お客様",
-        img: "assets/char-guide.png",
+        img: "assets/char-customer-man.png",
         kicker: "図面打合せ",
         title: "林郷の家の図面を広げて、家具の寸法を合わせる。",
         body: "グループ内だと、間取りのデータがすぐ届く。\n『建てる人』と『整える人』が、同じ図を見られる。",
@@ -543,7 +543,7 @@
       factory: {
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
         speaker: "先輩・浜田",
-        img: "assets/char-office.png",
+        img: "assets/char-factory-senior.png",
         kicker: "工場",
         title: "青い通路の奥で、板が家具の部品へ変わっていく。",
         body: "林郷の家の新居、リグナのソファ横。\n数字の並びが、誰かの朝の動作になる。",
@@ -554,7 +554,7 @@
       measure: {
         bg: "assets/backgrounds/bg-house-interior.jpg",
         speaker: "先輩・浜田",
-        img: "assets/char-office.png",
+        img: "assets/char-factory-senior.png",
         kicker: "特注対応",
         title: "家具のすき間にぴったりの収納を、ミリで合わせる。",
         body: "既製品の端と、壁の端。そのあいだを埋めるのが今日の仕事だ。\nグループの注文は、現場の言葉が短い。",
@@ -652,6 +652,534 @@
         kicker: "この人生の感触",
         title: "お茶の仕事が、別の店の一日とつながると分かった。",
         body: "美原商店の菓子、ホームメイドの売場、誰かの休日の喫茶。\n社名が分かれても、体験は一本の線になる。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  // --- 汎用寄り企業：公開してよい「仕事の感触」だけ。実名・固有案件・数値は入れない ---
+
+  function partnersThemeQuest() {
+    const name = "綿伴ハートナーズ株式会社";
+    return {
+      start: {
+        kicker: `QUEST / ${name}`,
+        title: "入社一年目。店の裏側で、『売れる前』の仕事が動いている。",
+        body: "仕入れ、企画、倉庫。お店に並ぶ前の一日が、ここにある。\n今日は、新しい定番づくりの打合せだ。",
+        choices: [
+          { label: "冬の小さな暖房の企画に入る", next: "heater" },
+          { label: "家庭の味シリーズの試作を見る", next: "sauce" }
+        ]
+      },
+      heater: {
+        kicker: "商品企画",
+        title: "『狭い場所でも安心』が、仕様の言葉になる。",
+        body: "省エネか、あたたかさか、置きやすさか。\n優先順位で、完成の形が変わる。",
+        choices: [
+          { label: "置きやすさを最優先にする", next: "test" },
+          { label: "あたたかさを最優先にする", next: "test" }
+        ]
+      },
+      sauce: {
+        kicker: "商品企画",
+        title: "プロの刺激と、家庭のやさしさ。味の真ん中を探す。",
+        body: "辛さの強さは数字だけじゃない。\n『もう一皿ほしい』がゴールだ、と先輩が言う。",
+        choices: [
+          { label: "刺激寄りで勝負する", next: "test" },
+          { label: "家庭向けにやわらげる", next: "test" }
+        ]
+      },
+      test: {
+        kicker: "現場",
+        title: "試作品が机に並び、意見が短い言葉で飛ぶ。",
+        body: "いい／惜しい／まだ早い。\n商品は、会議室より先に『口』と『手』で決まる。",
+        choices: [
+          { label: "企画側の仕事を深掘りする", next: "end-craft" },
+          { label: "店と倉庫のつながりも見る", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "『並ぶ前』をつくる仕事が、残った。",
+        body: "派手なCMより、毎日の使いやすさが勝負になる。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "企画と現場が、一本の線だと分かった。",
+        body: "倉庫の段ボールと、売場の棚は隣同士だ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function dotcomThemeQuest() {
+    const name = "株式会社綿伴ドアットコム";
+    return {
+      start: {
+        kicker: `QUEST / ${name}`,
+        title: "画面の向こうにも、店舗の熱がある。",
+        body: "注文、梱包、問い合わせ。数字の裏に人がいる。\n今日は、まとめ買いの店の周年イベント準備だ。",
+        choices: [
+          { label: "売場の装飾と動線を整える", next: "floor" },
+          { label: "季節キャンペーンの案を出す", next: "campaign" }
+        ]
+      },
+      floor: {
+        kicker: "店舗",
+        title: "カートがぶつからない道が、いちばんのおもてなし。",
+        body: "安いだけじゃない。取りやすさと見やすさが売上を支える。",
+        choices: [
+          { label: "入口の案内をわかりやすくする", next: "day" },
+          { label: "レジ前の待ち時間を減らす工夫をする", next: "day" }
+        ]
+      },
+      campaign: {
+        kicker: "企画",
+        title: "『お得』の言葉は、短いほど届く。",
+        body: "全品セールか、季節のまとめか。\n選び方で、来る人の顔が変わる。",
+        choices: [
+          { label: "誰でもわかりやすい全品訴求", next: "day" },
+          { label: "季節テーマで世界観をつくる", next: "day" }
+        ]
+      },
+      day: {
+        kicker: "当日",
+        title: "開店前の空気が、いちばん緊張する。",
+        body: "スタッフの声、カートの軋み、初めてのお客様の表情。\n画面の注文も、店頭の笑顔も、同じ一日だ。",
+        choices: [
+          { label: "店舗オペを深掘りする", next: "end-craft" },
+          { label: "オンライン側との連携を見る", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "『届ける』の現場感が、残った。",
+        body: "クリックの先にも、人の一日がある。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "ネットと店が、対立じゃなく往復だと分かった。",
+        body: "画面と売場は、別々の会社みたいに見えて一本だ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function shineThemeQuest() {
+    const name = "株式会社綿伴林業SHINE";
+    return {
+      start: {
+        kicker: `QUEST / ${name}`,
+        title: "家づくりの店を、後ろから支える一日。",
+        body: "モデルハウスの匂い、図面の線、加盟店からの相談電話。\n『建てる』の前に、『伝える』がある。",
+        choices: [
+          { label: "モデルハウスの案内を覚える", next: "model" },
+          { label: "加盟店サポートの打合せに入る", next: "fc" }
+        ]
+      },
+      model: {
+        kicker: "展示場",
+        title: "木のあたたかさは、言葉より先に手触りで伝わる。",
+        body: "お客様は価格表より、朝の光と廊下の音を見ている。",
+        choices: [
+          { label: "暮らしのシーンで説明する", next: "tour" },
+          { label: "構造の安心を先に説明する", next: "tour" }
+        ]
+      },
+      fc: {
+        kicker: "サポート",
+        title: "遠方の店の悩みが、画面越しに届く。",
+        body: "同じ看板でも、土地が違えば困りごとも違う。\n後ろ盾の仕事は、翻訳に近い。",
+        choices: [
+          { label: "現場の工夫を共有する", next: "tour" },
+          { label: "説明資料を一緒に整える", next: "tour" }
+        ]
+      },
+      tour: {
+        kicker: "一日の終わり",
+        title: "『ここに住みたい』が、短く残る。",
+        body: "家は商品であり、誰かのこれからでもある。\nその両方が机の上にある。",
+        choices: [
+          { label: "案内の腕を磨く", next: "end-craft" },
+          { label: "加盟店支援の仕事を深める", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "木の家を『体感で伝える』仕事が残った。",
+        body: "説明は、説得より体験に近い。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "一軒の家の向こうに、いくつもの店があると分かった。",
+        body: "支える側の仕事も、家づくりの一部だ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function tradingThemeQuest() {
+    const name = "綿伴トレジャーディング株式会社";
+    return {
+      start: {
+        kicker: `QUEST / ${name}`,
+        title: "まだ知らない『おいしい』を、机に乗せる仕事。",
+        body: "産地、品質、伝え方。新しい食材は、説明から始まる。\n今日は、珍しい野菜の試食会だ。",
+        choices: [
+          { label: "味の紹介コーナーを担当する", next: "taste" },
+          { label: "売り場向けの説明カードを作る", next: "card" }
+        ]
+      },
+      taste: {
+        kicker: "試食会",
+        title: "『食べたことない』が、笑顔に変わる瞬間がある。",
+        body: "最初は警戒、次に興味、最後に質問。\n新しい食は、会話の設計でもある。",
+        choices: [
+          { label: "レシピ例を一緒に渡す", next: "sell" },
+          { label: "産地の話を短く添える", next: "sell" }
+        ]
+      },
+      card: {
+        kicker: "伝材",
+        title: "難しい言葉を、棚の前の一文にする。",
+        body: "専門用語は誇りだけど、お客様の一歩目には重い。",
+        choices: [
+          { label: "やさしい言葉で書き直す", next: "sell" },
+          { label: "写真多めにして直感で伝える", next: "sell" }
+        ]
+      },
+      sell: {
+        kicker: "そのあと",
+        title: "知る・食べる・売るが、同じチームの一日になる。",
+        body: "新しいものは、押すほど売れない。\n理解が先、注文はあと。",
+        choices: [
+          { label: "食の新規を深掘りする", next: "end-craft" },
+          { label: "流通と店舗の連携を見る", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "『初めて』を届ける仕事が、残った。",
+        body: "好奇心は、仕入れのスキルになる。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "産地と売場のあいだに、自分の席があると分かった。",
+        body: "運ぶだけじゃない。意味も運ぶ。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function kenzaiThemeQuest() {
+    const name = "綿伴健材株式会社";
+    return {
+      start: {
+        kicker: `QUEST / ${name}`,
+        title: "家の骨組みを支える資材が、今日の主役。",
+        body: "木の名前、届け先、品質の基準。\n『安心』は、目に見えないところに積まれる。",
+        choices: [
+          { label: "地元の木を使った住宅資材を学ぶ", next: "local" },
+          { label: "現場への納品に同行する", next: "deliver" }
+        ]
+      },
+      local: {
+        kicker: "品質",
+        title: "基準を超える、はスローガンじゃなくチェック表だ。",
+        body: "見えない部分ほど、後から効いてくる。\nだから今日の確認が、十年後の暮らしになる。",
+        choices: [
+          { label: "安全の説明を練習する", next: "talk" },
+          { label: "快適さの説明を練習する", next: "talk" }
+        ]
+      },
+      deliver: {
+        kicker: "納品",
+        title: "現場の朝は、資材の到着から始まる。",
+        body: "遅れると作業が止まる。早すぎても置き場がない。\nタイミングも技術のうちだ。",
+        choices: [
+          { label: "現場監督の話を聞く", next: "talk" },
+          { label: "積み下ろしを手伝う", next: "talk" }
+        ]
+      },
+      talk: {
+        kicker: "一日の芯",
+        title: "資材の話が、家族の『ここがいい』につながる。",
+        body: "直接お客様に会わなくても、暮らしの土台をつくっている。",
+        choices: [
+          { label: "資材のプロを目指す", next: "end-craft" },
+          { label: "住宅会社との連携を深める", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "見えない部分を支える仕事が、残った。",
+        body: "派手さより、確かさが残る。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "資材と家づくりが、一つの現場だと分かった。",
+        body: "グループの住宅会社と、言葉が通じやすい。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function realestateThemeQuest() {
+    const name = "綿伴レアルエステート株式会社";
+    return {
+      start: {
+        kicker: `QUEST / ${name}`,
+        title: "『住みたい』の理由は、人の数だけある。",
+        body: "間取り、通学、日当たり、静けさ。\n物件は数字だけじゃ届かない。",
+        choices: [
+          { label: "住まい探しの案内に同行する", next: "guide" },
+          { label: "おうちの清潔サービス説明を聞く", next: "clean" }
+        ]
+      },
+      guide: {
+        kicker: "案内",
+        title: "鍵を開けた瞬間の表情が、いちばん正直。",
+        body: "良い点を並べるより、暮らしの想像を一緒に描く。",
+        choices: [
+          { label: "通勤のしやすさを重視して提案する", next: "choice" },
+          { label: "落ち着ける空間を重視して提案する", next: "choice" }
+        ]
+      },
+      clean: {
+        kicker: "サービス",
+        title: "きれい、は見た目だけじゃない。",
+        body: "家の空気や、触れる場所の安心。\n住まいの価値は、掃除の先にもある。",
+        choices: [
+          { label: "実演の流れを覚える", next: "choice" },
+          { label: "お客様の不安から聞き取る", next: "choice" }
+        ]
+      },
+      choice: {
+        kicker: "判断",
+        title: "急かすと決まるが、残らない。待つと遅いが、残る。",
+        body: "不動産の一日は、速度と信頼のバランスゲームだ。",
+        choices: [
+          { label: "案内の仕事を深掘りする", next: "end-craft" },
+          { label: "住まいに付くサービスも学ぶ", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "人のこれからに伴走する仕事が、残った。",
+        body: "物件より、『この人と決めたい』が残ることがある。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        kicker: "この人生の感触",
+        title: "探す仕事と、整える仕事がつながると分かった。",
+        body: "住む前も、住んだあとも、一日がある。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function resortThemeQuest() {
+    const name = "株式会社綿伴リゾート";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "山あいの宿。四季のあたたかさが、仕事の教材になる。",
+        body: "チェックイン、食事、お風呂、お見送り。\n一日の流れそのものが、おもてなしだ。",
+        choices: [
+          { label: "フロントの受け入れを覚える", next: "front" },
+          { label: "囲炉裏のある食事処を手伝う", next: "irori" }
+        ]
+      },
+      front: {
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: "フロント",
+        title: "旅の初めの表情は、ここで決まる。",
+        body: "地図の説明、部屋の案内、小さな要望。\n家族連れには、安心の言葉が先に立つ。",
+        choices: [
+          { label: "子連れのお客様を丁寧に案内する", next: "onsen" },
+          { label: "初めての一人旅のお客様を案内する", next: "onsen" }
+        ]
+      },
+      irori: {
+        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        kicker: "食事処",
+        title: "炭の香りが、会話をゆっくりにする。",
+        body: "地元の食材、焼き加減、席の温度。\n料理は味だけじゃなく、時間の演出でもある。",
+        choices: [
+          { label: "焼き場の手元を見て覚える", next: "onsen" },
+          { label: "配膳のタイミングを練習する", next: "onsen" }
+        ]
+      },
+      onsen: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "湯上がり",
+        title: "露天の風が、一日の疲れをほどく。",
+        body: "宿の仕事は、『休ませる』ための段取りだ。\n自分も動きながら、お客様の静けさを守る。",
+        choices: [
+          { label: "接客の仕事を深掘りする", next: "end-craft" },
+          { label: "料理・場づくり側も見てみる", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-house-interior.jpg",
+        kicker: "この人生の感触",
+        title: "人を休ませる仕事の手応えが、残った。",
+        body: "笑顔の裏に、見えない準備がある。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        kicker: "この人生の感触",
+        title: "宿は、食・湯・部屋の連携だと分かった。",
+        body: "一つの体験が、いくつもの係の連続でできている。",
+        reality: [
+          { label: "グループの他社も比べてみる", href: "#reality-work" },
+          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+        ]
+      }
+    };
+  }
+
+  function farmThemeQuest() {
+    const name = "綿伴ファームフル株式会社";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: `QUEST / ${name}`,
+        title: "谷あいの牧場。生き物の一日を、仕組みで支える。",
+        body: "温度、えさ、清潔さ。手作業だけじゃなく、見守りと自動化が並ぶ。\n今日は、スマートな飼育の現場見学だ。",
+        choices: [
+          { label: "モニター室で遠隔の見守りを学ぶ", next: "monitor" },
+          { label: "えさ作りのラインを見る", next: "feed" }
+        ]
+      },
+      monitor: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "見守り",
+        title: "画面の向こうで、小さな変化を拾う。",
+        body: "カメラはズームできる。体調のサインは、数字より先に『様子』で出ることもある。\n人が入らない時間を守ることも、健康のための仕事だ。",
+        choices: [
+          { label: "出荷の仕分けの仕組みを見る", next: "sort" },
+          { label: "快適さの自動調整を見る", next: "climate" }
+        ]
+      },
+      feed: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "えさ",
+        title: "地元の素材が、配合のレシピになる。",
+        body: "粉砕して混ぜて、今日の体調に合わせる。\n水は澄んだ湧き水。口に入るものから一日が始まる。",
+        choices: [
+          { label: "出荷の仕分けの仕組みを見る", next: "sort" },
+          { label: "快適さの自動調整を見る", next: "climate" }
+        ]
+      },
+      sort: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "仕分け",
+        title: "体重に応じて、次の場所へ案内する装置が動く。",
+        body: "力任せじゃなく、流れで判断する。\n出荷も、生き物のリズムに合わせた段取りだ。",
+        choices: [
+          { label: "清掃ロボットの動きも追う", next: "clean" }
+        ]
+      },
+      climate: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "環境",
+        title: "温度・湿度・空気。見えない快適を機械が整える。",
+        body: "小さな個体ほど寒さに弱い。\nあたたかい場所をつくることも、飼育の技術だ。",
+        choices: [
+          { label: "清掃ロボットの動きも追う", next: "clean" }
+        ]
+      },
+      clean: {
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "清潔",
+        title: "霧とロボットが、静かに床を整えていく。",
+        body: "きれいさは、においの前に仕組みで守る。\n人の手は、必要なときに必要な場所へ。",
+        choices: [
+          { label: "飼育の現場感を深掘りする", next: "end-craft" },
+          { label: "仕組みづくり側も見てみる", next: "end-link" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "この人生の感触",
+        title: "生き物の一日に合わせる仕事が、残った。",
+        body: "自動化しても、観察する目は残る。",
+        reality: [
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
+          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+        ]
+      },
+      "end-link": {
+        ending: true,
+        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        kicker: "この人生の感触",
+        title: "世話と仕組みが、同じ現場だと分かった。",
+        body: "ITも、えさも、清潔さも、命のまわりにある。",
         reality: [
           { label: "グループの他社も比べてみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
@@ -1021,18 +1549,11 @@
             scenes: houseLinkedQuest()
           },
           {
-            id: "co-kids",
-            label: "株式会社綿伴キッズスクエール",
-            tag: "教育",
-            blurb: "学びとあそびがとなり同士の場所",
-            scenes: companyQuest("株式会社綿伴キッズスクエール", "子どもの声が職場のBGMになる。成長が近い仕事だ。")
-          },
-          {
             id: "co-partners",
             label: "綿伴ハートナーズ株式会社",
-            tag: "仕入・物流",
-            blurb: "お店の裏側を、みんなで支える",
-            scenes: companyQuest("綿伴ハートナーズ株式会社", "倉庫と数字が一日の主役。店の裏側を動かす仕事だ。")
+            tag: "仕入・商品企画",
+            blurb: "お店に並ぶ前の、企画と裏側を支える",
+            scenes: partnersThemeQuest()
           },
           {
             id: "co-taiyo",
@@ -1051,30 +1572,30 @@
           {
             id: "co-dotcom",
             label: "株式会社綿伴ドアットコム",
-            tag: "通販",
-            blurb: "ほしいもの届ける、画面の向こうの店舗",
-            scenes: companyQuest("株式会社綿伴ドアットコム", "注文が入るたびに、倉庫と画面が同時に忙しくなる。")
+            tag: "通販・店舗",
+            blurb: "画面と店舗、両方で『届ける』を試す",
+            scenes: dotcomThemeQuest()
           },
           {
             id: "co-house-fc",
             label: "株式会社綿伴林業SHINE",
             tag: "住宅FC",
-            blurb: "家づくりのお店を、後ろから応援する",
-            scenes: companyQuest("株式会社綿伴林業SHINE", "加盟店の悩みと、家づくりの技術が同じ机に乗る。")
+            blurb: "モデルハウスと加盟店を、後ろから支える",
+            scenes: shineThemeQuest()
           },
           {
             id: "co-trading",
             label: "綿伴トレジャーディング株式会社",
-            tag: "原料・輸入",
-            blurb: "世界のよい素材を、ていねいに運ぶ",
-            scenes: companyQuest("綿伴トレジャーディング株式会社", "世界の原料が、規格と信頼で日本の現場へ届く。")
+            tag: "原料・食材",
+            blurb: "まだ知らないおいしさを、ていねいに届ける",
+            scenes: tradingThemeQuest()
           },
           {
             id: "co-kenzai",
             label: "綿伴健材株式会社",
             tag: "建材",
             blurb: "家の骨組みを、木と資材で支える",
-            scenes: companyQuest("綿伴健材株式会社", "資材の名前と、届ける先の顔がセットで覚えられていく。")
+            scenes: kenzaiThemeQuest()
           },
           {
             id: "co-woodpower",
@@ -1087,8 +1608,15 @@
             id: "co-realestate",
             label: "綿伴レアルエステート株式会社",
             tag: "不動産",
-            blurb: "「ここに住みたい」をいっしょに探す",
-            scenes: companyQuest("綿伴レアルエステート株式会社", "物件は数字だけじゃない。住む人の一日が乗っている。")
+            blurb: "住みたいを探し、暮らしの安心も添える",
+            scenes: realestateThemeQuest()
+          },
+          {
+            id: "co-resort",
+            label: "株式会社綿伴リゾート",
+            tag: "宿・観光",
+            blurb: "山あいの宿で、四季のあたたかさをおもてなし",
+            scenes: resortThemeQuest()
           },
           {
             id: "co-intec",
@@ -1100,9 +1628,9 @@
           {
             id: "co-farm",
             label: "綿伴ファームフル株式会社",
-            tag: "畜産",
-            blurb: "生き物の一日に合わせる仕事",
-            scenes: companyQuest("綿伴ファームフル株式会社", "生き物のリズムに合わせて、一日が始まる。")
+            tag: "畜産・スマート飼育",
+            blurb: "見守りと仕組みで、生き物の一日を支える",
+            scenes: farmThemeQuest()
           }
         ]
       },
@@ -1114,7 +1642,7 @@
         branchTitle: "どこの県で試す？",
         branchNote: "気になる地域を選んで、暮らしのQUESTへ",
         theme: "local",
-        img: "assets/char-campus.png",
+        img: "assets/char-local-woman.png",
         speaker: "地域の人",
         x: 72,
         y: 68,
@@ -1157,7 +1685,7 @@
         branchTitle: "どの大学を試す？",
         branchNote: "難関＝正解ではない。必要能力と、今の自分の距離を見て選ぼう",
         theme: "univ",
-        img: "assets/char-campus.png",
+        img: "assets/char-uni-senior-girl.png",
         speaker: "先輩学生",
         x: 28,
         y: 62,
