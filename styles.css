@@ -1018,6 +1018,72 @@ html.is-fullscreen .fs-btn {
   color: #16303a;
 }
 
+/* 確定キービジュアル全面タイトル */
+.title-stage-kv {
+  padding: 0;
+  color: #fff8f2;
+}
+
+.title-kv {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0b1a28;
+}
+
+.title-kv-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: none;
+}
+
+.title-kv-portrait {
+  display: block;
+  object-position: center 18%;
+}
+
+.title-frame-kv {
+  z-index: 10;
+  margin: 0;
+  padding: 18px 16px max(16px, env(safe-area-inset-bottom));
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(8, 18, 28, 0.28) 18%,
+    rgba(8, 18, 28, 0.72) 55%,
+    rgba(8, 18, 28, 0.9) 100%
+  );
+  border-radius: 0;
+  text-align: center;
+}
+
+.title-frame-kv .title-chip {
+  color: #ffe7c8;
+  border-color: rgba(255, 220, 180, 0.45);
+  background: rgba(10, 24, 36, 0.45);
+}
+
+.title-frame-kv .headline,
+.title-frame-kv .lede,
+.title-frame-kv .title-hint {
+  color: #fff8f2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.title-frame-kv .lede,
+.title-frame-kv .title-hint {
+  color: rgba(255, 248, 242, 0.9);
+}
+
+.headline-kv {
+  font-size: clamp(1.25rem, 5.2vw, 1.9rem);
+}
+
 .title-bg {
   position: absolute;
   inset: 0;
@@ -3134,7 +3200,7 @@ html.is-landscape .rotate-hint {
 
 @media (orientation: landscape) {
 
-  .title-stage {
+  .title-stage:not(.title-stage-kv) {
     display: grid;
     grid-template-columns: minmax(220px, 42%) minmax(280px, 1fr);
     align-items: center;
@@ -3142,6 +3208,33 @@ html.is-landscape .rotate-hint {
     place-items: unset;
     gap: 8px 24px;
     padding: 16px 5vw;
+  }
+
+  .title-stage-kv {
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: end stretch;
+    padding: 0;
+  }
+
+  .title-kv-portrait {
+    display: none;
+  }
+
+  .title-kv-wide {
+    display: block;
+    object-position: center 40%;
+  }
+
+  .title-frame-kv {
+    width: min(520px, 46vw);
+    justify-self: end;
+    margin: 0 4vw 3vh 0;
+    border-radius: 22px;
+    background: rgba(8, 18, 28, 0.72);
+    backdrop-filter: blur(8px);
+    text-align: left;
+    padding: 18px 20px;
   }
 
   .title-hero {
@@ -3156,7 +3249,7 @@ html.is-landscape .rotate-hint {
     z-index: 1;
   }
 
-  .title-frame {
+  .title-frame:not(.title-frame-kv) {
     position: relative;
     z-index: 2;
     text-align: left;
@@ -3171,6 +3264,10 @@ html.is-landscape .rotate-hint {
   .headline-line {
     display: inline;
     white-space: nowrap;
+  }
+
+  .headline-kv {
+    white-space: normal;
   }
 
   .map-stage {

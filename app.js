@@ -2451,6 +2451,9 @@
   }
 
   function initTitleBgPicker() {
+    // タイトルはキービジュアル確定。旧ピッカーが残っている場合のみ有効
+    const picker = document.getElementById("title-bg-picker");
+    if (!picker) return;
     const params = new URLSearchParams(window.location.search);
     const fromQuery = params.get("titlebg");
     let saved = "puni";
@@ -2458,9 +2461,6 @@
       saved = localStorage.getItem(TITLE_BG_KEY) || "puni";
     } catch (_) {}
     applyTitleBg(TITLE_BGS[fromQuery] ? fromQuery : saved);
-
-    const picker = document.getElementById("title-bg-picker");
-    if (!picker) return;
     picker.addEventListener("click", (ev) => {
       const btn = ev.target.closest("[data-title-bg]");
       if (!btn) return;
@@ -2469,6 +2469,9 @@
   }
 
   function initTitleLogoPicker() {
+    // タイトルはキービジュアル確定。旧ピッカーが残っている場合のみ有効
+    const picker = document.getElementById("title-logo-picker");
+    if (!picker) return;
     const params = new URLSearchParams(window.location.search);
     const fromQuery = params.get("titlelogo");
     let saved = "puni";
@@ -2476,9 +2479,6 @@
       saved = localStorage.getItem(TITLE_LOGO_KEY) || "puni";
     } catch (_) {}
     applyTitleLogo(Object.prototype.hasOwnProperty.call(TITLE_LOGOS, fromQuery) ? fromQuery : saved);
-
-    const picker = document.getElementById("title-logo-picker");
-    if (!picker) return;
     picker.addEventListener("click", (ev) => {
       const btn = ev.target.closest("[data-title-logo]");
       if (!btn) return;
