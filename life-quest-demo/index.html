@@ -1,0 +1,492 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="screen-orientation" content="landscape" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="LIFE QUEST" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#040b10" />
+  <meta name="description" content="社会に出る前に、人生を何度でも試せる。LIFE QUEST デモ。" />
+  <title>LIFE QUEST</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="icon" type="image/png" href="assets/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=99" />
+</head>
+<body>
+  <div id="rotate-hint" class="rotate-hint" hidden>
+    <div class="rotate-hint-card">
+      <p class="rotate-hint-icon" aria-hidden="true">⟳</p>
+      <p class="rotate-hint-title">スマホを横にしてください</p>
+      <p class="rotate-hint-text">LIFE QUEST は横画面のビジュアルノベルです。<br />会社の景色がきちんと見えるように、横向きで遊んでください。</p>
+      <p class="rotate-hint-skip">タップしてこのまま進む</p>
+    </div>
+  </div>
+
+  <button type="button" id="fs-btn" class="fs-btn" hidden>全画面</button>
+
+  <div id="install-tip" class="install-tip" hidden>
+    <div class="install-tip-card">
+      <p class="install-tip-chip">帯を消して広く遊ぶ</p>
+      <h2 class="install-tip-title">ホーム画面に追加してください</h2>
+      <p class="install-tip-text">
+        iPhoneでは自動では出ません。<br />
+        <strong>Safari</strong>で開いたあと、<br />
+        下の <strong>共有ボタン（□↑）</strong> → <strong>ホーム画面に追加</strong>
+      </p>
+      <p class="install-tip-text small">追加したアイコンから開くと、上下の帯が消えて安定します。</p>
+      <button type="button" id="install-tip-ok" class="btn-start gate-btn">
+        <span class="btn-start-label">わかった</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="gate" class="gate" hidden>
+    <div class="gate-card">
+      <p class="gate-chip">LIFE QUEST / 限定デモ</p>
+      <h1 class="gate-title">合言葉を入力</h1>
+      <p class="gate-note">グループ内向けのデモです</p>
+      <form id="gate-form" class="gate-form" autocomplete="off">
+        <label class="gate-label" for="gate-input">合言葉</label>
+        <input id="gate-input" class="gate-input" type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="ここに入力" />
+        <p id="gate-error" class="gate-error" hidden>合言葉が違います</p>
+        <button type="submit" class="btn-start gate-btn">
+          <span class="btn-start-label">入る</span>
+        </button>
+      </form>
+      <p class="gate-install-hint">帯が気になるとき：Safariの共有 → ホーム画面に追加</p>
+    </div>
+  </div>
+
+  <main id="app" class="app" hidden>
+    <!-- TITLE (確定キービジュアル) -->
+    <section id="screen-start" class="screen is-active" data-screen="start">
+      <div class="title-stage title-stage-kv">
+        <p class="title-demo-badge">DEMO</p>
+        <div class="title-kv" aria-hidden="true">
+          <img
+            class="title-kv-img title-kv-wide"
+            src="assets/title/keyvisual/kv-wide-a.jpg"
+            width="1983"
+            height="793"
+            alt=""
+            decoding="async"
+          />
+        </div>
+        <div class="title-frame title-frame-kv title-frame-dock">
+          <p class="lede title-dock-lede">社会に出る前に、人生を何度でも試せるゲーム</p>
+          <button type="button" class="btn-start btn-start-kv" id="btn-start" data-action="to-saves" aria-label="スタート">
+            <span class="btn-start-glow" aria-hidden="true"></span>
+            <span class="btn-start-label">▶ START</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAVE SLOTS -->
+    <section id="screen-saves" class="screen" data-screen="saves" hidden>
+      <div class="meta-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-start">◀ TITLE</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">SAVE DATA</p>
+          </div>
+          <span class="hud-chip">SLOT</span>
+        </header>
+        <div class="meta-panel">
+          <p class="meta-chip">セーブデータ</p>
+          <h2 class="meta-title">どのデータで進む？</h2>
+          <p class="meta-note">この端末のブラウザに保存されます。別のスマホには引き継がれません。</p>
+          <div id="save-slot-list" class="save-slot-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="screen-profile" class="screen" data-screen="profile" hidden>
+      <div class="meta-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-saves">◀ SAVE</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">PROFILE</p>
+          </div>
+          <span class="hud-chip">START</span>
+        </header>
+        <div class="meta-panel">
+          <p class="meta-chip">自分の設定</p>
+          <h2 class="meta-title">どの年齢から始める？</h2>
+          <p class="meta-note">スタート年齢で、部屋の雰囲気と「外に出たとき」の選択肢が変わります。大人の転職検討からも遊べます。</p>
+          <form id="profile-form" class="profile-form" autocomplete="off">
+            <label class="gate-label" for="profile-name">名前</label>
+            <input id="profile-name" class="gate-input profile-name-input" type="text" maxlength="12" placeholder="例：ナツ" />
+            <p class="gate-label">スタート年齢</p>
+            <div class="stage-grid" role="radiogroup" aria-label="スタート年齢">
+              <label class="trait-card">
+                <input type="radio" name="stage" value="junior" checked />
+                <span class="trait-card-body">
+                  <strong>高校受験前</strong>
+                  <small>15歳〜 ・ 高校の選択</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="senior" />
+                <span class="trait-card-body">
+                  <strong>大学受験前</strong>
+                  <small>18歳〜 ・ 大学/専門/企業/移住</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="grad" />
+                <span class="trait-card-body">
+                  <strong>大学卒業前後</strong>
+                  <small>22歳〜 ・ 企業/起業/移住</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="adult" />
+                <span class="trait-card-body">
+                  <strong>就職後</strong>
+                  <small>28歳〜 ・ 企業/起業/移住</small>
+                </span>
+              </label>
+            </div>
+            <p class="gate-label">性別</p>
+            <div class="gender-grid" role="radiogroup" aria-label="性別">
+              <label class="trait-card">
+                <input type="radio" name="gender" value="boy" />
+                <span class="trait-card-body">
+                  <strong>男性</strong>
+                  <small>主人公を男性で</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="gender" value="girl" checked />
+                <span class="trait-card-body">
+                  <strong>女性</strong>
+                  <small>主人公を女性で</small>
+                </span>
+              </label>
+            </div>
+            <p class="gate-label">いまの自分に近いのは？</p>
+            <div class="trait-grid" role="radiogroup" aria-label="得意な傾向">
+              <label class="trait-card">
+                <input type="radio" name="trait" value="study" checked />
+                <span class="trait-card-body">
+                  <strong>勉強が好き</strong>
+                  <small>知力が伸びやすい</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="trait" value="craft" />
+                <span class="trait-card-body">
+                  <strong>手を動かすのが好き</strong>
+                  <small>技術が伸びやすい</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="trait" value="social" />
+                <span class="trait-card-body">
+                  <strong>人と話すのが好き</strong>
+                  <small>社交性が伸びやすい</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="trait" value="brave" />
+                <span class="trait-card-body">
+                  <strong>新しいことに飛び込む</strong>
+                  <small>勇気が伸びやすい</small>
+                </span>
+              </label>
+            </div>
+            <p id="profile-error" class="gate-error" hidden>名前を入力してください</p>
+            <button type="button" id="profile-submit" class="btn-start gate-btn">
+              <span class="btn-start-label">この自分で始める</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOME HUB (自分の部屋) -->
+    <section id="screen-hub" class="screen" data-screen="hub" hidden>
+      <div class="hub-stage">
+        <div id="hub-room-bg" class="hub-room-bg" aria-hidden="true"></div>
+        <div class="hub-room-shade" aria-hidden="true"></div>
+        <header class="map-hud hub-hud">
+          <button type="button" class="hud-btn" data-action="to-start">TITLE</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">MY ROOM</p>
+          </div>
+          <button type="button" class="hud-btn" data-action="to-saves">SAVE</button>
+        </header>
+        <div class="hub-layout">
+          <aside class="hub-status">
+            <div class="hub-avatar-wrap">
+              <img id="hub-avatar" class="hub-avatar" src="assets/char-teen-girl.png" alt="" />
+            </div>
+            <p id="hub-name" class="hub-name">—</p>
+            <p id="hub-age" class="hub-age">15歳</p>
+            <p id="hub-room-label" class="hub-room-label">自分の部屋</p>
+            <p id="hub-room-hint" class="hub-room-hint">まだ始まったばかり</p>
+            <div id="hub-stats" class="hub-stats"></div>
+          </aside>
+          <div class="hub-actions">
+            <div id="hub-action-overlay" class="hub-action-overlay" hidden>
+              <div class="hub-action-card">
+                <img id="hub-action-img" class="hub-action-img" src="" alt="" />
+                <div class="hub-action-copy">
+                  <p id="hub-action-kicker" class="hub-action-kicker">ACTION</p>
+                  <h3 id="hub-action-title" class="hub-action-title"></h3>
+                  <p id="hub-action-text" class="hub-action-text"></p>
+                  <div id="hub-action-choices" class="hub-action-choices" hidden></div>
+                  <button type="button" id="hub-action-ok" class="btn-start hub-action-ok" hidden>
+                    <span class="btn-start-label">部屋に戻る</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p class="hub-actions-label">今日の行動</p>
+            <div class="hub-action-grid">
+              <button type="button" class="hub-action" data-hub-action="study">勉強する<span>知力↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="craft">手を動かす<span>技術↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="talk">人と話す<span>社交↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="play">遊びに行く<span>社交↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="brave">挑戦する<span>勇気↑</span></button>
+              <button type="button" class="hub-action" data-hub-action="rest">休む<span>体力↑</span></button>
+            </div>
+            <p id="hub-toast" class="hub-toast" hidden></p>
+            <button type="button" class="btn-start hub-map-btn" data-action="to-outside">
+              <span class="btn-start-label">外に出る</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="hub-visitor-overlay" class="hub-visitor-overlay" hidden>
+          <div class="hub-visitor-stage">
+            <img id="hub-visitor-img" class="hub-visitor-img" src="" alt="" />
+            <div class="hub-visitor-balloon">
+              <p id="hub-visitor-name" class="hub-visitor-name"></p>
+              <p id="hub-visitor-text" class="hub-visitor-text"></p>
+              <div id="hub-visitor-choices" class="hub-visitor-choices" hidden></div>
+              <button type="button" id="hub-visitor-ok" class="btn-start hub-visitor-ok" hidden>
+                <span class="btn-start-label">わかった</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTSIDE (age-gated destinations) -->
+    <section id="screen-outside" class="screen" data-screen="outside" data-hub-escape hidden>
+      <div class="branch-stage outside-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-hub">◀ 部屋に戻る</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">OUTSIDE</p>
+          </div>
+          <span class="hud-chip" id="outside-chip">GO</span>
+        </header>
+        <div class="branch-hero">
+          <img id="outside-portrait" class="branch-portrait" src="assets/char-guide.png" alt="" />
+          <div>
+            <p class="branch-kicker" id="outside-kicker">今日の外</p>
+            <h2 class="branch-title" id="outside-title">どこへ行く？</h2>
+            <p class="branch-note" id="outside-note">スタート年齢に応じた選択肢です</p>
+          </div>
+        </div>
+        <div id="outside-list" class="branch-list"></div>
+      </div>
+    </section>
+
+    <!-- LIFE MAP + PUNICON (legacy / unused entry) -->
+    <section id="screen-map" class="screen" data-screen="map" data-hub-escape hidden>
+      <div class="map-stage">
+        <header class="map-hud">
+          <div>
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">LIFE MAP</p>
+          </div>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋に戻る</button>
+        </header>
+
+        <p class="map-guide" id="map-guide">ぷにコンで歩いて、建物に近づこう</p>
+
+        <div class="map-viewport" id="map-viewport">
+          <div class="map-world" id="map-world">
+            <div class="map-atmos" aria-hidden="true">
+              <div class="map-orb map-orb-a"></div>
+              <div class="map-orb map-orb-b"></div>
+              <div class="map-softlight"></div>
+            </div>
+            <div id="place-layer"></div>
+            <div id="player" class="map-player" aria-label="あなた">
+              <img class="map-player-img" src="assets/char-guide.png" alt="" />
+              <span class="map-player-name">YOU</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="enter-prompt" class="enter-prompt" hidden>
+          <div class="enter-card">
+            <img id="enter-portrait" class="enter-portrait" src="assets/char-guide.png" alt="" />
+            <div class="enter-copy">
+              <p class="enter-kicker">分岐点に到着</p>
+              <p id="enter-title" class="enter-title"></p>
+              <p id="enter-hint" class="enter-hint"></p>
+              <button type="button" id="enter-btn" class="btn-start enter-btn">
+                <span class="btn-start-label">進路を選ぶ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="joystick-wrap" id="joystick-wrap">
+          <div class="joystick" id="joystick" aria-label="ぷにコン">
+            <div class="joystick-base">
+              <div class="joystick-knob" id="joystick-knob"></div>
+            </div>
+          </div>
+          <p class="joystick-caption">ぷにコン</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY BRANCH (会社 / 県など) -->
+    <section id="screen-branch" class="screen" data-screen="branch" data-hub-escape hidden>
+      <div class="branch-stage">
+        <header class="map-hud">
+          <button type="button" class="hud-btn" data-action="to-outside">◀ 外</button>
+          <div class="hud-center">
+            <p class="brand-mini">LIFE QUEST</p>
+            <p class="hud-sub">BRANCH</p>
+            <span class="hud-chip hud-chip-inline" id="branch-chip">SELECT</span>
+          </div>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋に戻る</button>
+        </header>
+
+        <div class="branch-hero">
+          <img id="branch-portrait" class="branch-portrait" src="assets/char-guide.png" alt="" />
+          <div>
+            <p class="branch-kicker" id="branch-kicker">次の分岐</p>
+            <h2 class="branch-title" id="branch-title">どれを試す？</h2>
+            <p class="branch-note" id="branch-note"></p>
+          </div>
+        </div>
+
+        <div id="branch-list" class="branch-list"></div>
+      </div>
+    </section>
+
+    <!-- PLAY (VN stage) -->
+    <section id="screen-play" class="screen" data-screen="play" hidden>
+      <div id="stage" class="vn-stage theme-bigco">
+        <div id="stage-bg" class="vn-bg" aria-hidden="true">
+          <div class="bg-sky"></div>
+          <div class="bg-far"></div>
+          <div class="bg-mid"></div>
+          <div class="bg-near"></div>
+          <div class="bg-glow"></div>
+          <div id="stage-bg-photo" class="bg-photo" hidden></div>
+        </div>
+        <div class="vn-grade" aria-hidden="true"></div>
+        <div class="vn-fx" aria-hidden="true"></div>
+        <div class="vn-grain" aria-hidden="true"></div>
+
+        <div id="life-event-overlay" class="life-event-overlay" hidden>
+          <div class="life-event-flash" aria-hidden="true"></div>
+          <div class="life-event-card">
+            <p id="life-event-label" class="life-event-label">LIFE EVENT</p>
+            <span id="life-event-icon" class="life-event-icon" aria-hidden="true">!</span>
+            <h2 id="life-event-title" class="life-event-title"></h2>
+            <p id="life-event-text" class="life-event-text"></p>
+            <button type="button" id="life-event-btn" class="life-event-btn">
+              イベントを見る
+            </button>
+          </div>
+        </div>
+
+        <header class="hud">
+          <button type="button" class="hud-btn" data-action="to-back">◀ 戻る</button>
+          <div class="hud-center">
+            <p id="path-label" class="hud-quest">QUEST</p>
+            <p id="scene-kicker" class="hud-chip hud-chip-inline">SCENE</p>
+            <div class="hud-dots" aria-hidden="true">
+              <span id="dot-0" class="dot is-on"></span>
+              <span id="dot-1" class="dot"></span>
+              <span id="dot-2" class="dot"></span>
+            </div>
+          </div>
+          <button type="button" class="hud-btn" data-action="to-hub">部屋に戻る</button>
+        </header>
+
+        <div class="actor-layer">
+          <div id="actor" class="actor actor-photo">
+            <div class="actor-shadow"></div>
+            <img id="actor-img" class="actor-img" src="assets/char-guide.png" alt="案内役" />
+            <p id="actor-tag" class="actor-tag">案内役</p>
+          </div>
+        </div>
+
+        <div class="vn-bottom">
+          <div id="choice-list" class="choice-panel" hidden></div>
+
+          <button type="button" id="dialogue-box" class="dialogue-box" aria-live="polite">
+            <div class="dialogue-top">
+              <span id="nameplate" class="nameplate">SYSTEM</span>
+              <span class="dialogue-deco">LIFE QUEST</span>
+            </div>
+            <p id="dialogue-text" class="dialogue-text"></p>
+            <span id="dialogue-cursor" class="dialogue-cursor">▼</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen" data-screen="result" hidden>
+      <div id="result-stage" class="result-stage">
+        <div class="result-bg" aria-hidden="true"></div>
+        <div id="result-burst" class="result-burst" aria-hidden="true"></div>
+        <div class="result-panel">
+          <div class="clear-hero" aria-live="polite">
+            <p class="clear-stamp">QUEST CLEAR</p>
+            <p class="clear-sub">体験完了</p>
+            <p id="result-path" class="clear-path"></p>
+          </div>
+          <p id="result-kicker" class="result-kicker"></p>
+          <h2 id="result-title" class="result-title"></h2>
+          <p id="result-body" class="result-body"></p>
+
+          <div class="reality-block">
+            <p class="reality-label">▶ 次は、現実へ</p>
+            <p class="reality-copy">ゲームで終わらせない。もっと知りたくなったら、本物の体験へ。</p>
+            <div id="reality-actions" class="reality-actions"></div>
+          </div>
+
+          <div class="result-footer">
+            <button type="button" class="btn-start" data-action="to-back">
+              <span class="btn-start-label">一覧に戻る（地点を残す）</span>
+            </button>
+            <button type="button" class="hud-btn wide" data-action="to-hub">部屋に戻る</button>
+            <button type="button" class="hud-btn wide" data-action="to-start">TITLE にもどる</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="content.js?v=99"></script>
+  <script src="app.js?v=99"></script>
+</body>
+</html>
