@@ -57,8 +57,8 @@ button {
   overflow: hidden;
 }
 
-/* PCブラウザ：全画面にせず、16:9のゲーム枠に収める */
-@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+/* 横画面は PC / iPhone とも 16:9 のゲーム枠に揃える（比率差でレイアウトが崩れないように） */
+@media (orientation: landscape) {
   html:not(.is-standalone):not(.is-fullscreen) body {
     min-height: 100dvh;
     display: grid;
@@ -72,13 +72,23 @@ button {
   html:not(.is-standalone):not(.is-fullscreen) .gate {
     position: relative;
     inset: auto;
+    width: min(100vw, calc(100dvh * 16 / 9), 1080px);
+    height: min(100dvh, calc(100vw * 9 / 16), 92dvh);
+    max-width: 1080px;
+    margin: 0;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+  }
+}
+
+/* PCだけ枠の見た目を少し整える */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (orientation: landscape) {
+  html:not(.is-standalone):not(.is-fullscreen) .app,
+  html:not(.is-standalone):not(.is-fullscreen) .gate {
     width: min(96vw, 1080px);
     height: min(92dvh, calc(min(96vw, 1080px) * 9 / 16));
-    max-width: 1080px;
-    max-height: 92dvh;
-    margin: 0;
     border-radius: 14px;
-    overflow: hidden;
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.08),
       0 28px 70px rgba(0, 0, 0, 0.55);
@@ -1082,7 +1092,9 @@ html.is-fullscreen .fs-btn {
   max-width: 100%;
   height: auto;
   aspect-ratio: 1983 / 793;
-  max-height: min(62vh, 100%);
+  /* iOSで flex 親の height:100% が潰れて画像が消えるのを避ける */
+  max-height: 52vh;
+  min-height: 120px;
   object-fit: contain;
   object-position: bottom center;
   flex-shrink: 0;
@@ -1955,9 +1967,9 @@ html.is-fullscreen .fs-btn {
   filter:
     drop-shadow(0 14px 18px rgba(0,0,0,0.28))
     drop-shadow(-8px 0 16px var(--rim));
-  /* soften photo plate into the scene */
-  -webkit-mask-image: radial-gradient(120% 90% at 50% 40%, #000 55%, transparent 78%);
-  mask-image: radial-gradient(120% 90% at 50% 40%, #000 55%, transparent 78%);
+  /* iOS で mask が真っ黒になることがあるため、下端フェードのみ */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 78%, transparent 100%);
 }
 
 .actor-tag {
@@ -3500,7 +3512,8 @@ html.is-landscape .rotate-hint {
     height: auto;
     max-width: 100%;
     aspect-ratio: 1983 / 793;
-    max-height: min(62vh, 100%);
+    max-height: 52vh;
+    min-height: 120px;
     object-fit: contain;
     object-position: bottom center;
     flex-shrink: 0;
