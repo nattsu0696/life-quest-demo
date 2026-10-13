@@ -1070,12 +1070,21 @@ html.is-fullscreen .fs-btn {
   background: rgba(255, 255, 255, 0.72);
 }
 
-.brand-kv {
-  margin: 10px 0 8px;
-  font-size: clamp(1.55rem, 7vw, 2.15rem);
-  color: #12343c;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
-  letter-spacing: 0.12em;
+.title-logo-wrap {
+  display: grid;
+  place-items: center;
+  margin: 8px 0 10px;
+}
+
+.title-logo-mark {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 96px;
+  height: auto;
+  object-fit: contain;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 4px 10px rgba(40, 70, 80, 0.18));
+  pointer-events: none;
 }
 
 .title-frame-kv .headline,
@@ -3230,37 +3239,66 @@ html.is-landscape .rotate-hint {
     padding: 16px 5vw;
   }
 
+  /* 横画面：縦KVを左、UIパネルを右（かぶせない） */
   .title-stage-kv {
     display: grid;
-    grid-template-columns: 1fr;
-    place-items: end stretch;
-    padding: 0;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.9fr);
+    align-items: stretch;
+    justify-items: stretch;
+    place-items: unset;
+    gap: 0 18px;
+    padding: 16px 3.5vw;
+    background:
+      radial-gradient(80% 60% at 20% 20%, rgba(255, 210, 180, 0.35), transparent 55%),
+      linear-gradient(180deg, #eef8f6 0%, #fff6ea 100%);
+  }
+
+  .title-stage-kv .title-kv {
+    position: relative;
+    inset: auto;
+    height: 100%;
+    min-height: 0;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(40, 70, 80, 0.14);
   }
 
   .title-kv-portrait {
-    display: none;
+    display: block !important;
+    object-fit: cover;
+    object-position: center 12%;
   }
 
   .title-kv-wide {
-    display: block;
-    object-position: left center;
+    display: none !important;
   }
 
   .title-frame-kv {
-    width: min(440px, 42vw);
-    justify-self: end;
-    align-self: end;
-    margin: 0 3.5vw 4vh 0;
+    position: relative;
+    width: auto;
+    max-width: none;
+    justify-self: stretch;
+    align-self: center;
+    margin: 8px 0;
     border-radius: 22px;
     background: linear-gradient(
       180deg,
-      rgba(255, 250, 244, 0.78) 0%,
-      rgba(255, 246, 236, 0.95) 100%
+      rgba(255, 250, 244, 0.9) 0%,
+      rgba(255, 246, 236, 0.98) 100%
     );
     backdrop-filter: blur(12px);
     text-align: left;
-    padding: 18px 22px 20px;
-    box-shadow: 0 12px 32px rgba(40, 80, 90, 0.16);
+    padding: 20px 22px 22px;
+    box-shadow: 0 12px 32px rgba(40, 80, 90, 0.14);
+  }
+
+  .title-frame-kv .title-logo-wrap {
+    place-items: start;
+  }
+
+  .title-frame-kv .title-logo-mark {
+    width: min(100%, 340px);
+    max-height: 78px;
   }
 
   .title-frame-kv .btn-start-kv {
