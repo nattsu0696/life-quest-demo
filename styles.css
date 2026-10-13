@@ -1018,74 +1018,67 @@ html.is-fullscreen .fs-btn {
   color: #16303a;
 }
 
-/* タイトル：KVを画面いっぱいにcover。下帯は絵に合わせた明るいガラス */
+/* タイトル：lifequest.png を3:1のまま上に置き、下の空きにUI（ロゴ非被り） */
 .title-stage-kv {
-  padding: 0;
+  padding: 0 0 max(10px, env(safe-area-inset-bottom));
   color: #16303a;
-  display: grid;
-  place-items: end center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   background: #ffffff;
 }
 
 .title-kv {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 0;
-  overflow: hidden;
+  width: 100%;
+  flex: 1 1 auto;
   min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
   background: #ffffff;
 }
 
 .title-kv-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 32%;
-  display: none;
-}
-
-.title-kv-portrait {
   display: none;
 }
 
 .title-kv-wide {
   display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: top center;
 }
 
 .title-kv::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 62%,
-    rgba(255, 250, 245, 0.35) 82%,
-    rgba(255, 246, 238, 0.72) 100%
-  );
-  pointer-events: none;
+  display: none;
 }
 
 .title-frame-kv,
 .title-frame-dock {
   position: relative;
   z-index: 10;
+  flex: 0 0 auto;
   width: min(520px, calc(100% - 24px));
-  margin: 0 12px max(12px, env(safe-area-inset-bottom));
+  margin: 8px 12px 0;
   padding: 12px 16px 14px;
   background: linear-gradient(
     180deg,
-    rgba(255, 252, 248, 0.78) 0%,
-    rgba(255, 246, 236, 0.92) 100%
+    rgba(255, 252, 248, 0.92) 0%,
+    rgba(255, 246, 236, 0.98) 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(230, 220, 210, 0.9);
   border-radius: 18px;
-  box-shadow: 0 10px 28px rgba(40, 80, 100, 0.14);
+  box-shadow: 0 10px 28px rgba(40, 80, 100, 0.12);
   text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #16303a;
 }
 
@@ -3328,21 +3321,22 @@ html.is-landscape .rotate-hint {
     padding: 16px 5vw;
   }
 
-  /* 横画面：KVをcoverで全面。下は明るいガラスカード（ロゴ直上を避ける） */
+  /* 横画面：3:1バナーを上に、下の余白にドック（coverしない） */
   .title-stage-kv {
-    display: grid;
-    grid-template-columns: 1fr;
-    place-items: end center;
-    align-content: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     gap: 0;
-    padding: 0 0 max(14px, 2vh);
+    padding: 0 0 max(12px, 2vh);
     background: #ffffff;
   }
 
   .title-stage-kv .title-kv {
-    position: absolute;
-    inset: 0;
-    height: auto;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    flex: 1 1 auto;
     min-height: 0;
     border-radius: 0;
     overflow: hidden;
@@ -3351,47 +3345,39 @@ html.is-landscape .rotate-hint {
   }
 
   .title-stage-kv .title-kv::after {
-    display: block;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      transparent 58%,
-      rgba(255, 250, 245, 0.28) 78%,
-      rgba(255, 246, 238, 0.7) 100%
-    );
-  }
-
-  .title-kv-portrait {
-    display: none !important;
+    display: none;
   }
 
   .title-kv-wide {
     display: block !important;
-    object-fit: cover;
-    object-position: center 30%;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: top center;
   }
 
   .title-frame-kv,
   .title-frame-dock {
     position: relative;
     z-index: 10;
+    flex: 0 0 auto;
     width: min(480px, 46vw);
     max-width: none;
-    justify-self: center;
-    align-self: end;
-    margin: 0;
+    margin: 6px 0 0;
     border-radius: 18px;
     background: linear-gradient(
       180deg,
-      rgba(255, 252, 248, 0.8) 0%,
-      rgba(255, 246, 236, 0.94) 100%
+      rgba(255, 252, 248, 0.92) 0%,
+      rgba(255, 246, 236, 0.98) 100%
     );
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     text-align: center;
     padding: 12px 18px 14px;
-    box-shadow: 0 12px 28px rgba(40, 80, 100, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 28px rgba(40, 80, 100, 0.12);
+    border: 1px solid rgba(230, 220, 210, 0.9);
     color: #16303a;
   }
 
