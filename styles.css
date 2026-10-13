@@ -2417,6 +2417,42 @@ html.is-fullscreen .fs-btn {
   100% { opacity: 0.35; transform: scale(1.15); }
 }
 
+.vn-stage.is-shop-site .actor-layer,
+.vn-stage.is-shop-site .actor {
+  display: none !important;
+}
+
+.vn-stage.is-shop-site.has-photo-bg .bg-photo {
+  opacity: 1;
+  filter: none;
+}
+
+.vn-stage.is-shop-site .vn-grade {
+  background: linear-gradient(180deg, rgba(4, 11, 16, 0.15) 0%, rgba(4, 11, 16, 0.55) 55%, rgba(4, 11, 16, 0.88) 100%);
+}
+
+.vn-stage.is-shop-site .dialogue-box {
+  background: rgba(7, 21, 28, 0.9);
+}
+
+.result-stage.is-shop-pattern .clear-stamp {
+  color: #f0b35a;
+}
+
+.result-stage.is-shop-pattern .reality-block {
+  border-color: rgba(240, 179, 90, 0.35);
+  background: rgba(240, 179, 90, 0.08);
+}
+
+.result-stage.is-shop-pattern .reality-label {
+  color: #f0b35a;
+}
+
+.result-stage.is-shop-pattern .result-bg {
+  opacity: 0.35;
+  filter: saturate(0.9);
+}
+
 .reality-block {
   margin-bottom: 18px;
   padding: 14px;

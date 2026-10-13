@@ -67,7 +67,7 @@
       "ordinary-days": {
         bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         speaker: "先輩・桐谷",
-        img: "assets/char-manager.png",
+        img: "assets/char-homeaid-apron-man.png",
         kicker: "いつもの一日",
         title: "特別なことは起きない。でも、毎日が少しずつ上手くなる。",
         body: "朝の陳列、お客様対応、夕方の棚直し。\n慣れてきた頃、店長が声をかけてきた。",
@@ -78,7 +78,7 @@
       "season-fest": {
         bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
         speaker: "先輩・桐谷",
-        img: "assets/char-manager.png",
+        img: "assets/char-homeaid-apron-man.png",
         kicker: "季節の店頭",
         title: "炭の香りが店先に立つ日がある。チーム全員で場をつくる。",
         body: "予約の電話、焼き場の順番、包み方の確認。\n『去年よりうまく』は、気合より段取りで決まる。",
@@ -95,7 +95,7 @@
           text: "美原商店と、新しいお茶売場をつくるプロジェクトが始まる。"
         },
         speaker: "先輩・桐谷",
-        img: "assets/char-manager.png",
+        img: "assets/char-homeaid-apron-man.png",
         kicker: "仕事イベント",
         title: "「君も、この企画に入ってみない？」",
         body: "経験は足りない。でも、お客様に近い視点を期待されている。\n美原商店から来る担当者と、三か月かけて売場をつくる。",
@@ -117,8 +117,8 @@
       },
       "supply-run": {
         bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
-        speaker: "陽菜",
-        img: "assets/char-campus.png",
+        speaker: "売場スタッフ・葵",
+        img: "assets/char-homeaid-woman.png",
         kicker: "同じ日の午後",
         title: "売場の備品も、ホームメイドで揃えることになった。",
         body: "棚札、試飲カップ、案内ボード。\n「会社の備品って、意外とここにあるんだね」と陽菜が笑う。\nグループの店同士だと、必要なものがすぐ隣にある。",
@@ -193,11 +193,11 @@
         ]
       },
       "date-sweets": {
-        bg: "assets/backgrounds/bg-jonamashi.jpg",
+        bg: "assets/backgrounds/bg-mihara-grape-mochi.jpg",
         speaker: "陽菜",
         img: "assets/char-campus.png",
-        kicker: "上生菓子とお茶",
-        title: "季節の上生菓子が、白い皿の上で小さく季節を見せる。",
+        kicker: "お菓子とお茶",
+        title: "季節の菓子が、白い皿の上で小さく季節を見せる。",
         body: "「これ、私が好きなやつ」\n仕事で扱っている商品が、今日はただの『好き』になる。",
         choices: [
           { label: "また来よう、と伝える", next: "one-year-later" }
@@ -205,7 +205,7 @@
       },
       "one-year-later": {
         speaker: "店長・桐谷",
-        img: "assets/char-manager.png",
+        img: "assets/char-homeaid-apron-man.png",
         kicker: "約一年後",
         title: "仕事も、人間関係も、以前より少し大人になっている。",
         body: "共同企画は形になり、店長からは次の役割の話も出た。\n陽菜とは、まだ同じ場所で働きながら、未来の話を続けている。",
@@ -711,42 +711,114 @@
         title: "小さな練り切りが、今日の季節を一言で言う。",
         body: "ホームメイドへ卸す茶葉の横で、店頭の菓子も同じ朝に動いている。\n『グループ連携』は、会議室より先に香りの現場にある。",
         choices: [
-          { label: "季節のフルーツ菓子を見る", next: "seasonal" },
-          { label: "味の現場を深掘りする", next: "end-craft" }
+          { label: "ぶどうの生菓子を見る", next: "seasonal" },
+          { label: "ホール菓子の棚も見る", next: "cheesecake" }
         ]
       },
       seasonal: {
-        bg: "assets/backgrounds/bg-jonamashi.jpg",
+        bg: "assets/backgrounds/bg-mihara-grape-mochi.jpg",
         speaker: "先輩・陽菜",
         img: "assets/char-campus.png",
         kicker: "季節限定",
-        title: "旬の実を包んだ菓子と、焼きたての甘い香り。",
-        body: "果物の生菓子、りんごを入れたまんじゅう。\nお茶との合わせ方まで考えると、売場が物語になる。",
+        title: "旬の実を包んだ菓子が、皿の上で季節を見せる。",
+        body: "中の色も、香りも、今日の提案の材料になる。\nお茶との合わせ方まで考えると、売場が物語になる。",
         choices: [
+          { label: "この商品を実際に買ってみる", next: "shop-site" },
+          { label: "季節のホールケーキも見る", next: "xmas-cake" },
+          { label: "味の現場を深掘りする", next: "end-craft" }
+        ]
+      },
+      cheesecake: {
+        bg: "assets/backgrounds/bg-mihara-cheesecake.jpg",
+        speaker: "先輩・陽菜",
+        img: "assets/char-campus.png",
+        kicker: "菓子",
+        title: "見た目で手に取ってもらい、味でもう一度来てもらう。",
+        body: "かわいい形も、売り場のコミュニケーションのうちだ。\n説明の一言が、初めてのお客様の一歩目になる。",
+        choices: [
+          { label: "この商品を実際に買ってみる", next: "shop-site" },
+          { label: "季節のホールケーキも見る", next: "xmas-cake" },
+          { label: "味の現場を深掘りする", next: "end-craft" }
+        ]
+      },
+      "xmas-cake": {
+        bg: "assets/backgrounds/bg-mihara-xmas-cake.jpg",
+        speaker: "先輩・陽菜",
+        img: "assets/char-campus.png",
+        kicker: "季節のケーキ",
+        title: "お茶の店のケーキが、年末の食卓の話になる。",
+        body: "和の香りを乗せたホールは、贈る理由をつくる商品だ。\n予約の電話が鳴る頃、店の空気が一段階変わる。",
+        choices: [
+          { label: "この商品を実際に買ってみる", next: "shop-site" },
           { label: "味の現場を深掘りする", next: "end-craft" },
           { label: "他店との企画をもっと知る", next: "end-link" }
         ]
       },
+
+      // --- 収益イメージ②：QUEST → 購入サイト（デモは実サイト画像。外部リンクなし） ---
+      "shop-site": {
+        event: {
+          label: "PURCHASE SITE",
+          icon: "◎",
+          title: "購入サイトへ",
+          text: "興味を持った商品の、本物の販売ページが開く。"
+        },
+        shopSite: true,
+        bg: "assets/backgrounds/bg-mihara-shop-cheesecake.jpg",
+        speaker: "購入サイト",
+        img: "assets/char-campus.png",
+        kicker: "PATTERN / 実購入へつなぐ",
+        title: "QUESTの続きが、買う画面になる。",
+        body: "デモでは実サイトへ飛ばさず、購入ページの画面を表示している。\n本番では、ここから公式オンラインショップで決済できる。",
+        choices: [
+          { label: "カートに入れる流れを想像する", next: "shop-cart" },
+          { label: "この接続パターンを確認する", next: "end-shop" }
+        ]
+      },
+      "shop-cart": {
+        shopSite: true,
+        bg: "assets/backgrounds/bg-mihara-shop-cheesecake.jpg",
+        speaker: "購入サイト",
+        img: "assets/char-campus.png",
+        kicker: "買う直前",
+        title: "価格も、ギフト仕様も、ここで決まる。",
+        body: "ゲームで知った物語が、注文の理由になる。\n掲載だけで終わらず、売上が立つ層がここだ。",
+        choices: [
+          { label: "接続パターンを確認する", next: "end-shop" }
+        ]
+      },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        bg: "assets/backgrounds/bg-mihara-grape-mochi.jpg",
         kicker: "この人生の感触",
         title: "おいしいの顔が見える仕事が、残った。",
-        body: "香りと味の距離が近いほど、判断も早くなる。",
+        body: "香りと味の距離が近いほど、判断も早くなる。\n気になる商品があれば、購入サイトへも進める。",
         reality: [
-          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
-          { label: "職場見学・インターンを調べる", href: "#reality-event" }
+          { label: "気になる商品を実際に買ってみる", href: "#reality-shop" },
+          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" }
         ]
       },
       "end-link": {
         ending: true,
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-mihara-cheesecake.jpg",
         kicker: "この人生の感触",
         title: "お茶の仕事が、別の店の一日とつながると分かった。",
         body: "美原商店の菓子、ホームメイドの売場、誰かの休日の喫茶。\n社名が分かれても、体験は一本の線になる。",
         reality: [
-          { label: "グループの他社も比べてみる", href: "#reality-work" },
-          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
+          { label: "気になる商品を実際に買ってみる", href: "#reality-shop" },
+          { label: "グループの他社も比べてみる", href: "#reality-work" }
+        ]
+      },
+      "end-shop": {
+        ending: true,
+        shopPattern: true,
+        bg: "assets/backgrounds/bg-mihara-shop-cheesecake.jpg",
+        kicker: "PATTERN / 実購入接続",
+        title: "知って、欲しくなって、買う場所まで届いた。",
+        body: "収益イメージの②番。QUEST掲載の先に、購入サイトへの送客がある。\nデモは画面表示のみ。本番は公式ショップで決済し、成果報酬／社内計上で収益化できる。",
+        reality: [
+          { label: "もう一度、購入ページを見る", href: "#reality-shop" },
+          { label: `${name}の仕事QUESTに戻る`, href: "#reality-work" }
         ]
       }
     };
@@ -944,15 +1016,17 @@
     const name = "綿伴トレジャーディング株式会社";
     return {
       start: {
+        bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
         kicker: `QUEST / ${name}`,
         title: "まだ知らない『おいしい』を、机に乗せる仕事。",
-        body: "産地、品質、伝え方。新しい食材は、説明から始まる。\n今日は、珍しい野菜の試食会だ。",
+        body: "産地、品質、伝え方。新しい食材は、説明から始まる。\n今日は、サボテン野菜の畑見学と試食会だ。",
         choices: [
           { label: "味の紹介コーナーを担当する", next: "taste" },
           { label: "売り場向けの説明カードを作る", next: "card" }
         ]
       },
       taste: {
+        bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
         kicker: "試食会",
         title: "『食べたことない』が、笑顔に変わる瞬間がある。",
         body: "最初は警戒、次に興味、最後に質問。\n新しい食は、会話の設計でもある。",
@@ -962,15 +1036,17 @@
         ]
       },
       card: {
+        bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
         kicker: "伝材",
         title: "難しい言葉を、棚の前の一文にする。",
-        body: "専門用語は誇りだけど、お客様の一歩目には重い。",
+        body: "専門用語は誇りだけど、お客様の一歩目には重い。\n『見たことある葉っぱが、食卓に来る』と書くと届きやすい。",
         choices: [
           { label: "やさしい言葉で書き直す", next: "sell" },
           { label: "写真多めにして直感で伝える", next: "sell" }
         ]
       },
       sell: {
+        bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
         kicker: "そのあと",
         title: "知る・食べる・売るが、同じチームの一日になる。",
         body: "新しいものは、押すほど売れない。\n理解が先、注文はあと。",
@@ -981,6 +1057,7 @@
       },
       "end-craft": {
         ending: true,
+        bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
         kicker: "この人生の感触",
         title: "『初めて』を届ける仕事が、残った。",
         body: "好奇心は、仕入れのスキルになる。",
@@ -991,6 +1068,7 @@
       },
       "end-link": {
         ending: true,
+        bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
         kicker: "この人生の感触",
         title: "産地と売場のあいだに、自分の席があると分かった。",
         body: "運ぶだけじゃない。意味も運ぶ。",
@@ -1007,6 +1085,7 @@
     const senior = "assets/char-work-senior-man.png";
     return {
       start: {
+        bg: "assets/backgrounds/bg-kenzai-yard.jpg",
         kicker: `QUEST / ${name}`,
         title: "家の骨組みを支える資材が、今日の主役。",
         body: "木の名前、届け先、品質の基準。\n『安心』は、目に見えないところに積まれる。",
@@ -1016,28 +1095,42 @@
         ]
       },
       local: {
+        bg: "assets/backgrounds/bg-kenzai-lumber.jpg",
         speaker: "先輩・樫",
         img: senior,
         kicker: "品質",
         title: "基準を超える、はスローガンじゃなくチェック表だ。",
         body: "見えない部分ほど、後から効いてくる。\nだから今日の確認が、十年後の暮らしになる。",
         choices: [
-          { label: "安全の説明を練習する", next: "talk" },
-          { label: "快適さの説明を練習する", next: "talk" }
+          { label: "丸太置場も見ておく", next: "yard" },
+          { label: "安全の説明を練習する", next: "talk" }
         ]
       },
       deliver: {
+        bg: "assets/backgrounds/bg-kenzai-loading.jpg",
         speaker: "先輩・樫",
         img: senior,
         kicker: "納品",
         title: "現場の朝は、資材の到着から始まる。",
         body: "遅れると作業が止まる。早すぎても置き場がない。\nタイミングも技術のうちだ。",
         choices: [
-          { label: "現場監督の話を聞く", next: "talk" },
-          { label: "積み下ろしを手伝う", next: "talk" }
+          { label: "積み込みを手伝う", next: "yard" },
+          { label: "現場監督の話を聞く", next: "talk" }
+        ]
+      },
+      yard: {
+        bg: "assets/backgrounds/bg-kenzai-logs.jpg",
+        speaker: "先輩・樫",
+        img: senior,
+        kicker: "置場",
+        title: "丸太の山が、次の家の骨になる。",
+        body: "運び方、積み方、雨の当て方。\n木の扱いが、そのまま品質になる。",
+        choices: [
+          { label: "一日の芯に戻る", next: "talk" }
         ]
       },
       talk: {
+        bg: "assets/backgrounds/bg-kenzai-lumber.jpg",
         speaker: "先輩・樫",
         img: senior,
         kicker: "一日の芯",
@@ -1050,6 +1143,7 @@
       },
       "end-craft": {
         ending: true,
+        bg: "assets/backgrounds/bg-kenzai-lumber.jpg",
         kicker: "この人生の感触",
         title: "見えない部分を支える仕事が、残った。",
         body: "派手さより、確かさが残る。",
@@ -1060,6 +1154,7 @@
       },
       "end-link": {
         ending: true,
+        bg: "assets/backgrounds/bg-kenzai-yard.jpg",
         kicker: "この人生の感触",
         title: "資材と家づくりが、一つの現場だと分かった。",
         body: "グループの住宅会社と、言葉が通じやすい。",
@@ -1137,7 +1232,7 @@
     const name = "株式会社綿伴リゾート";
     return {
       start: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-resort-entrance.jpg",
         kicker: `QUEST / ${name}`,
         title: "山あいの宿。四季のあたたかさが、仕事の教材になる。",
         body: "チェックイン、食事、お風呂、お見送り。\n一日の流れそのものが、おもてなしだ。",
@@ -1147,17 +1242,27 @@
         ]
       },
       front: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-resort-lobby.jpg",
         kicker: "フロント",
         title: "旅の初めの表情は、ここで決まる。",
         body: "地図の説明、部屋の案内、小さな要望。\n家族連れには、安心の言葉が先に立つ。",
         choices: [
-          { label: "子連れのお客様を丁寧に案内する", next: "onsen" },
-          { label: "初めての一人旅のお客様を案内する", next: "onsen" }
+          { label: "客室へご案内する", next: "room" },
+          { label: "先に食事処の準備を手伝う", next: "irori" }
+        ]
+      },
+      room: {
+        bg: "assets/backgrounds/bg-resort-room.jpg",
+        kicker: "客室",
+        title: "畳の匂いと、窓の緑が、旅の最初の一呼吸になる。",
+        body: "テーブルの位置、荷物の置き場、静けさの守り方。\n『休める部屋』は、整える手仕事でできている。",
+        choices: [
+          { label: "湯の案内をする", next: "onsen" },
+          { label: "食事の時間を確認する", next: "irori" }
         ]
       },
       irori: {
-        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
         kicker: "食事処",
         title: "炭の香りが、会話をゆっくりにする。",
         body: "地元の食材、焼き加減、席の温度。\n料理は味だけじゃなく、時間の演出でもある。",
@@ -1167,7 +1272,7 @@
         ]
       },
       onsen: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-resort-onsen.jpg",
         kicker: "湯上がり",
         title: "露天の風が、一日の疲れをほどく。",
         body: "宿の仕事は、『休ませる』ための段取りだ。\n自分も動きながら、お客様の静けさを守る。",
@@ -1178,7 +1283,7 @@
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-resort-room.jpg",
         kicker: "この人生の感触",
         title: "人を休ませる仕事の手応えが、残った。",
         body: "笑顔の裏に、見えない準備がある。",
@@ -1189,7 +1294,7 @@
       },
       "end-link": {
         ending: true,
-        bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
         kicker: "この人生の感触",
         title: "宿は、食・湯・部屋の連携だと分かった。",
         body: "一つの体験が、いくつもの係の連続でできている。",
@@ -1206,7 +1311,7 @@
     const senior = "assets/char-work-uniform-field-man.png";
     return {
       start: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-woodpower-forest.jpg",
         kicker: `QUEST / ${name}`,
         title: "森と生き、森を生かす。木がエネルギーの現場になる。",
         body: "植える、育てる、使う、また植える。\nその循環の先に、あかりとあたたかさがある。",
@@ -1216,7 +1321,7 @@
         ]
       },
       plant: {
-        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        bg: "assets/backgrounds/bg-woodpower-plant.jpg",
         speaker: "先輩・青葉",
         img: senior,
         kicker: "発電",
@@ -1228,7 +1333,7 @@
         ]
       },
       cycle: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-woodpower-forest.jpg",
         speaker: "先輩・青葉",
         img: senior,
         kicker: "循環",
@@ -1240,29 +1345,42 @@
         ]
       },
       fuel: {
-        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        bg: "assets/backgrounds/bg-woodpower-chipper.jpg",
         speaker: "先輩・青葉",
         img: senior,
         kicker: "燃料",
-        title: "チップの山が、次の電力の準備になる。",
-        body: "水分、量、運び方。燃え方は、手入れの結果だ。\n現場は静かに見えるが、判断は連続している。",
+        title: "丸太がチップになり、次の電力の準備になる。",
+        body: "水分、量、運び方。燃え方は、手入れの結果だ。\n砕く音の向こうで、判断は連続している。",
+        choices: [
+          { label: "チップの山へ運ぶ作業を見る", next: "chips" },
+          { label: "運転監視の部屋へ行く", next: "watch" }
+        ]
+      },
+      chips: {
+        bg: "assets/backgrounds/bg-woodpower-chips.jpg",
+        speaker: "先輩・青葉",
+        img: senior,
+        kicker: "チップ",
+        title: "山になったチップが、燃料の在庫になる。",
+        body: "積み方と、湿り気の見方。重機のまわりは一歩ずつ。\n静かに見える現場ほど、段取りが命だ。",
         choices: [
           { label: "運転監視の部屋へ行く", next: "watch" }
         ]
       },
       safety: {
-        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        bg: "assets/backgrounds/bg-woodpower-chips.jpg",
         speaker: "先輩・青葉",
         img: senior,
         kicker: "安全",
         title: "再生可能でも、危険ゼロではない。",
         body: "手順書は貼ってあるだけでは意味がない。\n今日の確認が、明日の運転を守る。",
         choices: [
+          { label: "チップ製造の現場も見る", next: "fuel" },
           { label: "運転監視の部屋へ行く", next: "watch" }
         ]
       },
       watch: {
-        bg: "assets/backgrounds/bg-holdings-office.jpg",
+        bg: "assets/backgrounds/bg-woodpower-plant.jpg",
         speaker: "先輩・青葉",
         img: senior,
         kicker: "監視",
@@ -1275,7 +1393,7 @@
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        bg: "assets/backgrounds/bg-woodpower-plant.jpg",
         kicker: "この人生の感触",
         title: "木をエネルギーに変える現場感が、残った。",
         body: "あかりの裏側に、森と人の段取りがある。",
@@ -1286,7 +1404,7 @@
       },
       "end-link": {
         ending: true,
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-woodpower-forest.jpg",
         kicker: "この人生の感触",
         title: "発電は、森のサイクルの一部だと分かった。",
         body: "使うだけで終わらせない。次の木につながる仕事だ。",
@@ -1305,15 +1423,15 @@
       start: {
         bg: "assets/backgrounds/bg-farm-aerial.jpg",
         kicker: `QUEST / ${name}`,
-        title: "谷あいの牧場。生き物の一日を、仕組みで支える。",
-        body: "温度、えさ、清潔さ。手作業だけじゃなく、見守りと自動化が並ぶ。\n今日は、スマートな飼育の現場見学だ。",
+        title: "谷あいの次世代牧場。生き物の一日を、仕組みで支える。",
+        body: "温湿度の遠隔管理、カメラの見守り、循環の設計。\n今日は、人が舎内に入らない飼育の現場見学だ。",
         choices: [
           { label: "モニター室で遠隔の見守りを学ぶ", next: "monitor" },
-          { label: "えさ作りのラインを見る", next: "feed" }
+          { label: "えさのタンクと配合の話を聞く", next: "feed" }
         ]
       },
       monitor: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-farm-monitor.jpg",
         speaker: "先輩・牧",
         img: senior,
         kicker: "見守り",
@@ -1325,19 +1443,19 @@
         ]
       },
       feed: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-farm-silos.jpg",
         speaker: "先輩・牧",
         img: senior,
         kicker: "えさ",
-        title: "地元の素材が、配合のレシピになる。",
-        body: "粉砕して混ぜて、今日の体調に合わせる。\n水は澄んだ湧き水。口に入るものから一日が始まる。",
+        title: "地元の素材と、循環の設計が配合になる。",
+        body: "自社で育てた飼料作物も、店や工場から戻る食材も、口に入る前に整える。\n給餌と給水は自動。舎の中に人を入れないための段取りだ。",
         choices: [
           { label: "出荷の仕分けの仕組みを見る", next: "sort" },
           { label: "快適さの自動調整を見る", next: "climate" }
         ]
       },
       sort: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-farm-interior.jpg",
         speaker: "先輩・牧",
         img: senior,
         kicker: "仕分け",
@@ -1352,27 +1470,27 @@
         speaker: "先輩・牧",
         img: senior,
         kicker: "環境",
-        title: "温度・湿度・空気。見えない快適を機械が整える。",
-        body: "小さな個体ほど寒さに弱い。\nあたたかい場所をつくることも、飼育の技術だ。",
+        title: "夏は外気の冷却、冬はあたたかい空気の循環。",
+        body: "温度・湿度・換気を遠隔で整える。\nストレスを減らすことも、飼育の技術だ。",
         choices: [
           { label: "清掃ロボットの動きも追う", next: "clean" }
         ]
       },
       clean: {
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-farm-interior.jpg",
         speaker: "先輩・牧",
         img: senior,
         kicker: "清潔",
-        title: "霧とロボットが、静かに床を整えていく。",
-        body: "きれいさは、においの前に仕組みで守る。\n人の手は、必要なときに必要な場所へ。",
+        title: "洗浄ロボットが、静かに床を整えていく。",
+        body: "きれいさは、においの前に仕組みで守る。\n外から菌を持ち込まないことも、一日の設計のうちだ。",
         choices: [
           { label: "飼育の現場感を深掘りする", next: "end-craft" },
-          { label: "仕組みづくり側も見てみる", next: "end-link" }
+          { label: "循環の仕組み側も見てみる", next: "end-link" }
         ]
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-farm-interior.jpg",
         kicker: "この人生の感触",
         title: "生き物の一日に合わせる仕事が、残った。",
         body: "自動化しても、観察する目は残る。",
@@ -1383,10 +1501,10 @@
       },
       "end-link": {
         ending: true,
-        bg: "assets/backgrounds/bg-farm-aerial.jpg",
+        bg: "assets/backgrounds/bg-farm-silos.jpg",
         kicker: "この人生の感触",
-        title: "世話と仕組みが、同じ現場だと分かった。",
-        body: "ITも、えさも、清潔さも、命のまわりにある。",
+        title: "世話と循環が、同じ現場だと分かった。",
+        body: "堆肥も、えさも、見守りも、命のまわりにある。",
         reality: [
           { label: "グループの他社も比べてみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
@@ -1732,6 +1850,7 @@
             label: "株式会社綿伴ホームメイド",
             tag: "小売",
             blurb: "備品もお茶売場も。グループの店とつながる日常",
+            img: "assets/char-homeaid-woman.png",
             scenes: homeMadeEventQuest()
           },
           {

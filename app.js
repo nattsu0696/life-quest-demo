@@ -2157,6 +2157,9 @@
       actorImg.alt = speaker;
     }
     applySceneBackground(scene.bg);
+    if (stage) {
+      stage.classList.toggle("is-shop-site", !!scene.shopSite);
+    }
     updateDots();
 
     state.currentChoices = scene.choices || [];
@@ -2171,6 +2174,7 @@
       actor.style.animation = "none";
       void actor.offsetWidth;
       actor.style.animation = "";
+      actor.hidden = !!scene.shopSite;
     }
 
     showScreen("play");
@@ -2229,14 +2233,45 @@
 
     const resultPath = document.getElementById("result-path");
     if (resultPath) {
-      resultPath.textContent = `${cat.label} ／ ${opt.label}`;
+      resultPath.textContent = scene.shopPattern
+        ? `${opt.label} ／ 購入サイト接続`
+        : `${cat.label} ／ ${opt.label}`;
+    }
+
+    const clearStamp = document.querySelector("#screen-result .clear-stamp");
+    const clearSub = document.querySelector("#screen-result .clear-sub");
+    if (clearStamp) {
+      clearStamp.textContent = scene.shopPattern ? "SHOP CLEAR" : "QUEST CLEAR";
+    }
+    if (clearSub) {
+      clearSub.textContent = scene.shopPattern ? "購入サイト接続デモ" : "体験完了";
+    }
+
+    const realityLabel = document.querySelector("#screen-result .reality-label");
+    const realityCopy = document.querySelector("#screen-result .reality-copy");
+    if (realityLabel) {
+      realityLabel.textContent = scene.shopPattern
+        ? "▶ 収益イメージ②　実購入へ送客"
+        : "▶ 次は、現実へ";
+    }
+    if (realityCopy) {
+      realityCopy.textContent = scene.shopPattern
+        ? "デモは購入ページ画像のみ。本番は公式ショップへ飛ばし、成果で収益化。"
+        : "ゲームで終わらせない。もっと知りたくなったら、本物の体験へ。";
     }
 
     const resultStage = document.getElementById("result-stage");
     if (resultStage) {
+      resultStage.classList.toggle("is-shop-pattern", !!scene.shopPattern);
       resultStage.classList.remove("is-clearing");
       void resultStage.offsetWidth;
       resultStage.classList.add("is-clearing");
+      const resultBg = resultStage.querySelector(".result-bg");
+      if (resultBg && scene.bg) {
+        resultBg.style.backgroundImage = `url("${scene.bg}")`;
+        resultBg.style.backgroundSize = "cover";
+        resultBg.style.backgroundPosition = "center top";
+      }
     }
 
     realityActions.innerHTML = "";
@@ -2247,11 +2282,19 @@
       a.textContent = item.label;
       a.addEventListener("click", (event) => {
         event.preventDefault();
+        if (item.href === "#reality-shop" && opt && opt.scenes && opt.scenes["shop-site"]) {
+          state.sceneId = "shop-site";
+          state.depth += 1;
+          renderScene();
+          return;
+        }
         const original = a.textContent;
-        a.textContent = "本戦デモでは案内先を接続予定";
+        a.textContent = scene.shopPattern
+          ? "デモでは外部リンクなし（画像表示）"
+          : "本戦デモでは案内先を接続予定";
         window.setTimeout(() => {
           a.textContent = original;
-        }, 1400);
+        }, 1600);
       });
       realityActions.appendChild(a);
     });
