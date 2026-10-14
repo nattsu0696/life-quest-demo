@@ -63,11 +63,11 @@
         body: "商品を並べる人、仕入れる人、届ける人。\n一つのお店の中で、いくつもの役割が動いている。",
         choices: [
           { label: "まずは売場の仕事を覚える", next: "ordinary-days" },
-          { label: "在庫と補充の流れを見る", next: "ordinary-days" }
+          { label: "生鮮コーナーを回ってみる", next: "seafood" }
         ]
       },
       "ordinary-days": {
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
         speaker: "先輩・桐谷",
         img: senior,
         kicker: "いつもの一日",
@@ -77,16 +77,27 @@
           { label: "話を聞く", next: "season-fest" }
         ]
       },
-      "season-fest": {
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+      seafood: {
+        bg: "assets/backgrounds/bg-homeaid-seafood.jpg",
         speaker: "先輩・桐谷",
         img: senior,
-        kicker: "季節の店頭",
-        title: "炭の香りが店先に立つ日がある。チーム全員で場をつくる。",
-        body: "予約の電話、焼き場の順番、包み方の確認。\n『去年よりうまく』は、気合より段取りで決まる。",
+        kicker: "生鮮",
+        title: "鮮度の見せ方が、足を止める理由になる。",
+        body: "水槽、案内、注文の声。売場は匂いと温度の設計でもある。\n慣れてきた頃、店長が声をかけてきた。",
         choices: [
-          { label: "焼き場のサポートに入る", next: "project-invite" },
-          { label: "受付と案内を担当する", next: "project-invite" }
+          { label: "話を聞く", next: "season-fest" }
+        ]
+      },
+      "season-fest": {
+        bg: "assets/backgrounds/bg-homeaid-produce.jpg",
+        speaker: "先輩・桐谷",
+        img: senior,
+        kicker: "季節の売場",
+        title: "旬の色が棚に立つ日がある。チーム全員で場をつくる。",
+        body: "並べ方、補充の順番、案内の一言。\n『去年よりうまく』は、気合より段取りで決まる。",
+        choices: [
+          { label: "青果の並べ替えを手伝う", next: "project-invite" },
+          { label: "通路の導線を見直す", next: "project-invite" }
         ]
       },
       "project-invite": {
@@ -100,25 +111,37 @@
         img: senior,
         kicker: "仕事イベント",
         title: "「君も、この売場づくりに入ってみない？」",
-        body: "経験は足りない。でも、お客様に近い視点を期待されている。\n自店のデータを見ながら、三か月かけて棚と導線をつくる。",
+        body: "経験は足りない。でも、お客様に近い視点を期待されている。\n自店の様子を見ながら、三か月かけて棚と導線をつくる。",
         choices: [
           { label: "やってみます、と答える", next: "floor-work" },
           { label: "少し考えてから返事する", next: "floor-work" }
         ]
       },
       "floor-work": {
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
         speaker: "売場スタッフ・葵",
         img: "assets/char-homeaid-woman.png",
         kicker: "売場づくり",
         title: "棚札、陳列、案内——小さな工夫が並ぶ。",
         body: "「ここが迷う」「ここは手が伸びやすい」\n現場の言葉が、次の改善の材料になる。",
         choices: [
+          { label: "別コーナーの気配も見ておく", next: "pet-corner" },
+          { label: "提案資料をまとめる", next: "proposal" }
+        ]
+      },
+      "pet-corner": {
+        bg: "assets/backgrounds/bg-homeaid-pet.jpg",
+        speaker: "売場スタッフ・葵",
+        img: "assets/char-homeaid-woman.png",
+        kicker: "専門売場",
+        title: "店の中にも、別の『好き』の場所がある。",
+        body: "立ち止まる人、長居する人。導線は売場ごとに違う。\n一つ上手くいっても、全部同じ型では届かない。",
+        choices: [
           { label: "提案資料をまとめる", next: "proposal" }
         ]
       },
       proposal: {
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
         speaker: "先輩・桐谷",
         img: senior,
         kicker: "提案のあと",
@@ -130,7 +153,7 @@
         ]
       },
       "quiet-months": {
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-produce.jpg",
         kicker: "季節がひとつ進む",
         title: "売場は軌道に乗り始めた。日常が、少しだけ整って見える。",
         body: "お客様の動きが変わり、補充のリズムも安定してきた。\n派手さより、続く改善の感触が残る。",
@@ -139,7 +162,7 @@
         ]
       },
       "one-year-later": {
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-seafood.jpg",
         speaker: "店長・桐谷",
         img: senior,
         kicker: "約一年後",
@@ -152,7 +175,7 @@
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
         kicker: "この人生の感触",
         title: "ホームメイドの売場で、「続く仕事」の感触が残った。",
         body: "派手さより、毎日の積み重ねが自分を形づくる。",
@@ -163,7 +186,7 @@
       },
       "end-challenge": {
         ending: true,
-        bg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+        bg: "assets/backgrounds/bg-homeaid-produce.jpg",
         kicker: "この人生の感触",
         title: "小さな改善を動かせた経験が、次の入口になった。",
         body: "会社はひとつでも、挑戦の入口はいくつもある。",
