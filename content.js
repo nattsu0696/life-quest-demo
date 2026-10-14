@@ -834,68 +834,6 @@
 
   // --- 汎用寄り企業：公開してよい「仕事の感触」だけ。実名・固有案件・数値は入れない ---
 
-  function dotcomThemeQuest() {
-    const name = "株式会社綿伴ドアットコム";
-    return {
-      start: {
-        kicker: `QUEST / ${name}`,
-        title: "画面の向こうにも、店舗の熱がある。",
-        body: "注文、梱包、問い合わせ。数字の裏に人がいる。\n今日は、まとめ買いの店の周年イベント準備だ。",
-        choices: [
-          { label: "売場の装飾と動線を整える", next: "floor" },
-          { label: "季節キャンペーンの案を出す", next: "campaign" }
-        ]
-      },
-      floor: {
-        kicker: "店舗",
-        title: "「カートがぶつからない道が、いちばんのおもてなし」",
-        body: "安いだけじゃない。\n取りやすさと見やすさが、売上を支える。",
-        choices: [
-          { label: "入口の案内、わかりやすくする", next: "day" },
-          { label: "レジ前の待ち、減らす工夫する", next: "day" }
-        ]
-      },
-      campaign: {
-        kicker: "企画",
-        title: "「お得、短いほど届くよ」",
-        body: "全品セールか、季節のまとめか。\n選び方で、来る人の顔が変わる。",
-        choices: [
-          { label: "誰でもわかる全品訴求", next: "day" },
-          { label: "季節テーマで世界観つくる", next: "day" }
-        ]
-      },
-      day: {
-        kicker: "当日",
-        title: "……開店前の空気、いちばん緊張する。",
-        body: "スタッフの声、カートの軋み、初めてのお客様の表情。\n画面の注文も、店頭の笑顔も、同じ一日だ。",
-        choices: [
-          { label: "店舗オペ、深掘りしたい", next: "end-craft" },
-          { label: "オンラインとの連携も見たい", next: "end-link" }
-        ]
-      },
-      "end-craft": {
-        ending: true,
-        kicker: "この人生の感触",
-        title: "『届ける』の現場感が、残った。",
-        body: "クリックの先にも、人の一日がある。",
-        reality: [
-          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
-          { label: "職場見学・インターンを調べる", href: "#reality-event" }
-        ]
-      },
-      "end-link": {
-        ending: true,
-        kicker: "この人生の感触",
-        title: "ネットと店は、対立じゃなく往復だった。",
-        body: "画面と売場、別々に見えて一本だ。",
-        reality: [
-          { label: "別の働き方も試してみる", href: "#reality-work" },
-          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
-        ]
-      }
-    };
-  }
-
   function tradingThemeQuest() {
     const name = "綿伴トレジャーディング株式会社";
     return {
@@ -1905,13 +1843,6 @@
             tag: "インテリア",
             blurb: "店頭と提案で、部屋の景色を整える",
             scenes: lignaLinkedQuest()
-          },
-          {
-            id: "co-dotcom",
-            label: "株式会社綿伴ドアットコム",
-            tag: "通販・店舗",
-            blurb: "画面と店舗、両方で『届ける』を試す",
-            scenes: dotcomThemeQuest()
           },
           {
             id: "co-trading",
