@@ -206,10 +206,71 @@
         bg: "assets/backgrounds/bg-solution-exterior.jpg",
         kicker: `QUEST / ${name}`,
         title: "安全と納期——現場の会話は、だいたいここから。",
-        body: "『困った』を片づける仕事。\n図面の先に、使う人の一日がある。",
+        body: "『困った』を片づける仕事。鉄も木も、図面の先に一日がある。\n今日は、工場と現場、どっちから触る？",
         choices: [
-          { label: "現場に出てみる", next: "warehouse" },
+          { label: "鉄骨・溶接の工場を見る", next: "steel" },
+          { label: "木造倉庫の現場に出る", next: "warehouse" },
           { label: "先輩の出張に着いていく", next: "trip" }
+        ]
+      },
+      steel: {
+        bg: "assets/backgrounds/bg-solution-steel-beams.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "鉄骨",
+        title: "「この柱が、建物の骨になる」",
+        body: "「オレンジの接手、ボルト穴の並び。\n重いほど、ミスは許されないぞ」",
+        choices: [
+          { label: "「ロボット溶接、見たいです」", next: "robot" },
+          { label: "「火花の作業場も見たいです」", next: "spark" }
+        ]
+      },
+      robot: {
+        bg: "assets/backgrounds/bg-solution-robot-weld.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "自動化",
+        title: "「腕は人じゃない。でも、判断は人だ」",
+        body: "「アークの青白い光が、継ぎ目を決める。\nプログラムも、現場の感覚も、両方いる」",
+        choices: [
+          { label: "「溶接ライン、歩いてみます」", next: "weld-line" },
+          { label: "「建設現場の姿も見たい」", next: "construction" }
+        ]
+      },
+      "weld-line": {
+        bg: "assets/backgrounds/bg-solution-weld-line.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "溶接ライン",
+        title: "「黄色い腕が、梁を回しながらつなぐ」",
+        body: "「カーテンの向こうは、光の仕事場だ。\n安全も品質も、段取りの延長線にある」",
+        choices: [
+          { label: "「火花の手元、もう少し」", next: "spark" },
+          { label: "「建ち上がる現場へ」", next: "construction" }
+        ]
+      },
+      spark: {
+        bg: "assets/backgrounds/bg-solution-spark-shop.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "加工",
+        title: "「火花は派手だが、中身は地味な確認の連続だ」",
+        body: "「治具、フック、板の置き場。\n人がいなくても、仕事の温度は分かるだろ」",
+        choices: [
+          { label: "「建設現場も見てみたい」", next: "construction" },
+          { label: "「立駐の話も聞きたいです」", next: "snow" }
+        ]
+      },
+      construction: {
+        bg: "assets/backgrounds/bg-solution-construction.jpg",
+        speaker: "先輩・黒瀬",
+        img: senior,
+        kicker: "建設",
+        title: "「工場の梁が、空に立つ」",
+        body: "「ネット、クレーン、鋼の格子。\n図面の線が、街の景色になる瞬間だ」",
+        choices: [
+          { label: "「倉庫現場も見ておきたい」", next: "warehouse" },
+          { label: "「出張の流れも知りたい」", next: "trip" }
         ]
       },
       warehouse: {
@@ -221,7 +282,8 @@
         body: "「安全、寸法、搬入経路。この三つが口癖になる。\n建てると収めるは、セットだぞ」",
         choices: [
           { label: "「雪国の立駐、見たいです」", next: "snow" },
-          { label: "「沿岸の立駐、見たいです」", next: "resilient" }
+          { label: "「沿岸の立駐、見たいです」", next: "resilient" },
+          { label: "「鉄骨工場も見ておきたい」", next: "steel" }
         ]
       },
       snow: {
@@ -283,16 +345,16 @@
         title: "「会議室でも、戻る場所の話が出る」",
         body: "「仕様、納期、安全。\n帰り道はまた、あの立駐のコンクリートからだ」",
         choices: [
-          { label: "「現場、もっとやりたいです」", next: "end-craft" },
+          { label: "「現場・製造、もっとやりたいです」", next: "end-craft" },
           { label: "「調達や計画も見てみたいです」", next: "end-plan" }
         ]
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-solution-warehouse.jpg",
+        bg: "assets/backgrounds/bg-solution-robot-weld.jpg",
         kicker: "この人生の感触",
-        title: "立つ・停める・備える——その仕事が残った。",
-        body: "派手さより、毎日の積み重ね。\n気になるなら、本物の現場で温度を確かめてみて。",
+        title: "鉄をつなぎ、場をつくる仕事が残った。",
+        body: "火花もクレーンも、安全の延長線。\n派手さより、毎日の積み重ねだ。",
         reality: [
           { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
           { label: "職場見学・インターンを調べる", href: "#reality-event" }
@@ -300,10 +362,10 @@
       },
       "end-plan": {
         ending: true,
-        bg: "assets/backgrounds/bg-solution-parking.jpg",
+        bg: "assets/backgrounds/bg-solution-construction.jpg",
         kicker: "この人生の感触",
         title: "現場と計画、両方見えるようになった。",
-        body: "納期と安全は、机の上だけじゃ決まらない。\nそれが分かった一日だった。",
+        body: "納期と安全は、机の上だけじゃ決まらない。\n工場の梁が、空に立つまでが仕事だ。",
         reality: [
           { label: "別の働き方も試してみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
@@ -525,11 +587,11 @@
       start: {
         bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
         kicker: `QUEST / ${name}`,
-        title: "部品が、ぴたっと家具になる音がする。",
-        body: "白い壁、青い柱。注文票には特注の数字。\n今日は、その数字の現場だ。",
+        title: "１センチ違うと、部屋が変わる。",
+        body: "オーダーメイドの収納棚。注文票の数字が、今日の現場だ。\n高さ、幅、奥行き——１cm単位で、ぴたっと合わせる。",
         choices: [
           { label: "工場の通路を歩いてみる", next: "factory" },
-          { label: "寸法の確認から入る", next: "measure" }
+          { label: "完成イメージの棚から見る", next: "lineup" }
         ]
       },
       factory: {
@@ -537,42 +599,90 @@
         speaker: "先輩・浜田",
         img: senior,
         kicker: "工場",
-        title: "「板が家具になるところ、見てみろ」",
+        title: "「板が棚になるところ、見てみろ」",
         body: "「切断、組立、検査。数字の並びが、誰かの使いやすさになる。\n……分かるだろ、この音」",
         choices: [
-          { label: "「特注の図面、見せてください」", next: "measure" },
-          { label: "「街の什器も作ってるんですか」", next: "kiosk" }
+          { label: "「機械のライン、見たいです」", next: "machine" },
+          { label: "「寸法の確認から入ります」", next: "measure" }
+        ]
+      },
+      lineup: {
+        bg: "assets/backgrounds/bg-taiyo-shelf-lineup.jpg",
+        speaker: "先輩・浜田",
+        img: senior,
+        kicker: "オーダー",
+        title: "「同じ『棚』でも、寸法で別物になる」",
+        body: "「色も高さも、お客様の壁に合わせて決める。\n既製品の端と、指定寸法の差——そこが勝負だ」",
+        choices: [
+          { label: "「組立の手元、見せてください」", next: "bench" },
+          { label: "「生産の管理板も見たいです」", next: "board" }
+        ]
+      },
+      machine: {
+        bg: "assets/backgrounds/bg-taiyo-machine.jpg",
+        speaker: "先輩・浜田",
+        img: senior,
+        kicker: "加工",
+        title: "「板は、機械を通って棚の骨格になる」",
+        body: "「押す力、速さ、面の仕上がり。\nここが甘いと、あとで１cmが泣くわ」",
+        choices: [
+          { label: "「組立の作業台へ」", next: "bench" },
+          { label: "「寸法の確認もやりたい」", next: "measure" }
         ]
       },
       measure: {
-        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+        bg: "assets/backgrounds/bg-taiyo-bench.jpg",
         speaker: "先輩・浜田",
         img: senior,
-        kicker: "特注対応",
-        title: "「ミリ単位だ。ゆるくないぞ」",
-        body: "「既製品の端と、指定寸法の差。\nそのあいだ埋めるのが、今日の仕事だ」",
+        kicker: "１cm",
+        title: "「メジャーは、口より先に正直だ」",
+        body: "「指定寸法と現物。ズレたら組み直せ。\nゆるくないぞ——でも、それがぴたっとの正体だ」",
         choices: [
-          { label: "「街の什器も見てみたいです」", next: "kiosk" },
-          { label: "「製造、もっとやりたいです」", next: "end-craft" }
+          { label: "「組立の続き、見ます」", next: "bench" },
+          { label: "「管理板の流れも知りたい」", next: "board" }
         ]
       },
-      kiosk: {
-        bg: "assets/backgrounds/bg-taiyo-factory.jpg",
+      bench: {
+        bg: "assets/backgrounds/bg-taiyo-bench.jpg",
         speaker: "先輩・浜田",
         img: senior,
-        kicker: "什器",
-        title: "「街角で触られる道具も、ここから出る」",
-        body: "「耐久、使いやすさ、運びやすさ。\n家具の技術が、都市の小さな設備にも生きてる」",
+        kicker: "組立",
+        title: "「釘一本も、寸法の延長線だ」",
+        body: "「フレームが直角か、棚板が素直か。\n音と手応えで分かる。焦ると曲がる」",
+        choices: [
+          { label: "「納品後の部屋も見てみたい」", next: "room" },
+          { label: "「管理板、確認します」", next: "board" }
+        ]
+      },
+      board: {
+        bg: "assets/backgrounds/bg-taiyo-board.jpg",
+        speaker: "先輩・浜田",
+        img: senior,
+        kicker: "生産管理",
+        title: "「今日の棚は、ここに並んでる」",
+        body: "「何時に誰のオーダーが流れるか。\n派手じゃないけど、遅れないための地図だ」",
+        choices: [
+          { label: "「部屋に収まった姿、見たい」", next: "room" },
+          { label: "「製造、もっと深掘りしたい」", next: "end-craft" }
+        ]
+      },
+      room: {
+        bg: "assets/backgrounds/bg-taiyo-shelf-room.jpg",
+        speaker: "先輩・浜田",
+        img: senior,
+        kicker: "納品の先",
+        title: "「壁にぴたっと吸いつくとな、仕事が終わる」",
+        body: "「本も花も、寸法の正しさの上に乗る。\n１cmの仕事が、暮らしの景色になるんだ」",
         choices: [
           { label: "「製造の腕、磨きたいです」", next: "end-craft" },
-          { label: "「品質管理側も見てみたいです」", next: "end-qc" }
+          { label: "「品質・管理側も見てみたいです」", next: "end-qc" }
         ]
       },
       "end-craft": {
         ending: true,
         bg: "assets/backgrounds/bg-taiyo-factory.jpg",
         kicker: "この人生の感触",
-        title: "ぴたっと収まる感覚が、残った。",
+        title: "１cmを合わせる感覚が、残った。",
         body: "派手さより、寸法の正しさ。\nそれが人のストレスを減らす。",
         reality: [
           { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
@@ -581,9 +691,9 @@
       },
       "end-qc": {
         ending: true,
-        bg: "assets/backgrounds/bg-taiyo-exterior.jpg",
+        bg: "assets/backgrounds/bg-taiyo-shelf-lineup.jpg",
         kicker: "この人生の感触",
-        title: "検査の目が、次を守る。",
+        title: "検査と段取りが、次の棚を守る。",
         body: "一枚の板の正しさが、届いた先の安心になる。",
         reality: [
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" },
@@ -1790,7 +1900,7 @@
             id: "co-solutions",
             label: "綿伴ソウリューションズ株式会社",
             tag: "建築・設備",
-            blurb: "木造倉庫から空港の立駐まで。出張の足元も現場",
+            blurb: "鉄骨・溶接から立駐・倉庫まで。現場で解く",
             img: "assets/char-work-uniform-site-man.png",
             scenes: solutionsLinkedQuest()
           },
@@ -1812,7 +1922,7 @@
             id: "co-taiyo",
             label: "太平洋株式会社",
             tag: "家具製造",
-            blurb: "特注寸法の収納を、工場でぴたっとつくる",
+            blurb: "１cm単位のオーダーメイド収納棚をつくる",
             img: "assets/char-work-senior-man.png",
             scenes: taiyoLinkedQuest()
           },
