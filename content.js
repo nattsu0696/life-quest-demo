@@ -1467,6 +1467,105 @@
     };
   }
 
+  function naganoMigrateQuest() {
+    const place = "長野県";
+    const guide = "assets/char-local-woman.png";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-nagano-alps.jpg",
+        kicker: `QUEST / ${place}`,
+        title: "新幹線を降りると、山が近い。空気が、ひとつ薄い。",
+        body: "移住希望ランキングで長く人気の県だって聞いた。\n静かさ・治安、自然。数字より先に、風景が来る。",
+        choices: [
+          { label: "自然の側から、暮らしを覗く", next: "nature" },
+          { label: "街並みから、日常を想像する", next: "town" }
+        ]
+      },
+      nature: {
+        bg: "assets/backgrounds/bg-nagano-mirror-lake.jpg",
+        speaker: "地域の人・佳乃",
+        img: guide,
+        kicker: "自然",
+        title: "「水面が鏡みたいでしょ。都会の音、ここで一度リセットされる」",
+        body: "「静かさはランキング一位級。でも生活の便利さは場所によるよ。\n車がないと、スーパーまで遠いエリアもあるから」",
+        choices: [
+          { label: "「川のほうも見たいです」", next: "river" },
+          { label: "「街の暮らし感も知りたい」", next: "town" }
+        ]
+      },
+      river: {
+        bg: "assets/backgrounds/bg-nagano-river.jpg",
+        speaker: "地域の人・佳乃",
+        img: guide,
+        kicker: "清流",
+        title: "「透き通ってるでしょ。アルプスの水が、こうして街まで降りてくる」",
+        body: "「観光地の顔だけじゃない。週末アウトドア、平日は仕事。\n佐久や松本みたいに、新幹線・特急で都心に戻れる場所もあるよ」",
+        choices: [
+          { label: "「仕事と往復の話、聞きたい」", next: "access" },
+          { label: "「まず住まいの雰囲気見たい」", next: "village" }
+        ]
+      },
+      town: {
+        bg: "assets/backgrounds/bg-nagano-townstreet.jpg",
+        speaker: "地域の人・佳乃",
+        img: guide,
+        kicker: "街",
+        title: "「軽井沢みたいな通りもあれば、日常のスーパー通りもある」",
+        body: "「見た目は観光地。でも住むなら、買い物・病院・学校の距離が本音だよ。\nエリアで全然違う。そこを見ないで決めると後悔しやすい」",
+        choices: [
+          { label: "「里山の住まい側も見たい」", next: "village" },
+          { label: "「都心との距離感、教えて」", next: "access" }
+        ]
+      },
+      village: {
+        bg: "assets/backgrounds/bg-nagano-village-autumn.jpg",
+        speaker: "地域の人・佳乃",
+        img: guide,
+        kicker: "暮らし",
+        title: "「秋は色が派手。冬は静かで、雪の量は場所でまるで違う」",
+        body: "「白馬みたいに雪深い村も、佐久みたいに晴天が多い街もある。\n家族と相談しないで決めないほうがいい。勝手に決めると、あとでしんどい」",
+        choices: [
+          { label: "「仕事と通勤の現実、聞きたい」", next: "access" },
+          { label: "「ここに根を張る感触、試す」", next: "end-root" }
+        ]
+      },
+      access: {
+        bg: "assets/backgrounds/bg-nagano-alps.jpg",
+        speaker: "地域の人・佳乃",
+        img: guide,
+        kicker: "往復",
+        title: "「完全に切る人もいるし、二拠点で往復する人も増えてる」",
+        body: "「東京まで新幹線で１〜２時間級のエリアがあるのは強み。\nでも駅から家までは車。支援金やお試し移住で、先に泊まるのがおすすめ」",
+        choices: [
+          { label: "この土地に腰を据えてみる", next: "end-root" },
+          { label: "都会との二拠点も試す", next: "end-bridge" }
+        ]
+      },
+      "end-root": {
+        ending: true,
+        bg: "assets/backgrounds/bg-nagano-village-autumn.jpg",
+        kicker: "この人生の感触",
+        title: "長野は、引退先じゃない。静けさと設計の問題だ。",
+        body: "自然の豊かさと、生活の距離。両方を見てから決める感触が残った。",
+        reality: [
+          { label: "長野県のお試し移住を調べる", href: "#reality-town" },
+          { label: "自治体の体験企画を見る", href: "#reality-event" }
+        ]
+      },
+      "end-bridge": {
+        ending: true,
+        bg: "assets/backgrounds/bg-nagano-townstreet.jpg",
+        kicker: "この人生の感触",
+        title: "住む場所は、二者択一じゃなくてもよかった。",
+        body: "信州を拠点に、都心とも往復する。距離感を自分で設計できる感覚が残った。",
+        reality: [
+          { label: "長野の短期間滞在を探す", href: "#reality-town" },
+          { label: "地方の仕事体験を調べる", href: "#reality-work" }
+        ]
+      }
+    };
+  }
+
   function migrateQuest(place, flavor) {
     return {
       start: {
@@ -1910,7 +2009,7 @@
             label: "長野県",
             tag: "信州",
             blurb: "山と街の距離が近い暮らし",
-            scenes: migrateQuest("長野県", "駅を出ると、風が少し冷たい。観光地の顔と、生活の顔が同居している。")
+            scenes: naganoMigrateQuest()
           },
           {
             id: "pref-shizuoka",
