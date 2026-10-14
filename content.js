@@ -933,58 +933,119 @@
 
   function realestateThemeQuest() {
     const name = "綿伴レアルエステート株式会社";
+    const senior = "assets/char-office.png";
     return {
       start: {
+        bg: "assets/backgrounds/bg-realestate-office-street.jpg",
         kicker: `QUEST / ${name}`,
-        title: "『住みたい』の理由は、人の数だけある。",
-        body: "間取り、通学、日当たり、静けさ。\n物件は数字だけじゃ届かない。",
+        title: "物件は、動かす・守る・整える——三つの仕事がある。",
+        body: "売買、資産管理、建物管理。\n今日は、どの入口から触れてみる？",
         choices: [
-          { label: "住まい探しの案内に同行する", next: "guide" },
-          { label: "おうちの清潔サービス説明を聞く", next: "clean" }
+          { label: "売買——物件の流動化を見る", next: "trade" },
+          { label: "資産管理——オーナーの一日を支える", next: "asset" },
+          { label: "建物管理——維持と修繕の現場", next: "building" }
         ]
       },
-      guide: {
-        kicker: "案内",
-        title: "鍵を開けた瞬間——その表情が、いちばん正直。",
-        body: "良い点を並べるより、「ここで朝どう過ごす？」を一緒に想像する。",
+      trade: {
+        bg: "assets/backgrounds/bg-realestate-vacant-room.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "売買",
+        title: "「売主さんも買主さんも、納得がいちばん大事」",
+        body: "「オフィスもマンションも戸建ても、流れをつくる仕事だ。\nバリューアップってのは、ただの模様替えじゃないぞ」",
         choices: [
-          { label: "「通勤、ここだと楽ですよ」", next: "choice" },
-          { label: "「落ち着く空間、ここですね」", next: "choice" }
+          { label: "「価値を上げるって、具体的に？」", next: "valueup" },
+          { label: "「エンドユーザーまでの流れ、見たい」", next: "valueup" }
         ]
       },
-      clean: {
-        kicker: "サービス",
-        title: "「きれいって、見た目だけじゃないんです」",
-        body: "家の空気、触れる場所の安心。\n住まいの価値は、掃除の先にもある。",
+      valueup: {
+        bg: "assets/backgrounds/bg-realestate-vacant-room.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "バリューアップ",
+        title: "「収益性と資産価値——両方に効く一手を探す」",
+        body: "「空室の空気が変わるだけで、話が前に進むこともある。\n……管理側の仕事も、つながってるんだよ」",
         choices: [
-          { label: "実演の流れを覚える", next: "choice" },
-          { label: "不安から聞き取ってみる", next: "choice" }
+          { label: "「資産管理の話も聞きたいです」", next: "asset" },
+          { label: "「建物側の現場も見たいです」", next: "building" }
         ]
       },
-      choice: {
-        kicker: "判断",
-        title: "急かすと決まる。でも残らない。待つと遅い。でも残る。",
-        body: "不動産の一日は、速度と信頼のバランスゲームだ。",
+      asset: {
+        bg: "assets/backgrounds/bg-realestate-pm-desk.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "資産管理",
+        title: "「オーナーさんにとって、ここは大事な財産だ」",
+        body: "「リーシング、契約、入居者対応、入出金、報告書——\n煩雑なやつを、一手に引き受ける。それがプロパティマネジメント」",
         choices: [
-          { label: "案内の仕事、深掘りしたい", next: "end-craft" },
-          { label: "住まいに付くサービスも学びたい", next: "end-link" }
+          { label: "「入居者対応、どうしてます？」", next: "leasing" },
+          { label: "「賃貸の仲介・企画もやるんですか」", next: "leasing" }
         ]
       },
-      "end-craft": {
+      leasing: {
+        bg: "assets/backgrounds/bg-realestate-pm-desk.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "運営",
+        title: "「快適な都市生活——言葉は大きいけど、中身は地味だ」",
+        body: "「立地と機能。事務所も店舗もアパートも。\n安定して回すためのスキームを、一緒に組む仕事だよ」",
+        choices: [
+          { label: "「建物の維持管理も見てみたい」", next: "building" },
+          { label: "「一日の感触、まとめたい」", next: "wrap" }
+        ]
+      },
+      building: {
+        bg: "assets/backgrounds/bg-realestate-maintenance.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "建物管理",
+        title: "「設備点検、消防、清掃——専門家の仕事が並ぶ」",
+        body: "「美観は毎日の積み重ね。大規模修繕やリフォームは、\n価値を守るための大きな一手だ」",
+        choices: [
+          { label: "「修繕の話、もう少し」", next: "repair" },
+          { label: "「売買の現場ともつながりますか」", next: "wrap" }
+        ]
+      },
+      repair: {
+        bg: "assets/backgrounds/bg-realestate-maintenance.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "修繕・リフォーム",
+        title: "「最高の状態に近づける——それが管理のゴール」",
+        body: "「オフィスも商業ビルもマンションも、環境は全部違う。\nだから総合的なノウハウが要るんだ」",
+        choices: [
+          { label: "「一日の感触、まとめます」", next: "wrap" }
+        ]
+      },
+      wrap: {
+        bg: "assets/backgrounds/bg-realestate-office-street.jpg",
+        speaker: "先輩・芹沢",
+        img: senior,
+        kicker: "一日の芯",
+        title: "「動かす・守る・整える。不動産は三拍子だ」",
+        body: "「どれか一つだけじゃ、物件は生きない。\n……お前は、どこが肌に合いそうだ？」",
+        choices: [
+          { label: "「売買・流動化側に惹かれます」", next: "end-trade" },
+          { label: "「管理で価値を守る側が気になります」", next: "end-manage" }
+        ]
+      },
+      "end-trade": {
         ending: true,
+        bg: "assets/backgrounds/bg-realestate-vacant-room.jpg",
         kicker: "この人生の感触",
-        title: "人のこれからに伴走する仕事が、残った。",
-        body: "物件より、『この人と決めたい』が残ることがある。",
+        title: "双方が納得する流れをつくる仕事が、残った。",
+        body: "物件は数字だけじゃない。人と価値のつなぎ目だ。",
         reality: [
           { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
           { label: "職場見学・インターンを調べる", href: "#reality-event" }
         ]
       },
-      "end-link": {
+      "end-manage": {
         ending: true,
+        bg: "assets/backgrounds/bg-realestate-maintenance.jpg",
         kicker: "この人生の感触",
-        title: "探す仕事と、整える仕事がつながった。",
-        body: "住む前も、住んだあとも、一日がある。",
+        title: "財産を守り、価値を高める仕事が、残った。",
+        body: "日々の点検も、大きな修繕も、同じ線の上にある。",
         reality: [
           { label: "別の働き方も試してみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
@@ -1689,7 +1750,8 @@
             id: "co-realestate",
             label: "綿伴レアルエステート株式会社",
             tag: "不動産",
-            blurb: "住みたいを探し、暮らしの安心も添える",
+            blurb: "売買・資産管理・建物管理。物件の価値を動かす",
+            img: "assets/char-office.png",
             scenes: realestateThemeQuest()
           },
           {
