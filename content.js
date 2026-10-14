@@ -947,12 +947,12 @@
         ]
       },
       trade: {
-        bg: "assets/backgrounds/bg-realestate-vacant-room.jpg",
+        bg: "assets/backgrounds/bg-realestate-tenant-building.jpg",
         speaker: "先輩・芹沢",
         img: senior,
         kicker: "売買",
         title: "「売主さんも買主さんも、納得がいちばん大事」",
-        body: "「オフィスもマンションも戸建ても、流れをつくる仕事だ。\nバリューアップってのは、ただの模様替えじゃないぞ」",
+        body: "「オフィスもテナントビルも戸建ても、流れをつくる仕事だ。\nバリューアップってのは、ただの模様替えじゃないぞ」",
         choices: [
           { label: "「価値を上げるって、具体的に？」", next: "valueup" },
           { label: "「エンドユーザーまでの流れ、見たい」", next: "valueup" }
@@ -983,7 +983,7 @@
         ]
       },
       leasing: {
-        bg: "assets/backgrounds/bg-realestate-pm-desk.jpg",
+        bg: "assets/backgrounds/bg-realestate-tenant-building.jpg",
         speaker: "先輩・芹沢",
         img: senior,
         kicker: "運営",
@@ -995,22 +995,22 @@
         ]
       },
       building: {
-        bg: "assets/backgrounds/bg-realestate-maintenance.jpg",
+        bg: "assets/backgrounds/bg-realestate-rooftop.jpg",
         speaker: "先輩・芹沢",
         img: senior,
         kicker: "建物管理",
         title: "「設備点検、消防、清掃——専門家の仕事が並ぶ」",
-        body: "「美観は毎日の積み重ね。大規模修繕やリフォームは、\n価値を守るための大きな一手だ」",
+        body: "「屋上の機械も、廊下の美観も、同じ管理の線だ。\n大規模修繕は、価値を守るための大きな一手になる」",
         choices: [
-          { label: "「修繕の話、もう少し」", next: "repair" },
+          { label: "「修繕の足場、見に行きたいです」", next: "repair" },
           { label: "「売買の現場ともつながりますか」", next: "wrap" }
         ]
       },
       repair: {
-        bg: "assets/backgrounds/bg-realestate-maintenance.jpg",
+        bg: "assets/backgrounds/bg-realestate-scaffold.jpg",
         speaker: "先輩・芹沢",
         img: senior,
-        kicker: "修繕・リフォーム",
+        kicker: "大規模修繕",
         title: "「最高の状態に近づける——それが管理のゴール」",
         body: "「オフィスも商業ビルもマンションも、環境は全部違う。\nだから総合的なノウハウが要るんだ」",
         choices: [
@@ -1031,7 +1031,7 @@
       },
       "end-trade": {
         ending: true,
-        bg: "assets/backgrounds/bg-realestate-vacant-room.jpg",
+        bg: "assets/backgrounds/bg-realestate-tenant-building.jpg",
         kicker: "この人生の感触",
         title: "双方が納得する流れをつくる仕事が、残った。",
         body: "物件は数字だけじゃない。人と価値のつなぎ目だ。",
@@ -1042,7 +1042,7 @@
       },
       "end-manage": {
         ending: true,
-        bg: "assets/backgrounds/bg-realestate-maintenance.jpg",
+        bg: "assets/backgrounds/bg-realestate-scaffold.jpg",
         kicker: "この人生の感触",
         title: "財産を守り、価値を高める仕事が、残った。",
         body: "日々の点検も、大きな修繕も、同じ線の上にある。",
