@@ -1041,13 +1041,14 @@ html.is-fullscreen .fs-btn {
 /* タイトル：上余白でKVを下げ、DEMOは右上、下枠は説明+STARTのみ */
 .title-stage-kv {
   position: relative;
-  padding: max(12px, env(safe-area-inset-top)) 0 max(12px, env(safe-area-inset-bottom));
+  padding: max(8px, env(safe-area-inset-top)) 0 max(8px, env(safe-area-inset-bottom));
   color: #16303a;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  background: #ffffff;
+  /* 拡張KVの端色に寄せた地色（真っ白余白を抑える） */
+  background: linear-gradient(180deg, #e8f4fb 0%, #f7faf8 45%, #fff8f0 100%);
 }
 
 .title-demo-badge {
@@ -1078,8 +1079,8 @@ html.is-fullscreen .fs-btn {
   align-items: flex-end;
   justify-content: center;
   overflow: hidden;
-  background: #ffffff;
-  padding-top: clamp(28px, 7vh, 72px);
+  background: transparent;
+  padding-top: clamp(8px, 2vh, 28px);
 }
 
 .title-kv-img {
@@ -1091,14 +1092,14 @@ html.is-fullscreen .fs-btn {
   width: 100%;
   max-width: 100%;
   height: auto;
-  aspect-ratio: 1983 / 793;
-  /* iOSで flex 親の height:100% が潰れて画像が消えるのを避ける */
-  max-height: 52vh;
-  min-height: 120px;
-  object-fit: contain;
-  object-position: bottom center;
+  aspect-ratio: 16 / 9;
+  /* 拡張版：画面をもう少し埋める（戻す時は max-height:52vh / aspect 1983/793） */
+  max-height: 68vh;
+  min-height: 140px;
+  object-fit: cover;
+  object-position: center 42%;
   flex-shrink: 0;
-  background: #ffffff;
+  background: transparent;
 }
 
 .title-kv::after {
@@ -3509,15 +3510,15 @@ html.is-landscape .rotate-hint {
     padding: 16px 5vw;
   }
 
-  /* 横画面：上余白でKV下げ、下に説明+START（coverしない） */
+  /* 横画面：拡張KVで余白を抑える */
   .title-stage-kv {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     gap: 0;
-    padding: max(10px, env(safe-area-inset-top)) 0 max(12px, 2vh);
-    background: #ffffff;
+    padding: max(8px, env(safe-area-inset-top)) 0 max(10px, 1.5vh);
+    background: linear-gradient(180deg, #e8f4fb 0%, #f7faf8 45%, #fff8f0 100%);
   }
 
   .title-demo-badge {
@@ -3535,8 +3536,8 @@ html.is-landscape .rotate-hint {
     border-radius: 0;
     overflow: hidden;
     box-shadow: none;
-    background: #ffffff;
-    padding-top: clamp(20px, 5vh, 56px);
+    background: transparent;
+    padding-top: clamp(6px, 1.5vh, 24px);
   }
 
   .title-stage-kv .title-kv::after {
@@ -3548,11 +3549,11 @@ html.is-landscape .rotate-hint {
     width: 100%;
     height: auto;
     max-width: 100%;
-    aspect-ratio: 1983 / 793;
-    max-height: 52vh;
-    min-height: 120px;
-    object-fit: contain;
-    object-position: bottom center;
+    aspect-ratio: 16 / 9;
+    max-height: 72vh;
+    min-height: 140px;
+    object-fit: cover;
+    object-position: center 40%;
     flex-shrink: 0;
   }
 
