@@ -1193,8 +1193,8 @@ html.is-fullscreen .fs-btn {
 
 .btn-start-kv {
   margin-top: 4px;
-  min-width: min(100%, 300px);
-  min-height: 72px;
+  min-width: min(100%, 320px);
+  min-height: 80px;
   background: linear-gradient(180deg, #3ad4bc, #178f7f);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.22) inset,
@@ -1415,10 +1415,10 @@ html.is-fullscreen .fs-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: min(100%, 320px);
-  min-height: 68px;
-  padding: 0 32px;
-  border-radius: 16px;
+  min-width: min(100%, 340px);
+  min-height: 76px;
+  padding: 0 36px;
+  border-radius: 18px;
   background: linear-gradient(180deg, #4eb8e6, #1f7fb0);
   color: #041820;
   font-weight: 700;
@@ -1456,7 +1456,7 @@ html.is-fullscreen .fs-btn {
   position: relative;
   z-index: 1;
   pointer-events: none;
-  font-size: 1.2rem;
+  font-size: 1.28rem;
   letter-spacing: 0.1em;
 }
 
@@ -2890,12 +2890,12 @@ html.is-fullscreen .fs-btn {
 .enter-btn {
   width: 100%;
   min-width: 0;
-  min-height: 58px;
-  border-radius: 14px;
+  min-height: 64px;
+  border-radius: 16px;
 }
 
 .enter-btn .btn-start-label {
-  font-size: 1.1rem;
+  font-size: 1.18rem;
 }
 
 .joystick-wrap {
@@ -3055,11 +3055,11 @@ html.is-fullscreen .fs-btn {
 .branch-hero {
   flex: 0 0 auto;
   display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 10px;
+  grid-template-columns: 104px 1fr;
+  gap: 14px;
   align-items: center;
   margin-bottom: 12px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-radius: 16px;
   background: rgba(255, 252, 246, 0.88);
   border: 1px solid rgba(20, 60, 70, 0.1);
@@ -3067,13 +3067,15 @@ html.is-fullscreen .fs-btn {
 }
 
 .branch-portrait {
-  width: 64px;
-  height: 64px;
+  width: 104px;
+  height: 104px;
   object-fit: cover;
-  object-position: center 16%;
+  /* バストアップ素材の顔が円の中央に来るよう寄せる */
+  object-position: center 12%;
   border-radius: 50%;
   border: 3px solid #fff;
   box-shadow: 0 8px 16px rgba(40, 70, 80, 0.14);
+  background: #1a2830;
 }
 
 .branch-kicker {
@@ -3297,13 +3299,13 @@ html.is-fullscreen .fs-btn {
   font-weight: 800;
   letter-spacing: 0.08em;
   color: #2a92c4;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
 }
 
 .branch-go-btn {
-  min-width: 64px;
-  min-height: 44px;
-  padding: 8px 14px;
+  min-width: 88px;
+  min-height: 56px;
+  padding: 12px 20px;
   border-radius: 999px;
   border: 1px solid rgba(58, 168, 216, 0.35);
   background: rgba(255, 255, 255, 0.92);
@@ -3329,14 +3331,22 @@ html.is-fullscreen .fs-btn {
 
   .branch-hero {
     margin-bottom: 6px;
-    padding: 6px 10px;
-    grid-template-columns: 44px 1fr;
-    gap: 8px;
+    padding: 8px 10px;
+    grid-template-columns: 72px 1fr;
+    gap: 10px;
   }
 
   .branch-portrait {
-    width: 44px;
-    height: 44px;
+    width: 72px;
+    height: 72px;
+    object-position: center 12%;
+  }
+
+  .branch-go-btn {
+    min-width: 76px;
+    min-height: 48px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
   }
 
   .branch-title {
