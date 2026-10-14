@@ -1093,12 +1093,11 @@ html.is-fullscreen .fs-btn {
   max-width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  /* 拡張版：画面をもう少し埋める（戻す時は max-height:52vh / aspect 1983/793） */
-  max-height: 68vh;
+  /* containで頭・カタカナの見切れを防ぐ */
+  max-height: min(64vh, calc(100% - 8px));
   min-height: 140px;
-  object-fit: cover;
-  /* 頭が切れないよう上寄りに見せる */
-  object-position: center 28%;
+  object-fit: contain;
+  object-position: center bottom;
   flex-shrink: 0;
   background: transparent;
 }
@@ -1114,7 +1113,7 @@ html.is-fullscreen .fs-btn {
   flex: 0 0 auto;
   /* 横の空きが気になるので幅を広げる（ほぼ全幅の帯） */
   width: min(100%, 1080px);
-  margin: 0 auto;
+  margin: 6px auto 0;
   padding: 14px 20px max(16px, env(safe-area-inset-bottom));
   background: linear-gradient(
     180deg,
@@ -3553,10 +3552,10 @@ html.is-landscape .rotate-hint {
     height: auto;
     max-width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 72vh;
+    max-height: min(66vh, calc(100% - 8px));
     min-height: 140px;
-    object-fit: cover;
-    object-position: center 22%;
+    object-fit: contain;
+    object-position: center bottom;
     flex-shrink: 0;
   }
 
