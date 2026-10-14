@@ -210,7 +210,7 @@
         choices: [
           { label: "鉄骨・溶接の工場を見る", next: "steel" },
           { label: "木造倉庫の現場に出る", next: "warehouse" },
-          { label: "先輩の出張に着いていく", next: "trip" }
+          { label: "立体駐車場の現場を見る", next: "parking" }
         ]
       },
       steel: {
@@ -270,7 +270,7 @@
         body: "「ネット、クレーン、鋼の格子。\n図面の線が、街の景色になる瞬間だ」",
         choices: [
           { label: "「倉庫現場も見ておきたい」", next: "warehouse" },
-          { label: "「出張の流れも知りたい」", next: "trip" }
+          { label: "「立駐の現場も見たい」", next: "parking" }
         ]
       },
       warehouse: {
@@ -294,8 +294,8 @@
         title: "「止めやすい、だけじゃ足りない」",
         body: "「融雪、足元、風雪。止められるってのは、天気の設計でもある。\n……行くぞ、次」",
         choices: [
-          { label: "「融雪、見せてください」", next: "trip" },
-          { label: "「柱の広さ、体感したいです」", next: "trip" }
+          { label: "「融雪、見せてください」", next: "parking" },
+          { label: "「柱の広さ、体感したいです」", next: "parking" }
         ]
       },
       resilient: {
@@ -306,47 +306,20 @@
         title: "「もしもの水、想定してるか？」",
         body: "「大事な盤は上。屋根は太陽光。\n安心の順番が、図面の順番だ」",
         choices: [
-          { label: "「電気の配置、確認します」", next: "trip" },
-          { label: "「屋根のパネル、見上げます」", next: "trip" }
-        ]
-      },
-      trip: {
-        event: {
-          label: "WORK EVENT",
-          icon: "✈",
-          title: "海外出張の同行",
-          text: "部品調達の打ち合わせ。初めての海外出張に、先輩が連れていくと言う。"
-        },
-        speaker: "先輩・黒瀬",
-        img: senior,
-        kicker: "仕事イベント",
-        title: "「車は空港の立駐に停めて、そこから飛ぶぞ」",
-        body: "「出張の始まりは、意外と足元だ。\nうちが手がけた立駐が、今日の出発点だ」",
-        choices: [
-          { label: "「分かりました、向かいます」", next: "parking" }
+          { label: "「電気の配置、確認します」", next: "parking" },
+          { label: "「屋根のパネル、見上げます」", next: "parking" }
         ]
       },
       parking: {
         bg: "assets/backgrounds/bg-solution-parking.jpg",
         speaker: "先輩・黒瀬",
         img: senior,
-        kicker: "空港の立体駐車場",
-        title: "「階段上がりながら、思い出してる」",
-        body: "「お前が関わった案件かは、まだ分からんだろ。\nでもな、『止められる場所』が旅の入口になってる」",
-        choices: [
-          { label: "「ゲート、行きましょう」", next: "abroad" },
-          { label: "「一枚、撮ってもいいですか」", next: "abroad" }
-        ]
-      },
-      abroad: {
-        speaker: "先輩・黒瀬",
-        img: senior,
-        kicker: "出張のあと",
-        title: "「会議室でも、戻る場所の話が出る」",
-        body: "「仕様、納期、安全。\n帰り道はまた、あの立駐のコンクリートからだ」",
+        kicker: "立体駐車場",
+        title: "「止められる場所をつくる——それが答えのひとつだ」",
+        body: "「階段、柱スパン、動線。\n使う人の一日が、鉄とコンクリートに乗る」",
         choices: [
           { label: "「現場・製造、もっとやりたいです」", next: "end-craft" },
-          { label: "「調達や計画も見てみたいです」", next: "end-plan" }
+          { label: "「計画や備え側も見てみたいです」", next: "end-plan" }
         ]
       },
       "end-craft": {
