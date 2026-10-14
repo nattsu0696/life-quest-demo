@@ -316,7 +316,7 @@
     const name = "株式会社綿伴林郷の家";
     return {
       start: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-living-stove.jpg",
         kicker: `QUEST / ${name}`,
         title: "入社一年目。図面と会話が行き来する。",
         body: "家は、人の時間を入れる器だ。\nお客様の『朝の光がほしい』が、寸法になって戻ってくる。",
@@ -326,7 +326,7 @@
         ]
       },
       model: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
         speaker: "先輩・結城",
         img: "assets/char-office.png",
         kicker: "モデルハウス",
@@ -338,7 +338,7 @@
         ]
       },
       recover: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-washitsu.jpg",
         speaker: "先輩・結城",
         img: "assets/char-office.png",
         kicker: "展示場",
@@ -350,7 +350,7 @@
         ]
       },
       client: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-mezzanine.jpg",
         speaker: "お客様",
         img: "assets/char-customer-woman.png",
         kicker: "打ち合わせ",
@@ -361,7 +361,7 @@
         ]
       },
       refine: {
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
         speaker: "先輩・結城",
         img: "assets/char-office.png",
         kicker: "設計のあと",
@@ -374,7 +374,7 @@
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-living-stove.jpg",
         kicker: "この人生の感触",
         title: "家の図面の向こうに、人の一日が見えるようになった。",
         body: "派手さより、毎日の積み重ねが自分を形づくる。",
@@ -385,7 +385,7 @@
       },
       "end-client": {
         ending: true,
-        bg: "assets/backgrounds/bg-house-interior.jpg",
+        bg: "assets/backgrounds/bg-shine-washitsu.jpg",
         kicker: "この人生の感触",
         title: "要望を言葉にする力が、仕事の芯になった。",
         body: "家は物でも、渡しているのは安心と想像だ。",
@@ -831,68 +831,6 @@
         kicker: "この人生の感触",
         title: "ネットと店が、対立じゃなく往復だと分かった。",
         body: "画面と売場は、別々の会社みたいに見えて一本だ。",
-        reality: [
-          { label: "別の働き方も試してみる", href: "#reality-work" },
-          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
-        ]
-      }
-    };
-  }
-
-  function shineThemeQuest() {
-    const name = "株式会社綿伴林業SHINE";
-    return {
-      start: {
-        kicker: `QUEST / ${name}`,
-        title: "家づくりの店を、後ろから支える一日。",
-        body: "モデルハウスの匂い、図面の線、加盟店からの相談電話。\n『建てる』の前に、『伝える』がある。",
-        choices: [
-          { label: "モデルハウスの案内を覚える", next: "model" },
-          { label: "加盟店サポートの打合せに入る", next: "fc" }
-        ]
-      },
-      model: {
-        kicker: "展示場",
-        title: "木のあたたかさは、言葉より先に手触りで伝わる。",
-        body: "お客様は価格表より、朝の光と廊下の音を見ている。",
-        choices: [
-          { label: "暮らしのシーンで説明する", next: "tour" },
-          { label: "構造の安心を先に説明する", next: "tour" }
-        ]
-      },
-      fc: {
-        kicker: "サポート",
-        title: "遠方の店の悩みが、画面越しに届く。",
-        body: "同じ看板でも、土地が違えば困りごとも違う。\n後ろ盾の仕事は、翻訳に近い。",
-        choices: [
-          { label: "現場の工夫を共有する", next: "tour" },
-          { label: "説明資料を一緒に整える", next: "tour" }
-        ]
-      },
-      tour: {
-        kicker: "一日の終わり",
-        title: "『ここに住みたい』が、短く残る。",
-        body: "家は商品であり、誰かのこれからでもある。\nその両方が机の上にある。",
-        choices: [
-          { label: "案内の腕を磨く", next: "end-craft" },
-          { label: "加盟店支援の仕事を深める", next: "end-link" }
-        ]
-      },
-      "end-craft": {
-        ending: true,
-        kicker: "この人生の感触",
-        title: "木の家を『体感で伝える』仕事が残った。",
-        body: "説明は、説得より体験に近い。",
-        reality: [
-          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
-          { label: "職場見学・インターンを調べる", href: "#reality-event" }
-        ]
-      },
-      "end-link": {
-        ending: true,
-        kicker: "この人生の感触",
-        title: "一軒の家の向こうに、いくつもの店があると分かった。",
-        body: "支える側の仕事も、家づくりの一部だ。",
         reality: [
           { label: "別の働き方も試してみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
@@ -1792,13 +1730,6 @@
             tag: "通販・店舗",
             blurb: "画面と店舗、両方で『届ける』を試す",
             scenes: dotcomThemeQuest()
-          },
-          {
-            id: "co-house-fc",
-            label: "株式会社綿伴林業SHINE",
-            tag: "住宅FC",
-            blurb: "モデルハウスと加盟店を、後ろから支える",
-            scenes: shineThemeQuest()
           },
           {
             id: "co-trading",
