@@ -406,47 +406,83 @@
         title: "画面の商品が、部屋の景色に変わる日。",
         body: "おうちの景色、やさしく整える仕事。\n店頭も提案も、同じ一日に並ぶ。",
         choices: [
-          { label: "店頭でコーディネートしてみる", next: "shop" },
+          { label: "店内のコーディネートを見る", next: "shop" },
           { label: "お客様の図面、一緒に見る", next: "plan" }
         ]
       },
       shop: {
-        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        bg: "assets/backgrounds/bg-rigna-showroom.jpg",
         speaker: "先輩・杏",
         img: "assets/char-campus.png",
-        kicker: "店頭",
+        kicker: "ショールーム",
         title: "「ここにテーブル置いたら、朝きれいでしょ」",
         body: "「ソファ、照明、ラグ——商品の話してるつもりが、\nいつの間にか暮らしの話になってるの」",
         choices: [
-          { label: "「買い付けの一日、見せて」", next: "buyer" },
+          { label: "「リビングの一角、もっと見たい」", next: "living" },
           { label: "「提案、仕上げにいこう」", next: "finish" }
         ]
       },
+      living: {
+        bg: "assets/backgrounds/bg-rigna-living-rem.jpg",
+        speaker: "先輩・杏",
+        img: "assets/char-campus.png",
+        kicker: "リビング",
+        title: "「色と素材が合うと、空気が一段静かになる」",
+        body: "「革のあたたかさ、木目のテーブル、壁のグレー。\n組み合わせが、部屋の性格になるんだよ」",
+        choices: [
+          { label: "「レンガ壁のコーナーも見たい」", next: "brick" },
+          { label: "「サイドボード周りも」", next: "sideboard" }
+        ]
+      },
+      brick: {
+        bg: "assets/backgrounds/bg-rigna-living-brick.jpg",
+        speaker: "先輩・杏",
+        img: "assets/char-campus.png",
+        kicker: "空間",
+        title: "「工業っぽさと、ぬくもり——両方ほしい人、多い」",
+        body: "「フレームの黒、木の天板、グリーン。\nときどきときめく空間って、こういうバランス」",
+        choices: [
+          { label: "「LDKの提案例も見せて」", next: "ldk" },
+          { label: "「仕上げに入ろう」", next: "finish" }
+        ]
+      },
+      sideboard: {
+        bg: "assets/backgrounds/bg-rigna-sideboard.jpg",
+        speaker: "先輩・杏",
+        img: "assets/char-campus.png",
+        kicker: "家具",
+        title: "「一点でも、部屋の軸になる家具がある」",
+        body: "「取っ手のない木目、余白の枝、小さな絵。\n静かなくせに、視線はちゃんと止まるでしょ」",
+        choices: [
+          { label: "「LDKの提案例も見せて」", next: "ldk" },
+          { label: "「仕上げに入ろう」", next: "finish" }
+        ]
+      },
       plan: {
-        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        bg: "assets/backgrounds/bg-rigna-ldk.jpg",
         speaker: "お客様",
         img: "assets/char-customer-man.png",
         kicker: "打合せ",
         title: "「通路、これくらいあると歩きやすいかな」",
         body: "「窓の高さに合う照明がいいんだよね。\n数字が合うと、なんか部屋の空気まで変わる気がする」",
         choices: [
-          { label: "「仕入れの話も聞いてみます」", next: "buyer" },
+          { label: "「ショールームの実物も見てみます」", next: "shop" },
           { label: "「じゃあ、提案まとめましょう」", next: "finish" }
         ]
       },
-      buyer: {
-        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+      ldk: {
+        bg: "assets/backgrounds/bg-rigna-ldk.jpg",
         speaker: "先輩・杏",
         img: "assets/char-campus.png",
-        kicker: "ライフスタイル",
-        title: "「今日の一品、暮らしちょっと豊かになるやつ」",
-        body: "「照明、食器、外の小物、おやつまでね。\n売場の反応見て、次なに仕入れるか決めるの」",
+        kicker: "暮らしの一式",
+        title: "「リビング・ダイニング・キッチン、つなげて見せる」",
+        body: "「ソファの先に食卓、その奥にキッチン。\n一日の動線が、そのまま景色になるの」",
         choices: [
           { label: "「仕上げ、いこう」", next: "finish" }
         ]
       },
       finish: {
-        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        bg: "assets/backgrounds/bg-rigna-living-brick.jpg",
         speaker: "先輩・杏",
         img: "assets/char-campus.png",
         kicker: "提案のあと",
@@ -459,7 +495,7 @@
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        bg: "assets/backgrounds/bg-rigna-showroom.jpg",
         kicker: "この人生の感触",
         title: "部屋の景色、変えられる気がした。",
         body: "商品は物でも、渡してるのは暮らしの空気。",
@@ -470,7 +506,7 @@
       },
       "end-plan": {
         ending: true,
-        bg: "assets/backgrounds/bg-rigna-storefront.jpg",
+        bg: "assets/backgrounds/bg-rigna-sideboard.jpg",
         kicker: "この人生の感触",
         title: "聞く・測る・並べる——その順番が残った。",
         body: "型があるから、信頼につながる。",
