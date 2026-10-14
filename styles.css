@@ -1076,11 +1076,11 @@ html.is-fullscreen .fs-btn {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
   overflow: hidden;
   background: transparent;
-  padding-top: clamp(8px, 2vh, 28px);
+  padding-top: 0;
 }
 
 .title-kv-img {
@@ -1090,15 +1090,15 @@ html.is-fullscreen .fs-btn {
 .title-kv-wide {
   display: block;
   width: 100%;
-  max-width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  /* containで頭・カタカナの見切れを防ぐ */
-  max-height: min(64vh, calc(100% - 8px));
-  min-height: 140px;
-  object-fit: contain;
-  object-position: center bottom;
-  flex-shrink: 0;
+  max-width: none;
+  height: 100%;
+  aspect-ratio: auto;
+  /* 全面埋め（両サイドのA4余白を出さない） */
+  max-height: none;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center center;
+  flex-shrink: 1;
   background: transparent;
 }
 
@@ -3534,12 +3534,13 @@ html.is-landscape .rotate-hint {
     width: 100%;
     flex: 1 1 auto;
     min-height: 0;
-    align-items: flex-end;
+    align-items: stretch;
+    justify-content: stretch;
     border-radius: 0;
     overflow: hidden;
     box-shadow: none;
     background: transparent;
-    padding-top: clamp(6px, 1.5vh, 24px);
+    padding-top: 0;
   }
 
   .title-stage-kv .title-kv::after {
@@ -3549,14 +3550,14 @@ html.is-landscape .rotate-hint {
   .title-kv-wide {
     display: block !important;
     width: 100%;
-    height: auto;
-    max-width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: min(66vh, calc(100% - 8px));
-    min-height: 140px;
-    object-fit: contain;
-    object-position: center bottom;
-    flex-shrink: 0;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    max-height: none;
+    min-height: 0;
+    object-fit: cover;
+    object-position: center center;
+    flex-shrink: 1;
   }
 
   .title-frame-kv,
