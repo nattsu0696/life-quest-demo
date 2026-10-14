@@ -2199,13 +2199,6 @@
             tag: "燕三条",
             blurb: "雪国と、刃物の町が同居する",
             scenes: niigataMigrateQuest()
-          },
-          {
-            id: "pref-yamanashi",
-            label: "山梨県",
-            tag: "内陸",
-            blurb: "都心との往復も視野に入る距離",
-            scenes: migrateQuest("山梨県", "都心を離れた感覚と、まだ戻れる安心が同時にある。")
           }
         ]
       },
