@@ -3302,10 +3302,11 @@ html.is-fullscreen .fs-btn {
 }
 
 .branch-go-btn {
-  width: 104px;
-  min-width: 104px;
-  min-height: 56px;
-  padding: 12px 10px;
+  /* CLEAR文字幅に合わせた大きめ固定（GOも同じサイズ） */
+  width: 128px;
+  min-width: 128px;
+  min-height: 64px;
+  padding: 14px 12px;
   border-radius: 999px;
   text-align: center;
   box-sizing: border-box;
@@ -3360,11 +3361,11 @@ html.is-fullscreen .fs-btn {
   }
 
   .branch-go-btn {
-    width: 96px;
-    min-width: 96px;
-    min-height: 48px;
-    padding: 10px 8px;
-    font-size: 0.95rem;
+    width: 116px;
+    min-width: 116px;
+    min-height: 56px;
+    padding: 12px 10px;
+    font-size: 1rem;
   }
 
   .branch-title {
