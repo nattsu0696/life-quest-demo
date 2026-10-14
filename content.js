@@ -715,68 +715,6 @@
 
   // --- 汎用寄り企業：公開してよい「仕事の感触」だけ。実名・固有案件・数値は入れない ---
 
-  function partnersThemeQuest() {
-    const name = "綿伴ハートナーズ株式会社";
-    return {
-      start: {
-        kicker: `QUEST / ${name}`,
-        title: "店の裏側で、『売れる前』が動いてる。",
-        body: "仕入れ、企画、倉庫。並ぶ前の一日がここにある。\n今日は、新しい定番づくりの打合せだ。",
-        choices: [
-          { label: "冬の小さな暖房の企画に入る", next: "heater" },
-          { label: "家庭の味シリーズの試作を見る", next: "sauce" }
-        ]
-      },
-      heater: {
-        kicker: "商品企画",
-        title: "「狭い場所でも安心——仕様の言葉、これでいこう」",
-        body: "省エネ？ あたたかさ？ 置きやすさ？\n優先順位で、完成の形がガラッと変わる。",
-        choices: [
-          { label: "「置きやすさ、いちばん大事」", next: "test" },
-          { label: "「あたたかさ、いちばん大事」", next: "test" }
-        ]
-      },
-      sauce: {
-        kicker: "商品企画",
-        title: "「刺激とやさしさ、真ん中どこだと思う？」",
-        body: "辛さは数字だけじゃない。\n先輩が言う——『もう一皿ほしい』がゴールだ。",
-        choices: [
-          { label: "「刺激寄りで勝負しよう」", next: "test" },
-          { label: "「家庭向けにやわらげよう」", next: "test" }
-        ]
-      },
-      test: {
-        kicker: "現場",
-        title: "「いい」「惜しい」「まだ早い」——短い言葉が飛ぶ。",
-        body: "試作品が机に並ぶ。\n商品は、会議室より先に口と手で決まる。",
-        choices: [
-          { label: "企画側、もっとやりたい", next: "end-craft" },
-          { label: "店と倉庫のつながりも見たい", next: "end-link" }
-        ]
-      },
-      "end-craft": {
-        ending: true,
-        kicker: "この人生の感触",
-        title: "『並ぶ前』をつくる仕事が、残った。",
-        body: "派手なCMより、毎日の使いやすさ。",
-        reality: [
-          { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
-          { label: "職場見学・インターンを調べる", href: "#reality-event" }
-        ]
-      },
-      "end-link": {
-        ending: true,
-        kicker: "この人生の感触",
-        title: "企画と現場、一本の線だった。",
-        body: "倉庫の段ボールと、売場の棚は隣同士。",
-        reality: [
-          { label: "別の働き方も試してみる", href: "#reality-work" },
-          { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
-        ]
-      }
-    };
-  }
-
   function dotcomThemeQuest() {
     const name = "株式会社綿伴ドアットコム";
     return {
@@ -1701,13 +1639,6 @@
             tag: "住宅",
             blurb: "図面と会話で家をつくる。暮らしの器づくり",
             scenes: houseLinkedQuest()
-          },
-          {
-            id: "co-partners",
-            label: "綿伴ハートナーズ株式会社",
-            tag: "仕入・商品企画",
-            blurb: "お店に並ぶ前の、企画と裏側を支える",
-            scenes: partnersThemeQuest()
           },
           {
             id: "co-taiyo",
