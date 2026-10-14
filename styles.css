@@ -3298,7 +3298,6 @@ html.is-fullscreen .fs-btn {
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: #2a92c4;
   font-size: 1.05rem;
 }
 
@@ -3307,11 +3306,26 @@ html.is-fullscreen .fs-btn {
   min-height: 56px;
   padding: 12px 20px;
   border-radius: 999px;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+/* GO / 体験：今のCLEAR色を反転（塗りつぶし） */
+.branch-go-btn.is-go {
+  color: #fff;
+  border: 1px solid rgba(30, 120, 170, 0.55);
+  background: linear-gradient(180deg, #4eb8e6, #2a92c4);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 6px 14px rgba(42, 146, 196, 0.28);
+}
+
+/* CLEAR：白地＋水色文字（従来の見た目） */
+.branch-go-btn.is-clear {
+  color: #2a92c4;
   border: 1px solid rgba(58, 168, 216, 0.35);
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 4px 12px rgba(40, 80, 100, 0.1);
-  touch-action: manipulation;
-  cursor: pointer;
 }
 
 .branch-go-btn:active {

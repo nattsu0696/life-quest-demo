@@ -1853,12 +1853,13 @@
             ? `<span class="branch-pin">前回の地点</span>`
             : `<span class="branch-pin"></span>`;
           const goLabel = categoryCleared(cat) ? "CLEAR" : "GO";
+          const goClass = goLabel === "CLEAR" ? "is-clear" : "is-go";
           card.innerHTML = `
             <span class="branch-tag">${cat.short || "PATH"}</span>
             ${pin}
             <span class="branch-label">${cat.label}</span>
             <span class="branch-blurb">${cat.hint || ""}</span>
-            <button type="button" class="branch-go-btn" aria-label="${goLabel}">${goLabel}</button>
+            <button type="button" class="branch-go-btn ${goClass}" aria-label="${goLabel}">${goLabel}</button>
           `;
           const goBtn = card.querySelector(".branch-go-btn");
           bindTap(goBtn, () => openBranch(cat.id));
@@ -2136,6 +2137,7 @@
       const goLabel = state.cleared.has(opt.id)
         ? "CLEAR"
         : (showReach ? (evalReq.ok ? "GO" : "体験") : "GO");
+      const goClass = goLabel === "CLEAR" ? "is-clear" : "is-go";
       const pin = opt.id === lastOpt ? `<span class="branch-pin">前回の地点</span>` : "";
 
       card.innerHTML = `
@@ -2146,7 +2148,7 @@
         <span class="branch-blurb">${opt.blurb || ""}</span>
         ${meters ? `<div class="branch-meters">${meters}</div>` : ""}
         ${tip ? `<span class="branch-tip">${tip}</span>` : ""}
-        <button type="button" class="branch-go-btn" aria-label="${goLabel}">${goLabel}</button>
+        <button type="button" class="branch-go-btn ${goClass}" aria-label="${goLabel}">${goLabel}</button>
       `;
       const goBtn = card.querySelector(".branch-go-btn");
       bindTap(goBtn, () => startQuest(opt.id));
