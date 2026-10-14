@@ -1566,6 +1566,93 @@
     };
   }
 
+  function shizuokaMigrateQuest() {
+    const place = "静岡県";
+    const local = "assets/char-local-woman.png";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-shizuoka-tea-fuji.jpg",
+        kicker: `QUEST / ${place}`,
+        title: "茶畑の先に、富士。空が、ひとつ開けて見える。",
+        body: "山が近く、海も近い。街は大きすぎない。\n便利さと景色のバランスが、移住の話題になりやすい県だ。",
+        choices: [
+          { label: "街のサイズ感を確かめる", next: "city" },
+          { label: "海と山が接する町を見る", next: "coast" }
+        ]
+      },
+      city: {
+        bg: "assets/backgrounds/bg-shizuoka-city.jpg",
+        speaker: "地域の人・葵",
+        img: local,
+        kicker: "街",
+        title: "「県庁所在地くらいの規模。大きすぎず、小さすぎない感じ」",
+        body: "「新幹線も通るし、買い物もだいたい足りる。\nでもすぐ郊外に出れば茶畑で、もう少し走れば海。その距離感がいいんだよね」",
+        choices: [
+          { label: "「海側の町も見たいです」", next: "coast" },
+          { label: "「県民が推すごはん処、知りたい」", next: "shop" }
+        ]
+      },
+      coast: {
+        bg: "assets/backgrounds/bg-shizuoka-coast-town.jpg",
+        speaker: "地域の人・葵",
+        img: local,
+        kicker: "海と山",
+        title: "「山に囲まれて、すぐ前が海。この圧縮感が静岡っぽい」",
+        body: "「温泉街みたいな場所も、普通の住宅街もある。\n移住するなら『景色の綺麗さ』と『日常のスーパー距離』は別で見たほうがいいよ」",
+        choices: [
+          { label: "「名物のごはん、連れてって」", next: "shop" },
+          { label: "「ここに腰を据える感触、試す」", next: "end-root" }
+        ]
+      },
+      shop: {
+        bg: "assets/backgrounds/bg-shizuoka-hamburg-shop.jpg",
+        speaker: "地域の人・葵",
+        img: local,
+        kicker: "ご当地",
+        title: "「緑の看板の、あの炭焼きハンバーグ。県外の人も並ぶ店だよ」",
+        body: "「名前は言わないけど、静岡に住むと『いつ行く？』が会話になる。\n暮らしの満足って、景色だけじゃなくこういう日常のごほうびもあるよね」",
+        choices: [
+          { label: "「熱々のやつ、食べたい」", next: "meal" },
+          { label: "「街との往復も残したい」", next: "end-bridge" }
+        ]
+      },
+      meal: {
+        bg: "assets/backgrounds/bg-shizuoka-hamburg-cut.jpg",
+        speaker: "地域の人・葵",
+        img: local,
+        kicker: "炭焼き",
+        title: "「牛の鉄板でジュージュー。ここで切って、ここで仕上げるやつ」",
+        body: "「美味しいだけで移住は決めない。でも『ここにいる理由』の一つにはなる。\n山と海と、程よい街と、ごほうびの一皿。セットで感じるのが静岡かも」",
+        choices: [
+          { label: "このバランスで暮らしてみる", next: "end-root" },
+          { label: "都会との二拠点も試す", next: "end-bridge" }
+        ]
+      },
+      "end-root": {
+        ending: true,
+        bg: "assets/backgrounds/bg-shizuoka-tea-fuji.jpg",
+        kicker: "この人生の感触",
+        title: "静岡は、極端じゃない。だから選びやすい、という感触だった。",
+        body: "富士と茶畑、海と程よい街。派手さより、距離感の設計が残った。",
+        reality: [
+          { label: "静岡県のお試し移住を調べる", href: "#reality-town" },
+          { label: "自治体の体験企画を見る", href: "#reality-event" }
+        ]
+      },
+      "end-bridge": {
+        ending: true,
+        bg: "assets/backgrounds/bg-shizuoka-city.jpg",
+        kicker: "この人生の感触",
+        title: "拠点は静岡、用事は新幹線で都心。その割り切りもありだった。",
+        body: "山と海に触れつつ、完全に閉じない選択肢が残った。",
+        reality: [
+          { label: "静岡の短期間滞在を探す", href: "#reality-town" },
+          { label: "地方の仕事体験を調べる", href: "#reality-work" }
+        ]
+      }
+    };
+  }
+
   function niigataMigrateQuest() {
     const place = "新潟県";
     const craft = "assets/char-work-senior-man.png";
@@ -2103,8 +2190,8 @@
             id: "pref-shizuoka",
             label: "静岡県",
             tag: "東海",
-            blurb: "海と山、どちらも近い場所",
-            scenes: migrateQuest("静岡県", "空が開けていて、移動の選択肢が思ったより多い。")
+            blurb: "山と海、程よい街の距離感",
+            scenes: shizuokaMigrateQuest()
           },
           {
             id: "pref-niigata",
