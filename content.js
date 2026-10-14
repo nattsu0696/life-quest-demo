@@ -1136,14 +1136,26 @@
         img: senior,
         kicker: "囲炉裏",
         title: "「炭の香りが、会話をゆっくりにする」",
-        body: "「山の景色を見ながら、席の温度を感じる。\n料理は味だけじゃなく、時間の演出でもあるよ」",
+        body: "「山の景色を見ながら、席の温度を感じる。\n今日のごはん、火のそばで見てみよう」",
         choices: [
-          { label: "「配膳のタイミング、練習します」", next: "serve" },
-          { label: "「釜の位置、覚えておきます」", next: "serve" }
+          { label: "「料理の盛りつけ、見せてください」", next: "cuisine" },
+          { label: "「釜の位置、先に覚えます」", next: "cuisine" }
+        ]
+      },
+      cuisine: {
+        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "料理",
+        title: "「見て——火が、いちばんの主役だよ」",
+        body: "「魚も芋もきりたんぽも、炭の色でタイミングが分かる。\n牛肉のせいろ、そば、小鉢……全部、今日の物語」",
+        choices: [
+          { label: "「配膳の間合い、練習します」", next: "serve" },
+          { label: "「焼き場の手元、もう少し見る」", next: "serve" }
         ]
       },
       serve: {
-        bg: "assets/backgrounds/bg-resort-irori-day.jpg",
+        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
         speaker: "先輩・栞",
         img: senior,
         kicker: "場づくり",
@@ -1179,10 +1191,10 @@
       },
       "end-link": {
         ending: true,
-        bg: "assets/backgrounds/bg-resort-irori-day.jpg",
+        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
         kicker: "この人生の感触",
         title: "宿は、食・湯・部屋の連携だった。",
-        body: "囲炉裏の煙も、フロントの一言も、同じ一日の線。",
+        body: "炭の香りも、フロントの一言も、同じ一日の線。",
         reality: [
           { label: "別の働き方も試してみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
