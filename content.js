@@ -1056,63 +1056,122 @@
 
   function resortThemeQuest() {
     const name = "株式会社綿伴リゾート";
+    const senior = "assets/char-campus.png";
     return {
       start: {
-        bg: "assets/backgrounds/bg-resort-entrance.jpg",
+        bg: "assets/backgrounds/bg-resort-entrance-day.jpg",
         kicker: `QUEST / ${name}`,
-        title: "山あいの宿。四季のあたたかさが、仕事の教材。",
-        body: "チェックイン、食事、お風呂、お見送り。\n一日の流れそのものが、おもてなしだ。",
+        title: "石の段を上がった先が、旅の入口だ。",
+        body: "山あいの宿。チェックインからお見送りまで、\n一日の流れそのものが、おもてなしになる。",
         choices: [
-          { label: "フロントの受け入れを覚える", next: "front" },
-          { label: "囲炉裏の食事処を手伝う", next: "irori" }
+          { label: "フロントでお出迎えを覚える", next: "front" },
+          { label: "囲炉裏ロビーの空気を先に吸う", next: "irori-lobby" }
         ]
       },
       front: {
-        bg: "assets/backgrounds/bg-resort-lobby.jpg",
+        bg: "assets/backgrounds/bg-resort-lobby-irori.jpg",
+        speaker: "先輩・栞",
+        img: senior,
         kicker: "フロント",
-        title: "「ようこそ。——旅の初めの表情、ここで決まる」",
-        body: "地図、部屋、小さな要望。\n家族連れには、安心の言葉が先に立つ。",
+        title: "「ようこそ。——最初の表情、ここで決まるよ」",
+        body: "「地図、お部屋、小さな要望。\n家族連れには、安心の言葉が先に立つんだ」",
         choices: [
-          { label: "「お部屋へご案内しますね」", next: "room" },
-          { label: "「先に食事処、手伝います」", next: "irori" }
+          { label: "「お部屋へご案内しますね」", next: "room-pick" },
+          { label: "「囲炉裏の席、先に整えます」", next: "irori" }
         ]
       },
-      room: {
-        bg: "assets/backgrounds/bg-resort-room.jpg",
-        kicker: "客室",
-        title: "畳の匂いと、窓の緑。——旅の最初の一呼吸。",
-        body: "テーブル、荷物置き、静けさ。\n『休める部屋』は、整える手仕事でできてる。",
+      "irori-lobby": {
+        bg: "assets/backgrounds/bg-resort-lobby-irori.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "ロビー",
+        title: "「紫の傘と自在鉤——ここ、宿の顔だよ」",
+        body: "「座布団の向き、花の位置、受付の視線。\n派手なことはしない。でも、ちゃんと迎えてる感が出る」",
         choices: [
-          { label: "「お湯の案内、しますね」", next: "onsen" },
+          { label: "「窓側の囲炉裏も見てみたい」", next: "irori" },
+          { label: "「客室の整え方、知りたいです」", next: "room-pick" }
+        ]
+      },
+      "room-pick": {
+        bg: "assets/backgrounds/bg-resort-room-wa.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "和室",
+        title: "「和室は、入った瞬間に肩が落ちるでしょ」",
+        body: "「畳、ちゃぶ台、窓の山並み。\n『休める』は、整える手仕事でできてるんだよ」",
+        choices: [
+          { label: "「こちらの和室コーナーも見せて」", next: "room-wa-corner" },
+          { label: "「洋室も見せてください」", next: "room-western" },
           { label: "「お食事の時間、確認します」", next: "irori" }
         ]
       },
-      irori: {
-        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
-        kicker: "食事処",
-        title: "炭の香りが、会話をゆっくりにする。",
-        body: "地元の食材、焼き加減、席の温度。\n料理は味だけじゃなく、時間の演出でもある。",
+      "room-wa-corner": {
+        bg: "assets/backgrounds/bg-resort-room-wa-corner.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "和室",
+        title: "「窓際の席、森の緑がいちばん近い」",
+        body: "「座椅子の向き、花一枝、ランプのあたたかさ。\n小さな整えが、滞在の印象になるよ」",
         choices: [
-          { label: "焼き場の手元を見て覚える", next: "onsen" },
-          { label: "配膳のタイミングを練習する", next: "onsen" }
+          { label: "「洋室も見せてください」", next: "room-western" },
+          { label: "「囲炉裏の席へ行きたい」", next: "irori" },
+          { label: "「お湯の案内、しますね」", next: "onsen" }
+        ]
+      },
+      "room-western": {
+        bg: "assets/backgrounds/bg-resort-room-western.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "洋室",
+        title: "「洋室は、ベッドの並びと間接光がいちばん大事」",
+        body: "「枕元の明かり、荷物の置き場、朝の動線。\n細かいほど、翌朝の表情が変わるんだ」",
+        choices: [
+          { label: "「囲炉裏の席、見に行きたい」", next: "irori" },
+          { label: "「湯の案内、練習したい」", next: "onsen" }
+        ]
+      },
+      irori: {
+        bg: "assets/backgrounds/bg-resort-irori-day.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "囲炉裏",
+        title: "「炭の香りが、会話をゆっくりにする」",
+        body: "「山の景色を見ながら、席の温度を感じる。\n料理は味だけじゃなく、時間の演出でもあるよ」",
+        choices: [
+          { label: "「配膳のタイミング、練習します」", next: "serve" },
+          { label: "「釜の位置、覚えておきます」", next: "serve" }
+        ]
+      },
+      serve: {
+        bg: "assets/backgrounds/bg-resort-irori-day.jpg",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "場づくり",
+        title: "「出す早さより、出す間合い」",
+        body: "「話し込んでる席は急がない。\n静かな席は、湯気のタイミングで声をかける」",
+        choices: [
+          { label: "「お湯の案内へ行きます」", next: "onsen" },
+          { label: "「客室の最終確認もしたい」", next: "room-pick" }
         ]
       },
       onsen: {
         bg: "assets/backgrounds/bg-resort-onsen.jpg",
-        kicker: "湯上がり",
-        title: "露天の風が、一日の疲れをほどく。",
-        body: "宿の仕事は、『休ませる』ための段取り。\n自分も動きながら、お客様の静けさを守る。",
+        speaker: "先輩・栞",
+        img: senior,
+        kicker: "湯",
+        title: "「露天の風が、一日の疲れをほどく」",
+        body: "「宿の仕事は、『休ませる』ための段取り。\n自分も動きながら、お客様の静けさを守るんだ」",
         choices: [
-          { label: "接客、もっと深掘りしたい", next: "end-craft" },
-          { label: "料理・場づくり側も見たい", next: "end-link" }
+          { label: "「接客、もっと深掘りしたい」", next: "end-craft" },
+          { label: "「場づくり・囲炉裏側も見たい」", next: "end-link" }
         ]
       },
       "end-craft": {
         ending: true,
-        bg: "assets/backgrounds/bg-resort-room.jpg",
+        bg: "assets/backgrounds/bg-resort-room-wa.jpg",
         kicker: "この人生の感触",
         title: "人を休ませる仕事の手応えが、残った。",
-        body: "笑顔の裏に、見えない準備がある。",
+        body: "笑顔の裏に、見えない準備がある。\n部屋の光一本が、旅の印象になる。",
         reality: [
           { label: `${name}の仕事をもう少し知る`, href: "#reality-work" },
           { label: "職場見学・インターンを調べる", href: "#reality-event" }
@@ -1120,10 +1179,10 @@
       },
       "end-link": {
         ending: true,
-        bg: "assets/backgrounds/bg-resort-cuisine.jpg",
+        bg: "assets/backgrounds/bg-resort-irori-day.jpg",
         kicker: "この人生の感触",
         title: "宿は、食・湯・部屋の連携だった。",
-        body: "一つの体験が、いくつもの係の連続でできている。",
+        body: "囲炉裏の煙も、フロントの一言も、同じ一日の線。",
         reality: [
           { label: "別の働き方も試してみる", href: "#reality-work" },
           { label: `${name}の説明会・採用情報を見る`, href: "#reality-event" }
@@ -1758,7 +1817,7 @@
             id: "co-resort",
             label: "株式会社綿伴リゾート",
             tag: "宿・観光",
-            blurb: "山あいの宿で、四季のあたたかさをおもてなし",
+            blurb: "囲炉裏と和モダン客室で、山あいのおもてなし",
             scenes: resortThemeQuest()
           },
           {
