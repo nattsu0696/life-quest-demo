@@ -2108,33 +2108,44 @@
       ? state.save.flags.lastPlace.optionId
       : "";
 
+    /* 手が届くUIは学校系（高校・大学・専門）のみ。企業・移住・起業では出さない */
+    const schoolReach =
+      cat.id === "highschool" ||
+      cat.id === "univ" ||
+      cat.id === "skill";
+
     branchList.innerHTML = "";
     cat.options.forEach((opt) => {
       const card = document.createElement("article");
-      const evalReq = evaluateRequirements(opt.require, stats);
+      const showReach = schoolReach && Boolean(opt.require);
+      const evalReq = showReach
+        ? evaluateRequirements(opt.require, stats)
+        : { ok: true, gaps: [], ratio: 1, label: "" };
       card.className = "branch-card";
-      if (opt.require) card.classList.add("has-require");
-      if (evalReq.ok) card.classList.add("is-ready");
-      else if (evalReq.ratio >= 0.5) card.classList.add("is-near-req");
-      else card.classList.add("is-far-req");
+      if (showReach) {
+        card.classList.add("has-require");
+        if (evalReq.ok) card.classList.add("is-ready");
+        else if (evalReq.ratio >= 0.5) card.classList.add("is-near-req");
+        else card.classList.add("is-far-req");
+      }
       if (state.cleared.has(opt.id)) card.classList.add("is-cleared");
       if (opt.id === lastOpt) card.classList.add("is-last-place");
 
-      const tip = formatGapTip(evalReq.gaps);
-      const meters = renderRequireMeters(opt.require, stats);
+      const tip = showReach ? formatGapTip(evalReq.gaps) : "";
+      const meters = showReach ? renderRequireMeters(opt.require, stats) : "";
       const goLabel = state.cleared.has(opt.id)
         ? "CLEAR"
-        : (evalReq.ok ? "GO" : "体験");
+        : (showReach ? (evalReq.ok ? "GO" : "体験") : "GO");
       const pin = opt.id === lastOpt ? `<span class="branch-pin">前回の地点</span>` : "";
 
       card.innerHTML = `
         <span class="branch-tag">${opt.tag || "OPTION"}</span>
-        <span class="branch-match">${evalReq.label}</span>
+        ${showReach ? `<span class="branch-match">${evalReq.label}</span>` : ""}
         <span class="branch-label">${opt.label}</span>
         ${pin}
         <span class="branch-blurb">${opt.blurb || ""}</span>
         ${meters ? `<div class="branch-meters">${meters}</div>` : ""}
-        <span class="branch-tip">${tip}</span>
+        ${tip ? `<span class="branch-tip">${tip}</span>` : ""}
         <button type="button" class="branch-go-btn" aria-label="${goLabel}">${goLabel}</button>
       `;
       const goBtn = card.querySelector(".branch-go-btn");
