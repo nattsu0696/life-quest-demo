@@ -3302,10 +3302,13 @@ html.is-fullscreen .fs-btn {
 }
 
 .branch-go-btn {
-  min-width: 88px;
+  width: 104px;
+  min-width: 104px;
   min-height: 56px;
-  padding: 12px 20px;
+  padding: 12px 10px;
   border-radius: 999px;
+  text-align: center;
+  box-sizing: border-box;
   touch-action: manipulation;
   cursor: pointer;
 }
@@ -3357,9 +3360,10 @@ html.is-fullscreen .fs-btn {
   }
 
   .branch-go-btn {
-    min-width: 76px;
+    width: 96px;
+    min-width: 96px;
     min-height: 48px;
-    padding: 10px 16px;
+    padding: 10px 8px;
     font-size: 0.95rem;
   }
 
