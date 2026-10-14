@@ -1566,6 +1566,94 @@
     };
   }
 
+  function niigataMigrateQuest() {
+    const place = "新潟県";
+    const craft = "assets/char-work-senior-man.png";
+    const local = "assets/char-local-woman.png";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-niigata-snow-mountains.jpg",
+        kicker: `QUEST / ${place}`,
+        title: "雪の向こうに、街の明かりが見える。",
+        body: "豪雪の山側と、信濃川沿いの都市。\n同じ県なのに、景色の切り替えが速い。",
+        choices: [
+          { label: "街のほうへ降りてみる", next: "city" },
+          { label: "刃物の産地を訪ねる", next: "workshop" }
+        ]
+      },
+      city: {
+        bg: "assets/backgrounds/bg-niigata-bandai-bridge.jpg",
+        speaker: "地域の人・雪乃",
+        img: local,
+        kicker: "街",
+        title: "「万代橋のあたり、都会っぽいでしょ。でもすぐ隣に田んぼがある」",
+        body: "「暮らしの拠点は街でもいい。仕事の濃さは、燕三条のほうにあるかも。\n刃物・金属加工の町として、世界に名が通ってるんだよ」",
+        choices: [
+          { label: "「工房、見に行きたいです」", next: "workshop" },
+          { label: "「山側の暮らしも知りたい」", next: "valley" }
+        ]
+      },
+      valley: {
+        bg: "assets/backgrounds/bg-niigata-valley-green.jpg",
+        speaker: "地域の人・雪乃",
+        img: local,
+        kicker: "里山",
+        title: "「春は緑、冬は白い。季節のメリハリが、生活のリズムになる」",
+        body: "「雪かきは本気。そのぶん、夏の風は気持ちいいよ。\n移住するなら、冬の一日を先に体験したほうがいい」",
+        choices: [
+          { label: "「刃物の現場も見たい」", next: "workshop" },
+          { label: "「製品の仕上がり側を見たい」", next: "product" }
+        ]
+      },
+      workshop: {
+        bg: "assets/backgrounds/bg-niigata-knife-workshop.jpg",
+        speaker: "職人・鋼",
+        img: craft,
+        kicker: "燕三条",
+        title: "「研ぐ音が、町の呼吸なんだよ」",
+        body: "「包丁もニッパーも、同じ『切る』でも設計が違う。\n精度は機械、最後の感触は人の手。見学するだけでも分かるはず」",
+        choices: [
+          { label: "「完成品の手触り、見せてください」", next: "product" },
+          { label: "「ここで働く感触、試したい」", next: "end-craft" }
+        ]
+      },
+      product: {
+        bg: "assets/backgrounds/bg-niigata-cutlery-close.jpg",
+        speaker: "職人・鋼",
+        img: craft,
+        kicker: "刃物",
+        title: "「見た目は静か。でも刃先に、何十年分のコツが詰まってる」",
+        body: "「海外にも出ていく製品だ。でも作り手は、この盆地にいる。\n移住するなら『住む場所』と『関わる産業』をセットで考えたほうがいい」",
+        choices: [
+          { label: "この土地で刃物・ものづくりに関わる", next: "end-craft" },
+          { label: "街暮らしと往復も残してみる", next: "end-bridge" }
+        ]
+      },
+      "end-craft": {
+        ending: true,
+        bg: "assets/backgrounds/bg-niigata-knife-workshop.jpg",
+        kicker: "この人生の感触",
+        title: "新潟の刃物は、雪国の生活より先に『手仕事』だった。",
+        body: "切る道具の向こうに、町の技術の積み重ねがある。現場感が残った。",
+        reality: [
+          { label: "新潟県のお試し移住を調べる", href: "#reality-town" },
+          { label: "燕三条のものづくり体験を見る", href: "#reality-work" }
+        ]
+      },
+      "end-bridge": {
+        ending: true,
+        bg: "assets/backgrounds/bg-niigata-bandai-bridge.jpg",
+        kicker: "この人生の感触",
+        title: "産地に触れつつ、街にも戻れる距離感があった。",
+        body: "完全移住じゃなく、関わり方を設計する選択肢が残った。",
+        reality: [
+          { label: "新潟の短期間滞在を探す", href: "#reality-town" },
+          { label: "地方の仕事体験を調べる", href: "#reality-work" }
+        ]
+      }
+    };
+  }
+
   function migrateQuest(place, flavor) {
     return {
       start: {
@@ -2021,9 +2109,9 @@
           {
             id: "pref-niigata",
             label: "新潟県",
-            tag: "北陸側",
-            blurb: "雪と田園がつくる季節のメリハリ",
-            scenes: migrateQuest("新潟県", "季節の切り替わりがはっきりしていて、暮らしのリズムが変わる。")
+            tag: "燕三条",
+            blurb: "雪国と、刃物の町が同居する",
+            scenes: niigataMigrateQuest()
           },
           {
             id: "pref-yamanashi",
