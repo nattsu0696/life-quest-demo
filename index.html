@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=159" />
+  <link rel="stylesheet" href="styles.css?v=162" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -166,16 +166,18 @@
             </div>
             <p class="gate-label">性別</p>
             <div class="gender-grid" role="radiogroup" aria-label="性別">
-              <label class="trait-card">
+              <label class="trait-card gender-card">
                 <input type="radio" name="gender" value="boy" />
-                <span class="trait-card-body">
+                <span class="trait-card-body gender-card-body">
+                  <img class="gender-avatar" src="assets/char-teen-boy.png?v=162" alt="" width="160" height="160" decoding="async" />
                   <strong>男性</strong>
                   <small>主人公を男性で</small>
                 </span>
               </label>
-              <label class="trait-card">
+              <label class="trait-card gender-card">
                 <input type="radio" name="gender" value="girl" checked />
-                <span class="trait-card-body">
+                <span class="trait-card-body gender-card-body">
+                  <img class="gender-avatar" src="assets/char-teen-girl.png?v=162" alt="" width="160" height="160" decoding="async" />
                   <strong>女性</strong>
                   <small>主人公を女性で</small>
                 </span>
@@ -237,7 +239,7 @@
         <div class="hub-layout">
           <aside class="hub-status">
             <div class="hub-avatar-wrap">
-              <img id="hub-avatar" class="hub-avatar" src="assets/char-teen-girl.png" alt="" />
+              <img id="hub-avatar" class="hub-avatar" src="assets/char-teen-girl.png?v=162" alt="" />
             </div>
             <p id="hub-name" class="hub-name">—</p>
             <p id="hub-age" class="hub-age">15歳</p>
@@ -493,6 +495,6 @@
   </main>
 
   <script src="content.js?v=156"></script>
-  <script src="app.js?v=156"></script>
+  <script src="app.js?v=162"></script>
 </body>
 </html>

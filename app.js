@@ -637,7 +637,8 @@
   }
 
   function avatarForGender(gender) {
-    return gender === "boy" ? "assets/char-teen-boy.png" : "assets/char-teen-girl.png";
+    const file = gender === "boy" ? "assets/char-teen-boy.png" : "assets/char-teen-girl.png";
+    return `${file}?v=162`;
   }
 
   function resolveLifeStage(profile) {

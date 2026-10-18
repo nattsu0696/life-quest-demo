@@ -561,6 +561,28 @@ html.is-fullscreen .fs-btn {
   margin-bottom: 4px;
 }
 
+.gender-card-body {
+  justify-items: center;
+  text-align: center;
+  min-height: 0;
+  padding: 10px 10px 12px;
+  gap: 6px;
+}
+
+.gender-avatar {
+  display: block;
+  width: min(100%, 118px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center bottom;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 50% 80%, rgba(78, 184, 230, 0.18), transparent 62%),
+    rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+
 .stage-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
