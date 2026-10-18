@@ -2346,9 +2346,7 @@
           return;
         }
         const original = a.textContent;
-        a.textContent = scene.shopPattern
-          ? "デモでは外部リンクなし（画像表示）"
-          : "本戦デモでは案内先を接続予定";
+        a.textContent = "デモ版のため未接続";
         window.setTimeout(() => {
           a.textContent = original;
         }, 1600);
