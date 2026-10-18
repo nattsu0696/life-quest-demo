@@ -2438,7 +2438,7 @@ html.is-fullscreen .fs-btn {
   min-height: 0;
   max-height: 100%;
   box-sizing: border-box;
-  padding: max(8px, env(safe-area-inset-top)) 16px 0;
+  padding: max(6px, env(safe-area-inset-top)) 12px max(8px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -2487,7 +2487,9 @@ html.is-fullscreen .fs-btn {
   min-height: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 8px;
+  padding-bottom: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .clear-hero {
@@ -2626,9 +2628,9 @@ html.is-fullscreen .fs-btn {
 }
 
 .reality-block {
-  margin-bottom: 18px;
-  padding: 14px;
-  border-radius: 16px;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 14px;
   border: 1px solid var(--panel-border);
   background: rgba(7, 21, 28, 0.78);
 }
@@ -2671,31 +2673,40 @@ html.is-fullscreen .fs-btn {
 .result-footer {
   flex: 0 0 auto;
   display: grid;
+  grid-template-columns: 1.15fr 1fr 0.85fr;
   gap: 8px;
-  margin-top: 4px;
-  padding: 10px 0 max(12px, env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, transparent, rgba(7, 21, 28, 0.94) 18%);
+  margin: 0;
+  padding: 0;
+  background: none;
 }
 
-.result-footer .btn-start {
+.result-footer .result-nav-btn {
   width: 100%;
   min-width: 0;
-  min-height: 46px;
+  min-height: 44px;
   height: auto;
-  padding: 10px 16px;
-  border-radius: 14px;
+  padding: 8px 6px;
+  border-radius: 12px;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.result-footer .btn-start.result-nav-btn {
+  min-width: 0;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+    0 6px 14px rgba(31, 127, 176, 0.28);
 }
 
 .result-footer .btn-start .btn-start-label {
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
 }
 
-.result-footer .hud-btn.wide {
-  width: 100%;
-  min-height: 40px;
-  padding: 10px 14px;
-  justify-self: stretch;
+.result-footer .hud-btn.result-nav-btn {
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
 }
 
 /* ========== LIFE MAP + PUNICON ========== */
@@ -3785,22 +3796,102 @@ html.is-landscape .rotate-hint {
     font-size: 0.88rem;
   }
 
+  /* iPhone横：スクロールなしで収める */
+  .result-stage {
+    padding: max(4px, env(safe-area-inset-top)) 10px max(6px, env(safe-area-inset-bottom));
+  }
+
+  .result-panel {
+    width: min(100%, 920px);
+    padding: 2px 0 0;
+  }
+
+  .result-scroll {
+    overflow: hidden;
+  }
+
+  .clear-hero {
+    margin: 0 0 6px;
+    padding: 8px 10px 8px;
+    border-radius: 12px;
+  }
+
+  .clear-stamp {
+    font-size: clamp(1.15rem, 3.2vw, 1.55rem);
+  }
+
+  .clear-sub {
+    margin-top: 4px;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+  }
+
+  .clear-path {
+    margin-top: 4px;
+    font-size: 0.78rem;
+  }
+
+  .result-kicker {
+    margin: 0 0 2px;
+    font-size: 0.72rem;
+  }
+
+  .result-title {
+    margin: 0 0 4px;
+    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+    line-height: 1.3;
+  }
+
+  .result-body {
+    margin: 0 0 6px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .reality-block {
+    margin-bottom: 8px;
+    padding: 8px 10px;
+  }
+
+  .reality-label {
+    margin-bottom: 2px;
+    font-size: 0.8rem;
+  }
+
+  .reality-copy {
+    margin-bottom: 6px;
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  .reality-actions {
+    gap: 5px;
+  }
+
+  .reality-link {
+    padding: 7px 10px;
+    font-size: 0.78rem;
+  }
+
   .result-footer {
-    position: relative;
-    bottom: auto;
+    grid-template-columns: 1.15fr 1fr 0.85fr;
     gap: 7px;
-    padding-top: 8px;
+    margin-top: auto;
   }
 
-  .result-footer .btn-start {
-    min-height: 42px;
-    padding: 8px 14px;
+  .result-footer .result-nav-btn {
+    min-height: 38px;
+    padding: 6px 4px;
+    border-radius: 10px;
   }
 
-  .result-footer .hud-btn.wide {
-    min-height: 36px;
-    padding: 8px 12px;
-    font-size: 0.88rem;
+  .result-footer .btn-start .btn-start-label,
+  .result-footer .hud-btn.result-nav-btn {
+    font-size: 0.78rem;
   }
 
   .meta-stage {

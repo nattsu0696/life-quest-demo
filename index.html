@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=164" />
+  <link rel="stylesheet" href="styles.css?v=165" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -482,14 +482,14 @@
               <p class="reality-copy">ゲームで終わらせない。もっと知りたくなったら、本物の体験へ。</p>
               <div id="reality-actions" class="reality-actions"></div>
             </div>
-          </div>
 
-          <div class="result-footer">
-            <button type="button" class="btn-start" data-action="to-back">
-              <span class="btn-start-label">一覧に戻る（地点を残す）</span>
-            </button>
-            <button type="button" class="hud-btn wide" data-action="to-hub">部屋に戻る</button>
-            <button type="button" class="hud-btn wide" data-action="to-start">TITLE にもどる</button>
+            <div class="result-footer">
+              <button type="button" class="btn-start result-nav-btn" data-action="to-back" aria-label="一覧に戻る（地点を残す）">
+                <span class="btn-start-label">一覧に戻る</span>
+              </button>
+              <button type="button" class="hud-btn result-nav-btn" data-action="to-hub">部屋に戻る</button>
+              <button type="button" class="hud-btn result-nav-btn" data-action="to-start">TITLE</button>
+            </div>
           </div>
         </div>
       </div>
