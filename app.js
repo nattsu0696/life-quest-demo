@@ -1717,6 +1717,11 @@
       if (active) ensureHubEscape(el);
     });
 
+    // プロフィール等はPC横の16:9枠だと縦が足りず「半分」に見えるので枠を高くする
+    if (appEl) {
+      appEl.classList.toggle("is-form-screen", name === "profile" || name === "saves");
+    }
+
     if (name === "map") startMapLoop();
     else {
       stopMapLoop();

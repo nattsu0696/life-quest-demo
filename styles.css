@@ -106,9 +106,24 @@ button {
       0 28px 70px rgba(0, 0, 0, 0.55);
   }
 
+  /* セーブ／プロフィールは縦長フォームなので 16:9 に閉じ込めない */
+  html:not(.is-standalone):not(.is-fullscreen) .app.is-form-screen {
+    width: min(96vw, 640px);
+    height: min(96dvh, 900px);
+    max-height: 96dvh;
+  }
+
   html:not(.is-standalone):not(.is-fullscreen) .fs-btn,
   html:not(.is-standalone):not(.is-fullscreen) .install-tip {
     display: none !important;
+  }
+}
+
+@media (orientation: landscape) {
+  html:not(.is-standalone):not(.is-fullscreen) .app.is-form-screen {
+    width: min(100vw, 640px);
+    height: min(96dvh, 900px);
+    max-height: 96dvh;
   }
 }
 
@@ -584,7 +599,7 @@ html.is-fullscreen .fs-btn {
 
 .gender-avatar {
   display: block;
-  width: min(100%, 118px);
+  width: min(100%, 96px);
   height: auto;
   aspect-ratio: 1 / 1;
   object-fit: contain;
@@ -603,13 +618,14 @@ html.is-fullscreen .fs-btn {
   margin-bottom: 8px;
 }
 
+.stage-grid .trait-card-body {
+  min-height: 58px;
+  padding: 10px 12px;
+}
+
 /* 5つ目（65歳〜）が半幅のまま残らないよう全幅にする */
 .stage-grid > .trait-card:last-child {
   grid-column: 1 / -1;
-}
-
-.stage-grid > .trait-card:last-child .trait-card-body {
-  min-height: 64px;
 }
 
 /* ========== HOME HUB ========== */
