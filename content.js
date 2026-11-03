@@ -1839,6 +1839,131 @@
     };
   }
 
+  function sceneQuest(label, start, a, b, endA, endB) {
+    return {
+      start: {
+        bg: start.bg,
+        speaker: start.speaker,
+        img: start.img,
+        kicker: `QUEST / ${label}`,
+        title: start.title,
+        body: start.body,
+        choices: [
+          { label: a.label, next: "pathA" },
+          { label: b.label, next: "pathB" }
+        ]
+      },
+      pathA: {
+        bg: a.bg || start.bg,
+        speaker: a.speaker,
+        img: a.img,
+        kicker: "選択のあと",
+        title: a.title,
+        body: a.body,
+        choices: [
+          { label: a.nextLabel || "この感触を残す", next: "endA" },
+          { label: b.nextLabel || "別の過ごしも見る", next: "endB" }
+        ]
+      },
+      pathB: {
+        bg: b.bg || start.bg,
+        speaker: b.speaker,
+        img: b.img,
+        kicker: "選択のあと",
+        title: b.title,
+        body: b.body,
+        choices: [
+          { label: a.nextLabel || "この感触を残す", next: "endA" },
+          { label: b.nextLabel || "別の過ごしも見る", next: "endB" }
+        ]
+      },
+      endA: {
+        ending: true,
+        bg: endA.bg || a.bg || start.bg,
+        kicker: "この人生の感触",
+        title: endA.title,
+        body: endA.body,
+        reality: endA.reality
+      },
+      endB: {
+        ending: true,
+        bg: endB.bg || b.bg || start.bg,
+        kicker: "この人生の感触",
+        title: endB.title,
+        body: endB.body,
+        reality: endB.reality
+      }
+    };
+  }
+
+  function reworkQuest(name, place, mentor) {
+    return sceneQuest(
+      name,
+      {
+        bg: place.startBg,
+        speaker: mentor,
+        img: place.img,
+        title: place.startTitle,
+        body: place.startBody
+      },
+      {
+        label: "短時間で、得意なところだけ手伝う",
+        bg: place.pathABg,
+        title: "無理のない時間でも、現場は動く。",
+        body: "全部やらなくていい。経験のある目線が、若い人のペースを整える。",
+        nextLabel: "この関わり方を残す"
+      },
+      {
+        label: "技術やコツを、誰かに伝える",
+        bg: place.pathBBg,
+        title: "教えるほど、自分の仕事も言語化される。",
+        body: "「昔こうしてた」が、次の世代の道具になる。相談役でも、十分に現場だ。",
+        nextLabel: "伝える側の感触も見る"
+      },
+      {
+        title: "働くは、フルタイムだけじゃない。",
+        body: `${name}では、短い時間でも「まだ役に立てる」感触が残った。`,
+        reality: [
+          { label: "シニア向けの仕事・見学を調べる", href: "#reality-work" },
+          { label: "短時間・相談役の働き方を見る", href: "#reality-event" }
+        ]
+      },
+      {
+        title: "伝える仕事は、第二の現場だった。",
+        body: "引退のあとも、経験は誰かの一日を支えられる。",
+        reality: [
+          { label: "技術継承・メンター募集を調べる", href: "#reality-work" },
+          { label: "地域の仕事体験を見る", href: "#reality-event" }
+        ]
+      }
+    );
+  }
+
+  function hobbyQuest(name, start, a, b, endA, endB) {
+    const realityHobby = [
+      { label: "近所の趣味サークルを調べる", href: "#reality-event" },
+      { label: "体験教室・ワークショップを見る", href: "#reality-class" }
+    ];
+    return sceneQuest(
+      name,
+      start,
+      a,
+      b,
+      {
+        title: endA.title,
+        body: endA.body,
+        bg: endA.bg,
+        reality: realityHobby
+      },
+      {
+        title: endB.title,
+        body: endB.body,
+        bg: endB.bg,
+        reality: realityHobby
+      }
+    );
+  }
+
   function schoolQuest(name, flavor, focusA, focusB, kind) {
     const meta = {
       highschool: {
@@ -2168,8 +2293,8 @@
       },
       {
         id: "migrate",
-        label: "地方で暮らす",
-        short: "移住",
+        label: "地域で暮らす",
+        short: "地域",
         hint: "まずは「暮らす場所」を選ぶ。次に県を選ぶ",
         branchTitle: "どこの県で試す？",
         branchNote: "気になる地域を選んで、暮らしのQUESTへ",
@@ -2516,6 +2641,204 @@
                 ending: "技術と冷静さが、同じ白衣の中で育った。"
               },
               "skill"
+            )
+          }
+        ]
+      },
+      {
+        id: "rework",
+        label: "もう一度働く",
+        short: "再就労",
+        hint: "短時間・技術継承・相談役。働くの続きを試す",
+        branchTitle: "どこで、もう一度働く？",
+        branchNote: "フルタイムじゃなくてもいい。経験の活かし方を選んでQUESTへ",
+        theme: "bigco",
+        img: "assets/char-work-senior-man.png",
+        speaker: "現場の人",
+        x: 24,
+        y: 34,
+        options: [
+          {
+            id: "rw-taiyo",
+            label: "太平洋株式会社",
+            tag: "技術継承",
+            blurb: "木工の勘どころを、次の世代へ渡す",
+            img: "assets/char-work-senior-man.png",
+            scenes: reworkQuest("太平洋株式会社", {
+              startBg: "assets/backgrounds/bg-taiyo-factory.jpg",
+              pathABg: "assets/backgrounds/bg-taiyo-bench.jpg",
+              pathBBg: "assets/backgrounds/bg-taiyo-shelf-lineup.jpg",
+              img: "assets/char-work-senior-man.png",
+              startTitle: "工場の音は、懐かしいリズムだ。",
+              startBody: "若い手が速い。でも、木の反りを読む目は、まだこれから。\n「少しだけ、見ててくれませんか」と声がかかった。"
+            }, "工場の人・誠")
+          },
+          {
+            id: "rw-homeaid",
+            label: "株式会社綿伴ホームメイド",
+            tag: "接客・売場",
+            blurb: "短時間でも、お客様の近くで一日を支える",
+            img: "assets/char-homeaid-apron-man.png",
+            scenes: reworkQuest("株式会社綿伴ホームメイド", {
+              startBg: "assets/backgrounds/bg-homeaid-exterior.jpg",
+              pathABg: "assets/backgrounds/bg-homeaid-aisle.jpg",
+              pathBBg: "assets/backgrounds/bg-homeaid-produce.jpg",
+              img: "assets/char-homeaid-apron-man.png",
+              startTitle: "開店前の店内は、静かな舞台だ。",
+              startBody: "棚の高さ、通路の流れ、声のかけ方。\n長年の買い物感覚が、ここでは仕事になる。"
+            }, "店長・桐谷")
+          },
+          {
+            id: "rw-house",
+            label: "株式会社綿伴林郷の家",
+            tag: "相談役",
+            blurb: "暮らしの経験を、家づくりの会話にのせる",
+            img: "assets/char-office.png",
+            scenes: reworkQuest("株式会社綿伴林郷の家", {
+              startBg: "assets/backgrounds/bg-shine-living-stove.jpg",
+              pathABg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+              pathBBg: "assets/backgrounds/bg-shine-washitsu.jpg",
+              img: "assets/char-office.png",
+              startTitle: "図面より先に、暮らしの話が始まる。",
+              startBody: "「冬の朝、どこが寒いか」。経験者の一言が、設計の隙間を埋める。\n相談役でも、現場の空気は濃い。"
+            }, "設計・奈緒")
+          },
+          {
+            id: "rw-solutions",
+            label: "綿伴ソウリューションズ株式会社",
+            tag: "現場メンター",
+            blurb: "溶接と段取りの勘を、安全とともに伝える",
+            img: "assets/char-work-uniform-site-man.png",
+            scenes: reworkQuest("綿伴ソウリューションズ株式会社", {
+              startBg: "assets/backgrounds/bg-solution-exterior.jpg",
+              pathABg: "assets/backgrounds/bg-solution-steel-beams.jpg",
+              pathBBg: "assets/backgrounds/bg-solution-weld-line.jpg",
+              img: "assets/char-work-uniform-site-man.png",
+              startTitle: "火花の向こうに、若い背中がある。",
+              startBody: "速さより、止める判断。危険の匂いを知る人が隣にいるだけで、現場は変わる。"
+            }, "職長・健")
+          }
+        ]
+      },
+      {
+        id: "hobby",
+        label: "趣味を見つける",
+        short: "趣味",
+        hint: "合う／合わないの感触を、短い体験で試す",
+        branchTitle: "何を試してみる？",
+        branchNote: "正解はない。気になるものを選んで、短いQUESTへ",
+        theme: "local",
+        img: "assets/char-local-woman.png",
+        speaker: "趣味の先輩",
+        x: 70,
+        y: 62,
+        options: [
+          {
+            id: "hb-garden",
+            label: "園芸・畑",
+            tag: "土と季節",
+            blurb: "種まきから収穫まで。手が土を覚える",
+            scenes: hobbyQuest(
+              "園芸・畑",
+              {
+                bg: "assets/backgrounds/bg-niigata-valley-green.jpg",
+                speaker: "畑の人・緑",
+                img: "assets/char-local-woman.png",
+                title: "畝の匂いが、一日の始まりだ。",
+                body: "急がなくていい。土は、待つ人のペースに合わせてくれる。"
+              },
+              {
+                label: "野菜を育ててみる",
+                bg: "assets/backgrounds/bg-homeaid-produce.jpg",
+                title: "芽が出た朝、世界が少し明るく見える。",
+                body: "失敗も肥料になる。続くかどうかは、収穫より水やりの習慣だ。"
+              },
+              {
+                label: "花壇を整えてみる",
+                bg: "assets/backgrounds/bg-nagano-village-autumn.jpg",
+                title: "色が並ぶと、通りかかる人も足を止める。",
+                body: "誰かのため、ではない。でも結果として、誰かの景色になる。"
+              },
+              {
+                title: "土に触れる時間は、仕事とは違う疲れ方だった。",
+                body: "園芸は結果より、季節と付き合う感覚が残る。"
+              },
+              {
+                title: "花の手入れは、静かな会話に近かった。",
+                body: "合うなら続け、合わなければ別の趣味へ。それだけで十分だ。"
+              }
+            )
+          },
+          {
+            id: "hb-photo",
+            label: "写真・カメラ歩き",
+            tag: "街と光",
+            blurb: "歩く速度で世界を切り取る",
+            scenes: hobbyQuest(
+              "写真・カメラ歩き",
+              {
+                bg: "assets/backgrounds/bg-nagano-townstreet.jpg",
+                speaker: "写真好き・遥",
+                img: "assets/char-creator.png",
+                title: "シャッターより先に、足が動く。",
+                body: "上手い写真じゃなくていい。気になった角を、もう一度見るだけで景色が変わる。"
+              },
+              {
+                label: "街角を撮って歩く",
+                bg: "assets/backgrounds/bg-shizuoka-coast-town.jpg",
+                title: "同じ道なのに、光で別人になる。",
+                body: "朝と夕方で、好きな色が違う。歩く趣味は、体調のバロメーターにもなる。"
+              },
+              {
+                label: "山や湖の光を追う",
+                bg: "assets/backgrounds/bg-nagano-mirror-lake.jpg",
+                title: "風が止まると、水面が鏡になる。",
+                body: "一枚のために待つ時間が、むしろ本体だった。"
+              },
+              {
+                title: "カメラは、外出の言い訳として優秀だった。",
+                body: "街歩きの感触が残るなら、サークルや講座も近い。"
+              },
+              {
+                title: "自然の光を追うと、予定のない一日が豊かになる。",
+                body: "写真は作品より、出かけた回数の記録に近いかもしれない。"
+              }
+            )
+          },
+          {
+            id: "hb-cook",
+            label: "料理・パン",
+            tag: "台所",
+            blurb: "香りと手仕事で、一日に区切りをつける",
+            scenes: hobbyQuest(
+              "料理・パン",
+              {
+                bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+                speaker: "料理好き・香",
+                img: "assets/char-homeaid-apron-man.png",
+                title: "まな板の音が、部屋の温度を上げる。",
+                body: "誰かのためでも、自分のためでもいい。台所は、小さな実験室だ。"
+              },
+              {
+                label: "毎日のおかずを丁寧に",
+                bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
+                title: "味見の一口が、いちばん正直なフィードバック。",
+                body: "派手さより、再現できる満足。続く趣味は、献立に近い。"
+              },
+              {
+                label: "パンや焼き菓子に挑戦",
+                bg: "assets/backgrounds/bg-shizuoka-hamburg-shop.jpg",
+                title: "オーブンの香りで、午後がイベントになる。",
+                body: "計量と待つ時間。落ち着きと勇気が、同じボウルの中にある。"
+              },
+              {
+                title: "料理は、孤独な時間をあたたかくする技だった。",
+                body: "合うなら教室へ。合わなければ外食を楽しむ。どちらも正解だ。"
+              },
+              {
+                title: "パンを焼く朝は、予定がなくても充実していた。",
+                body: "趣味は上手くなるためより、一日にリズムを戻すためにある。"
+              }
             )
           }
         ]
