@@ -530,6 +530,7 @@ html.is-fullscreen .fs-btn {
 }
 
 .trait-card {
+  position: relative;
   display: block;
   cursor: pointer;
 }
@@ -600,6 +601,15 @@ html.is-fullscreen .fs-btn {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 8px;
+}
+
+/* 5つ目（65歳〜）が半幅のまま残らないよう全幅にする */
+.stage-grid > .trait-card:last-child {
+  grid-column: 1 / -1;
+}
+
+.stage-grid > .trait-card:last-child .trait-card-body {
+  min-height: 64px;
 }
 
 /* ========== HOME HUB ========== */
