@@ -1969,6 +1969,131 @@
     );
   }
 
+  // 料理カテゴリ：最初の分岐は「料理」だけ。中でキャッサバ／サボテンへ分かれ、最後にトレジャーへ
+  function cookingHobbyQuest() {
+    const realityTrading = [
+      { label: "綿伴トレジャーディングの食材体験を見る", href: "#reality-work" },
+      { label: "体験教室・ワークショップを見る", href: "#reality-class" }
+    ];
+    const cook = "assets/char-homeaid-apron-man.png";
+    return {
+      start: {
+        bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "QUEST / 料理",
+        title: "今日の台所、何から試す？",
+        body: "新しい食材は、レシピより先に『触ってみる』から始まる。\nまずは気になる方を選んでみよう。",
+        choices: [
+          { label: "キャッサバ粉で焼いてみる", next: "cassava" },
+          { label: "サボテンを料理してみる", next: "cactus" }
+        ]
+      },
+      cassava: {
+        bg: "assets/backgrounds/bg-cassava-flour.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "料理 / キャッサバ粉",
+        title: "白い粉の向こうに、遠い産地がある。",
+        body: "キャッサバは南米や東南アジア原産のイモ。根を粉にしたものがキャッサバ粉だ。\nグルテンフリーで、小麦粉の代わりにもなる。",
+        choices: [
+          { label: "粉の感触を確かめる", next: "cassava-feel" },
+          { label: "パンやおやつに焼く", next: "cassava-bake" }
+        ]
+      },
+      "cassava-feel": {
+        bg: "assets/backgrounds/bg-cassava-flour.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "選択のあと",
+        title: "さらさらで、小麦とは手触りが違う。",
+        body: "計量・水分・火加減。代用品は、そのままのレシピでは動かないこともある。",
+        choices: [
+          { label: "この感触を残す", next: "end-cassava-a" },
+          { label: "焼いてみる方へ", next: "cassava-bake" }
+        ]
+      },
+      "cassava-bake": {
+        bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "選択のあと",
+        title: "焼きたての匂いが、実験を成功に変える。",
+        body: "ふくらみ方は小麦と違う。でも『おいしい』が出た瞬間、趣味になる。",
+        choices: [
+          { label: "この一皿を残す", next: "end-cassava-b" }
+        ]
+      },
+      cactus: {
+        bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "料理 / サボテン",
+        title: "トゲの向こうに、食卓がある。",
+        body: "観賞だけじゃない。下処理と火入れを知ると、サボテンは立派な食材になる。",
+        choices: [
+          { label: "下処理から丁寧に", next: "cactus-prep" },
+          { label: "炒めやサラダで味わう", next: "cactus-dish" }
+        ]
+      },
+      "cactus-prep": {
+        bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "選択のあと",
+        title: "トゲを外す手が、いちばんの下ごしらえだ。",
+        body: "怖がらず、急がず。食材の顔が見えると、味の想像が始まる。",
+        choices: [
+          { label: "この感触を残す", next: "end-cactus-a" },
+          { label: "料理して味わう", next: "cactus-dish" }
+        ]
+      },
+      "cactus-dish": {
+        bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
+        speaker: "料理好き・香",
+        img: cook,
+        kicker: "選択のあと",
+        title: "『食べたことない』が、会話になる。",
+        body: "産地の話を添えると、味が立体になる。知る・作る・食べるが一本の趣味だ。",
+        choices: [
+          { label: "この一皿を残す", next: "end-cactus-b" }
+        ]
+      },
+      "end-cassava-a": {
+        ending: true,
+        bg: "assets/backgrounds/bg-cassava-flour.jpg",
+        kicker: "この人生の感触",
+        title: "キャッサバ粉は、知るほど料理が広がる素材だった。",
+        body: "続くならレシピを増やせる。興味が残るなら、食材を届ける現場の体験にもつながる。",
+        reality: realityTrading
+      },
+      "end-cassava-b": {
+        ending: true,
+        bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+        kicker: "この人生の感触",
+        title: "焼く趣味は、失敗も次の仮説になる。",
+        body: "グルテンフリーは制約じゃなく、別ルートの楽しさだ。産地の物語は、あとから知ればいい。",
+        reality: realityTrading
+      },
+      "end-cactus-a": {
+        ending: true,
+        bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+        kicker: "この人生の感触",
+        title: "サボテンは、待つ下ごしらえの趣味でもあった。",
+        body: "続くなら別の切り方を試せる。食材の背景は、気になったときに企業の体験へ。",
+        reality: realityTrading
+      },
+      "end-cactus-b": {
+        ending: true,
+        bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
+        kicker: "この人生の感触",
+        title: "味わうと、初めての食材が身近になる。",
+        body: "『知らない味』を届ける仕事がある。合えば、その現場も覗いてみよう。",
+        reality: realityTrading
+      }
+    };
+  }
+
   function schoolQuest(name, flavor, focusA, focusB, kind) {
     const meta = {
       highschool: {
@@ -2849,9 +2974,9 @@
         id: "hobby",
         label: "趣味を見つける",
         short: "趣味",
-        hint: "企業の体験とつながる趣味で、合う感触を試す",
+        hint: "まずは趣味の種類を選ぶ。合う感触の先に、体験がつながる",
         branchTitle: "何を試してみる？",
-        branchNote: "趣味の先に、グループ企業の体験がつながっています",
+        branchNote: "最初は趣味の種類だけ。企業名は出さず、クエストの先で体験につながる",
         theme: "local",
         img: "assets/char-local-woman.png",
         speaker: "趣味の先輩",
@@ -2861,8 +2986,8 @@
           {
             id: "hb-plamodel",
             label: "プラモデル",
-            tag: "体験 / ホームメイド",
-            blurb: "組み立てる静けさ。わたぴー機の製作から塗装まで",
+            tag: "模型",
+            blurb: "組み立てる静けさ。塗装とポージングまで試す",
             img: "assets/char-creator.png",
             scenes: hobbyQuest(
               "プラモデル",
@@ -2891,12 +3016,12 @@
               },
               {
                 title: "プラモデルは、静かな冒険だった。",
-                body: "続くなら別塗装の機体を増やせる。ホームメイドの売場で道具の感触も試せる。",
+                body: "続くなら別塗装の機体を増やせる。道具や部品の売場体験にも、あとからつながる。",
                 bg: "assets/backgrounds/bg-watapi-plamo-red.jpg"
               },
               {
                 title: "塗る・ポーズをつける時間が、いちばん自由だった。",
-                body: "趣味は完成品より、机に向かう理由になる。",
+                body: "趣味は完成品より、机に向かう理由になる。気になれば、ものづくりの現場体験も覗ける。",
                 bg: "assets/backgrounds/bg-watapi-plamo-gold.jpg"
               },
               "株式会社綿伴ホームメイド"
@@ -2905,8 +3030,8 @@
           {
             id: "hb-oshi",
             label: "推し活",
-            tag: "体験 / 遠征・宿",
-            blurb: "応援の熱量を、旅や飾りの体験につなげる",
+            tag: "応援",
+            blurb: "飾る・遠征する。熱量の置き方を試す",
             img: "assets/char-campus.png",
             scenes: hobbyQuest(
               "推し活",
@@ -2927,71 +3052,41 @@
                 label: "遠征の宿とルートを組む",
                 bg: "assets/backgrounds/bg-resort-entrance-day.jpg",
                 title: "移動の計画が、もうイベントだった。",
-                body: "ライブの前後に、山あいの宿で息を整える——旅の体験はリゾートにもつながる。"
+                body: "ライブの前後に、山あいの宿で息を整える。旅の整え方も推し活のうち。"
               },
               {
                 title: "推し活は、孤独を熱に変える技術だった。",
-                body: "合うなら飾る・集めるを続けていい。空間づくりの体験にも進める。"
+                body: "合うなら飾る・集めるを続けていい。空間づくりの体験にも、あとから進める。"
               },
               {
                 title: "遠征は、応援と自分のケアのセットだった。",
-                body: "宿の選び方ひとつで、翌日の自分が変わる。"
+                body: "宿の選び方ひとつで、翌日の自分が変わる。合えば、宿のおもてなし体験にもつながる。"
               },
               "株式会社綿伴リゾート"
             )
           },
           {
             id: "hb-cook",
-            label: "料理・キャッサバ粉",
-            tag: "体験 / トレジャーディング",
-            blurb: "グルテンフリーの粉で、初めての一皿を試す",
+            label: "料理",
+            tag: "台所",
+            blurb: "新しい食材で、一皿を試す。中でメニューが分かれる",
             img: "assets/char-homeaid-apron-man.png",
-            scenes: hobbyQuest(
-              "料理・キャッサバ粉",
-              {
-                bg: "assets/backgrounds/bg-cassava-flour.jpg",
-                speaker: "食の人・菜々",
-                img: "assets/char-homeaid-apron-man.png",
-                title: "白い粉の向こうに、遠い産地がある。",
-                body: "キャッサバは南米や東南アジア原産のイモ。根を粉にしたものがキャッサバ粉だ。\nグルテンフリーで、小麦粉の代わりにもなる——トレジャーディングが届ける『初めて』のひとつ。"
-              },
-              {
-                label: "粉の感触を確かめてみる",
-                bg: "assets/backgrounds/bg-cassava-flour.jpg",
-                title: "さらさらで、小麦とは手触りが違う。",
-                body: "計量・水分・火加減。代用品は、そのままのレシピでは動かないこともある。\n試すほど、自分の台所のルールができる。"
-              },
-              {
-                label: "パンやおやつに焼いてみる",
-                bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
-                title: "焼きたての匂いが、実験を成功に変える。",
-                body: "ふくらみ方は小麦と違う。でも『おいしい』が出た瞬間、趣味になる。\n産地の話を添えると、一皿が物語になる。"
-              },
-              {
-                title: "キャッサバ粉は、知るほど料理が広がる素材だった。",
-                body: "続くならレシピを増やせる。企業の食材体験で、産地の背景も知れる。"
-              },
-              {
-                title: "焼く趣味は、失敗も次の仮説になる。",
-                body: "グルテンフリーは制約じゃなく、別ルートの楽しさだ。"
-              },
-              "綿伴トレジャーディング株式会社"
-            )
+            scenes: cookingHobbyQuest()
           },
           {
             id: "hb-nerikiri",
-            label: "練り切り・和菓子",
-            tag: "体験 / 美原・胡蝶庵",
-            blurb: "季節を手のひらサイズにする。仕込み体験へ",
+            label: "和菓子づくり",
+            tag: "季節",
+            blurb: "練り切りやお茶合わせ。手のひらサイズの季節",
             img: "assets/char-campus.png",
             scenes: hobbyQuest(
-              "練り切り・和菓子",
+              "和菓子づくり",
               {
                 bg: "assets/backgrounds/bg-jonamashi.jpg",
                 speaker: "和菓子・陽菜",
                 img: "assets/char-campus.png",
                 title: "小さいのに、季節が一言で分かる。",
-                body: "練り切りは、形と色の短歌。美原の胡蝶庵につながる味の現場だ。"
+                body: "練り切りは、形と色の短歌。指先の力加減が、そのまま表情になる。"
               },
               {
                 label: "練り切りの形を作ってみる",
@@ -3007,7 +3102,7 @@
               },
               {
                 title: "和菓子は、季節を手元に置く趣味だった。",
-                body: "続くなら教室へ。企業の仕込み体験で、プロの手つきも覗ける。"
+                body: "続くなら教室へ。気になれば、茶と菓子の仕込み体験にもつながる。"
               },
               {
                 title: "お茶との合わせが、いちばん楽しかった。",
@@ -3018,18 +3113,18 @@
           },
           {
             id: "hb-diy",
-            label: "DIY・溶接と木工",
-            tag: "体験 / ソリューション・大洋",
-            blurb: "火花と木屑。現場の技術を趣味として触る",
+            label: "DIY",
+            tag: "手づくり",
+            blurb: "溶接と木工。作れる自分を試す",
             img: "assets/char-work-uniform-site-man.png",
             scenes: hobbyQuest(
-              "DIY・溶接と木工",
+              "DIY",
               {
                 bg: "assets/backgrounds/bg-solution-spark-shop.jpg",
                 speaker: "DIY講師・健",
                 img: "assets/char-work-uniform-site-man.png",
                 title: "道具の音が、休日のスイッチになる。",
-                body: "溶接はソリューションの現場へ、木工は大洋の工場感触へ。\nどちらも『作れる自分』を試す体験だ。"
+                body: "火花も木屑も、『作れる自分』を試す入口だ。まずは触ってみよう。"
               },
               {
                 label: "溶接の火花を体験する",
@@ -3045,29 +3140,29 @@
               },
               {
                 title: "溶接の体験は、勇気のトレーニングだった。",
-                body: "合うなら趣味の延長で現場見学へ。ソリューションの仕事感触にもつながる。"
+                body: "合うなら趣味の延長で現場見学へ。鉄と火花の仕事感触にもつながる。"
               },
               {
                 title: "木工は、暮らしに残る趣味だった。",
-                body: "作った棚が部屋に立つと、週末の意味が変わる。大洋の工場体験にも進める。"
+                body: "作った棚が部屋に立つと、週末の意味が変わる。木工の工場体験にも進める。"
               },
               "ソリューション／太平洋"
             )
           },
           {
             id: "hb-travel",
-            label: "旅行・宿めぐり",
-            tag: "体験 / 綿伴リゾート",
-            blurb: "非日常の整え方を、山あいの宿で試す",
+            label: "旅行",
+            tag: "旅",
+            blurb: "宿と食事で、非日常の整え方を試す",
             img: "assets/char-local-woman.png",
             scenes: hobbyQuest(
-              "旅行・宿めぐり",
+              "旅行",
               {
                 bg: "assets/backgrounds/bg-resort-entrance-day.jpg",
                 speaker: "旅好き・雪",
                 img: "assets/char-local-woman.png",
                 title: "玄関を入った瞬間、肩の力が抜ける。",
-                body: "旅行は行き先だけじゃない。宿の空気の選び方が趣味になる。\n綿伴リゾートの囲炉裏が、その入口だ。"
+                body: "旅行は行き先だけじゃない。宿の空気の選び方が趣味になる。"
               },
               {
                 label: "囲炉裏のある宿で過ごす",
@@ -3083,7 +3178,7 @@
               },
               {
                 title: "宿めぐりは、回復の技術だった。",
-                body: "合うなら次の予約を入れればいい。リゾートのおもてなし体験にもつながる。"
+                body: "合うなら次の予約を入れればいい。おもてなしの現場体験にも、あとからつながる。"
               },
               {
                 title: "食と部屋の組み合わせが、旅の本体だった。",
