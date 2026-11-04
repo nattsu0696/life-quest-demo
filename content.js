@@ -2863,39 +2863,41 @@
             label: "プラモデル",
             tag: "体験 / ホームメイド",
             blurb: "組み立てる静けさ。わたぴー機の製作から塗装まで",
-            img: "assets/char-watapi-plamo.jpg",
+            img: "assets/char-creator.png",
             scenes: hobbyQuest(
               "プラモデル",
               {
                 bg: "assets/backgrounds/bg-watapi-plamo-wip.jpg",
-                speaker: "わたぴープラモ",
-                img: "assets/char-watapi-plamo-sit.jpg",
+                speaker: "趣味の先輩・匠",
+                img: "assets/char-creator.png",
                 title: "ランナーを切った瞬間、時間がゆっくりになる。",
                 body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\nわたぴーをプラモ化したキットが、机の上で組み立て途中だ。"
               },
               {
                 label: "まずは組み上げて完成させる",
-                bg: "assets/backgrounds/bg-watapi-plamo-wip.jpg",
-                speaker: "わたぴープラモ（赤）",
-                img: "assets/char-watapi-plamo.jpg",
+                bg: "assets/backgrounds/bg-watapi-plamo-sit.jpg",
+                speaker: "趣味の先輩・匠",
+                img: "assets/char-creator.png",
                 title: "完成より、途中の集中が本体だった。",
                 body: "ピンセット一本で、午後が消える。座りポーズの機体が、初めての達成感をくれる。"
               },
               {
                 label: "塗装して別機体にも挑戦",
-                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
-                speaker: "わたぴープラモ（青・金）",
-                img: "assets/char-watapi-plamo-blue.jpg",
+                bg: "assets/backgrounds/bg-watapi-plamo-blue.jpg",
+                speaker: "趣味の先輩・匠",
+                img: "assets/char-homeaid-apron-man.png",
                 title: "色を決める瞬間、自分の好みが見える。",
                 body: "青は斧持ちのダイナミックポーズ、金は凱旋ポーズ。\n同じ顔でも、塗装とポージングで別人になる。"
               },
               {
                 title: "プラモデルは、静かな冒険だった。",
-                body: "続くなら別塗装の機体を増やせる。ホームメイドの売場で道具の感触も試せる。"
+                body: "続くなら別塗装の機体を増やせる。ホームメイドの売場で道具の感触も試せる。",
+                bg: "assets/backgrounds/bg-watapi-plamo-red.jpg"
               },
               {
                 title: "塗る・ポーズをつける時間が、いちばん自由だった。",
-                body: "趣味は完成品より、机に向かう理由になる。"
+                body: "趣味は完成品より、机に向かう理由になる。",
+                bg: "assets/backgrounds/bg-watapi-plamo-gold.jpg"
               },
               "株式会社綿伴ホームメイド"
             )
