@@ -1939,11 +1939,16 @@
     );
   }
 
-  function hobbyQuest(name, start, a, b, endA, endB) {
-    const realityHobby = [
-      { label: "近所の趣味サークルを調べる", href: "#reality-event" },
-      { label: "体験教室・ワークショップを見る", href: "#reality-class" }
-    ];
+  function hobbyQuest(name, start, a, b, endA, endB, companyLabel) {
+    const realityHobby = companyLabel
+      ? [
+          { label: `${companyLabel}の体験・仕事をもう少し知る`, href: "#reality-work" },
+          { label: "体験教室・ワークショップを見る", href: "#reality-class" }
+        ]
+      : [
+          { label: "近所の趣味サークルを調べる", href: "#reality-event" },
+          { label: "体験教室・ワークショップを見る", href: "#reality-class" }
+        ];
     return sceneQuest(
       name,
       start,
@@ -2651,28 +2656,13 @@
         short: "再就労",
         hint: "短時間・技術継承・相談役。働くの続きを試す",
         branchTitle: "どこで、もう一度働く？",
-        branchNote: "フルタイムじゃなくてもいい。経験の活かし方を選んでQUESTへ",
+        branchNote: "グループ全社につながっています。フルタイムじゃなくても、経験の活かし方を選んでQUESTへ",
         theme: "bigco",
         img: "assets/char-work-senior-man.png",
         speaker: "現場の人",
         x: 24,
         y: 34,
         options: [
-          {
-            id: "rw-taiyo",
-            label: "太平洋株式会社",
-            tag: "技術継承",
-            blurb: "木工の勘どころを、次の世代へ渡す",
-            img: "assets/char-work-senior-man.png",
-            scenes: reworkQuest("太平洋株式会社", {
-              startBg: "assets/backgrounds/bg-taiyo-factory.jpg",
-              pathABg: "assets/backgrounds/bg-taiyo-bench.jpg",
-              pathBBg: "assets/backgrounds/bg-taiyo-shelf-lineup.jpg",
-              img: "assets/char-work-senior-man.png",
-              startTitle: "工場の音は、懐かしいリズムだ。",
-              startBody: "若い手が速い。でも、木の反りを読む目は、まだこれから。\n「少しだけ、見ててくれませんか」と声がかかった。"
-            }, "工場の人・誠")
-          },
           {
             id: "rw-homeaid",
             label: "株式会社綿伴ホームメイド",
@@ -2689,21 +2679,6 @@
             }, "店長・桐谷")
           },
           {
-            id: "rw-house",
-            label: "株式会社綿伴林郷の家",
-            tag: "相談役",
-            blurb: "暮らしの経験を、家づくりの会話にのせる",
-            img: "assets/char-office.png",
-            scenes: reworkQuest("株式会社綿伴林郷の家", {
-              startBg: "assets/backgrounds/bg-shine-living-stove.jpg",
-              pathABg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
-              pathBBg: "assets/backgrounds/bg-shine-washitsu.jpg",
-              img: "assets/char-office.png",
-              startTitle: "図面より先に、暮らしの話が始まる。",
-              startBody: "「冬の朝、どこが寒いか」。経験者の一言が、設計の隙間を埋める。\n相談役でも、現場の空気は濃い。"
-            }, "設計・奈緒")
-          },
-          {
             id: "rw-solutions",
             label: "綿伴ソウリューションズ株式会社",
             tag: "現場メンター",
@@ -2717,6 +2692,156 @@
               startTitle: "火花の向こうに、若い背中がある。",
               startBody: "速さより、止める判断。危険の匂いを知る人が隣にいるだけで、現場は変わる。"
             }, "職長・健")
+          },
+          {
+            id: "rw-mihara",
+            label: "株式会社綿伴美原商店",
+            tag: "味・接客",
+            blurb: "お茶と和菓子の現場で、味の言葉を伝える",
+            img: "assets/char-campus.png",
+            scenes: reworkQuest("株式会社綿伴美原商店", {
+              startBg: "assets/backgrounds/bg-tea-shop-exterior-day.jpg",
+              pathABg: "assets/backgrounds/bg-tea-shop-counter.jpg",
+              pathBBg: "assets/backgrounds/bg-jonamashi.jpg",
+              img: "assets/char-campus.png",
+              startTitle: "ショーケースの向こうに、季節が並ぶ。",
+              startBody: "「この練り切り、何の花？」——答えられる人がいるだけで、店の空気がやさしくなる。"
+            }, "先輩・陽菜")
+          },
+          {
+            id: "rw-house",
+            label: "株式会社綿伴林郷の家",
+            tag: "相談役",
+            blurb: "暮らしの経験を、家づくりの会話にのせる",
+            img: "assets/char-office.png",
+            scenes: reworkQuest("株式会社綿伴林郷の家", {
+              startBg: "assets/backgrounds/bg-shine-living-stove.jpg",
+              pathABg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+              pathBBg: "assets/backgrounds/bg-shine-washitsu.jpg",
+              img: "assets/char-office.png",
+              startTitle: "図面より先に、暮らしの話が始まる。",
+              startBody: "「冬の朝、どこが寒いか」。経験者の一言が、設計の隙間を埋める。"
+            }, "設計・奈緒")
+          },
+          {
+            id: "rw-taiyo",
+            label: "太平洋株式会社",
+            tag: "技術継承",
+            blurb: "木工の勘どころを、次の世代へ渡す",
+            img: "assets/char-work-senior-man.png",
+            scenes: reworkQuest("太平洋株式会社", {
+              startBg: "assets/backgrounds/bg-taiyo-factory.jpg",
+              pathABg: "assets/backgrounds/bg-taiyo-bench.jpg",
+              pathBBg: "assets/backgrounds/bg-taiyo-shelf-lineup.jpg",
+              img: "assets/char-work-senior-man.png",
+              startTitle: "工場の音は、懐かしいリズムだ。",
+              startBody: "若い手が速い。でも、木の反りを読む目は、まだこれから。\n「少しだけ、見ててくれませんか」と声がかかった。"
+            }, "工場の人・誠")
+          },
+          {
+            id: "rw-ligna",
+            label: "リグナチュラ株式会社",
+            tag: "空間提案",
+            blurb: "暮らしの好みを、売り場の言葉に変える",
+            img: "assets/char-office.png",
+            scenes: reworkQuest("リグナチュラ株式会社", {
+              startBg: "assets/backgrounds/bg-rigna-storefront.jpg",
+              pathABg: "assets/backgrounds/bg-rigna-showroom.jpg",
+              pathBBg: "assets/backgrounds/bg-rigna-living-brick.jpg",
+              img: "assets/char-office.png",
+              startTitle: "家具は物ではなく、部屋の温度だ。",
+              startBody: "「この角、危なくない？」——長く暮らした人の視点が、提案を立体にする。"
+            }, "販売・莉子")
+          },
+          {
+            id: "rw-trading",
+            label: "綿伴トレジャーディング株式会社",
+            tag: "食の伝承",
+            blurb: "産地の話と味の紹介で、初めてを届ける",
+            img: "assets/char-local-woman.png",
+            scenes: reworkQuest("綿伴トレジャーディング株式会社", {
+              startBg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+              pathABg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
+              pathBBg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+              img: "assets/char-local-woman.png",
+              startTitle: "まだ知らない味は、説明から始まる。",
+              startBody: "サボテンや珍しい食材も、暮らしの言葉に落とせば届く。\n試食の一言が、仕入れの橋になる。"
+            }, "担当・菜々")
+          },
+          {
+            id: "rw-kenzai",
+            label: "綿伴健材株式会社",
+            tag: "資材・現場",
+            blurb: "木と資材の目利きを、現場の安全につなぐ",
+            img: "assets/char-work-senior-man.png",
+            scenes: reworkQuest("綿伴健材株式会社", {
+              startBg: "assets/backgrounds/bg-kenzai-yard.jpg",
+              pathABg: "assets/backgrounds/bg-kenzai-lumber.jpg",
+              pathBBg: "assets/backgrounds/bg-kenzai-loading.jpg",
+              img: "assets/char-work-senior-man.png",
+              startTitle: "材木の匂いが、仕事の入口だ。",
+              startBody: "傷の見方、置き方、運び方。経験のある目が、事故を一段下げる。"
+            }, "ヤード・剛")
+          },
+          {
+            id: "rw-woodpower",
+            label: "綿伴ウッドフラワー株式会社",
+            tag: "森とエネルギー",
+            blurb: "森の循環を、次の世代にわかりやすく伝える",
+            img: "assets/char-work-uniform-field-man.png",
+            scenes: reworkQuest("綿伴ウッドフラワー株式会社", {
+              startBg: "assets/backgrounds/bg-woodpower-forest.jpg",
+              pathABg: "assets/backgrounds/bg-woodpower-plant.jpg",
+              pathBBg: "assets/backgrounds/bg-woodpower-chips.jpg",
+              img: "assets/char-work-uniform-field-man.png",
+              startTitle: "森の端に、発電の息づかいがある。",
+              startBody: "木を燃やす話じゃない。循環の話だ。\n長く森を見てきた人の言葉が、いちばん説得力がある。"
+            }, "現場・拓")
+          },
+          {
+            id: "rw-realestate",
+            label: "綿伴レアルエステート株式会社",
+            tag: "物件相談",
+            blurb: "住み替えや管理の相談に、暮らしの実感を添える",
+            img: "assets/char-office.png",
+            scenes: reworkQuest("綿伴レアルエステート株式会社", {
+              startBg: "assets/backgrounds/bg-realestate-office-street.jpg",
+              pathABg: "assets/backgrounds/bg-realestate-vacant-room.jpg",
+              pathBBg: "assets/backgrounds/bg-realestate-pm-desk.jpg",
+              img: "assets/char-office.png",
+              startTitle: "空室は、まだ誰かの物語の手前だ。",
+              startBody: "間取りの数字より、「朝の光はどうか」。暮らした人の感覚が、提案を現実にする。"
+            }, "営業・真")
+          },
+          {
+            id: "rw-resort",
+            label: "株式会社綿伴リゾート",
+            tag: "おもてなし",
+            blurb: "宿の空気づくりを、短い勤務でも支える",
+            img: "assets/char-local-woman.png",
+            scenes: reworkQuest("株式会社綿伴リゾート", {
+              startBg: "assets/backgrounds/bg-resort-entrance-day.jpg",
+              pathABg: "assets/backgrounds/bg-resort-lobby-irori.jpg",
+              pathBBg: "assets/backgrounds/bg-resort-room-wa.jpg",
+              img: "assets/char-local-woman.png",
+              startTitle: "囲炉裏の前で、旅の一日がほどける。",
+              startBody: "笑顔のタイミング、声の大きさ、間の取り方。\n長く人を迎えてきた感覚が、宿の温度になる。"
+            }, "仲居・雪")
+          },
+          {
+            id: "rw-farm",
+            label: "綿伴ファームフル株式会社",
+            tag: "見守り",
+            blurb: "生き物の一日を、経験と仕組みで支える",
+            img: "assets/char-work-uniform-field-woman.png",
+            scenes: reworkQuest("綿伴ファームフル株式会社", {
+              startBg: "assets/backgrounds/bg-farm-aerial.jpg",
+              pathABg: "assets/backgrounds/bg-farm-monitor.jpg",
+              pathBBg: "assets/backgrounds/bg-farm-interior.jpg",
+              img: "assets/char-work-uniform-field-woman.png",
+              startTitle: "モニターの数字の奥に、命がある。",
+              startBody: "異常の匂いは、画面より先に体が覚える。\n若い人と並ぶだけで、牧場の安心は増える。"
+            }, "牧場・葵")
           }
         ]
       },
@@ -2724,9 +2849,9 @@
         id: "hobby",
         label: "趣味を見つける",
         short: "趣味",
-        hint: "合う／合わないの感触を、短い体験で試す",
+        hint: "企業の体験とつながる趣味で、合う感触を試す",
         branchTitle: "何を試してみる？",
-        branchNote: "正解はない。気になるものを選んで、短いQUESTへ",
+        branchNote: "趣味の先に、グループ企業の体験がつながっています",
         theme: "local",
         img: "assets/char-local-woman.png",
         speaker: "趣味の先輩",
@@ -2734,111 +2859,231 @@
         y: 62,
         options: [
           {
-            id: "hb-garden",
-            label: "園芸・畑",
-            tag: "土と季節",
-            blurb: "種まきから収穫まで。手が土を覚える",
+            id: "hb-plamodel",
+            label: "プラモデル",
+            tag: "体験 / ホームメイド",
+            blurb: "組み立てる静けさ。道具と部品の売場体験へもつながる",
+            img: "assets/char-creator.png",
             scenes: hobbyQuest(
-              "園芸・畑",
+              "プラモデル",
               {
-                bg: "assets/backgrounds/bg-niigata-valley-green.jpg",
-                speaker: "畑の人・緑",
-                img: "assets/char-local-woman.png",
-                title: "畝の匂いが、一日の始まりだ。",
-                body: "急がなくていい。土は、待つ人のペースに合わせてくれる。"
-              },
-              {
-                label: "野菜を育ててみる",
-                bg: "assets/backgrounds/bg-homeaid-produce.jpg",
-                title: "芽が出た朝、世界が少し明るく見える。",
-                body: "失敗も肥料になる。続くかどうかは、収穫より水やりの習慣だ。"
-              },
-              {
-                label: "花壇を整えてみる",
-                bg: "assets/backgrounds/bg-nagano-village-autumn.jpg",
-                title: "色が並ぶと、通りかかる人も足を止める。",
-                body: "誰かのため、ではない。でも結果として、誰かの景色になる。"
-              },
-              {
-                title: "土に触れる時間は、仕事とは違う疲れ方だった。",
-                body: "園芸は結果より、季節と付き合う感覚が残る。"
-              },
-              {
-                title: "花の手入れは、静かな会話に近かった。",
-                body: "合うなら続け、合わなければ別の趣味へ。それだけで十分だ。"
-              }
-            )
-          },
-          {
-            id: "hb-photo",
-            label: "写真・カメラ歩き",
-            tag: "街と光",
-            blurb: "歩く速度で世界を切り取る",
-            scenes: hobbyQuest(
-              "写真・カメラ歩き",
-              {
-                bg: "assets/backgrounds/bg-nagano-townstreet.jpg",
-                speaker: "写真好き・遥",
+                bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
+                speaker: "趣味の先輩・匠",
                 img: "assets/char-creator.png",
-                title: "シャッターより先に、足が動く。",
-                body: "上手い写真じゃなくていい。気になった角を、もう一度見るだけで景色が変わる。"
+                title: "説明書を開いた瞬間、時間がゆっくりになる。",
+                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\n道具や塗料は、ホームメイドの棚にも並んでいる。"
               },
               {
-                label: "街角を撮って歩く",
-                bg: "assets/backgrounds/bg-shizuoka-coast-town.jpg",
-                title: "同じ道なのに、光で別人になる。",
-                body: "朝と夕方で、好きな色が違う。歩く趣味は、体調のバロメーターにもなる。"
+                label: "まずは簡単なキットから",
+                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
+                title: "完成より、途中の集中が本体だった。",
+                body: "ピンセット一本で、午後が消える。それが快楽だ。"
               },
               {
-                label: "山や湖の光を追う",
-                bg: "assets/backgrounds/bg-nagano-mirror-lake.jpg",
-                title: "風が止まると、水面が鏡になる。",
-                body: "一枚のために待つ時間が、むしろ本体だった。"
+                label: "塗装や改造に手を出す",
+                bg: "assets/backgrounds/bg-homeaid-pet.jpg",
+                title: "色を決める瞬間、自分の好みが見える。",
+                body: "失敗も次の一作の材料。売場で筆を選ぶのも、体験のうち。"
               },
               {
-                title: "カメラは、外出の言い訳として優秀だった。",
-                body: "街歩きの感触が残るなら、サークルや講座も近い。"
+                title: "プラモデルは、静かな冒険だった。",
+                body: "続くならキットを増やせばいい。企業の売場体験で、道具の感触も試せる。"
               },
               {
-                title: "自然の光を追うと、予定のない一日が豊かになる。",
-                body: "写真は作品より、出かけた回数の記録に近いかもしれない。"
-              }
+                title: "塗る・改造する時間が、いちばん自由だった。",
+                body: "趣味は完成品より、机に向かう理由になる。"
+              },
+              "株式会社綿伴ホームメイド"
             )
           },
           {
-            id: "hb-cook",
-            label: "料理・パン",
-            tag: "台所",
-            blurb: "香りと手仕事で、一日に区切りをつける",
+            id: "hb-oshi",
+            label: "推し活",
+            tag: "体験 / 遠征・宿",
+            blurb: "応援の熱量を、旅や飾りの体験につなげる",
+            img: "assets/char-campus.png",
             scenes: hobbyQuest(
-              "料理・パン",
+              "推し活",
               {
-                bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
-                speaker: "料理好き・香",
-                img: "assets/char-homeaid-apron-man.png",
-                title: "まな板の音が、部屋の温度を上げる。",
-                body: "誰かのためでも、自分のためでもいい。台所は、小さな実験室だ。"
+                bg: "assets/backgrounds/bg-shizuoka-city.jpg",
+                speaker: "推し活仲間・咲",
+                img: "assets/char-campus.png",
+                title: "好きの話ができると、一日が軽くなる。",
+                body: "グッズも遠征も、正解はない。熱量の置き方を試せばいい。"
               },
               {
-                label: "毎日のおかずを丁寧に",
+                label: "部屋を推し仕様に整える",
+                bg: "assets/backgrounds/bg-rigna-living-rem.jpg",
+                title: "飾る場所が決まると、帰宅が楽しみになる。",
+                body: "インテリアの工夫は、推し活の延長。見せ方も趣味だ。"
+              },
+              {
+                label: "遠征の宿とルートを組む",
+                bg: "assets/backgrounds/bg-resort-entrance-day.jpg",
+                title: "移動の計画が、もうイベントだった。",
+                body: "ライブの前後に、山あいの宿で息を整える——旅の体験はリゾートにもつながる。"
+              },
+              {
+                title: "推し活は、孤独を熱に変える技術だった。",
+                body: "合うなら飾る・集めるを続けていい。空間づくりの体験にも進める。"
+              },
+              {
+                title: "遠征は、応援と自分のケアのセットだった。",
+                body: "宿の選び方ひとつで、翌日の自分が変わる。"
+              },
+              "株式会社綿伴リゾート"
+            )
+          },
+          {
+            id: "hb-cactus",
+            label: "サボテン栽培",
+            tag: "体験 / トレジャーディング",
+            blurb: "育てて、味わう。産地の『初めて』に触れる",
+            img: "assets/char-local-woman.png",
+            scenes: hobbyQuest(
+              "サボテン栽培",
+              {
+                bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+                speaker: "産地の人・菜々",
+                img: "assets/char-local-woman.png",
+                title: "トゲの向こうに、食卓がある。",
+                body: "観賞だけじゃない。育て方と食べ方を知る体験が、トレジャーディングの畑につながる。"
+              },
+              {
+                label: "鉢で育ててみる",
+                bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+                title: "水をやりすぎない勇気も、技術だ。",
+                body: "乾燥に強い植物は、忙しい人の味方。観察の癖がつく。"
+              },
+              {
+                label: "料理・試食で味わう",
+                bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
+                title: "『食べたことない』が、会話になる。",
+                body: "産地の話を添えると、味が立体になる。知る・育てる・食べるが一本の趣味だ。"
+              },
+              {
+                title: "サボテンは、待つ趣味でもあった。",
+                body: "続くなら鉢を増やせる。企業の産地体験で、背景の物語も知れる。"
+              },
+              {
+                title: "味わうと、栽培の意味が変わる。",
+                body: "初めての食材は、説明ごと届く。"
+              },
+              "綿伴トレジャーディング株式会社"
+            )
+          },
+          {
+            id: "hb-nerikiri",
+            label: "練り切り・和菓子",
+            tag: "体験 / 美原・胡蝶庵",
+            blurb: "季節を手のひらサイズにする。仕込み体験へ",
+            img: "assets/char-campus.png",
+            scenes: hobbyQuest(
+              "練り切り・和菓子",
+              {
+                bg: "assets/backgrounds/bg-jonamashi.jpg",
+                speaker: "和菓子・陽菜",
+                img: "assets/char-campus.png",
+                title: "小さいのに、季節が一言で分かる。",
+                body: "練り切りは、形と色の短歌。美原の胡蝶庵につながる味の現場だ。"
+              },
+              {
+                label: "練り切りの形を作ってみる",
+                bg: "assets/backgrounds/bg-mihara-grape-mochi.jpg",
+                title: "指先の力加減が、そのまま表情になる。",
+                body: "失敗しても食べられる。それが和菓子の優しさだ。"
+              },
+              {
+                label: "お茶と合わせて味わう",
                 bg: "assets/backgrounds/bg-tea-shop-cafe.jpg",
-                title: "味見の一口が、いちばん正直なフィードバック。",
-                body: "派手さより、再現できる満足。続く趣味は、献立に近い。"
+                title: "一杯の温度で、菓子の顔が変わる。",
+                body: "淹れ方と盛り方が、同じ会話になる。喫茶の空気も体験のうち。"
               },
               {
-                label: "パンや焼き菓子に挑戦",
-                bg: "assets/backgrounds/bg-shizuoka-hamburg-shop.jpg",
-                title: "オーブンの香りで、午後がイベントになる。",
-                body: "計量と待つ時間。落ち着きと勇気が、同じボウルの中にある。"
+                title: "和菓子は、季節を手元に置く趣味だった。",
+                body: "続くなら教室へ。企業の仕込み体験で、プロの手つきも覗ける。"
               },
               {
-                title: "料理は、孤独な時間をあたたかくする技だった。",
-                body: "合うなら教室へ。合わなければ外食を楽しむ。どちらも正解だ。"
+                title: "お茶との合わせが、いちばん楽しかった。",
+                body: "味は孤独じゃなく、誰かと共有すると伸びる。"
+              },
+              "株式会社綿伴美原商店"
+            )
+          },
+          {
+            id: "hb-diy",
+            label: "DIY・溶接と木工",
+            tag: "体験 / ソリューション・大洋",
+            blurb: "火花と木屑。現場の技術を趣味として触る",
+            img: "assets/char-work-uniform-site-man.png",
+            scenes: hobbyQuest(
+              "DIY・溶接と木工",
+              {
+                bg: "assets/backgrounds/bg-solution-spark-shop.jpg",
+                speaker: "DIY講師・健",
+                img: "assets/char-work-uniform-site-man.png",
+                title: "道具の音が、休日のスイッチになる。",
+                body: "溶接はソリューションの現場へ、木工は大洋の工場感触へ。\nどちらも『作れる自分』を試す体験だ。"
               },
               {
-                title: "パンを焼く朝は、予定がなくても充実していた。",
-                body: "趣味は上手くなるためより、一日にリズムを戻すためにある。"
-              }
+                label: "溶接の火花を体験する",
+                bg: "assets/backgrounds/bg-solution-weld-line.jpg",
+                title: "マスクの向こうで、金属がひとつになる。",
+                body: "怖さと達成感が同時に来る。安全の作法が、いちばん最初の技術だ。"
+              },
+              {
+                label: "木工で棚や板を組む",
+                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
+                title: "１cmの狂いが、正直に顔に出る。",
+                body: "削る・合わせる・磨く。木は、急がない人にだけ素直だ。"
+              },
+              {
+                title: "溶接の体験は、勇気のトレーニングだった。",
+                body: "合うなら趣味の延長で現場見学へ。ソリューションの仕事感触にもつながる。"
+              },
+              {
+                title: "木工は、暮らしに残る趣味だった。",
+                body: "作った棚が部屋に立つと、週末の意味が変わる。大洋の工場体験にも進める。"
+              },
+              "ソリューション／太平洋"
+            )
+          },
+          {
+            id: "hb-travel",
+            label: "旅行・宿めぐり",
+            tag: "体験 / 綿伴リゾート",
+            blurb: "非日常の整え方を、山あいの宿で試す",
+            img: "assets/char-local-woman.png",
+            scenes: hobbyQuest(
+              "旅行・宿めぐり",
+              {
+                bg: "assets/backgrounds/bg-resort-entrance-day.jpg",
+                speaker: "旅好き・雪",
+                img: "assets/char-local-woman.png",
+                title: "玄関を入った瞬間、肩の力が抜ける。",
+                body: "旅行は行き先だけじゃない。宿の空気の選び方が趣味になる。\n綿伴リゾートの囲炉裏が、その入口だ。"
+              },
+              {
+                label: "囲炉裏のある宿で過ごす",
+                bg: "assets/backgrounds/bg-resort-lobby-irori.jpg",
+                title: "火の音が、会話のテンポを変える。",
+                body: "何もしない時間を、ちゃんと取る。それが上手な旅だ。"
+              },
+              {
+                label: "食事と客室のこだわりを味わう",
+                bg: "assets/backgrounds/bg-resort-cuisine.jpg",
+                title: "一皿の盛り付けが、旅の記憶になる。",
+                body: "和室でもベッドでも、眠り方の好みが見えてくる。"
+              },
+              {
+                title: "宿めぐりは、回復の技術だった。",
+                body: "合うなら次の予約を入れればいい。リゾートのおもてなし体験にもつながる。"
+              },
+              {
+                title: "食と部屋の組み合わせが、旅の本体だった。",
+                body: "遠くへ行かなくても、非日常は設計できる。"
+              },
+              "株式会社綿伴リゾート"
             )
           }
         ]
