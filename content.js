@@ -2862,39 +2862,39 @@
             id: "hb-plamodel",
             label: "プラモデル",
             tag: "体験 / ホームメイド",
-            blurb: "組み立てる静けさ。道具と部品の売場体験へもつながる",
+            blurb: "組み立てる静けさ。わたぴー機の製作から塗装まで",
             img: "assets/char-watapi-plamo.jpg",
             scenes: hobbyQuest(
               "プラモデル",
               {
-                bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
+                bg: "assets/backgrounds/bg-watapi-plamo-wip.jpg",
                 speaker: "わたぴープラモ",
-                img: "assets/char-watapi-plamo.jpg",
-                title: "説明書を開いた瞬間、時間がゆっくりになる。",
-                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\nわたぴーをプラモにした完成形が、机の上でこちらを見ている。"
+                img: "assets/char-watapi-plamo-sit.jpg",
+                title: "ランナーを切った瞬間、時間がゆっくりになる。",
+                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\nわたぴーをプラモ化したキットが、机の上で組み立て途中だ。"
               },
               {
-                label: "まずは簡単なキットから",
-                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
-                speaker: "わたぴープラモ",
+                label: "まずは組み上げて完成させる",
+                bg: "assets/backgrounds/bg-watapi-plamo-wip.jpg",
+                speaker: "わたぴープラモ（赤）",
                 img: "assets/char-watapi-plamo.jpg",
                 title: "完成より、途中の集中が本体だった。",
-                body: "ピンセット一本で、午後が消える。それが快楽だ。"
+                body: "ピンセット一本で、午後が消える。座りポーズの機体が、初めての達成感をくれる。"
               },
               {
-                label: "塗装や改造に手を出す",
-                bg: "assets/backgrounds/bg-homeaid-pet.jpg",
-                speaker: "わたぴープラモ",
-                img: "assets/char-watapi-plamo.jpg",
+                label: "塗装して別機体にも挑戦",
+                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
+                speaker: "わたぴープラモ（青・金）",
+                img: "assets/char-watapi-plamo-blue.jpg",
                 title: "色を決める瞬間、自分の好みが見える。",
-                body: "失敗も次の一作の材料。売場で筆を選ぶのも、体験のうち。"
+                body: "青は斧持ちのダイナミックポーズ、金は凱旋ポーズ。\n同じ顔でも、塗装とポージングで別人になる。"
               },
               {
                 title: "プラモデルは、静かな冒険だった。",
-                body: "続くならキットを増やせばいい。企業の売場体験で、道具の感触も試せる。"
+                body: "続くなら別塗装の機体を増やせる。ホームメイドの売場で道具の感触も試せる。"
               },
               {
-                title: "塗る・改造する時間が、いちばん自由だった。",
+                title: "塗る・ポーズをつける時間が、いちばん自由だった。",
                 body: "趣味は完成品より、机に向かう理由になる。"
               },
               "株式会社綿伴ホームメイド"
