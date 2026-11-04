@@ -2765,7 +2765,7 @@
               pathBBg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
               img: "assets/char-local-woman.png",
               startTitle: "まだ知らない味は、説明から始まる。",
-              startBody: "キャッサバ粉や珍しい食材も、暮らしの言葉に落とせば届く。\n試食の一言が、仕入れの橋になる。"
+              startBody: "サボテンや珍しい食材も、暮らしの言葉に落とせば届く。\n試食の一言が、仕入れの橋になる。"
             }, "担当・菜々")
           },
           {
@@ -2862,39 +2862,39 @@
             id: "hb-plamodel",
             label: "プラモデル",
             tag: "体験 / ホームメイド",
-            blurb: "組み立てる静けさ。わたぴー機の製作から塗装まで",
+            blurb: "組み立てる静けさ。道具と部品の売場体験へもつながる",
             img: "assets/char-watapi-plamo.jpg",
             scenes: hobbyQuest(
               "プラモデル",
               {
-                bg: "assets/backgrounds/bg-watapi-plamo-wip.jpg",
+                bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
                 speaker: "わたぴープラモ",
-                img: "assets/char-watapi-plamo-sit.jpg",
-                title: "ランナーを切った瞬間、時間がゆっくりになる。",
-                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\nわたぴーをプラモ化したキットが、机の上で組み立て途中だ。"
+                img: "assets/char-watapi-plamo.jpg",
+                title: "説明書を開いた瞬間、時間がゆっくりになる。",
+                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\nわたぴーをプラモにした完成形が、机の上でこちらを見ている。"
               },
               {
-                label: "まずは組み上げて完成させる",
-                bg: "assets/backgrounds/bg-watapi-plamo-wip.jpg",
-                speaker: "わたぴープラモ（赤）",
+                label: "まずは簡単なキットから",
+                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
+                speaker: "わたぴープラモ",
                 img: "assets/char-watapi-plamo.jpg",
                 title: "完成より、途中の集中が本体だった。",
-                body: "ピンセット一本で、午後が消える。座りポーズの機体が、初めての達成感をくれる。"
+                body: "ピンセット一本で、午後が消える。それが快楽だ。"
               },
               {
-                label: "塗装して別機体にも挑戦",
-                bg: "assets/backgrounds/bg-taiyo-bench.jpg",
-                speaker: "わたぴープラモ（青・金）",
-                img: "assets/char-watapi-plamo-blue.jpg",
+                label: "塗装や改造に手を出す",
+                bg: "assets/backgrounds/bg-homeaid-pet.jpg",
+                speaker: "わたぴープラモ",
+                img: "assets/char-watapi-plamo.jpg",
                 title: "色を決める瞬間、自分の好みが見える。",
-                body: "青は斧持ちのダイナミックポーズ、金は凱旋ポーズ。\n同じ顔でも、塗装とポージングで別人になる。"
+                body: "失敗も次の一作の材料。売場で筆を選ぶのも、体験のうち。"
               },
               {
                 title: "プラモデルは、静かな冒険だった。",
-                body: "続くなら別塗装の機体を増やせる。ホームメイドの売場で道具の感触も試せる。"
+                body: "続くならキットを増やせばいい。企業の売場体験で、道具の感触も試せる。"
               },
               {
-                title: "塗る・ポーズをつける時間が、いちばん自由だった。",
+                title: "塗る・改造する時間が、いちばん自由だった。",
                 body: "趣味は完成品より、机に向かう理由になる。"
               },
               "株式会社綿伴ホームメイド"
@@ -2939,39 +2939,39 @@
             )
           },
           {
-            id: "hb-cook",
-            label: "料理・キャッサバ粉",
+            id: "hb-cactus",
+            label: "サボテン栽培",
             tag: "体験 / トレジャーディング",
-            blurb: "グルテンフリーの粉で、初めての一皿を試す",
-            img: "assets/char-homeaid-apron-man.png",
+            blurb: "育てて、味わう。産地の『初めて』に触れる",
+            img: "assets/char-local-woman.png",
             scenes: hobbyQuest(
-              "料理・キャッサバ粉",
+              "サボテン栽培",
               {
-                bg: "assets/backgrounds/bg-cassava-flour.jpg",
-                speaker: "食の人・菜々",
-                img: "assets/char-homeaid-apron-man.png",
-                title: "白い粉の向こうに、遠い産地がある。",
-                body: "キャッサバは南米や東南アジア原産のイモ。根を粉にしたものがキャッサバ粉だ。\nグルテンフリーで、小麦粉の代わりにもなる——トレジャーディングが届ける『初めて』のひとつ。"
+                bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+                speaker: "産地の人・菜々",
+                img: "assets/char-local-woman.png",
+                title: "トゲの向こうに、食卓がある。",
+                body: "観賞だけじゃない。育て方と食べ方を知る体験が、トレジャーディングの畑につながる。"
               },
               {
-                label: "粉の感触を確かめてみる",
-                bg: "assets/backgrounds/bg-cassava-flour.jpg",
-                title: "さらさらで、小麦とは手触りが違う。",
-                body: "計量・水分・火加減。代用品は、そのままのレシピでは動かないこともある。\n試すほど、自分の台所のルールができる。"
+                label: "鉢で育ててみる",
+                bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
+                title: "水をやりすぎない勇気も、技術だ。",
+                body: "乾燥に強い植物は、忙しい人の味方。観察の癖がつく。"
               },
               {
-                label: "パンやおやつに焼いてみる",
-                bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
-                title: "焼きたての匂いが、実験を成功に変える。",
-                body: "ふくらみ方は小麦と違う。でも『おいしい』が出た瞬間、趣味になる。\n産地の話を添えると、一皿が物語になる。"
+                label: "料理・試食で味わう",
+                bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
+                title: "『食べたことない』が、会話になる。",
+                body: "産地の話を添えると、味が立体になる。知る・育てる・食べるが一本の趣味だ。"
               },
               {
-                title: "キャッサバ粉は、知るほど料理が広がる素材だった。",
-                body: "続くならレシピを増やせる。企業の食材体験で、産地の背景も知れる。"
+                title: "サボテンは、待つ趣味でもあった。",
+                body: "続くなら鉢を増やせる。企業の産地体験で、背景の物語も知れる。"
               },
               {
-                title: "焼く趣味は、失敗も次の仮説になる。",
-                body: "グルテンフリーは制約じゃなく、別ルートの楽しさだ。"
+                title: "味わうと、栽培の意味が変わる。",
+                body: "初めての食材は、説明ごと届く。"
               },
               "綿伴トレジャーディング株式会社"
             )
