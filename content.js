@@ -2863,25 +2863,29 @@
             label: "プラモデル",
             tag: "体験 / ホームメイド",
             blurb: "組み立てる静けさ。道具と部品の売場体験へもつながる",
-            img: "assets/char-creator.png",
+            img: "assets/char-watapi-plamo.jpg",
             scenes: hobbyQuest(
               "プラモデル",
               {
                 bg: "assets/backgrounds/bg-homeaid-aisle.jpg",
-                speaker: "趣味の先輩・匠",
-                img: "assets/char-creator.png",
+                speaker: "わたぴープラモ",
+                img: "assets/char-watapi-plamo.jpg",
                 title: "説明書を開いた瞬間、時間がゆっくりになる。",
-                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\n道具や塗料は、ホームメイドの棚にも並んでいる。"
+                body: "上手くなくていい。パーツを探す手つきが、すでに趣味だ。\nわたぴーをプラモにした完成形が、机の上でこちらを見ている。"
               },
               {
                 label: "まずは簡単なキットから",
                 bg: "assets/backgrounds/bg-taiyo-bench.jpg",
+                speaker: "わたぴープラモ",
+                img: "assets/char-watapi-plamo.jpg",
                 title: "完成より、途中の集中が本体だった。",
                 body: "ピンセット一本で、午後が消える。それが快楽だ。"
               },
               {
                 label: "塗装や改造に手を出す",
                 bg: "assets/backgrounds/bg-homeaid-pet.jpg",
+                speaker: "わたぴープラモ",
+                img: "assets/char-watapi-plamo.jpg",
                 title: "色を決める瞬間、自分の好みが見える。",
                 body: "失敗も次の一作の材料。売場で筆を選ぶのも、体験のうち。"
               },
