@@ -2765,7 +2765,7 @@
               pathBBg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
               img: "assets/char-local-woman.png",
               startTitle: "まだ知らない味は、説明から始まる。",
-              startBody: "サボテンや珍しい食材も、暮らしの言葉に落とせば届く。\n試食の一言が、仕入れの橋になる。"
+              startBody: "キャッサバ粉や珍しい食材も、暮らしの言葉に落とせば届く。\n試食の一言が、仕入れの橋になる。"
             }, "担当・菜々")
           },
           {
@@ -2939,39 +2939,39 @@
             )
           },
           {
-            id: "hb-cactus",
-            label: "サボテン栽培",
+            id: "hb-cook",
+            label: "料理・キャッサバ粉",
             tag: "体験 / トレジャーディング",
-            blurb: "育てて、味わう。産地の『初めて』に触れる",
-            img: "assets/char-local-woman.png",
+            blurb: "グルテンフリーの粉で、初めての一皿を試す",
+            img: "assets/char-homeaid-apron-man.png",
             scenes: hobbyQuest(
-              "サボテン栽培",
+              "料理・キャッサバ粉",
               {
-                bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
-                speaker: "産地の人・菜々",
-                img: "assets/char-local-woman.png",
-                title: "トゲの向こうに、食卓がある。",
-                body: "観賞だけじゃない。育て方と食べ方を知る体験が、トレジャーディングの畑につながる。"
+                bg: "assets/backgrounds/bg-cassava-flour.jpg",
+                speaker: "食の人・菜々",
+                img: "assets/char-homeaid-apron-man.png",
+                title: "白い粉の向こうに、遠い産地がある。",
+                body: "キャッサバは南米や東南アジア原産のイモ。根を粉にしたものがキャッサバ粉だ。\nグルテンフリーで、小麦粉の代わりにもなる——トレジャーディングが届ける『初めて』のひとつ。"
               },
               {
-                label: "鉢で育ててみる",
-                bg: "assets/backgrounds/bg-trading-sabovege-field.jpg",
-                title: "水をやりすぎない勇気も、技術だ。",
-                body: "乾燥に強い植物は、忙しい人の味方。観察の癖がつく。"
+                label: "粉の感触を確かめてみる",
+                bg: "assets/backgrounds/bg-cassava-flour.jpg",
+                title: "さらさらで、小麦とは手触りが違う。",
+                body: "計量・水分・火加減。代用品は、そのままのレシピでは動かないこともある。\n試すほど、自分の台所のルールができる。"
               },
               {
-                label: "料理・試食で味わう",
-                bg: "assets/backgrounds/bg-trading-sabovege-dish.jpg",
-                title: "『食べたことない』が、会話になる。",
-                body: "産地の話を添えると、味が立体になる。知る・育てる・食べるが一本の趣味だ。"
+                label: "パンやおやつに焼いてみる",
+                bg: "assets/backgrounds/bg-shine-dining-kitchen.jpg",
+                title: "焼きたての匂いが、実験を成功に変える。",
+                body: "ふくらみ方は小麦と違う。でも『おいしい』が出た瞬間、趣味になる。\n産地の話を添えると、一皿が物語になる。"
               },
               {
-                title: "サボテンは、待つ趣味でもあった。",
-                body: "続くなら鉢を増やせる。企業の産地体験で、背景の物語も知れる。"
+                title: "キャッサバ粉は、知るほど料理が広がる素材だった。",
+                body: "続くならレシピを増やせる。企業の食材体験で、産地の背景も知れる。"
               },
               {
-                title: "味わうと、栽培の意味が変わる。",
-                body: "初めての食材は、説明ごと届く。"
+                title: "焼く趣味は、失敗も次の仮説になる。",
+                body: "グルテンフリーは制約じゃなく、別ルートの楽しさだ。"
               },
               "綿伴トレジャーディング株式会社"
             )
