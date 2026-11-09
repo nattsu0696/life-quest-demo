@@ -340,6 +340,21 @@ html.is-fullscreen .fs-btn {
   line-height: 1.5;
 }
 
+.gate-play-count {
+  margin: -6px 0 14px;
+  color: var(--accent-soft, #7ad0f2);
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.gate-play-count strong {
+  font-family: var(--font-display, inherit);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
 .gate-notice {
   margin: 0 0 18px;
   padding: 12px 14px;

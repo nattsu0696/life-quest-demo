@@ -2398,10 +2398,11 @@
       // タイトルの START = プレイ開始（ざっくり1セッション1回）
       try {
         const C = window.LQ_COUNTERS;
-        const playEl = document.getElementById("play-count");
         if (C && !sessionStorage.getItem("lq-play-counted")) {
           sessionStorage.setItem("lq-play-counted", "1");
-          C.bump(C.keys.plays, playEl);
+          C.bump(C.keys.plays, document.getElementById("play-count")).then((value) => {
+            if (value != null) C.setText(document.getElementById("gate-play-count"), value);
+          });
         }
       } catch (_) {}
       openSaveScreen();
@@ -2626,7 +2627,10 @@
     initTitleLogoPicker();
     try {
       const C = window.LQ_COUNTERS;
-      if (C) C.show(C.keys.plays, document.getElementById("play-count"));
+      if (C) {
+        C.show(C.keys.plays, document.getElementById("play-count"));
+        C.show(C.keys.plays, document.getElementById("gate-play-count"));
+      }
     } catch (_) {}
     if (document.documentElement.classList.contains("is-unlocked")) {
       goToTitleScreen();
