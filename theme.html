@@ -14,6 +14,8 @@
     @font-face {
       font-family: "Harshita";
       src:
+        url("Harshita.otf") format("opentype"),
+        url("Harshita.ttf") format("truetype"),
         url("fonts/Harshita.otf") format("opentype"),
         url("fonts/Harshita.ttf") format("truetype");
       font-weight: normal;
@@ -156,6 +158,33 @@
       line-height: 1.6;
     }
 
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 0 0 14px;
+    }
+    .stat {
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(228, 192, 137, 0.22);
+      background: rgba(247, 241, 232, 0.06);
+    }
+    .stat-label {
+      margin: 0 0 4px;
+      color: var(--soft);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+    }
+    .stat-value {
+      margin: 0;
+      font-family: "Harshita", "IBM Plex Sans JP", sans-serif;
+      font-size: 1.45rem;
+      line-height: 1.2;
+      color: var(--gold);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
+    }
+
     .player-wrap {
       width: 100%;
       margin: 0 0 12px;
@@ -184,9 +213,11 @@
       border: 0;
       border-radius: 999px;
       text-decoration: none;
+      font: inherit;
       font-weight: 800;
       font-size: 0.98rem;
       letter-spacing: 0.02em;
+      cursor: pointer;
     }
     .btn-primary {
       color: #24180e;
@@ -205,6 +236,15 @@
       color: var(--soft);
       font-size: 0.72rem;
       line-height: 1.5;
+    }
+    .nav {
+      margin: 14px 0 0;
+    }
+    .nav a {
+      color: var(--sea);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
     }
 
     @media (min-width: 720px) {
@@ -225,29 +265,80 @@
       </div>
       <h1 class="brand">Life quest</h1>
       <p class="sub">Theme Song MV</p>
-      <p class="lede">会場のみなさんへ。<br />完成したミュージックビデオを、下から視聴・保存できます。</p>
+      <p class="lede">人生を、一度きりで決めなくていい。<br />完成したミュージックビデオを、下から視聴・保存できます。</p>
+
+      <section class="stats" aria-label="カウンター">
+        <div class="stat">
+          <p class="stat-label">視聴回数</p>
+          <p class="stat-value" id="mv-view-count">—</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">ダウンロード</p>
+          <p class="stat-value" id="mv-dl-count">—</p>
+        </div>
+      </section>
 
       <div class="player-wrap">
         <video
+          id="mv-video"
           controls
           playsinline
           preload="metadata"
           poster="mv-poster.jpg?v=10"
-          src="Life-Quest-MV.mp4?v=10"
+          src="Life-Quest-MV.mp4?v=11"
         >
           お使いの端末では再生できない場合があります。ダウンロードしてください。
         </video>
       </div>
 
       <div class="actions">
-        <a class="btn btn-primary" href="Life-Quest-MV.mp4" download="Life-Quest-MV.mp4">MVをダウンロード</a>
-        <a class="btn btn-secondary" href="Life-Quest.m4a" download="Life-Quest.m4a">音源のみ（m4a）</a>
+        <a class="btn btn-primary" id="dl-video" href="Life-Quest-MV.mp4" download="Life-Quest-MV.mp4">MVをダウンロード</a>
+        <a class="btn btn-secondary" id="dl-audio" href="Life-Quest.m4a" download="Life-Quest.m4a">音源のみ（m4a）</a>
       </div>
       <p class="note">
-        MV：約4分42秒 / 720p（配信用）<br />
-        保存できないときは、再生バーの「…」や共有から保存してください。
+        MV：約4分42秒 / 720p（配信用・約23MB）<br />
+        ダウンロード数は動画＋音源の合算です。保存できないときは、再生バーの「…」や共有から保存してください。
       </p>
+      <p class="nav"><a href="./">◀ ゲームデモへ</a></p>
     </section>
   </main>
+
+  <script src="counters.js?v=178"></script>
+  <script>
+    (() => {
+      const C = window.LQ_COUNTERS;
+      if (!C) return;
+      const viewEl = document.getElementById("mv-view-count");
+      const dlEl = document.getElementById("mv-dl-count");
+      const video = document.getElementById("mv-video");
+      let viewed = false;
+
+      C.show(C.keys.mvViews, viewEl);
+      C.show(C.keys.mvDownloads, dlEl);
+
+      async function countView() {
+        if (viewed) return;
+        viewed = true;
+        await C.bump(C.keys.mvViews, viewEl);
+      }
+
+      video?.addEventListener("play", countView, { once: true });
+
+      async function countDownload(e) {
+        e.preventDefault();
+        const href = e.currentTarget.getAttribute("href");
+        await C.bump(C.keys.mvDownloads, dlEl);
+        const a = document.createElement("a");
+        a.href = href;
+        a.download = e.currentTarget.getAttribute("download") || "";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+
+      document.getElementById("dl-video")?.addEventListener("click", countDownload);
+      document.getElementById("dl-audio")?.addEventListener("click", countDownload);
+    })();
+  </script>
 </body>
 </html>
