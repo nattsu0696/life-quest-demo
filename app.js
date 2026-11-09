@@ -2395,6 +2395,15 @@
     if (action === "to-back" || action === "to-branch") goBackFromQuest();
     if (action === "to-hub") retreatToHub();
     if (action === "to-saves") {
+      // タイトルの START = プレイ開始（ざっくり1セッション1回）
+      try {
+        const C = window.LQ_COUNTERS;
+        const playEl = document.getElementById("play-count");
+        if (C && !sessionStorage.getItem("lq-play-counted")) {
+          sessionStorage.setItem("lq-play-counted", "1");
+          C.bump(C.keys.plays, playEl);
+        }
+      } catch (_) {}
       openSaveScreen();
     }
     if (action === "to-start") {
@@ -2615,6 +2624,10 @@
     buildPlaces();
     initTitleBgPicker();
     initTitleLogoPicker();
+    try {
+      const C = window.LQ_COUNTERS;
+      if (C) C.show(C.keys.plays, document.getElementById("play-count"));
+    } catch (_) {}
     if (document.documentElement.classList.contains("is-unlocked")) {
       goToTitleScreen();
     } else {
