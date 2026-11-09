@@ -14,12 +14,8 @@
   }
 
   async function get(key) {
-    try {
-      const data = await request(`/get/${encodeURIComponent(NS)}/${encodeURIComponent(key)}`);
-      return Number(data.value) || 0;
-    } catch (_) {
-      return 0;
-    }
+    const data = await request(`/get/${encodeURIComponent(NS)}/${encodeURIComponent(key)}`);
+    return Number(data.value) || 0;
   }
 
   function format(n) {

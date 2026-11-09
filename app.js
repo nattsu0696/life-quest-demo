@@ -12,6 +12,18 @@
   const installTip = document.getElementById("install-tip");
   const installTipOk = document.getElementById("install-tip-ok");
 
+  function refreshPlayCounts() {
+    try {
+      const C = window.LQ_COUNTERS;
+      if (!C) return;
+      C.show(C.keys.plays, document.getElementById("play-count"));
+      C.show(C.keys.plays, document.getElementById("gate-play-count"));
+    } catch (_) {}
+  }
+
+  // 重い初期化より先に表示（失敗しても画面は進む）
+  refreshPlayCounts();
+
   function isStandaloneMode() {
     return window.matchMedia("(display-mode: standalone)").matches
       || window.matchMedia("(display-mode: fullscreen)").matches
@@ -2625,13 +2637,7 @@
     buildPlaces();
     initTitleBgPicker();
     initTitleLogoPicker();
-    try {
-      const C = window.LQ_COUNTERS;
-      if (C) {
-        C.show(C.keys.plays, document.getElementById("play-count"));
-        C.show(C.keys.plays, document.getElementById("gate-play-count"));
-      }
-    } catch (_) {}
+    refreshPlayCounts();
     if (document.documentElement.classList.contains("is-unlocked")) {
       goToTitleScreen();
     } else {
