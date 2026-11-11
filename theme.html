@@ -358,13 +358,14 @@
     </section>
   </main>
 
-  <script src="counters.js?v=181"></script>
+  <script src="counters.js?v=183"></script>
   <script>
     (() => {
       const C = window.LQ_COUNTERS;
       const viewEl = document.getElementById("mv-view-count");
       const dlEl = document.getElementById("mv-dl-count");
       const video = document.getElementById("mv-video");
+      const bgm = document.getElementById("bgm-audio");
       let viewed = false;
 
       // iOS/Safari は download 属性が効かないことが多いので、開いて保存できる導線を優先
@@ -385,6 +386,7 @@
         C.show(C.keys.mvDownloads, dlEl);
       }
 
+      // MV / 店内BGM 共通：このページで一度再生したら視聴+1
       async function countView() {
         if (viewed || !C) return;
         viewed = true;
@@ -392,9 +394,9 @@
       }
 
       video?.addEventListener("play", countView, { once: true });
+      bgm?.addEventListener("play", countView, { once: true });
 
       // MVと店内BGMは同時再生しない
-      const bgm = document.getElementById("bgm-audio");
       video?.addEventListener("play", () => { try { bgm?.pause(); } catch (_) {} });
       bgm?.addEventListener("play", () => { try { video?.pause(); } catch (_) {} });
 
@@ -407,7 +409,7 @@
       document.getElementById("dl-video")?.addEventListener("click", countDownload);
       document.getElementById("dl-audio")?.addEventListener("click", countDownload);
       document.getElementById("open-video")?.addEventListener("click", countDownload);
-      // BGMは別枠なのでカウント対象外（必要なら後で分離）
+      document.getElementById("dl-bgm")?.addEventListener("click", countDownload);
     })();
   </script>
 </body>
