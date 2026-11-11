@@ -12,6 +12,10 @@
     "mv-downloads": 62
   };
 
+  // bump と show の競合で数字が戻らないようにする
+  const localMax = Object.create(null);
+  const pendingShow = Object.create(null);
+
   function readCache() {
     try {
       return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}") || {};
@@ -22,22 +26,27 @@
 
   function writeCache(key, value) {
     try {
+      const n = Number(value) || 0;
       const cache = readCache();
-      cache[key] = Number(value) || 0;
+      cache[key] = n;
       localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+      localMax[key] = Math.max(Number(localMax[key]) || 0, n);
     } catch (_) {}
   }
 
   function cachedOrSeed(key) {
     const cache = readCache();
-    const n = Number(cache[key]);
-    if (Number.isFinite(n) && n > 0) return n;
-    return Number(SEED[key]) || 0;
+    const cached = Number(cache[key]);
+    const seed = Number(SEED[key]) || 0;
+    const local = Number(localMax[key]) || 0;
+    const vals = [local, seed];
+    if (Number.isFinite(cached) && cached >= 0) vals.push(cached);
+    return Math.max(...vals);
   }
 
   async function requestOnce(base, path) {
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const timer = setTimeout(() => ctrl.abort(), 7000);
     try {
       const res = await fetch(`${base}${path}`, {
         method: "GET",
@@ -55,12 +64,10 @@
   async function request(path) {
     let lastErr = null;
     for (const base of BASES) {
-      for (let i = 0; i < 2; i += 1) {
-        try {
-          return await requestOnce(base, path);
-        } catch (err) {
-          lastErr = err;
-        }
+      try {
+        return await requestOnce(base, path);
+      } catch (err) {
+        lastErr = err;
       }
     }
     throw lastErr || new Error("counter unavailable");
@@ -69,15 +76,15 @@
   async function hit(key) {
     const data = await request(`/hit/${encodeURIComponent(NS)}/${encodeURIComponent(key)}`);
     const value = Number(data.value) || 0;
-    writeCache(key, value);
-    return value;
+    writeCache(key, Math.max(value, cachedOrSeed(key)));
+    return Math.max(value, cachedOrSeed(key));
   }
 
   async function get(key) {
     const data = await request(`/get/${encodeURIComponent(NS)}/${encodeURIComponent(key)}`);
     const value = Number(data.value) || 0;
-    writeCache(key, value);
-    return value;
+    writeCache(key, Math.max(value, cachedOrSeed(key)));
+    return Math.max(value, cachedOrSeed(key));
   }
 
   function format(n) {
@@ -87,6 +94,13 @@
   function setText(el, value) {
     if (!el) return;
     el.textContent = format(value);
+  }
+
+  function applyValue(key, el, value) {
+    const n = Math.max(Number(value) || 0, cachedOrSeed(key));
+    writeCache(key, n);
+    setText(el, n);
+    return n;
   }
 
   window.LQ_COUNTERS = {
@@ -100,23 +114,34 @@
     format,
     setText,
     async bump(key, el) {
+      // 先に画面を+1して、遅いAPIや後続の show に戻されないようにする
+      const optimistic = cachedOrSeed(key) + 1;
+      applyValue(key, el, optimistic);
+      pendingShow[key] = (pendingShow[key] || 0) + 1;
+      const token = pendingShow[key];
       try {
         const value = await hit(key);
-        setText(el, value);
-        return value;
+        if (pendingShow[key] !== token && value < cachedOrSeed(key)) {
+          setText(el, cachedOrSeed(key));
+          return cachedOrSeed(key);
+        }
+        return applyValue(key, el, value);
       } catch (_) {
-        const fallback = cachedOrSeed(key) + 1;
-        writeCache(key, fallback);
-        setText(el, fallback);
-        return fallback;
+        return applyValue(key, el, optimistic);
       }
     },
     async show(key, el) {
-      setText(el, cachedOrSeed(key));
+      const baseline = cachedOrSeed(key);
+      setText(el, baseline);
+      const token = pendingShow[key] || 0;
       try {
         const value = await get(key);
-        setText(el, value);
-        return value;
+        // bump が先に進んでいたら、古い get 結果で上書きしない
+        if ((pendingShow[key] || 0) !== token) {
+          setText(el, cachedOrSeed(key));
+          return cachedOrSeed(key);
+        }
+        return applyValue(key, el, value);
       } catch (_) {
         setText(el, cachedOrSeed(key));
         return cachedOrSeed(key);

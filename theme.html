@@ -358,7 +358,7 @@
     </section>
   </main>
 
-  <script src="counters.js?v=183"></script>
+  <script src="counters.js?v=184"></script>
   <script>
     (() => {
       const C = window.LQ_COUNTERS;
@@ -387,22 +387,25 @@
       }
 
       // MV / 店内BGM 共通：このページで一度再生したら視聴+1
-      async function countView() {
+      function countView() {
         if (viewed || !C) return;
         viewed = true;
-        await C.bump(C.keys.mvViews, viewEl);
+        C.bump(C.keys.mvViews, viewEl).catch(() => {});
       }
 
-      video?.addEventListener("play", countView, { once: true });
-      bgm?.addEventListener("play", countView, { once: true });
+      video?.addEventListener("play", countView);
+      video?.addEventListener("playing", countView);
+      bgm?.addEventListener("play", countView);
+      bgm?.addEventListener("playing", countView);
 
       // MVと店内BGMは同時再生しない
       video?.addEventListener("play", () => { try { bgm?.pause(); } catch (_) {} });
       bgm?.addEventListener("play", () => { try { video?.pause(); } catch (_) {} });
 
       // カウントは裏で行う。ダウンロード自体はブラウザ標準のリンク動作を止めない
-      function countDownload() {
+      function countDownload(e) {
         if (!C) return;
+        // 画面上は即+1（API待ちで増えて見えない問題を回避）
         C.bump(C.keys.mvDownloads, dlEl).catch(() => {});
       }
 
