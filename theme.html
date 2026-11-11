@@ -290,10 +290,12 @@
       <div class="actions">
         <a class="btn btn-primary" id="dl-video" href="Life-Quest-MV.mp4" download="Life-Quest-MV.mp4">MVをダウンロード</a>
         <a class="btn btn-secondary" id="dl-audio" href="Life-Quest.m4a" download="Life-Quest.m4a">音源のみ（m4a）</a>
+        <a class="btn btn-secondary" id="open-video" href="Life-Quest-MV.mp4" target="_blank" rel="noopener">MVを開く（保存できないとき）</a>
       </div>
       <p class="note">
         MV：約4分42秒 / 720p（配信用・約23MB）<br />
-        ダウンロード数は動画＋音源の合算です。保存できないときは、再生バーの「…」や共有から保存してください。
+        ダウンロード数は動画＋音源の合算です。<br />
+        iPhoneの場合：ダウンロードが動かないときは「MVを開く」→共有→ビデオに保存／ファイルに保存。
       </p>
       <p class="nav"><a href="./">◀ ゲームデモへ</a></p>
     </section>
@@ -303,37 +305,46 @@
   <script>
     (() => {
       const C = window.LQ_COUNTERS;
-      if (!C) return;
       const viewEl = document.getElementById("mv-view-count");
       const dlEl = document.getElementById("mv-dl-count");
       const video = document.getElementById("mv-video");
       let viewed = false;
 
-      C.show(C.keys.mvViews, viewEl);
-      C.show(C.keys.mvDownloads, dlEl);
+      // iOS/Safari は download 属性が効かないことが多いので、開いて保存できる導線を優先
+      const isApple = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)
+        && ("ontouchend" in document || navigator.maxTouchPoints > 1);
+      const dlVideo = document.getElementById("dl-video");
+      const openVideo = document.getElementById("open-video");
+      if (isApple && dlVideo) {
+        dlVideo.removeAttribute("download");
+        dlVideo.setAttribute("target", "_blank");
+        dlVideo.setAttribute("rel", "noopener");
+        dlVideo.textContent = "MVを開く／保存";
+        if (openVideo) openVideo.hidden = true;
+      }
+
+      if (C) {
+        C.show(C.keys.mvViews, viewEl);
+        C.show(C.keys.mvDownloads, dlEl);
+      }
 
       async function countView() {
-        if (viewed) return;
+        if (viewed || !C) return;
         viewed = true;
         await C.bump(C.keys.mvViews, viewEl);
       }
 
       video?.addEventListener("play", countView, { once: true });
 
-      async function countDownload(e) {
-        e.preventDefault();
-        const href = e.currentTarget.getAttribute("href");
-        await C.bump(C.keys.mvDownloads, dlEl);
-        const a = document.createElement("a");
-        a.href = href;
-        a.download = e.currentTarget.getAttribute("download") || "";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+      // カウントは裏で行う。ダウンロード自体はブラウザ標準のリンク動作を止めない
+      function countDownload() {
+        if (!C) return;
+        C.bump(C.keys.mvDownloads, dlEl).catch(() => {});
       }
 
       document.getElementById("dl-video")?.addEventListener("click", countDownload);
       document.getElementById("dl-audio")?.addEventListener("click", countDownload);
+      document.getElementById("open-video")?.addEventListener("click", countDownload);
     })();
   </script>
 </body>
