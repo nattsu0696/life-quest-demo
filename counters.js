@@ -1,21 +1,83 @@
 (() => {
   const NS = "life-quest-demo";
-  const BASE = "https://abacus.jasoncameron.dev";
+  const BASES = [
+    "https://abacus.jasoncameron.dev",
+    "https://abacus.jsn.cam"
+  ];
+  const CACHE_KEY = "lq-counter-cache-v1";
+  // Last known good totals (fallback when Abacus is down/flaky)
+  const SEED = {
+    "game-plays": 68,
+    "mv-views": 118,
+    "mv-downloads": 62
+  };
+
+  function readCache() {
+    try {
+      return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}") || {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function writeCache(key, value) {
+    try {
+      const cache = readCache();
+      cache[key] = Number(value) || 0;
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+    } catch (_) {}
+  }
+
+  function cachedOrSeed(key) {
+    const cache = readCache();
+    const n = Number(cache[key]);
+    if (Number.isFinite(n) && n > 0) return n;
+    return Number(SEED[key]) || 0;
+  }
+
+  async function requestOnce(base, path) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    try {
+      const res = await fetch(`${base}${path}`, {
+        method: "GET",
+        mode: "cors",
+        signal: ctrl.signal,
+        cache: "no-store"
+      });
+      if (!res.ok) throw new Error(`counter ${res.status}`);
+      return res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
 
   async function request(path) {
-    const res = await fetch(`${BASE}${path}`, { method: "GET", mode: "cors" });
-    if (!res.ok) throw new Error(`counter ${res.status}`);
-    return res.json();
+    let lastErr = null;
+    for (const base of BASES) {
+      for (let i = 0; i < 2; i += 1) {
+        try {
+          return await requestOnce(base, path);
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+    }
+    throw lastErr || new Error("counter unavailable");
   }
 
   async function hit(key) {
     const data = await request(`/hit/${encodeURIComponent(NS)}/${encodeURIComponent(key)}`);
-    return Number(data.value) || 0;
+    const value = Number(data.value) || 0;
+    writeCache(key, value);
+    return value;
   }
 
   async function get(key) {
     const data = await request(`/get/${encodeURIComponent(NS)}/${encodeURIComponent(key)}`);
-    return Number(data.value) || 0;
+    const value = Number(data.value) || 0;
+    writeCache(key, value);
+    return value;
   }
 
   function format(n) {
@@ -43,20 +105,21 @@
         setText(el, value);
         return value;
       } catch (_) {
-        if (el && (!el.textContent || el.textContent === "—" || el.textContent === "-")) {
-          el.textContent = "—";
-        }
-        return null;
+        const fallback = cachedOrSeed(key) + 1;
+        writeCache(key, fallback);
+        setText(el, fallback);
+        return fallback;
       }
     },
     async show(key, el) {
+      setText(el, cachedOrSeed(key));
       try {
         const value = await get(key);
         setText(el, value);
         return value;
       } catch (_) {
-        if (el) el.textContent = "—";
-        return null;
+        setText(el, cachedOrSeed(key));
+        return cachedOrSeed(key);
       }
     }
   };

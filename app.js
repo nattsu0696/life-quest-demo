@@ -293,18 +293,6 @@
       categories: ["work", "startup", "migrate"],
       outsideTitle: "次のキャリア",
       outsideNote: "転職・起業・移住。大人の分岐を試せます"
-    },
-    elder: {
-      id: "elder",
-      age: 65,
-      label: "第二の人生",
-      short: "65歳〜",
-      roomBase: 5,
-      roomLabel: "ゆとりのある家",
-      roomHint: "働き方を終えたあとの、次の景色がある部屋",
-      categories: ["rework", "migrate", "hobby"],
-      outsideTitle: "これからの暮らし",
-      outsideNote: "もう一度働く・地域・趣味。第二の人生を試せます"
     }
   };
 
@@ -669,7 +657,6 @@
     const p = profile || {};
     if (p.startStage && LIFE_STAGES[p.startStage]) return LIFE_STAGES[p.startStage];
     const age = Number(p.age) || 15;
-    if (age >= 65) return LIFE_STAGES.elder;
     if (age < 18) return LIFE_STAGES.junior;
     if (age < 22) return LIFE_STAGES.senior;
     if (age < 26) return LIFE_STAGES.grad;
@@ -1729,11 +1716,6 @@
       if (active) ensureHubEscape(el);
     });
 
-    // プロフィール等はPC横の16:9枠だと縦が足りず「半分」に見えるので枠を高くする
-    if (appEl) {
-      appEl.classList.toggle("is-form-screen", name === "profile" || name === "saves");
-    }
-
     if (name === "map") startMapLoop();
     else {
       stopMapLoop();
@@ -2637,7 +2619,6 @@
     buildPlaces();
     initTitleBgPicker();
     initTitleLogoPicker();
-    refreshPlayCounts();
     if (document.documentElement.classList.contains("is-unlocked")) {
       goToTitleScreen();
     } else {

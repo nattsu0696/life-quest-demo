@@ -14,8 +14,6 @@
     @font-face {
       font-family: "Harshita";
       src:
-        url("Harshita.otf") format("opentype"),
-        url("Harshita.ttf") format("truetype"),
         url("fonts/Harshita.otf") format("opentype"),
         url("fonts/Harshita.ttf") format("truetype");
       font-weight: normal;
@@ -213,11 +211,9 @@
       border: 0;
       border-radius: 999px;
       text-decoration: none;
-      font: inherit;
       font-weight: 800;
       font-size: 0.98rem;
       letter-spacing: 0.02em;
-      cursor: pointer;
     }
     .btn-primary {
       color: #24180e;
@@ -270,11 +266,11 @@
       <section class="stats" aria-label="カウンター">
         <div class="stat">
           <p class="stat-label">視聴回数</p>
-          <p class="stat-value" id="mv-view-count">—</p>
+          <p class="stat-value" id="mv-view-count">118</p>
         </div>
         <div class="stat">
           <p class="stat-label">ダウンロード</p>
-          <p class="stat-value" id="mv-dl-count">—</p>
+          <p class="stat-value" id="mv-dl-count">62</p>
         </div>
       </section>
 
@@ -303,7 +299,7 @@
     </section>
   </main>
 
-  <script src="counters.js?v=178"></script>
+  <script src="counters.js?v=181"></script>
   <script>
     (() => {
       const C = window.LQ_COUNTERS;

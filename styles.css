@@ -106,24 +106,9 @@ button {
       0 28px 70px rgba(0, 0, 0, 0.55);
   }
 
-  /* セーブ／プロフィールは縦長フォームなので 16:9 に閉じ込めない */
-  html:not(.is-standalone):not(.is-fullscreen) .app.is-form-screen {
-    width: min(96vw, 640px);
-    height: min(96dvh, 900px);
-    max-height: 96dvh;
-  }
-
   html:not(.is-standalone):not(.is-fullscreen) .fs-btn,
   html:not(.is-standalone):not(.is-fullscreen) .install-tip {
     display: none !important;
-  }
-}
-
-@media (orientation: landscape) {
-  html:not(.is-standalone):not(.is-fullscreen) .app.is-form-screen {
-    width: min(100vw, 640px);
-    height: min(96dvh, 900px);
-    max-height: 96dvh;
   }
 }
 
@@ -340,25 +325,6 @@ html.is-fullscreen .fs-btn {
   line-height: 1.5;
 }
 
-.gate-play-count {
-  margin: 0 0 16px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(122, 208, 242, 0.35);
-  background: rgba(78, 184, 230, 0.12);
-  color: var(--accent-soft, #7ad0f2);
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  text-align: center;
-}
-
-.gate-play-count strong {
-  font-family: var(--font-display, inherit);
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #fff;
-}
-
 .gate-notice {
   margin: 0 0 18px;
   padding: 12px 14px;
@@ -564,7 +530,6 @@ html.is-fullscreen .fs-btn {
 }
 
 .trait-card {
-  position: relative;
   display: block;
   cursor: pointer;
 }
@@ -618,7 +583,7 @@ html.is-fullscreen .fs-btn {
 
 .gender-avatar {
   display: block;
-  width: min(100%, 96px);
+  width: min(100%, 118px);
   height: auto;
   aspect-ratio: 1 / 1;
   object-fit: contain;
@@ -635,16 +600,6 @@ html.is-fullscreen .fs-btn {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 8px;
-}
-
-.stage-grid .trait-card-body {
-  min-height: 58px;
-  padding: 10px 12px;
-}
-
-/* 5つ目（65歳〜）が半幅のまま残らないよう全幅にする */
-.stage-grid > .trait-card:last-child {
-  grid-column: 1 / -1;
 }
 
 /* ========== HOME HUB ========== */
@@ -1178,7 +1133,25 @@ html.is-fullscreen .fs-btn {
   pointer-events: none;
 }
 
-/* 下帯に入れると横画面で欠けるので、左上に固定 */
+.gate-play-count {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(122, 208, 242, 0.35);
+  background: rgba(78, 184, 230, 0.12);
+  color: var(--accent-soft, #7ad0f2);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.gate-play-count strong {
+  font-family: var(--font-display, inherit);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+}
+
 .title-play-badge {
   position: absolute;
   top: max(12px, env(safe-area-inset-top));
@@ -1202,24 +1175,6 @@ html.is-fullscreen .fs-btn {
   font-size: 1rem;
   font-weight: 800;
   color: #1f6f86;
-}
-
-.title-mv-badge {
-  position: absolute;
-  top: calc(max(12px, env(safe-area-inset-top)) + 42px);
-  left: max(14px, env(safe-area-inset-left));
-  z-index: 20;
-  margin: 0;
-  padding: 7px 14px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #5a3a12;
-  text-decoration: none;
-  background: linear-gradient(135deg, #efd2a4, #e0b56d);
-  border: 1px solid rgba(200, 150, 90, 0.45);
-  border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(40, 80, 100, 0.14);
 }
 
 .title-kv {
@@ -1296,38 +1251,6 @@ html.is-fullscreen .fs-btn {
   line-height: 1.25;
   letter-spacing: 0.02em;
   color: #3d5a63;
-}
-
-.title-mv-link {
-  margin: 8px 0 0;
-  font-size: 0.78rem;
-}
-
-.title-mv-link a {
-  color: #1f7fb0;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  font-weight: 700;
-}
-
-.title-mv-link a:hover {
-  color: #155a7a;
-}
-
-.gate-mv-link {
-  margin: 14px 0 8px;
-  text-align: center;
-}
-
-.gate-mv-link a {
-  color: var(--accent-soft, #7ad0f2);
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.gate-mv-link a:hover {
-  text-decoration: underline;
 }
 
 .title-frame-dock .btn-start-kv {
@@ -3766,24 +3689,6 @@ html.is-landscape .rotate-hint {
   .title-demo-badge {
     top: max(10px, env(safe-area-inset-top));
     right: max(16px, env(safe-area-inset-right));
-  }
-
-  .title-play-badge {
-    top: max(10px, env(safe-area-inset-top));
-    left: max(16px, env(safe-area-inset-left));
-    font-size: 0.74rem;
-    padding: 6px 12px;
-  }
-
-  .title-play-badge strong {
-    font-size: 0.95rem;
-  }
-
-  .title-mv-badge {
-    top: calc(max(10px, env(safe-area-inset-top)) + 40px);
-    left: max(16px, env(safe-area-inset-left));
-    font-size: 0.74rem;
-    padding: 6px 12px;
   }
 
   .title-stage-kv .title-kv {
