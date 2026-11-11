@@ -200,6 +200,44 @@
       background: #0b0a09;
     }
 
+    .bgm-block {
+      margin: 18px 0 0;
+      padding: 14px 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(111, 180, 176, 0.28);
+      background: rgba(111, 180, 176, 0.08);
+      text-align: left;
+    }
+    .bgm-chip {
+      margin: 0 0 6px;
+      color: var(--sea);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+    .bgm-title {
+      margin: 0 0 4px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #f7f1e8;
+    }
+    .bgm-desc {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+    .bgm-player {
+      width: 100%;
+      margin: 0 0 10px;
+      border-radius: 999px;
+    }
+    .bgm-actions {
+      display: grid;
+      gap: 8px;
+    }
+
     .actions {
       display: grid;
       gap: 10px;
@@ -297,6 +335,25 @@
         ダウンロード数は動画＋音源の合算です。<br />
         iPhoneの場合：ダウンロードが動かないときは「MVを開く」→共有→ビデオに保存／ファイルに保存。
       </p>
+
+      <section class="bgm-block" aria-label="店内BGMアレンジ">
+        <p class="bgm-chip">STORE BGM</p>
+        <h2 class="bgm-title">Life Quest 店内BGMアレンジ</h2>
+        <p class="bgm-desc">綿半ホームエイドの店内BGM用に、テーマ曲をアレンジしたバージョンです。試聴・ダウンロードできます。</p>
+        <audio
+          id="bgm-audio"
+          class="bgm-player"
+          controls
+          preload="metadata"
+          src="Life-Quest-Store-BGM.mp3?v=1"
+        >
+          この端末では音声プレーヤーを表示できません。下のボタンからダウンロードしてください。
+        </audio>
+        <div class="bgm-actions">
+          <a class="btn btn-secondary" id="dl-bgm" href="Life-Quest-Store-BGM.mp3" download="Life-Quest-Store-BGM.mp3">店内BGMをダウンロード</a>
+        </div>
+      </section>
+
       <p class="nav"><a href="./">◀ ゲームデモへ</a></p>
     </section>
   </main>
@@ -336,6 +393,11 @@
 
       video?.addEventListener("play", countView, { once: true });
 
+      // MVと店内BGMは同時再生しない
+      const bgm = document.getElementById("bgm-audio");
+      video?.addEventListener("play", () => { try { bgm?.pause(); } catch (_) {} });
+      bgm?.addEventListener("play", () => { try { video?.pause(); } catch (_) {} });
+
       // カウントは裏で行う。ダウンロード自体はブラウザ標準のリンク動作を止めない
       function countDownload() {
         if (!C) return;
@@ -345,6 +407,7 @@
       document.getElementById("dl-video")?.addEventListener("click", countDownload);
       document.getElementById("dl-audio")?.addEventListener("click", countDownload);
       document.getElementById("open-video")?.addEventListener("click", countDownload);
+      // BGMは別枠なのでカウント対象外（必要なら後で分離）
     })();
   </script>
 </body>
