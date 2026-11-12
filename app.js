@@ -683,7 +683,10 @@
       save.profile.startStage = resolveLifeStage(save.profile).id;
     }
     const stage = LIFE_STAGES[save.profile.startStage] || LIFE_STAGES.junior;
-    if (!save.profile.age) save.profile.age = stage.age;
+    // 旧バグで 65歳が40歳以下に潰れたセーブを、開始ステージ基準で戻す
+    if (!save.profile.age || Number(save.profile.age) < stage.age) {
+      save.profile.age = stage.age;
+    }
     if (!save.stats) save.stats = baseStats();
     Object.keys(baseStats()).forEach((key) => {
       if (typeof save.stats[key] !== "number") save.stats[key] = 10;
@@ -1162,7 +1165,10 @@
   }
 
   function createSaveData(slotIndex, profile) {
-    const stage = LIFE_STAGES[profile.stage] || LIFE_STAGES.junior;
+    const stage = LIFE_STAGES[profile.stage];
+    if (!stage) {
+      throw new Error(`unknown stage: ${profile.stage || "(empty)"}`);
+    }
     return {
       version: 2,
       slot: slotIndex,
@@ -1368,7 +1374,14 @@
     save.week = (save.week || 1) + 1;
     save.flags.hubActions = (save.flags.hubActions || 0) + 1;
     if (save.week > 0 && save.week % 8 === 0) {
-      save.profile.age = Math.min(40, (save.profile.age || 15) + 1);
+      const stage = resolveLifeStage(save.profile);
+      // 旧処理の Math.min(40) だと 65歳スタートが40歳に潰れていた
+      const ageCap = stage.id === "elder" ? 100 : 40;
+      const baseAge = Number(save.profile.age) || stage.age || 15;
+      save.profile.age = Math.min(ageCap, baseAge + 1);
+      if (!save.profile.startStage || !LIFE_STAGES[save.profile.startStage]) {
+        save.profile.startStage = stage.id;
+      }
     }
     state.save = save;
     persistActiveSave();
@@ -1487,6 +1500,7 @@
     if (girlGender) girlGender.checked = true;
     const juniorStage = profileForm?.querySelector('input[name="stage"][value="junior"]');
     if (juniorStage) juniorStage.checked = true;
+    syncStageCardSelection("junior");
     showScreen("profile");
   }
 
@@ -1588,6 +1602,37 @@
     });
   }
 
+  function readSelectedStageId() {
+    const checked = profileForm?.querySelector('input[name="stage"]:checked');
+    if (checked?.value && LIFE_STAGES[checked.value]) return checked.value;
+    const marked = profileForm?.querySelector(".stage-grid .trait-card.is-selected input[name='stage']");
+    if (marked?.value && LIFE_STAGES[marked.value]) return marked.value;
+    return "";
+  }
+
+  function syncStageCardSelection(stageId) {
+    profileForm?.querySelectorAll(".stage-grid .trait-card").forEach((card) => {
+      const input = card.querySelector('input[name="stage"]');
+      const on = input && input.value === stageId;
+      card.classList.toggle("is-selected", !!on);
+      if (input && on) input.checked = true;
+    });
+  }
+
+  function bindProfileStageCards() {
+    profileForm?.querySelectorAll(".stage-grid .trait-card").forEach((card) => {
+      const input = card.querySelector('input[name="stage"]');
+      if (!input) return;
+      const select = () => {
+        input.checked = true;
+        syncStageCardSelection(input.value);
+      };
+      card.addEventListener("click", select);
+      // iPhoneで label 経由の選択が外れることがあるので明示的に確定（スクロールは妨げない）
+      card.addEventListener("touchend", () => select(), { passive: true });
+    });
+  }
+
   function finishProfile(event) {
     if (event && typeof event.preventDefault === "function") event.preventDefault();
     const slotFromForm = Number(profileForm?.dataset?.slot);
@@ -1602,10 +1647,13 @@
     if (profileError) profileError.hidden = true;
     const traitInput = profileForm?.querySelector('input[name="trait"]:checked');
     const genderInput = profileForm?.querySelector('input[name="gender"]:checked');
-    const stageInput = profileForm?.querySelector('input[name="stage"]:checked');
     const trait = traitInput?.value || "study";
     const gender = genderInput?.value || "girl";
-    const stage = stageInput?.value || "junior";
+    const stage = readSelectedStageId();
+    if (!stage) {
+      window.alert("スタート年齢を選んでください。");
+      return;
+    }
     try {
       const save = createSaveData(slotIndex, { name, trait, gender, stage });
       const slots = readSaveSlots();
@@ -2459,6 +2507,10 @@
 
   if (profileForm) {
     profileForm.addEventListener("submit", finishProfile);
+    bindProfileStageCards();
+    syncStageCardSelection(
+      profileForm.querySelector('input[name="stage"]:checked')?.value || "junior"
+    );
   }
   if (profileSubmit) {
     bindTap(profileSubmit, () => finishProfile());

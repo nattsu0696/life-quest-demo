@@ -596,7 +596,8 @@ html.is-fullscreen .fs-btn {
   line-height: 1.35;
 }
 
-.trait-card input:checked + .trait-card-body {
+.trait-card input:checked + .trait-card-body,
+.trait-card.is-selected .trait-card-body {
   border-color: rgba(78, 184, 230, 0.7);
   background: rgba(78, 184, 230, 0.12);
 }
