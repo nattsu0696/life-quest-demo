@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
@@ -11,13 +11,13 @@
   <meta name="theme-color" content="#040b10" />
   <meta name="description" content="社会に出る前に、人生を何度でも試せる。LIFE QUEST デモ。" />
   <title>LIFE QUEST</title>
-  <link rel="manifest" href="manifest.webmanifest?v=163" />
-  <link rel="apple-touch-icon" href="assets/icon-192.png?v=163" />
-  <link rel="icon" type="image/png" href="assets/icon-192.png?v=163" />
+  <link rel="manifest" href="manifest.webmanifest?v=167" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png?v=167" />
+  <link rel="icon" type="image/png" href="assets/icon-192.png?v=167" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=166" />
+  <link rel="stylesheet" href="styles.css?v=185" />
 </head>
 <body>
   <div id="rotate-hint" class="rotate-hint" hidden>
@@ -52,7 +52,7 @@
       <p class="gate-chip">LIFE QUEST / 限定デモ</p>
       <h1 class="gate-title">合言葉を入力</h1>
       <p class="gate-note">グループ内向けのデモです</p>
-      <p class="gate-play-count" aria-live="polite">プレイ数 <strong id="gate-play-count">68</strong></p>
+      <p class="gate-play-count" aria-live="polite">プレイ数 <strong id="gate-play-count">—</strong></p>
       <section class="gate-notice" aria-label="ご利用にあたって">
         <h2 class="gate-notice-title">ご利用にあたって</h2>
         <p class="gate-notice-text">本コンテンツは、新規事業研究会 E-145「LIFE QUEST」のデモ版です。</p>
@@ -67,6 +67,7 @@
           <span class="btn-start-label">入る</span>
         </button>
       </form>
+      <p class="gate-mv-link"><a href="theme.html?v=185">主題歌MVを見る・ダウンロード →</a></p>
       <p class="gate-install-hint">帯が気になるとき：Safariの共有 → ホーム画面に追加</p>
     </div>
   </div>
@@ -76,7 +77,8 @@
     <section id="screen-start" class="screen is-active" data-screen="start">
       <div class="title-stage title-stage-kv">
         <p class="title-demo-badge">DEMO</p>
-        <p class="title-play-badge" aria-live="polite">プレイ数 <strong id="play-count">68</strong></p>
+        <p class="title-play-badge" aria-live="polite">プレイ数 <strong id="play-count">—</strong></p>
+        <a class="title-mv-badge" href="theme.html?v=185">MVを見る</a>
         <div class="title-kv" aria-hidden="true">
           <img
             class="title-kv-img title-kv-wide"
@@ -93,6 +95,7 @@
             <span class="btn-start-glow" aria-hidden="true"></span>
             <span class="btn-start-label">▶ START</span>
           </button>
+          <p class="title-mv-link"><a href="theme.html?v=185">主題歌MVを見る・ダウンロード</a></p>
         </div>
       </div>
     </section>
@@ -131,7 +134,7 @@
         <div class="meta-panel">
           <p class="meta-chip">自分の設定</p>
           <h2 class="meta-title">どの年齢から始める？</h2>
-          <p class="meta-note">スタート年齢で、部屋の雰囲気と「外に出たとき」の選択肢が変わります。大人の転職検討からも遊べます。</p>
+          <p class="meta-note">スタート年齢で、部屋の雰囲気と「外に出たとき」の選択肢が変わります。転職検討も、65歳からの第二の人生も試せます。</p>
           <form id="profile-form" class="profile-form" autocomplete="off">
             <label class="gate-label" for="profile-name">名前</label>
             <input id="profile-name" class="gate-input profile-name-input" type="text" maxlength="12" placeholder="例：ナツ" />
@@ -163,6 +166,13 @@
                 <span class="trait-card-body">
                   <strong>就職後</strong>
                   <small>28歳〜 ・ 企業/起業/移住</small>
+                </span>
+              </label>
+              <label class="trait-card">
+                <input type="radio" name="stage" value="elder" />
+                <span class="trait-card-body">
+                  <strong>第二の人生</strong>
+                  <small>65歳〜 ・ 働く/地域/趣味</small>
                 </span>
               </label>
             </div>
@@ -498,9 +508,8 @@
     </section>
   </main>
 
-  <script src="counters.js?v=184"></script>
-  <script src="content.js?v=156"></script>
-  <script src="app.js?v=181"></script>
+  <script src="counters.js?v=185"></script>
+  <script src="content.js?v=185"></script>
+  <script src="app.js?v=185"></script>
 </body>
 </html>
-
