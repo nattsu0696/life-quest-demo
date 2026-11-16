@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a1f44" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="description" content="LIFE QUEST × AI Collaboration Field Notes" />
+  <title>LIFE QUEST — Field Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #f4f8ff;
+      --muted: rgba(244, 248, 255, 0.74);
+      --soft: rgba(244, 248, 255, 0.52);
+      --blue: #3d7cff;
+      --blue-deep: #1e4fd6;
+      --navy: #0a1f44;
+      --navy-soft: #14315f;
+      --panel: rgba(8, 24, 52, 0.58);
+      --line: rgba(180, 210, 255, 0.2);
+      --accent: #7eb6ff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100dvh;
+      color: var(--ink);
+      font-family: "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: #061228;
+      overflow-x: hidden;
+    }
+
+    .stage {
+      position: relative;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: max(16px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      filter: saturate(0.85) contrast(1.05) brightness(0.55);
+      transform: scale(1.04);
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6, 18, 40, 0.45) 0%, rgba(6, 18, 40, 0.22) 35%, rgba(6, 18, 40, 0.82) 100%),
+        radial-gradient(70% 55% at 75% 18%, rgba(61, 124, 255, 0.28), transparent 60%),
+        radial-gradient(55% 45% at 15% 80%, rgba(20, 49, 95, 0.35), transparent 55%);
+    }
+    @keyframes drift {
+      from { transform: scale(1.04) translate3d(0, 0, 0); }
+      to { transform: scale(1.08) translate3d(-1.2%, -1%, 0); }
+    }
+
+    .panel {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 520px);
+      padding: 18px 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+      text-align: center;
+      animation: rise 0.7s ease both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chip {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      font-weight: 700;
+    }
+
+    .artist {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto 14px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(126, 182, 255, 0.28);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      line-height: 0;
+      animation: softIn 1s ease 0.15s both;
+    }
+    .artist img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+    @keyframes softIn {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .brand {
+      display: block;
+      margin: 0;
+      padding: 0.1em 0 0.35em;
+      font-size: clamp(1.55rem, 6.2vw, 2.05rem);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      line-height: 1.25;
+      color: #f4f8ff;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+    }
+    .sub {
+      margin: 0 0 8px;
+      padding-top: 2px;
+      color: var(--soft);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .lede {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .player-wrap {
+      margin: 0 0 12px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(126, 182, 255, 0.22);
+      background: rgba(244, 248, 255, 0.05);
+      text-align: left;
+    }
+    .player-label {
+      margin: 0 0 8px;
+      color: var(--soft);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    audio {
+      width: 100%;
+      height: 38px;
+      accent-color: var(--blue);
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 12px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(126, 182, 255, 0.35);
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--blue-deep));
+      box-shadow: 0 14px 30px rgba(20, 60, 160, 0.35);
+      transition: transform 0.18s ease, filter 0.18s ease;
+      text-align: left;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+    .btn strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .btn span {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.75rem;
+      opacity: 0.82;
+      font-weight: 500;
+    }
+    .btn em {
+      font-style: normal;
+      font-size: 0.75rem;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 14px;
+      margin: 0 0 8px;
+    }
+    .links a {
+      color: rgba(244, 248, 255, 0.88);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(244, 248, 255, 0.28);
+      font-size: 0.82rem;
+      padding-bottom: 1px;
+    }
+    .links a:hover { color: #fff; border-bottom-color: #fff; }
+
+    .foot {
+      margin: 10px 0 0;
+      color: var(--soft);
+      font-size: 0.72rem;
+      line-height: 1.65;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bg-photo, .panel, .artist { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="bg" aria-hidden="true">
+      <img class="bg-photo" src="assets/field-notes/cover.png" alt="" />
+    </div>
+
+    <section class="panel">
+      <p class="chip">AFTER THE INTERVIEW</p>
+      <div class="artist">
+        <img src="assets/field-notes/cover.png" alt="LIFE QUEST × AI Collaboration" />
+      </div>
+      <h1 class="brand">Field Notes</h1>
+      <p class="sub">AI Collaboration</p>
+      <p class="lede">
+        インタビューで伝えきれなかったことをまとめた、思考の記録です。<br />
+        一般的な使い方紹介ではなく、実際の制作から抽出した共作の設計メモ。
+      </p>
+
+      <div class="player-wrap">
+        <p class="player-label">Listen here</p>
+        <audio controls preload="none" src="assets/field-notes/field-notes-2.mp3">
+          お使いのブラウザは音声再生に対応していません。
+        </audio>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="assets/field-notes/field-notes-2.mp3" download="AI-COLLABORATION-FIELD-NOTES-2.mp3">
+          <span>
+            <strong>Field Notes をダウンロード</strong>
+            <span>補足編（MP3）</span>
+          </span>
+          <em>約 35 MB</em>
+        </a>
+      </div>
+
+      <nav class="links" aria-label="関連リンク">
+        <a href="./">ゲームデモ</a>
+        <a href="./theme.html">主題歌 MV</a>
+      </nav>
+
+      <p class="foot">
+        LIFE QUEST × AI Collaboration<br />
+        AIに作業を任せるのではなく、AIが成果を生み出せる構造を設計する。
+      </p>
+    </section>
+  </main>
+</body>
+</html>
