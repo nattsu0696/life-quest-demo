@@ -188,10 +188,11 @@
   </main>
   <script>
     (function () {
-      // ゲームデモと同じ判定
+      // ゲームデモと同じ合言葉。入力ゆれも吸収する
       var GATE_PASS = "わたぴー";
       var STORAGE_KEY = "lq-fieldnotes-unlocked-v1";
       var AUDIO_SRC = "assets/field-notes/field-notes-2-light.mp3";
+      var composing = false;
 
       var gate = document.getElementById("gate");
       var form = document.getElementById("gateForm");
@@ -201,6 +202,19 @@
       var audio = document.getElementById("notesAudio");
       var source = document.getElementById("notesSource");
       var downloadBtn = document.getElementById("downloadBtn");
+
+      function normalizePass(s) {
+        var t = String(s || "");
+        try { t = t.normalize("NFKC"); } catch (e) {}
+        t = t.replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, "").trim();
+        // カタカナ → ひらがな
+        t = t.replace(/[\u30A1-\u30F6]/g, function (ch) {
+          return String.fromCharCode(ch.charCodeAt(0) - 0x60);
+        });
+        // 長音・ハイフン類を統一
+        t = t.replace(/[ｰ〜～―─－﹣﹘—–-]/g, "ー");
+        return t;
+      }
 
       function unlock(persist) {
         try { if (input) input.blur(); } catch (e) {}
@@ -215,6 +229,17 @@
         if (error) error.hidden = true;
       }
 
+      function tryUnlock() {
+        var value = normalizePass(input.value);
+        if (value === GATE_PASS) {
+          unlock(true);
+          return true;
+        }
+        error.hidden = false;
+        try { input.select(); input.focus(); } catch (e) {}
+        return false;
+      }
+
       try {
         if (sessionStorage.getItem(STORAGE_KEY) === "ok") unlock(false);
         else setTimeout(function () { try { input.focus(); } catch (e) {} }, 50);
@@ -222,16 +247,26 @@
         setTimeout(function () { try { input.focus(); } catch (err) {} }, 50);
       }
 
+      input.addEventListener("compositionstart", function () { composing = true; });
+      input.addEventListener("compositionend", function () {
+        composing = false;
+        // 変換確定後に判定（Enter確定でフォーム送信される端末向け）
+        if (normalizePass(input.value) === GATE_PASS) unlock(true);
+      });
+
+      input.addEventListener("keydown", function (ev) {
+        // IME変換中の Enter で誤判定しない
+        if (ev.isComposing || ev.keyCode === 229 || composing) return;
+        if (ev.key === "Enter") {
+          ev.preventDefault();
+          tryUnlock();
+        }
+      });
+
       form.addEventListener("submit", function (ev) {
         ev.preventDefault();
-        var value = (input.value || "").trim();
-        if (value === GATE_PASS) {
-          unlock(true);
-          return;
-        }
-        error.hidden = false;
-        input.select();
-        input.focus();
+        if (composing || (ev.isComposing)) return;
+        tryUnlock();
       });
     })();
   </script>
