@@ -20,6 +20,7 @@
       --panel: rgba(8, 24, 52, 0.58);
       --line: rgba(180, 210, 255, 0.2);
       --accent: #7eb6ff;
+      --danger: #ff8f9f;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; }
@@ -79,6 +80,28 @@
     }
     .sub { margin: 0 0 8px; color: var(--soft); font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; }
     .lede { margin: 0 0 14px; color: var(--muted); font-size: .9rem; line-height: 1.7; }
+    .gate {
+      margin: 0 0 4px; padding: 14px; border-radius: 16px;
+      border: 1px solid rgba(126,182,255,.22); background: rgba(244,248,255,.05);
+      text-align: left;
+    }
+    .gate-label { margin: 0 0 8px; color: var(--soft); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+    .gate-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .gate input {
+      width: 100%; min-width: 0; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid rgba(126,182,255,.35); background: rgba(6,18,40,.55);
+      color: var(--ink); font: inherit; font-size: .95rem; outline: none;
+    }
+    .gate input:focus { border-color: rgba(126,182,255,.75); box-shadow: 0 0 0 3px rgba(61,124,255,.22); }
+    .gate-btn {
+      padding: 0 16px; border-radius: 12px; border: 1px solid rgba(126,182,255,.35);
+      color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--blue), var(--blue-deep));
+    }
+    .gate-msg { margin: 8px 0 0; min-height: 1.2em; color: var(--soft); font-size: .75rem; line-height: 1.5; }
+    .gate-msg.is-error { color: var(--danger); }
+    .locked-note { margin: 10px 0 0; color: var(--soft); font-size: .78rem; line-height: 1.6; text-align: center; }
+    .content[hidden], .gate[hidden] { display: none !important; }
     .player-wrap {
       margin: 0 0 12px; padding: 12px; border-radius: 16px;
       border: 1px solid rgba(126,182,255,.22); background: rgba(244,248,255,.05); text-align: left;
@@ -109,12 +132,12 @@
 <body>
   <main class="stage">
     <div class="bg" aria-hidden="true">
-      <img class="bg-photo" src="assets/field-notes/cover.jpg" alt="" />
+      <img class="bg-photo" src="assets/field-notes/cover-with-qr.jpg" alt="" />
     </div>
     <section class="panel">
       <p class="chip">AFTER THE INTERVIEW</p>
       <div class="artist">
-        <img src="assets/field-notes/cover.jpg" alt="LIFE QUEST × AI Collaboration" />
+        <img src="assets/field-notes/cover-with-qr.jpg" alt="LIFE QUEST × AI Collaboration" />
       </div>
       <h1 class="brand">Field Notes</h1>
       <p class="sub">AI Collaboration</p>
@@ -123,28 +146,40 @@
         一般的な使い方紹介ではなく、実際の制作から抽出した共作の設計メモ。
       </p>
 
-      <div class="player-wrap">
-        <p class="player-label">Listen here</p>
-        <!-- 軽量版のみ（約9MB）。大きいと Try Again になりやすい -->
-        <audio id="notesAudio" controls preload="auto" playsinline controlslist="nodownload">
-          <source src="assets/field-notes/field-notes-2-light.mp3" type="audio/mpeg" />
-        </audio>
-        <p class="hint">初回は読み込みに数秒かかることがあります。失敗したら下から保存して再生してください。</p>
-      </div>
+      <form class="gate" id="gate" autocomplete="off">
+        <p class="gate-label">合言葉</p>
+        <div class="gate-row">
+          <input id="passInput" type="password" name="passphrase" inputmode="text" enterkeyhint="go" placeholder="合言葉を入力" aria-label="合言葉" required />
+          <button class="gate-btn" type="submit">開く</button>
+        </div>
+        <p class="gate-msg" id="gateMsg" role="status" aria-live="polite"></p>
+        <p class="locked-note">インタビュー参加者向けの聴き取りページです。<br />合言葉を入れると、ここで聴けます。</p>
+      </form>
 
-      <div class="actions">
-        <a class="btn" href="assets/field-notes/field-notes-2-light.mp3" download="AI-COLLABORATION-FIELD-NOTES-2.mp3">
-          <span>
-            <strong>Field Notes をダウンロード</strong>
-            <span>補足編（軽量MP3）</span>
-          </span>
-          <em>約 9 MB</em>
-        </a>
+      <div class="content" id="unlockedContent" hidden>
+        <div class="player-wrap">
+          <p class="player-label">Listen here</p>
+          <!-- 軽量版のみ（約9MB）。大きいと Try Again になりやすい -->
+          <audio id="notesAudio" controls preload="none" playsinline controlslist="nodownload">
+            <source id="notesSource" data-src="assets/field-notes/field-notes-2-light.mp3" type="audio/mpeg" />
+          </audio>
+          <p class="hint">初回は読み込みに数秒かかることがあります。失敗したら下から保存して再生してください。</p>
+        </div>
+
+        <div class="actions">
+          <a class="btn" id="downloadBtn" href="#" download="AI-COLLABORATION-FIELD-NOTES-2.mp3">
+            <span>
+              <strong>Field Notes をダウンロード</strong>
+              <span>補足編（軽量MP3）</span>
+            </span>
+            <em>約 9 MB</em>
+          </a>
+        </div>
       </div>
 
       <nav class="links" aria-label="関連リンク">
-        <a href="./">ゲームデモ</a>
-        <a href="./theme.html">主題歌 MV</a>
+        <a href="https://nattsu0696.github.io/life-quest-demo/">ゲームデモ</a>
+        <a href="https://nattsu0696.github.io/life-quest-demo/theme.html">主題歌 MV</a>
       </nav>
       <p class="foot">
         LIFE QUEST × AI Collaboration<br />
@@ -152,5 +187,79 @@
       </p>
     </section>
   </main>
+  <script>
+    (function () {
+      var AUDIO_SRC = "assets/field-notes/field-notes-2-light.mp3";
+      var STORAGE_KEY = "lq-fieldnotes-unlocked-v1";
+      // "わたぴー" の簡易ハッシュ（ソースを見れば分かる程度のカジュアル保護）
+      var EXPECTED = "04fa0e7ba829260b";
+
+      function normalize(s) {
+        return String(s || "")
+          .normalize("NFKC")
+          .replace(/\s+/g, "")
+          .toLowerCase();
+      }
+
+      function simpleHash(str) {
+        var h = 2166136261;
+        for (var i = 0; i < str.length; i++) {
+          h ^= str.charCodeAt(i);
+          h = Math.imul(h, 16777619);
+        }
+        return (h >>> 0).toString(16).padStart(8, "0") +
+          ((h * 2654435761) >>> 0).toString(16).padStart(8, "0");
+      }
+
+      var gate = document.getElementById("gate");
+      var content = document.getElementById("unlockedContent");
+      var input = document.getElementById("passInput");
+      var msg = document.getElementById("gateMsg");
+      var audio = document.getElementById("notesAudio");
+      var source = document.getElementById("notesSource");
+      var downloadBtn = document.getElementById("downloadBtn");
+
+      function unlock(persist) {
+        gate.hidden = true;
+        content.hidden = false;
+        source.src = AUDIO_SRC;
+        downloadBtn.href = AUDIO_SRC;
+        audio.load();
+        if (persist) {
+          try { sessionStorage.setItem(STORAGE_KEY, "1"); } catch (e) {}
+        }
+        msg.textContent = "";
+        msg.classList.remove("is-error");
+      }
+
+      function fail(text) {
+        msg.textContent = text;
+        msg.classList.add("is-error");
+        input.focus();
+        input.select();
+      }
+
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY) === "1") unlock(false);
+      } catch (e) {}
+
+      gate.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var value = normalize(input.value);
+        if (!value) {
+          fail("合言葉を入力してください。");
+          return;
+        }
+        if (simpleHash(value) === EXPECTED) {
+          unlock(true);
+        } else {
+          fail("合言葉が違います。もう一度どうぞ。");
+        }
+      });
+
+      // 期待値の生成確認用（開発時のみ）: simpleHash(normalize("わたぴー"))
+      // 現在の EXPECTED は「わたぴー」向け
+    })();
+  </script>
 </body>
 </html>
